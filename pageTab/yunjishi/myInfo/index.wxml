@@ -130,7 +130,7 @@
               </button>
               <view><image class='profit_check_img' src='../../../images/check.png'></image></view>
             </view>
-            <view class='function_block_items' data-link='news_list.html?newsTypeId=83&pageNage=关于我们' bindtap='tolinkUrl'>
+            <view class='function_block_items' data-link='about_us.html?id=30645' bindtap='tolinkUrl'>
               <button class='kefu_buttom' plain='true' hover-class="none" style='border:none'>
                 <view class='image_content'>
                   <image class='function_items_img' src='http://image.tunzai.vip/tunzai/2018_10/31/20/53/7_60.jpg?x-oss-process=style/preview_120' style='width:44rpx;height:44rpx'></image>

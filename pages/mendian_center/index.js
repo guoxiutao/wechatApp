@@ -19,8 +19,8 @@ Page({
     },
     /* 组件事件集合 */
     tolinkUrl: function (e) {
-        let linkUrl = e.currentTarget.dataset.link
-        app.linkEvent(linkUrl)
+      let linkUrl = e.currentTarget? e.currentTarget.dataset.link:e
+      app.linkEvent(linkUrl)
     },
     submitFormId: function (e) {
         this.toApplyForFacilitator(e);
@@ -59,12 +59,6 @@ Page({
             }
         })
     },
-    /* 组件事件集合 */
-    tolinkUrl: function (e) {
-        let linkUrl = e.currentTarget.dataset.link
-        app.linkEvent(linkUrl)
-    },
-
     getMendianInfo: function () {
         console.log('-------门店-1-------')
         let params = {}
@@ -126,6 +120,7 @@ Page({
     },
     //扫一扫 登录后台
     toLoginBackstage: function (e) {
+      console.log("toLoginBackstage",e)
         wx.scanCode({          
             onlyFromCamera: true,
             success: (scanRes) => {
@@ -156,7 +151,19 @@ Page({
             }
         })
     },
-
+  //扫一扫 核销
+  getVerificationCode: function (e) {
+    console.log("getVerificationCode", e)
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (scanRes) => {
+        console.log("getVerificationCode", scanRes)
+        wx.navigateTo({
+          url: "/"+scanRes.path
+        })
+      }
+    })
+  },
     //跳转到申请服务商web页面
     toApplyForFacilitator: function (e) {
         wx.navigateTo({

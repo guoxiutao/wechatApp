@@ -1,0 +1,19 @@
+<view class='container'>
+  <view class='level_detail_title'>
+    <text class="levelName">{{myMembers.levelName}}</text>
+    <view><text class="levelName">余额：</text><text class='balance'>{{loginUser.platformUser.account}}</text></view>
+  </view>
+  <view class='level_detail'>
+    <view class='level_detail_item'>
+      <text class='level_detail_name'>会员说明</text>
+      <text class='level_detail_description'>{{myMembers.limitDescription}}</text>
+    </view>
+    <view class='level_detail_item'>
+      <text class='level_detail_name'>有效时间</text>
+      <text wx:if="{{myMembers.limitType==1}}">永久有效</text>
+    </view>
+  </view>
+</view>
+<view class='recharge_btn' style='background:{{platformSetting.defaultColor}}' data-link="user_recharge.html?money={{myMembers.needPayAmount}}" bindtap='tolinkUrl'>
+  <text>充值</text>
+</view>

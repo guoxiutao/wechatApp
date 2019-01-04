@@ -307,7 +307,8 @@ Page({
         that.getservantInfo()
       }
     });
-    
+
+    wx.stopPullDownRefresh()
     // this.onLoad()
     // setTimeout(function () {
     //   wx.stopPullDownRefresh()

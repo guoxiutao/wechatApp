@@ -67,7 +67,7 @@ Page({
         console.log(res.data)
         let data = res.data.relateObj
         if (res.data.errcode == '0') {
-          thst.setData({
+          that.setData({
             loginUser: data
             })
         } else {
@@ -99,7 +99,8 @@ Page({
     console.log('===options===', options)
     let that=this;
     that.setData({
-      setting: app.setting
+      setting: app.setting,
+      loginUser: app.loginUser
     })
     that.getMembersListData();
     console.log("===loginUser====", that.data.loginUser)
@@ -135,6 +136,7 @@ Page({
     let that=this;
     that.getMembersListData();
     that.setData({
+      setting: app.setting,
       loginUser: app.loginUser
     })
     console.log("===loginUser====", that.data.loginUser)

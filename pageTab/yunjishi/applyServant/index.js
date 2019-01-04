@@ -398,7 +398,7 @@ Page({
            latitude: this.data.latitude,
            reqType: 2,
            headImg: this.data.upLoadImageList['img_headImg'],
-           introduce: this.data.introduce,
+           introduce: this.data.introduce||"",
            formId: formId,
          }
          var customIndex = app.AddClientUrl("/applyServer.html", params, 'post')

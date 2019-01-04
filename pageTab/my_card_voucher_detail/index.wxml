@@ -1,0 +1,14 @@
+<view class='container'>
+  <view class='my_cardVoucher'>
+    <view class='my_cardVoucher_head'>
+      <view class='my_cardVoucher_logo'><image src=''></image></view>
+      <view class='my_cardVoucher_base_info'>
+        <text class='my_cardVoucher_name'></text>
+        <text class='my_cardVoucher_des'></text>
+      </view>
+    </view>
+    <view class='validityTime'>
+      <text></text>
+    </view>
+  </view>
+</view>

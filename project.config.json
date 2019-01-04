@@ -9,7 +9,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.4.2",
-	"appid": "wx37b3f495891dd60c",
+	"appid": "wx42d98cf6cb1a1316",
 	"projectname": "qiche",
 	"isGameTourist": false,
 	"condition": {
@@ -43,14 +43,14 @@
 					"id": 1,
 					"name": "囤仔转发后进入",
 					"pathName": "pageTab/index/index",
-					"query": "belongShop=236&scene=MINI_PLATFORM_USER_ID_112544&ENTER_SHOP=236",
-					"scene": "1044"
+					"query": "ADDSHOPID=126&ENTER_ORDER_MEAL_TABLEID=1",
+					"scene": "1001"
 				},
 				{
 					"id": 2,
 					"name": "扫码进来携带MendianID",
 					"pathName": "pageTab/index/index",
-					"query": "SHARE_FORM_DETAIL_PAGE=18",
+					"query": "sign=99cb3b5fa07e37e6f2c5229e709cb59d&verifyScanType=1&VERIFICATION_CODE=kzFq8F7d60",
 					"scene": "1011"
 				},
 				{

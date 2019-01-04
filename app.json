@@ -42,6 +42,8 @@
     "pageTab/process_list/index",
     "pageTab/news_list/index",
     "pageTab/user_level/index",
+    "pageTab/my_card_voucher/index",
+    "pageTab/my_card_voucher_detail/index",
     
 
 
@@ -74,7 +76,11 @@
     {
       "root": "pages",
       "pages": [
+        "verification_results/index",
+        "show_verification_code/index",
+        "level_detail/index",
         "check_form_detail/index",
+        "about_us/index",
         "big_wheel_game/index",
         "servant_qrcode/index",
         "servant_account/index",
@@ -200,7 +206,7 @@
   "backgroundColor": "#ffffff",
   "list":[
     {
-      "pagePath": "pageTab/location_servant/index",
+      "pagePath": "pageTab/custom_page_index/index",
       "iconPath": "images/icons/home1.png",
       "selectedIconPath": "images/icons/home2.png",
       "text": "技师"
@@ -218,7 +224,7 @@
       "text": "精彩案例"
     },
     {
-      "pagePath": "pageTab/yunjishi/myInfo/index",
+      "pagePath": "pageTab/aikucun_userinfo/index",
       "iconPath": "images/icons/me1.png",
       "selectedIconPath": "images/icons/me2.png",
       "text": "我的"

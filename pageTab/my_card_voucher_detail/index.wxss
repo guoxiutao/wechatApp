@@ -1,0 +1,32 @@
+.container{
+  padding: 30rpx;
+}
+.my_cardVoucher{
+  display: flex;
+  width: 90%;
+  height: 300rpx;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 20rpx;
+}
+.my_cardVoucher_head{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.my_cardVoucher_logo{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 60rpx;
+  margin-right: 20rpx;
+}
+.my_cardVoucher_base_info{
+  display: flex;
+  flex-direction: column;
+  font-size: 28rpx;
+  color: #fff;
+}
+.my_cardVoucher_name{
+}
+.my_cardVoucher_des{
+}

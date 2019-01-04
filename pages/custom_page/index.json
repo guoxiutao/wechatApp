@@ -1,6 +1,7 @@
 {
 
 "usingComponents": {
+  "component-tag-customPage": "../../view/partials/custom_page/index",
   "component-tag-name": "../../view/partials/title/title",
   "component-tag-nameBanner": "../../view/partials/banner/banner",
   "component-tag-nameImageLink": "../../view/partials/image_link/image_link",

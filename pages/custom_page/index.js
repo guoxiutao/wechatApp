@@ -121,7 +121,8 @@ Page({
       return
     }
     this.onloadOpt = options
-    this.getCustomPage(options.Cpage, options)    
+    this.setData({ partialsName: options.Cpage})
+    // this.getCustomPage(options.Cpage, options)    
     this.setData({
       sysWidth: app.globalData.sysWidth
     });

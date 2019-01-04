@@ -531,13 +531,13 @@ App({
         else {
          // promotion_products.html   form_detail.html?customFormId=12
           console.log("9999999999999999" + linkUrl.substr(0, 14))
-            wx.navigateTo({
-              url: "/pages/" + urlData.url + "/index" + urlData.param,
+          wx.navigateTo({
+            url: "/pageTab/" + urlData.url + "/index" + urlData.param,
               fail: function () {
                 //pages里不存在该页面
-                console.log("pages里不存在该页面,跳转pageTab目录下的页面")
+                console.log("pageTab里不存在该页面,跳转pages目录下的页面")
                 wx.navigateTo({
-                  url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+                  url: "/pages/" + urlData.url + "/index" + urlData.param,
                 })
               }
             })
@@ -882,7 +882,7 @@ App({
 
                                 if (!loginJson.platformUser.nickname) {
                                     // console.error('没有昵称调用上传接口')
-                                    that.sentWxUserInfo(loginJson)
+                                    //that.sentWxUserInfo(loginJson)
                                 }
                                 console.log(loginJson.platformUser.mendian)
                                   console.log('===more_scene===', more_scene)

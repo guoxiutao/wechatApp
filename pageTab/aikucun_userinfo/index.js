@@ -132,6 +132,12 @@ Page({
         color: "#777777"
       },
       {
+        iconPath: "http://image1.sansancloud.com/xianhua/2019_1/4/11/7/54_534.jpg",
+        linkUrl: "my_card_voucher.html",
+        text: "我的卡券",
+        color: "#777777"
+      },
+      {
         iconPath: "http://image1.sansancloud.com/xianhua/2018_9/5/16/54/39_501.jpg",
         linkUrl: "address.html",
         text: "收货地址" ,

@@ -19,7 +19,7 @@
           <view class='removeImgIcon' bindtap='removeImg' data-index='headImg'>x</view>
           <image class='uploadedImgUrl' src="{{upLoadImageList['img_headImg']}}" mode='aspectFill'></image>
         </view>
-        <view class='uploadImg' bindtap='addCommitImage' data-index='headImg'>
+        <view class='uploadImg' bindtap='addCommitImage' data-index='headImg' wx:if="{{!upLoadImageList['img_headImg']}}">
               <image class='uploadImgIcon' src='http://image1.sansancloud.com/jianzhan/2018_10/22/18/4/3_874.jpg?x-oss-process=style/preview_120'></image>
               <text style='font-size:24rpx;color:#555;margin-top:10rpx'>添加头像</text>
             </view>

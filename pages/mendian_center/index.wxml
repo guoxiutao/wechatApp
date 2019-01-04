@@ -95,7 +95,7 @@
             </view>
             <view class='borderRight'></view>
         </view>
-        <!-- <view class='mendian_menu_item'  bindtap='toLoginBackstage'>
+        <view class='mendian_menu_item'  bindtap='getVerificationCode'>
             <view class='imageContainer'>
                 <image src='../../images/icons/saoyisao.png'></image>
             </view>
@@ -103,7 +103,7 @@
                 <text>扫一扫</text>
             </view>
             <view class='borderRight'></view>
-        </view>         -->
+        </view>        
         <!-- <view class='mendian_menu_item'>
             <form bindsubmit="submitFormId" report-submit='true' >
               <button form-type="submit" style='background:none !important; border:none !important;'></button>

@@ -182,6 +182,7 @@ Page({
 
       return;
     }
+    //进入产品详情
     if (options.SHARE_PRODUCT_DETAIL_PAGE && options.SHARE_PRODUCT_DETAIL_PAGE != "") {
 
       console.log("options.SHARE_PRODUCT_DETAIL_PAGE", options.SHARE_PRODUCT_DETAIL_PAGE)
@@ -215,6 +216,20 @@ Page({
       setTimeout(function () {
         wx.navigateTo({
           url: '/pages/form_detail/index?customFormId=' + options.SHARE_FORM_DETAIL_PAGE,
+          success: function () {
+            app.shareSubPage = true;
+          }
+        })
+
+      }, 200)
+      return;
+    }
+    // 卡券扫码核销
+    if (options.VERIFICATION_CODE && options.VERIFICATION_CODE != "") {
+      console.log("进入卡券扫码核销页面", options)
+      setTimeout(function () {
+        wx.navigateTo({
+          url: '/pages/verification_results/index?code=' + options.VERIFICATION_CODE + " &verifyScanType=" + options.verifyScanType + "&verifySign=" + options.sign,
           success: function () {
             app.shareSubPage = true;
           }
