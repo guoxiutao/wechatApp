@@ -4,6 +4,7 @@
   "backgroundColor": "#cccccc",
     "usingComponents": {
       "productList": "../lanHu/components/productList/productList",
-        "posters": "../../view/partials/canvas/index"
+        "posters": "../../view/partials/canvas/index",
+        "component-tag-customPage": "../../view/partials/custom_page/index"
     }
 }

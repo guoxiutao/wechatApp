@@ -1,4 +1,3 @@
-/* pages/my_pages/my_cardVouchers/index.wxss */
 
 .tab{
   width: 100%;
@@ -119,3 +118,123 @@
   width: 50rpx;
   height: 50rpx;
 }
+
+
+
+
+/* .tab{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+}
+.tab view{
+  width: 33.33%;
+  height: 36px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: small;
+  color: #454545;
+}
+.tab_page_list_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Tab_page{
+  font-size: small;
+}
+.tab_page_list{
+  width: 100%;
+ 
+}
+.active{
+  border-bottom: 2px solid #8B572A;
+}
+.tocardVouchers_get{
+  text-align: right;
+  font-size: small;
+  padding: 10px;
+  color: #8B572A;
+  border-bottom: 1px solid #dddddd;
+}
+.cardVoucherListContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.cardVoucherListItem{
+  position: relative;
+  border-radius:16rpx;
+  width: 90%;
+  height: 220rpx;
+  background: #aadcda;
+  padding:30rpx; 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-size:100%;
+  margin-top:20rpx;
+}
+.my_cardVoucher_logo_bg{
+  border-radius: 100rpx;
+  background: #fff;
+  width:100rpx;
+  height:100rpx;
+  margin-right:30rpx;
+  overflow:hidden;
+}
+.my_cardVoucher_logo{
+  width: 100rpx;
+  height: 100rpx;
+}
+.my_cardVoucher_content{
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  width:75%;
+}
+.my_cardVoucher_name{
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+  letter-spacing: 2rpx
+}
+.my_cardVoucher_describe{
+  font-size: 24rpx;
+  letter-spacing: 2rpx;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+.voucherStyle{
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width:120%;
+  left:-70rpx;
+}
+.round{
+  width:90rpx;
+  height:90rpx;
+  border-radius:90rpx;
+  background:#fff;
+}
+.ewmCode{
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+}
+.ewmImg{
+  width: 50rpx;
+  height: 50rpx;
+} 
+*/

@@ -104,12 +104,12 @@
 </block>
 </view>
   <view class='hotProductContainer' bindtap='closeCardShare'>
-    <template is="aikucun_title2" data="{{...setting,sysWidth,loginUser:loginUser,title:'爆款推荐'}}"></template> 
+    <!-- <template is="aikucun_title2" data="{{...setting,sysWidth,loginUser:loginUser,title:'爆款推荐'}}"></template>  -->
      <!-- <template is="aikucun_hot_product" data="{{...setting,sysWidth,loginUser:loginUser,products:products,listEnd}}"></template>   -->
 <!--新的  -->
       <!-- <template is="aikucun_hot_product" data="{{...setting,sysWidth,loginUser:loginUser,products:products,listEnd,hotProduct}}"></template>   -->
-      
-         <productList  data="{{hotProduct}}" id="productLists"  bind:action='selectFun' bind:showPosters='showPosters'></productList>
+       <component-tag-customPage data="shoppingcard"></component-tag-customPage> <!-- 首页组件-->
+         <!-- <productList  data="{{hotProduct}}" id="productLists"  bind:action='selectFun' bind:showPosters='showPosters'></productList> -->
       
 
 

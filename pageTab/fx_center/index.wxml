@@ -53,7 +53,7 @@
         data-link='fx_users.html?fxLevel=1'   bindtap='tolinkUrl' >
         <view>
           <text>推广一级用户</text>
-          <text class='flx_person_conut'  style='background:{{setting.platformSetting.defaultColor}}'>{{fxCenter.levelOneFxUserCount}}</text>
+          <!-- <text class='flx_person_conut'  style='background:{{setting.platformSetting.defaultColor}}'>{{fxCenter.levelOneFxUserCount}}</text> -->
         </view>
         <image src='/images/icons/right.png'></image>
       </view>
@@ -61,7 +61,7 @@
         data-link='fx_users.html?fxLevel=2'   bindtap='tolinkUrl' >
         <view>
           <text>推广二级用户</text>
-          <text class='flx_person_conut'  style='background:{{setting.platformSetting.defaultColor}}'>{{fxCenter.levelTwoFxUserCount}}</text>
+          <!-- <text class='flx_person_conut'  style='background:{{setting.platformSetting.defaultColor}}'>{{fxCenter.levelTwoFxUserCount}}</text> -->
         </view>
         <image src='/images/icons/right.png'></image>
       </view>
