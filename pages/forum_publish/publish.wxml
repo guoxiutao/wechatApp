@@ -1,0 +1,64 @@
+<!--pages/froum_publish/publish.wxml-->
+<view class='body'>
+ <form bindsubmit="bindFormSubmit">
+  <view class='invitation'>
+   <!-- 下拉框选择 -->
+     <view class='select_box'>
+    <view class='select' catchtap='selectTap'>
+        <text class='select_text'>{{selectData[index]}}</text>
+        <image class='select_img {{show&&"select_img_rotate"}}' src='/image/gobottom.png'></image>         
+    </view>
+    <view class='option_box' style='height:{{show?(selectData.length>5?300:selectData.length*60):0}}rpx;'>
+        <text class='option' style='{{index==selectData.length-1&&"border:0;"}}' wx:for='{{selectData}}' wx:key='this' data-index='{{index}}' catchtap='optionTap'>{{item}}</text>
+    </view>
+</view>
+
+
+     <!--  <view class='type'>
+        <view class="type-ch">
+          <button  class="hide{{showView?'show':''}}" bindtap="onChangeShowState">{{showView?'请选择类型':'请选择类型'}}</button>
+          <button class="hide{{showView?'':'show'}}" bindtap="onChangeShowState">{{showView?'请选择类型':'请选择类型'}}</button>
+        </view>
+
+          <view class="hide{{showView?'':'show'}}">
+            <view class='hide_list'>
+             <radio-group bindchange="clickIcon">
+                <label class="clickChange" wx:for="{{clickChange}}" wx:key='index'>
+                <radio value="{{item.value}}" checked="{{item.checked}}">{{item.value}}</radio>
+                <view class="{{selecttype == item.name?'clickName2':'clickName'}}" bindtap='changeColor' data-classify="{{item.name}}">{{item.name}}</view>
+                </label>
+             </radio-group>
+            
+            </view>
+          </view>
+      </view> -->
+        <!-- 输入框 -->
+      <view class='title'>
+         <input bindinput='titleWrite'  cursor-spacing="130" placeholder='取个标题吧' maxlength="76" >
+         <view class="title-counter">{{titleCount}}/76</view>
+         </input>
+      </view>
+      <view class='conent'>
+        <textarea bindblur="conentWrite" placeholder="帖子内容描述"  maxlength="500"></textarea>
+        <view class="conent-counter">{{contentCount}}/500</view>
+      </view>
+   </view>
+   
+  
+  <!-- 图片 -->
+<view class="gallery">
+    <view class="item" wx:for="{{upLoadImageList}}" wx:key="">
+        <image src="{{item}}" data-src="{{item}}" bindtap="previewImage" mode="aspectFill" />
+
+        <!-- 删除按钮 -->
+        <view class="delete" bindtap="delete" data-index="{{index}}">X</view>
+    </view>
+    <view class="item" bindtap="chooseImage">
+        <view class='addIcon'>+</view>
+    </view>
+</view>
+<button type="primary" bindtap="submit">提交</button>
+
+
+  </form>
+</view>

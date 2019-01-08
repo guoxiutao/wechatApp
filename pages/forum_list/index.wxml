@@ -1,0 +1,65 @@
+<!--index.wxml-->
+<view class='body'>
+       <!-- 发表帖子 -->
+<view class='publish_icon' bindtap="publish_icon">
+  <image src='/images/icons/upload picture.png'></image>
+</view>
+
+<view class="posts-list">
+<!-- 列表循环 -->
+<block>
+  <view class='section1'  wx:for="{{postsList}}" wx:key="{{index}}" data-id='{{item.id}}' bindtap="toast" >
+      <view class='content'>
+        <view class='userIcon'  index="{{index}}" id="{{item.url}}" catchtap="redictDetail">
+          <image src='{{item.publishUserIcon}}'></image>
+        </view>
+        <view class='userText'>
+          <view class='userName'>{{item.publishUserName}}</view>
+          <view class='time'>{{item.lastCommentTimeShortName}}</view>
+        </view>
+        <view class='tab'>
+          <text>{{item.typeName}}</text>
+        </view>
+      </view> 
+       <view class='section_picture' >
+        <view style='display:inline-block' wx:for="{{item.imgArray}}" wx:for-item="itemName" wx:key='index'>
+          <image class='section_p1' mode='aspectFill' src='{{itemName.imagePath}}' wx:if="{{item.imgArray.length==3}}"></image>
+        <image class='section_p2'  mode='aspectFill' src='{{itemName.imagePath}}' wx:elif="{{item.imgArray.length==2}}"></image>
+        <image class='section_p3'  mode='aspectFill' src='{{itemName.imagePath}}' wx:else="{{item.imgArray.length==1}}"></image>
+        </view>
+      </view>
+       <!-- 置顶标签 -->
+      <view class='remak'>
+         <view class='zdIcon' wx:if='{{item.setTop}}'>
+            <text>置顶</text>
+         </view>
+         <text class='section_remark'>{{item.title}}</text>
+      </view>
+      <view class='hr' style='clear:both;'></view>
+           <!-- 浏览量评论点赞 -->
+      <view class='pcIcon'>
+        <view class='ydlIcon'>
+          <image src='/images/icons/browse@2x.png' style="width:36rpx;height:24rpx "></image>
+          <text>{{item.readTime}}</text>
+        </view>
+        <view class='llIcon' >
+          <image src='/images/icons/discuss@2x.png' style="width:30rpx;height:28rpx"></image>
+          <text>{{item.commentCount}}</text>
+        </view>
+        <view class='fbIcon' catchtap='zan' data-id="{{item.id}}">
+          <image src='/images/icons/praise@2x.png'  style="width:30rpx;height:28rpx"></image>
+          <text>{{item.likeCount}}</text>
+        </view>
+     </view>
+  </view>
+ </block>
+
+ 
+<!-- 下拉刷新 -->
+ <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>
+      <view class="loading complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
+
+</view>
+        
+
+ </view>

@@ -1,0 +1,151 @@
+/* pages/froum_publish/publish.wxss */
+.invitation > view{
+  border: 1rpx solid #ADADAD;
+  border-radius: 10rpx;
+  width: 95%;
+  margin-left:auto; 
+  margin-right:auto; 
+  margin-bottom: 20rpx;
+}
+
+
+.select_box{
+  background: #fff;
+  width: 98%;
+  margin: 30rpx auto;
+  position: relative;
+}
+.select{
+  box-sizing: border-box;
+  width: 100%;
+  height: 70rpx;
+  border:1px solid #efefef;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+}
+.select_text{
+  font-size: 30rpx;
+  flex: 1;
+}
+.select_img{
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+  transition:transform 0.3s;
+}
+.select_img_rotate{
+  transform:rotate(180deg); 
+}
+.option_box{
+  /* position: absolute; */
+  top: 70rpx;
+  width: 100%;
+  border:1px solid #efefef;
+  box-sizing: border-box;
+  height: 0;
+  overflow-y: auto;
+  border-top: 0;
+  background: #fff;
+  transition: height 0.3s;
+}
+.option{
+  display: block;
+  line-height: 40rpx;
+  font-size: 30rpx;
+  border-bottom: 1px solid #efefef;
+  padding: 10rpx;
+}
+
+
+
+
+.sheet{
+  margin: 20rpx;
+}
+.sheet image{
+  width: 100rpx;
+  height: 100rpx;
+
+}
+.publishIcon{
+  border-radius: 10rpx;
+  width: 95%;
+  margin-left:auto; 
+  margin-right:auto; 
+  height: 80rpx;
+  background-color: #C3A769;
+  text-align: center;
+  inline-size: 0.5;
+}
+.title {
+ height: 70rpx;
+ color: #ADADAD;
+ }
+ .conent{
+   color: #ADADAD;
+ }
+ radio checked{
+   display: none;
+}
+radio {
+   display: none;
+}
+.clickChange .clickName{
+  color: #ADADAD;
+  border: 1rpx solid #ADADAD;
+  width: 99%;
+  margin-left:auto;  
+  margin-right:auto; 
+}
+.clickChange .clickName2{
+  background-color: burlywood;
+  color:black;
+  border: 1rpx solid black;
+  width:99%;
+  margin-left:auto;  
+  margin-right:auto; 
+}
+/*画廊*/
+.gallery {    
+  width:630rpx;
+  margin: 0 auto;
+  display: flex;    
+  justify-content: flex-start;    
+  flex-wrap: wrap;
+}
+/*每张图片所占容器*/
+.item {    
+  position: relative;    
+  margin:10rpx 5rpx;
+  width: 200rpx;
+  height: 200rpx;
+}
+.item image{
+  width: 100%;
+  height: 100%;
+}
+/*add按钮*/
+.item .addIcon{
+  position:relative;
+  width:200rpx;
+  height:200rpx;
+  text-align:center;
+  line-height:200rpx;
+  font-size:80rpx;
+  background: #f2f2f2;
+  color: #555;
+}
+/*删除按钮*/
+.delete {    
+  position:absolute;
+  right:0;
+  top:0;
+  /* background:#ccc; */
+  opacity:1;
+  height: 36rpx;
+  font-size:22rpx;
+  font-weight:700;
+  padding:0 8rpx 0 10rpx;
+}
