@@ -20,6 +20,37 @@ Page({
     serverData: null,
     servantData:null,
   },
+  // 关闭海报
+  getChilrenPoster(e) {
+    let that = this;
+    that.setData({
+      posterState: false,
+    })
+  },
+  showPoster: function () {
+    let that = this;
+    console.log('===showPoster====', that.data.loginUser.id)
+    if (that.data.loginUser && that.data.loginUser.platformUser.id) {
+      let ewmImgUrl = app.getQrCode({ type: "user_info", id: that.data.loginUser.platformUser.id })
+      that.setData({
+        posterState: true,
+        ewmImgUrl: ewmImgUrl,
+      })
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '您还未登录，点击【确定】重新加载',
+        success: function (res) {
+          if (res.confirm) {
+            that.getSessionUserInfo();
+            this.getParac()
+          } else if (res.cancel) {
+            
+          }
+        }
+      })
+    }
+  },
   getParac: function () {
     var that = this
     var customIndex = app.AddClientUrl("/custom_page_userinfo.html", {}, 'get', '1')
@@ -243,7 +274,6 @@ Page({
       userInfo: app.globalData.userInfo,
       setting: app.setting
     })
-    
   },
 
   /**

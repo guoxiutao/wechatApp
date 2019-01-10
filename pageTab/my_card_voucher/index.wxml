@@ -21,11 +21,14 @@
                   <view class='round'></view>
                   <view class='round'></view>
                 </view>
-                <view class='ewmCode' wx:if="{{cou.exhause==0}}" catchtap='tolinkUrl' data-link="show_verification_code.html?code={{cou.instanceCode}}&verifyScanType=1">
+                <view class='ewmCode' wx:if="{{cou.exhause==0&&cou.status==1}}" catchtap='tolinkUrl' data-link="show_verification_code.html?code={{cou.instanceCode}}&verifyScanType=1">
                   <image class='ewmImg'src='http://image1.sansancloud.com/xianhua/2019_1/4/15/2/28_123.jpg'></image>
                 </view>
-                 <view class='ewmCode' wx:else>
+                 <view class='ewmCode' wx:if="{{cou.exhause==1&&cou.status==2}}">
                   <image class='ewmImg' src='http://image1.sansancloud.com/xianhua/2019_1/8/10/46/36_911.jpg'></image>
+                </view>
+                 <view class='ewmCode' wx:if="{{cou.status==3}}">
+                  <image class='ewmImg' src='http://image1.sansancloud.com/xianhua/2019_1/8/17/40/36_578.jpg'></image>
                 </view>
               </view>
             </view>

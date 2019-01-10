@@ -10,6 +10,14 @@
       <input placeholder-class="tixian_input_font" class="tixian_input_font" placeholder="00.00" auto-focus value='{{tixianAmount}}' bindinput='getUserAmount'></input>
     </view>
     <view class='tixian_item'>
+      <text style='margin-right:20rpx;'>开户行名:</text>
+      <input class='tixian_item_input' placeholder="微信绑定的开户行名" value='{{reqBankName}}' bindinput='getUserTrueBankName'></input>
+    </view>
+    <view class='tixian_item'>
+      <text style='margin-right:20rpx;'>银行卡号:</text>
+      <input class='tixian_item_input' placeholder="微信绑定的银行卡号" value='{{reqBankCardNo}}' bindinput='getUserTruBankCardNo'></input>
+    </view>
+    <view class='tixian_item'>
       <text style='margin-right:20rpx;'>真实姓名:</text>
       <input class='tixian_item_input' placeholder="微信绑定的真实姓名" value='{{reqUserTrueName}}' bindinput='getUserTrueName'></input>
     </view>

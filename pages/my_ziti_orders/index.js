@@ -166,27 +166,11 @@ Page({
     }, 2000)
   },
   /* 第一次加载 */
-  dellOpt: function (options){
-    if(this.data.tab.length == 0){
-      return
-    }
-    let easyStatus = options.easyStatus
-    if (!easyStatus){
-      easyStatus = 0
-    }
+  dellOpt: function (options) {
     let tab = this.data.tab
-    let index = 0
-    for(let i = 0 ;i < tab.length;i++){
-      if (tab[i].params.easyStatus == easyStatus){
-        index = i
-      }
-    }
-    
-    if (index == 0){
-      this.getOrderList(tab[index], index)
-    }
+    this.getOrderList(tab[0], 0)
     this.setData({
-      showTabIndex:index
+      showTabIndex: 0
     })
   },
   opt:{},
@@ -433,11 +417,9 @@ Page({
   },
   tabBar: [
     {
-      name: '全部',
-      getUrl: 'order_list_0.html',
+      name: '已提订单',
       params: {
-        easyStatusName: "全部订单",
-        easyStatus: '0',
+        ziti:2,
         page: 1
       },
       state: {
@@ -446,56 +428,15 @@ Page({
       List: []
     },
     {
-      name: '待付款',
-      getUrl: 'order_list_2.html',
+      name: '未提订单',
       params: {
-        easyStatusName: "待付款",
-        easyStatus: '2',
+        ziti: 1,
         page: 1
       },
       state: {
         scrollTop: 0,
       },
       List: []
-    },
-    {
-      name: '待发货',
-      getUrl: 'order_list_3.html',
-      params: {
-        easyStatusName: "待发货",
-        easyStatus: '3',
-        page: 1
-      },
-      state: {
-        scrollTop: 0,
-      },
-      List: []
-    },
-    {
-      name: '待收货',
-      getUrl: 'order_list_4.html',
-      params: {
-        easyStatusName: "待收货",
-        easyStatus: '4',
-        page: 1
-      },
-      state: {
-        scrollTop: 0,
-      },
-      List: []
-    },
-    {
-      name: '已完成',
-      getUrl: 'order_list_6.html',
-      params: {
-        easyStatusName: "已完成",
-        easyStatus: '6',
-        page: 1
-      },
-      state: {
-        scrollTop: 0,
-      },
-      List: []
-    },
+    }
   ],
 })

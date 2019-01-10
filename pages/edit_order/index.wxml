@@ -63,7 +63,7 @@
     </view>
     <view class='butn_container'>
         <text>运费</text>
-        <text>￥0</text>
+        <text>￥{{orderData.yunfeiAmount}}</text>
     </view>
      <view class='butn_container' wx:if="{{tableID&&tableID!=''}}">
         <text>桌号</text>
@@ -131,8 +131,8 @@
 <view wx:if='{{showArr}}' class='zhezhao' bindtap='closeShowArr'></view>
 <view wx:if='{{showArr}}' class='OtherArrContainer'>
   <view class='addnewarr' bindtap='toaddress_new'  style='color:{{setting.platformSetting.defaultColor}}'>新增地址</view>
-    <!-- <view class='addnewarr' bindtap='wx_toaddress_new'  style='color:{{setting.platformSetting.defaultColor}}'>微信添加</view> -->
-  <view class='addrItems2' wx:for='{{addrArr}}' wx:for-item='addr' wx:key='{{addr.id}}' data-id='{{addr.id}}'>
+  <view class='addnewarr' bindtap='wx_toaddress_new'  style='color:{{setting.platformSetting.defaultColor}}' wx:if="{{setting.platformSetting.addressType==0}}">微信添加</view>
+  <view class='addrItems2' wx:for='{{addrArr}}' wx:for-item='addr' wx:key='{{addr.id}}'>
     <view class='addrItems2_left' data-chooseId='{{addr.id}}' bindtap='chooseNewAddr'>
       <image mode='aspectFit' src='/images/icons/addr.png'></image>
       <view class='addrItems2_left_text'>

@@ -21,7 +21,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <input name="{{items.name}}" value='{{items.defaultValue}}'></input>
+          <input name="{{items.name}}" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
         </view>
         <!-- 下拉框 -->
         <view class='selectType common' wx:if='{{items.type==2}}'>
@@ -90,7 +90,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <textarea auto-height="" placeholder="{{items.defaultValue}}" name="{{items.name}}"/>
+          <textarea auto-height="" placeholder='{{items.remark}}' name="{{items.name}}"/>
         </view>
         <!-- 地址 -->
         <view class='inputString common' wx:if='{{items.type==10}}'>

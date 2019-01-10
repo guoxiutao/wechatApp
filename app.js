@@ -1,5 +1,3 @@
-//app.js
-import { clientInterface } from "/public/clientInterface.js";
 import { dellUrl } from "/public/requestUrl.js";
 const Promise = require('/promise/promise.js');
 App({
@@ -441,21 +439,19 @@ App({
         let If_Order_url = urlData.url.substr(0, 10)
         console.log('-----toGridLinkUrl---------')
         console.log('==urlData===',urlData)
+        console.log('==jpg===', linkUrl.substr(-3, 3))
         console.log(If_Order_url)
-
         if (linkUrl.substr(0, 3) == 'tel') {
-         
             wx.navigateTo({
                 url: '/pages/custom_page_contact/index',
             })
-        } else if (linkUrl.substr(0, 4) == 'http') {
+        } else if (linkUrl.substr(0, 4) == 'http' && (linkUrl.substr(-3, 3).toLowerCase() == 'jpg' || linkUrl.substr(-3, 3).toLowerCase() == 'png')) {
           this.lookBigImage(linkUrl)
         }else if (linkUrl.substr(0, 12) == 'custom_page_') {
             var resultUrl = linkUrl.substring(12, linkUrl.length - 5)
             if (urlData.param == '') {
                 urlData.param = '?'
             }
-    
             wx.navigateTo({
                 url: '/pages/custom_page/index' + urlData.param + '&Cpage=' + resultUrl,
             })
@@ -465,26 +461,34 @@ App({
             wx.navigateTo({
                 url: '/pages/' + 'order_list_tab' + '/index' + urlData.param,
             })
-        } else if (If_Order_url == 'fx_center') {
+        } 
+        //else if (If_Order_url == 'fx_center') {
 
-          wx.navigateTo({
-            url: '/pageTab/' + 'fx_center' + '/index' + urlData.param,
-          })
-        } else if (If_Order_url == 'process_list') {
+        //   wx.navigateTo({
+        //     url: '/pageTab/' + 'fx_center' + '/index' + urlData.param,
+        //   })
+        // } else if (If_Order_url == 'process_list') {
 
-          wx.navigateTo({
-            url: '/pageTab/' + 'process_list' + '/index' + urlData.param,
-          })
-        } else if (If_Order_url == 'location_servant') {
+        //   wx.navigateTo({
+        //     url: '/pageTab/' + 'process_list' + '/index' + urlData.param,
+        //   })
+        // } else if (If_Order_url == 'location_servant') {
 
-          wx.navigateTo({
-            url: '/pageTab/' + 'location_servant' + '/index' + urlData.param,
-          })
-        }
-        else if (linkUrl.substr(0, 13) == 'order_pintuan') {
+        //   wx.navigateTo({
+        //     url: '/pageTab/' + 'location_servant' + '/index' + urlData.param,
+        //   })
+        // }
+        // else if (linkUrl.substr(0, 13) == 'order_pintuan') {
 
+        //   wx.navigateTo({
+        //     url: '/pages/' + 'order_pintuan_list' + '/index' + urlData.param,
+        //   })
+        // }
+        else if (linkUrl.substr(0, 5) == 'https') {
+          let url = encodeURIComponent(linkUrl);
+          console.log("==url===", url)
           wx.navigateTo({
-            url: '/pages/' + 'order_pintuan_list' + '/index' + urlData.param,
+            url: '/pages/' + 'web_view' + '/index?url=' + url,
           })
         }
         else if (linkUrl.substr(0, 14) == 'product_detail') {
@@ -500,14 +504,6 @@ App({
               })
             }
         }
-        /*
-        else if (linkUrl.substr(0, 10) == 'news_list') {
-        console.log("======newsList=======")
-      
-          wx.navigateTo({
-            url: '/pages/news_list/index' + urlData.param,
-          })
-        }*/
         else if (urlData.url == 'shop_map') {
             this.openLocation()
         } else if (urlData.url == 'location'){
@@ -538,6 +534,12 @@ App({
                 console.log("pageTab里不存在该页面,跳转pages目录下的页面")
                 wx.navigateTo({
                   url: "/pages/" + urlData.url + "/index" + urlData.param,
+                  fail: function () {
+                    console.log("跳转tab页")
+                    wx.switchTab({
+                      url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+                    })
+                  }
                 })
               }
             })
@@ -1124,21 +1126,26 @@ App({
     let str2 = '';
     if (data.type == 'active') {
       str = 'SHARE_PROMOTION_PRODUCTS_PAGE'
-      str2 = '/super_shop_manager_get_mini_code.html?path=pageTab%2findex%2findex%3fSHARE_PROMOTION_PRODUCTS_PAGE%3d'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_PROMOTION_PRODUCTS_PAGE%3d'
       postParam[str] = data.id;
     } else if (data.type == 'news_detail'){
       console.log(data.type)
       str = 'SHARE_NEWS_DETAIL_PAGE'
-      str2 = '/super_shop_manager_get_mini_code.html?path=pageTab%2findex%2findex%3fSHARE_NEWS_DETAIL_PAGE%3d'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_NEWS_DETAIL_PAGE%3d'
       postParam[str] = data.id;
     } else if (data.type == 'form_detail') {
       console.log(data.type)
       str = 'SHARE_FORM_DETAIL_PAGE'
-      str2 = '/super_shop_manager_get_mini_code.html?path=pageTab%2findex%2findex%3fSHARE_FORM_DETAIL_PAGE%3d'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_FORM_DETAIL_PAGE%3d'
+      postParam[str] = data.id;
+    } else if (data.type == 'user_info') {
+      console.log(data.type)
+      str = 'SHARE_USER_INFO_PAGE'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_USER_INFO_PAGE%3d'
       postParam[str] = data.id;
     }else {
       str = 'SHARE_PRODUCT_DETAIL_PAGE'
-      str2 = '/super_shop_manager_get_mini_code.html?path=pageTab%2findex%2findex%3fSHARE_PRODUCT_DETAIL_PAGE%3d'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_PRODUCT_DETAIL_PAGE%3d'
       postParam[str] = data.id;
     }
     postParam.scene = userId
@@ -1230,6 +1237,7 @@ App({
         return money
     },
     lookBigImage: function (url, urls) {
+      console.log("==lookBigImage===",url, urls)
         if (!url) {
             return
         }

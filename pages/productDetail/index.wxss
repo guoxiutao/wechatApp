@@ -754,6 +754,9 @@ button {
 .w_540{
   width: 540rpx;
 }
+.w_150{
+  width: 150rpx;
+}
 .pintuan_tip{
   position: absolute;
   left: 60rpx;

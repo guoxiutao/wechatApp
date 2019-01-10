@@ -30,4 +30,7 @@
       </block>
     </view>
   </view>
+  <view class='userShareEwm' bindtap='showPoster'>
+    <image class='userEwmCode' src='http://image1.sansancloud.com/xianhua/2019_1/4/20/42/14_861.jpg'></image>
+  </view>
 </template>

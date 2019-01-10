@@ -40,7 +40,10 @@ Page({
           mendian = that.dellMoney(mendian)
           //account 账户余额
           that.setData({
-            mendian: mendian
+            mendian: mendian,
+            reqBankName: mendian.bankName || "",
+            reqUserTrueName: mendian.trueName || "",
+            reqBankCardNo: mendian.bankCarNo || "",
           })
         }
       },

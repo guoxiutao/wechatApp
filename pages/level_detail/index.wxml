@@ -1,16 +1,34 @@
 <view class='container'>
-  <view class='level_detail_title'>
+  <!-- <view class='level_detail_title'>
     <text class="levelName">{{myMembers.levelName}}</text>
     <view><text class="levelName">余额：</text><text class='balance'>{{loginUser.platformUser.account}}</text></view>
-  </view>
-  <view class='level_detail'>
-    <view class='level_detail_item'>
-      <text class='level_detail_name'>会员说明</text>
-      <text class='level_detail_description'>{{myMembers.limitDescription}}</text>
+  </view> -->
+  <view class='my_level_detail'>
+    <view class='my_level_card' style='{{myMembers.cardBanner&&myMembers.cardBanner!="undefined"?"background-image":"background"}}:{{myMembers.cardBanner&&myMembers.cardBanner!="undefined"?"url("+myMembers.cardBanner+")":myMembers.backgroundColor}}'>
+      <view class='my_level_baseinfo'>
+        <image class='my_level_logo' src="{{myMembers.cardIcon?myMembers.cardIcon:'http://image1.sansancloud.com/xianhua/2018_12/21/17/44/1_472.jpg'}}"></image>
+        <view class='my_level_name'>
+          <text class='my_level_platformname'>{{loginUser.platformUser.belongMendianName}}</text>
+          <text class='my_level_value'>{{myMembers.levelName}}</text>
+        </view>
+      </view>
+      <view class='my_level_limit_time'><text>有效期：</text><text wx:if="{{myMembers.limitType==1}}">永久有效</text></view>
     </view>
-    <view class='level_detail_item'>
-      <text class='level_detail_name'>有效时间</text>
-      <text wx:if="{{myMembers.limitType==1}}">永久有效</text>
+    <view class='extra_info'>
+      <view class='extra_info_item'>
+        <text class='extra_info_title'>余额</text>
+        <text class='extra_info_value' style='color:{{platformSetting.defaultColor}}'>{{loginUser.platformUser.account}}</text>
+      </view>
+      <view class='extra_info_item'>
+        <text class='extra_info_title'>等级</text>
+        <text class='extra_info_value' style='color:{{platformSetting.defaultColor}}'>{{myMembers.levelName}}</text>
+      </view>
+    </view>
+  </view>
+  <view class='level_description'>
+    <view class='level_description_item'>
+      <text class='level_description_name'>会员说明</text>
+      <text class='level_description_description'>{{myMembers.limitDescription}}</text>
     </view>
   </view>
 </view>

@@ -18,8 +18,28 @@ Page({
       header: app.header,
       success: function (res) {
         console.log("getVerificationCode",res.data)
-        that.setData({ verificationCodeData: res.data.relateObj})
-        that.getEwmCode(res.data.relateObj)
+        if (res.data.errcode==0){
+          that.setData({ verificationCodeData: res.data.relateObj })
+          that.getEwmCode(res.data.relateObj)
+        }else{
+          wx.showModal({
+            title: '错误',
+            content: res.data.errMsg,
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.navigateBack({
+                  delta: 1
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
+            }
+          })
+        }
       },
       complete: function (res) {
 

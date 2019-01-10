@@ -15,6 +15,7 @@ Page({
     coupon2:[],
     index: 0,//
     gotCouponListId:0,
+    mendianZiti:-1,
     couponMoney:0,
 
     setting: null,
@@ -64,7 +65,7 @@ Page({
       url: customIndex.url ,
       header: app.header,
       success: function (res) {
-        console.log("获取地址列表" + JSON.stringify(res))
+        console.log("获取地址列表",res)
         wx.hideLoading()
         that.setData({ addrArr:res.data.result, showArr: true })
       },
@@ -140,11 +141,13 @@ Page({
   },
   chooseNewAddr: function (e) {
     wx.showLoading()
+    let that=this;
     //console.log(e.currentTarget.dataset.chooseid)
     var addrArr = this.data.addrArr
     console.log(addrArr)
     var addressId = e.currentTarget.dataset.chooseid
     console.log("addressId" + addressId)
+    that.changeAddressData(addressId)
     var selectAddr = null
     for (let i = 0; i < addrArr.length;i++){
       if (addressId == addrArr[i].id){
@@ -167,6 +170,36 @@ Page({
       showArr:false
     })
     wx.hideLoading()
+  },
+  changeAddressData: function (addressId){
+    let that=this;
+    let params = { addressId: addressId, orderNo: that.data.orderData.orderNo};
+    var customIndex = app.AddClientUrl("/change_order_address.html", params, 'post')
+    wx.showLoading({
+      title: 'loading'
+    })
+    //拿custom_page 
+    wx.request({
+      url: customIndex.url,
+      header: app.headerPost,
+      data: customIndex.params,
+      method: 'POST',
+      success: function (res) {
+        console.log('-------地址---------')
+        console.log(res.data)
+        if (res.data.errcode == '-1') {
+          console.log('0')
+        } else {
+          console.log('1')
+          that.getEditOrderDetail()
+        }
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
   },
   closeShowArr: function () {
     this.setData({ showArr: false })
@@ -193,12 +226,12 @@ Page({
       var gotCouponListId = coupon[index].id
       console.log(gotCouponListId)
       this.orderMessage.gotCouponListId = gotCouponListId
-      this.getEditOrderDetail()
       this.setData({
         index: index,
         gotCouponListId: gotCouponListId,
         couponMoney: coupon[index].coupon.youhuiAmount
       })
+      this.getEditOrderDetail()
     }
    
   },
@@ -224,6 +257,7 @@ Page({
     var getParams = {}
     getParams.orderNo = that.data.orderNo
     getParams.gotCouponListId = that.data.gotCouponListId
+    getParams.mendianZiti = that.data.mendianZiti
     var customIndex = app.AddClientUrl("/get_edit_order_detail.html", getParams)
     wx.showLoading({
       title: 'loading'
@@ -241,34 +275,33 @@ Page({
         let allowMendianZiti = res.data.allowMendianZiti
         console.log(allowMendianZiti)
         that.setData({
-      allowMendianZiti: allowMendianZiti
-    })
-    // 允许但不优先
-        if (that.data.allowMendianZiti=="1"){
-          that.setData({
-         mendianZiti:0
-       })
-    }
-    // 允许并优先
-        else if (that.data.allowMendianZiti == "2"){
-          that.setData({
-        mendianZiti: 1
-      })
-    }
-    // 只允许门店自提
-        else if (that.data.allowMendianZiti == "3") {
-          that.setData({
-        mendianZiti: 1
-      })
-    }
-    else{
-          that.setData({
-        mendianZiti: 1
-      })
-    }
+          allowMendianZiti: allowMendianZiti,
+          mendianZiti: res.data.mendianZiti
+        })
+        // 允许但不优先
+        // if (that.data.allowMendianZiti=="1"){
+        //   that.setData({
+        //     mendianZiti:0
+        //   })
+        // }
+        // // 允许并优先(2)只允许门店自提(3)
+        // else if (that.data.allowMendianZiti == "2"){
+        //   that.setData({
+        //     mendianZiti: 1
+        //   })
+        // }
+        // // 只允许门店自提
+        // else if (that.data.allowMendianZiti == "3") {
+        //   that.setData({
+        //     mendianZiti: 1
+        //   })
+        // }
+        // else{
+        //   that.setData({
+        //     mendianZiti: 0
+        //   })
+        // }
         console.log("=====mendianZiti======", that.data.mendianZiti)
-
-
         that.getavailableCouponsArr()
         that.loadMessage()
         wx.hideLoading()
@@ -535,8 +568,10 @@ else{
       })
     }
     console.log(this.data.mendianZiti)
+    this.getEditOrderDetail();
   },
   uncheck:function(){
+    console.log(this.data.allowMendianZiti)
     if (this.data.allowMendianZiti == "3") {
       this.setData({
         mendianZiti: 1
@@ -547,7 +582,7 @@ else{
       })
     }
     console.log(this.data.mendianZiti)
-
+    this.getEditOrderDetail();
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

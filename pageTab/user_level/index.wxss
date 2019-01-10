@@ -72,7 +72,7 @@
   flex-direction: row;
   align-items: center;
   margin-bottom: 16rpx;
-  background-size:100%
+
 }
 .my_members_logo_bg{
   border-radius: 100rpx;

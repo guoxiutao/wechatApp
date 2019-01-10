@@ -17,6 +17,12 @@ Page({
   getUserTrueName: function (e) {
     this.setData({ reqUserTrueName: e.detail.value })
   },
+  getUserTrueBankName: function (e) {
+    this.setData({ reqBankName: e.detail.value })
+  },
+  getUserTruBankCardNo: function (e) {
+    this.setData({ reqBankCardNo: e.detail.value })
+  },
   getMendianInfo: function () {
     console.log('-------门店-1-------')
     let params = {}
@@ -34,7 +40,10 @@ Page({
           mendian = that.dellMoney(mendian)
           //account 账户余额
           that.setData({
-            mendian: mendian
+            mendian: mendian,
+            reqBankName: mendian.bankName||"",
+            reqUserTrueName: mendian.bankOwnerName || "",
+            reqBankCardNo: mendian.bankAccount || "",
           })
         }
       },
@@ -53,7 +62,9 @@ Page({
   subMitButn: function () {
     var that = this
     let tixianAmount = Number(this.data.tixianAmount||0)
-    let reqUserTrueName = this.data.reqUserTrueName||""
+    let reqUserTrueName = this.data.reqUserTrueName || ""
+    let reqBankName = this.data.reqBankName || ""
+    let reqBankCardNo = this.data.reqBankCardNo || ""
     if (tixianAmount < 1  || reqUserTrueName==''){
       console.log('--------1------')
       wx.showModal({
@@ -70,10 +81,14 @@ Page({
     }
     let wxChatPayParam = {
       tixianAmount: '',
-      reqUserTrueName:'',
+      reqUserTrueName: '',
+      reqBankName: '',
+      reqBankCardNo: '',
     }
     wxChatPayParam.tixianAmount = Number(tixianAmount)
     wxChatPayParam.reqUserTrueName = reqUserTrueName
+    wxChatPayParam.reqBankName = reqBankName
+    wxChatPayParam.reqBankCardNo = reqBankCardNo
     this.setData({ butn_show_loading:true })
     let customIndex = app.AddClientUrl("/mendian_manager_req_mendian_tixian.html", wxChatPayParam, 'post')
     wx.showModal({

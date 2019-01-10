@@ -33,12 +33,26 @@ Page({
       header: app.header,
       success: function (res) {
         console.log("getVerificationResults",res.data)
-        that.getVerificationCode()
-        wx.showToast({
-          title: res.data.relateObj,
-          icon: 'success',
-          duration: 2000
-        })
+        that.getVerificationCode();
+        if (res.data.errcode==0){
+          wx.showToast({
+            title: res.data.relateObj,
+            icon: 'success',
+            duration: 2000
+          })
+        }else{
+          wx.showModal({
+            title: '错误',
+            content: res.data.errMsg,
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
       },
       complete: function (res) {
       }

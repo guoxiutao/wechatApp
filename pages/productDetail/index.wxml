@@ -192,11 +192,11 @@
 <!-- 底部按钮们 -->
 <view class='bottomHeight'></view>
 <view class='product_detail_bottom_container'>
- <view class='left_bottom' data-itemId='{{productData.productInfo.productId}}' bindtap='toIndex' >
+ <view class='' data-itemId='{{productData.productInfo.productId}}' bindtap='toIndex' class='{{productData.productInfo.preOrderCustomFormId?"left_bottom w_150":"left_bottom"}}'>
    <image mode='aspectFit' src='/images/icons/home2.png'></image>
    <text style='font-size:22rpx;color:#aaa'>首页</text>
   </view> 
-  <view class='left_bottom' bindtap='toCart'>
+  <view class='left_bottom' bindtap='toCart' wx:if="{{!productData.productInfo.preOrderCustomFormId}}">
     <view class='cartNumber' style='background:{{color}}'>{{countGood}}</view>
     <image mode='widthFix' src='/images/icons/cartddd.png'></image>
     <text style='font-size:22rpx;color:#aaa'>购物车</text>
@@ -204,7 +204,10 @@
   <block wx:if='{{!pintuanState}}'>
     <view class='right_bottom addto font_08' data-way='cart' bindtap='readyPay2' style=' border: 2rpx solid {{scolor}};color:{{color}}' wx:if="{{!productData.productInfo.preOrderCustomFormId}}" >加入购物车</view>
     <!-- <view wx:else class='right_bottom'></view> -->
-    <view class='{{productData.productInfo.preOrderCustomFormId?"w_540":""}} right_bottom bynow font_08' data-way='buy' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{setting.platformSetting.secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>立即购买</view>
+    <view class='{{productData.productInfo.preOrderCustomFormId?"w_540":""}} right_bottom bynow font_08' data-way='buy' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{setting.platformSetting.secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
+      <text wx:if="{{productData.productInfo.preOrderCustomFormId}}">立即下单</text>
+      <text wx:else>立即购买</text>
+    </view>
   </block>
   <block wx:else>
     <view class='right_bottom addto font_08' data-way='pintuanOne' bindtap='readyPay2' style=' border: 2rpx solid {{color}};color: {{color}}'>单独购买</view>

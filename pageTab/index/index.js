@@ -28,10 +28,7 @@ Page({
         wx.reLaunch({
           url: '/pages/custom_page/index' + urlData.param + '&Cpage=' + resultUrl,
         })},200);
-    
-
-    }
-    else{
+    }else{
       if (app.clientNo=="tunzai"){
         console.log("进入蓝湖")
         setTimeout(function () {
@@ -39,8 +36,7 @@ Page({
           url: '/pageTab/tunzai/index/index'
         })},200);
         return;
-      }
-      else{
+      }else{
         setTimeout(function () {
         wx.reLaunch({
           url: '/pageTab/' + app.miniIndexPage + '/index'
@@ -224,6 +220,12 @@ Page({
       }, 200)
       return;
     }
+    // 分享出来带分享SHARE_USER_INFO_PAGE跳到我的页面
+    if (options.SHARE_USER_INFO_PAGE && options.SHARE_USER_INFO_PAGE != "") {
+      console.log("进入首页", options.SHARE_USER_INFO_PAGE)
+      that.Countdown();
+      return;
+    }
     // 卡券扫码核销
     if (options.VERIFICATION_CODE && options.VERIFICATION_CODE != "") {
       console.log("进入卡券扫码核销页面", options)
@@ -305,8 +307,6 @@ Page({
         })
 
       }, 200)
-
-
     } else {
       console.log('正常进入')
       that.Countdown(app);

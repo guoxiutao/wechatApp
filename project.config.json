@@ -9,7 +9,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.4.2",
-	"appid": "wx42d98cf6cb1a1316",
+	"appid": "wx37b3f495891dd60c",
 	"projectname": "qiche",
 	"isGameTourist": false,
 	"condition": {
@@ -50,7 +50,7 @@
 					"id": 2,
 					"name": "扫码进来携带MendianID",
 					"pathName": "pageTab/index/index",
-					"query": "sign=99cb3b5fa07e37e6f2c5229e709cb59d&verifyScanType=1&VERIFICATION_CODE=kzFq8F7d60",
+					"query": "sign=dfb57701a0596af2ee8228ce78310378&verifyScanType=2&VERIFICATION_CODE=20190107170319972801",
 					"scene": "1011"
 				},
 				{

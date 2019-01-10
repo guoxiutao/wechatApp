@@ -40,6 +40,7 @@
     <component-tag-customPage data="userinfo"></component-tag-customPage> <!-- 首页组件-->
   </block>
    <view class='buttom'><text>技术支持:福州三三网络科技有限公司</text></view>
+   <posters-user-info ewmImgUrl='{{ewmImgUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters-user-info>
 </view>
 
 
