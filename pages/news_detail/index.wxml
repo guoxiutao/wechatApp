@@ -12,7 +12,9 @@
         <view class='releaseTime'>{{Data.publishTime}}</view>
       </view>
     </view>
-    <template is="1"   data="{{wxParseData:article.nodes}}"></template> 
+    <view class='wxParseData'>
+      <template is="1"   data="{{wxParseData:article.nodes}}"></template> 
+    </view>
     <component-tag-customPage data="news_detail_{{Data.id}}" wx:if="{{Data.id}}"></component-tag-customPage> 
 </view>
 <view class='bottomBar'>

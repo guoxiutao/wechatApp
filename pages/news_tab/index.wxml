@@ -27,7 +27,7 @@
 
 
 
-          <view class='ListDataItem' data-info='{{result}}' bindtap='toProductDetail' wx:for="{{newList}}" wx:for-item="result" wx:key="{{result.id}}">
+          <view class='ListDataItem' data-link="news_detail.html?id={{result.id}}" bindtap='tolinkUrl' wx:for="{{newList}}" wx:for-item="result" wx:key="{{result.id}}">
     <!--左边的图片  -->
             <view wx:if='{{result.imagePath}}' class='ListDataItemImage'><image mode='aspectFill' src='{{result.imagePath}}?x-oss-process=style/preview'></image></view> 
         <!--右边的字  -->
@@ -48,7 +48,7 @@
         <block wx:else>
           <view class="nonews">
             <image mode="widthFix" src='/images/icons/no-news.png'></image>
-            <text>没有相关商品</text>
+            <text>没有相关新闻</text>
           </view>
         </block>
       </view>

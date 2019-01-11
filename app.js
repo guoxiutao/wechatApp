@@ -478,12 +478,12 @@ App({
         //     url: '/pageTab/' + 'location_servant' + '/index' + urlData.param,
         //   })
         // }
-        // else if (linkUrl.substr(0, 13) == 'order_pintuan') {
+        else if (linkUrl.substr(0, 13) == 'order_pintuan') {
 
-        //   wx.navigateTo({
-        //     url: '/pages/' + 'order_pintuan_list' + '/index' + urlData.param,
-        //   })
-        // }
+          wx.navigateTo({
+            url: '/pages/' + 'order_pintuan_list' + '/index' + urlData.param,
+          })
+        }
         else if (linkUrl.substr(0, 5) == 'https') {
           let url = encodeURIComponent(linkUrl);
           console.log("==url===", url)

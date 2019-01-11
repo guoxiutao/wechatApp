@@ -31,6 +31,7 @@ Page({
     totalImg:0,
     pintuanId:0,
     pintuanState: false,
+    promotionState:false,
     pintuanListData: [],
     color:'',
     clientNo:'',
@@ -586,12 +587,15 @@ Page({
         console.log(res)
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
-        if (res.data.productInfo && res.data.productInfo.promotionBean && res.data.productInfo.promotionBean.pintuanStrategy && res.data.productInfo.promotionBean.pintuanStrategy.id){
+        if (res.data.productInfo && res.data.productInfo.promotionBean) {
+          that.setData({ promotionState: true })
           if (res.data.productInfo.promotionBean.promotionStatus==2){
             that.setData({ color: '#888' })
           }
-          that.setData({ pintuanState: true })
-          that.getPintuanData(res.data.productInfo.productId, res.data.productInfo.promotionBean.id);
+          if (res.data.productInfo.promotionBean.pintuanStrategy && res.data.productInfo.promotionBean.pintuanStrategy.id) {
+            that.setData({ pintuanState: true })
+            that.getPintuanData(res.data.productInfo.productId, res.data.productInfo.promotionBean.id);//获取拼团人员的数据
+          }
         }
         that.setData({ productData: res.data })
         if (res.data.images){

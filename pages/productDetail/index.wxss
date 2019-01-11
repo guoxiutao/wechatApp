@@ -727,7 +727,7 @@ button {
   width:90%;
 }
 .navigation_addr_img{
-  width: 30rpx;
+  width: 36rpx;
   height: 30rpx;
   margin-right: 10rpx;
 }
@@ -778,4 +778,18 @@ button {
   bottom:-10rpx;
   left:30rpx;
   position:absolute;
+}
+.price_group{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  height:50rpx;
+}
+.noPintuan{
+  height:40rpx;
+  line-height:40rpx;
+}
+.pintuan{
+  height:40rpx;
+  line-height:40rpx;
 }

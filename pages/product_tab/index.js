@@ -39,7 +39,7 @@ Page({
         }else{
           that.setData({ productType: that.data.productType })
         }
-        that.data.productType.unshift({ id: categoryId,name:"全部"})
+        that.data.productType.unshift({ id: categoryId||0,name:"全部"})
         for (let i = 0; i < that.data.productType.length; i++) {
           that.data.productType[i].colorAtive = '#888';
         }

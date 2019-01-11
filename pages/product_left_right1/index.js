@@ -1,47 +1,43 @@
-  
+
 
 const app = getApp()
 
-Page({
+Page({ 
 
   data: {
-    animationData:{},
+    animationData: {},
     setting: null, // setting   
     productData: [], // 商品数据 
     sysWidth: 320,//图片大小
-    tab:'',
+
     /* 显示或影藏 */
     showType: false,
-    show0: false,
-    show1: false,
-    show2: false,
     topName: {
       SearchProductName: "",//头部搜索的
     },
-
-
     focusTypeItem: null,
     bindProductTypeIndex: null,
 
     ProductshowWay: 1, // ProductshowWay列表显示方法 
 
     typeSearch: '', // typeSearch的字体 
-    canRefresh:true,
+    canRefresh: true,
     /* 购物车 */
-    cart:[],
+    cart: [],
     pushItem: [],
     countGood: 0,
     countPrice: 0,
 
 
     //规格
-    showGuigeType:false,
+    showGuigeType: false,
     checkedMeasureItem: 0,
     MeasureItem: null,
     measurementJson: {
       price: 0
     },  //规格价格
   },
+
   //获取产品分类
   getProductType: function (categoryId) {
     var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId || 0 })
@@ -60,14 +56,13 @@ Page({
         } else {
           that.setData({ productType: that.data.productType })
         }
-        that.data.productType.unshift({ id: categoryId||0, name: "全部" })
+        that.data.productType.unshift({ id: categoryId, name: "全部" })
         for (let i = 0; i < that.data.productType.length; i++) {
           that.data.productType[i].colorAtive = '#888';
         }
         that.data.productType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
         that.data.productType[0].active = true;
         that.setData({ productType: that.data.productType })
-        console.log("that.data.productType",that.data.productType)
         wx.hideLoading()
       },
       fail: function (res) {
@@ -77,11 +72,6 @@ Page({
       }
     })
   },
-  //跳转到订单页面
-  toOrderPage:function(e){
-    let linkUrl = e.currentTarget.dataset.link
-    app.linkEvent(linkUrl)
-  },
   /* 点击遮罩层 */
   closeZhezhao: function () {
     this.getData(this.params, 2)
@@ -90,14 +80,14 @@ Page({
       duration: 400,
       timingFunction: 'ease-out',
     })
-    
+
     animation.height(0).step()
-    
+
     this.setData({
       animationData: animation.export()
     })
   },
-  showZheshao:function(){
+  showZheshao: function () {
     this.getData(this.params, 2)
     this.setData({ showType: !this.data.showType })
     let showType2 = this.data.showType
@@ -105,9 +95,9 @@ Page({
       duration: 400,
       timingFunction: 'ease-in-out',
     })
-    if (showType2){
+    if (showType2) {
       animation.height(250).step()
-    }else{
+    } else {
       animation.height(0).step()
     }
     this.setData({
@@ -117,7 +107,7 @@ Page({
   /* 点击分类大项 */
   bindTypeItem: function (event) {
     console.log(event.currentTarget.dataset.type)
-    
+
     for (let i = 0; i < this.data.productType.length; i++) {
       if (this.data.productType[i].id == event.currentTarget.dataset.type.id) {
         this.data.productType[i].active = true
@@ -156,11 +146,11 @@ Page({
 
       //if (focus.children.length == 0) {
 
-       
 
-        this.params.categoryId = focus.id
-        this.getData(this.params, 2)
-        this.setData({ showType: false, bindProductTypeIndex: null })
+
+      this.params.categoryId = focus.id
+      this.getData(this.params, 2)
+      this.setData({ showType: false, bindProductTypeIndex: null })
       //}
 
     }
@@ -174,35 +164,34 @@ Page({
     console.log(returnParam)
     return returnParam
   },
- 
+
   /* 拿出价格和购物车里面的东西 */
   showPrice: function () {
     var cartDataItem = this.data.cart[0].carItems
     var pushItem = []
-   /*  var countGood = 0
-    var countPrice = 0 */
+    /*  var countGood = 0
+     var countPrice = 0 */
 
     for (let i = 0; i < cartDataItem.length; i++) {
       pushItem.push(cartDataItem[i])
     }
-   /*  for (let i = 0; i < pushItem.length; i++) {
-      countGood += parseInt(pushItem[i].count)
-      countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
-    } */
+    /*  for (let i = 0; i < pushItem.length; i++) {
+       countGood += parseInt(pushItem[i].count)
+       countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+     } */
 
     this.setData({
       pushItem: pushItem,
-  /*     countGood: countGood,
-      countPrice: countPrice */
+      /*     countGood: countGood,
+          countPrice: countPrice */
     })
     /* console.log(pushItem)
     console.log(countGood)
     console.log(countPrice) */
   },
-/* 产品的加减 */
-  subNum: function (event){
+  /* 产品的加减 */
+  subNum: function (event) {
     if (!app.checkIfLogin()) {
-      
       return
     }
 
@@ -214,10 +203,12 @@ Page({
     params.cartesianId = focusProduct.measureItem
     params.productId = focusProduct.id
     params.shopId = focusProduct.belongShopId
-    if (focusProduct.inCarCount == 1){
+    
+    if (focusProduct.inCarCount == 1) {
       params.count = 0
       params.type = 'change'
-    }else{
+    } else {
+      --focusProduct.inCarCount;
       params.count = 1
       params.type = 'dec'
     }
@@ -225,15 +216,16 @@ Page({
     this.postParams(params)
   },
   /* 初始化Nums  用传值方式 */
-  getPriceAndCount:function(){
-    let params={}
+  getPriceAndCount: function () {
+    let params = {}
     params.cartesianId = '0',
-    params.productId = '0'
+      params.productId = '0'
     this.postParams(params)
+    console.log('啛啛喳喳错错错错错错错错错错错错')
   },
-  addNum: function (event){
+  addNum: function (event) {
     if (!app.checkIfLogin()) {
-      
+   
       return
     }
 
@@ -242,9 +234,9 @@ Page({
     let focusProduct = productData[index]
     console.log(focusProduct)
     ++focusProduct.inCarCount;
-   // this.setData({ productData: productData})
+    // this.setData({ productData: productData})
 
-   
+
     var params = {}
     params.cartesianId = focusProduct.measureItem
     params.productId = focusProduct.id
@@ -271,18 +263,17 @@ Page({
       type: '',
     }
     //focusCartItem.count--;
-    
-      params.cartesianId = focusCartItem.measureCartesianId
-      params.productId = focusCartItem.productId
-      params.shopId = focusCartItem.belongShop
-      if (focusCartItem.count==1){
-        params.count = 0
-        params.type = 'change'
-      }else{
-        params.count = 1
-        params.type = 'dec'
-      }
-    
+    params.cartesianId = focusCartItem.measureCartesianId
+    params.productId = focusCartItem.productId
+    params.shopId = focusCartItem.belongShop
+
+    if (focusCartItem.count == 1){
+      params.count = 0
+      params.type = 'change'
+    }else{
+      params.count = 1
+      params.type = 'dec'
+    }
     this.postParams(params)
   },
 
@@ -291,7 +282,7 @@ Page({
     var pushItem = this.data.pushItem
     var focusCartItem = null
     var index = e.currentTarget.dataset.id
-    
+
     focusCartItem = pushItem[index]
     //focusCartItem.count++;
     var params = {
@@ -315,7 +306,7 @@ Page({
     if (!ifAdd) {
       ifAdd = 1
     }
-    var customIndex = app.AddClientUrl("/more_product_list.html", param)
+    var customIndex = app.AddClientUrl("/more_product_list.html", param, 'get', '1')
     wx.showLoading({
       title: 'loading'
     })
@@ -342,7 +333,7 @@ Page({
           dataArr = dataArr.concat(res.data.result)
           that.setData({ productData: dataArr })
         }
-       
+
         wx.hideLoading()
       },
       fail: function (res) {
@@ -350,7 +341,7 @@ Page({
         wx.hideLoading()
         app.loadFail()
       },
-      complete:function(){
+      complete: function () {
         that.setData({ canRefresh: true })
       },
     })
@@ -373,7 +364,7 @@ Page({
     shopProductType: "",
     needCarCount: 1
   },
- 
+
 
   more_product_list_URL: function (params) {
     let resule = app.AddClientUrl("/more_product_list.html", params)
@@ -381,7 +372,7 @@ Page({
   },
 
 
-  
+
 
 
   toProductDetail: function (event) {
@@ -389,13 +380,13 @@ Page({
     console.log(event.currentTarget.dataset.info)
     var info = event.currentTarget.dataset.info
     wx.navigateTo({
-      url: '../productDetail/index?id=' + info.id + "&addShopId=" + info.belongShopId,
+      url: '/pages/productDetail/index?id=' + info.id + "&addShopId=" + info.belongShopId,
     })
   },
   /* 购物车加减 */
   postParams: function (data) {
     var that = this
-    var customIndex = app.AddClientUrl("/change_shopping_car_item.html", data,'post')
+    var customIndex = app.AddClientUrl("/change_shopping_car_item.html", data, 'post')
     wx.request({
       url: customIndex.url,
       data: customIndex.params,
@@ -417,19 +408,20 @@ Page({
       }
     })
   },
-  
- /* 创建订单 */
+  /* 创建订单 */
   createOrder: function () {
-    if (!app.checkShopOpenTime()) {
+    
+    if (!app.checkShopOpenTime()){
       return
     }
-    var listPro = { 
+
+    let listPro = {
       shopId: '',
       selectedIds: ''
     }
-    
+
     console.log('--------下单了----------')
-    if (this.data.cart.length == 0){
+    if (this.data.cart.length == 0) {
       return
     }
     let pushItem = this.data.cart[0].carItems
@@ -485,10 +477,9 @@ Page({
       header: app.headerPost,
       method: 'POST',
       success: function (res) {
-
-        console.log("=======+++++++=======",res)
+        wx.hideLoading()
+        console.log(res)
         if (!!res.data.orderNo) {
-          
           wx.navigateTo({
             url: '/pages/edit_order/index?orderNo=' + res.data.orderNo,
           })
@@ -511,35 +502,33 @@ Page({
   getCart: function () {
     var customIndex = app.AddClientUrl("Client.User.CarItemList")
     var that = this
-  
+
     //拿custom_page
     wx.request({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
         console.log(res.data)
-        
+
         if (res.data.errcode == '10001') {
-          
-            that.setData({ cart: [] })
+          that.setData({ cart: [] })
         } else {
-          
+
           if (!!res.data.result.length) {
             that.setData({ cart: res.data.result })
             that.showPrice()
           }
           else {
-            
             that.setData({ cart: [] })
-            that.setData({ pushItem:[]})    
-            that.setData({ showType:false })     
+            that.setData({ pushItem: [] })
+            that.setData({ showType: false })
           }
         }
 
 
       },
       fail: function (res) {
-        
+
       }
     })
   },
@@ -570,6 +559,7 @@ Page({
         console.log('--------add----------')
         console.log(res.data)
         that.setData({ showGuigeType: false })
+        that.getData(that.params, 2);
         wx.hideLoading()
       },
       fail: function (res) {
@@ -590,7 +580,7 @@ Page({
     param.productId = productId
     param.measureIds = postStr
     let customIndex = app.AddClientUrl("/get_measure_cartesion.html", param)
-   
+
     var that = this
     wx.request({
       url: customIndex.url,
@@ -659,7 +649,14 @@ Page({
     this.MeasureParams = []
 
   },
-  
+
+  setNavColor: function () {
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: app.setting.platformSetting.defaultColor
+
+    })
+  },
   listPage: {
     page: 1,
     pageSize: 0,
@@ -670,9 +667,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("===options=====", options)
-    this.setData({ setting: app.setting })
-    var that = this;
+    let that=this;
     if (options.parentCategoryId) {
       that.setData({ positionTab: options.parentCategoryId })
       options.categoryId = options.parentCategoryId
@@ -681,20 +676,26 @@ Page({
       that.getProductType(options.categoryId)
     }
     for (let i in options) {
-      for (let j in this.params) {
-        if (i.toLowerCase() == j.toLowerCase()) { this.params[j] = options[i] }
+      for (let j in that.params) {
+        if (i.toLowerCase() == j.toLowerCase()) { that.params[j] = options[i] }
       }
     }
-    console.log(this.params)
-    this.getData(this.params, 2);
+    console.log(that.params)
+    that.getData(that.params, 2);
+
+    that.setData({
+      sysWidth: app.globalData.sysWidth
+    });
+    that.getCart()
+    that.getPriceAndCount()
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.getCart()
-    this.getPriceAndCount()
+    this.setData({ setting: app.setting })
+    this.setNavColor()
   },
 
   /**
@@ -739,8 +740,8 @@ Page({
    */
   onReachBottom2: function () {
     var that = this
-    if (this.data.canRefresh){
-      this.setData({ canRefresh:false })
+    if (this.data.canRefresh) {
+      this.setData({ canRefresh: false })
       setTimeout(function () {
         if (that.listPage.totalSize > that.listPage.curPage * that.listPage.pageSize) {
           that.listPage.page++
@@ -749,7 +750,7 @@ Page({
         }
       }, 300);
     }
-    
+
   },
 
 })

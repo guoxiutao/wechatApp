@@ -169,6 +169,12 @@ Page({
         color: "#777777"
       },
       {
+        iconPath: "http://image1.sansancloud.com/xianhua/2019_1/11/20/49/36_852.jpg",
+        linkUrl: "verification_record.html",
+        text: "核销记录",
+        color: "#777777"
+      },
+      {
         iconPath: "http://image1.sansancloud.com/xianhua/2018_9/5/16/54/39_501.jpg",
         linkUrl: "address.html",
         text: "收货地址" ,

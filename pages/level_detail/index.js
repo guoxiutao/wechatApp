@@ -8,7 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    memberState:false,
   },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
@@ -26,10 +26,19 @@ Page({
           let data = res.data.relateObj
           that.setData({ membersList: res.data.relateObj })
           for (let i = 0; i < data.length; i++) {
-            if (data[i].id == id) {
+            if (that.data.loginUser && data[i].levelValue == that.data.loginUser.platformUser.userLevel) {
               console.log("拥有会员")
-              that.setData({ myMembers: data[i] })
+              that.setData({ myMembers: data[i], memberState:true })
+            } else {
+              console.log("未购买会员")
+              if (data[i].id == id) {
+                that.setData({ myMembers: data[i], memberState: false})
+              }
             }
+            // if (data[i].id == id) {
+            //   console.log("拥有会员")
+            //   that.setData({ myMembers: data[i] })
+            // }
           }
         } else {
           wx.showModal({

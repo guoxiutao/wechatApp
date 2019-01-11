@@ -1,9 +1,9 @@
 <view class='container'>
-  <!-- <view class='level_detail_title'>
+  <view class='level_detail_title' wx:if="{{!memberState}}">
     <text class="levelName">{{myMembers.levelName}}</text>
     <view><text class="levelName">余额：</text><text class='balance'>{{loginUser.platformUser.account}}</text></view>
-  </view> -->
-  <view class='my_level_detail'>
+  </view>
+  <view class='my_level_detail' wx:if="{{memberState}}">
     <view class='my_level_card' style='{{myMembers.cardBanner&&myMembers.cardBanner!="undefined"?"background-image":"background"}}:{{myMembers.cardBanner&&myMembers.cardBanner!="undefined"?"url("+myMembers.cardBanner+")":myMembers.backgroundColor}}'>
       <view class='my_level_baseinfo'>
         <image class='my_level_logo' src="{{myMembers.cardIcon?myMembers.cardIcon:'http://image1.sansancloud.com/xianhua/2018_12/21/17/44/1_472.jpg'}}"></image>
@@ -29,6 +29,10 @@
     <view class='level_description_item'>
       <text class='level_description_name'>会员说明</text>
       <text class='level_description_description'>{{myMembers.limitDescription}}</text>
+    </view>
+    <view class='level_description_item'>
+      <text class='level_description_name'>有限期限</text>
+      <text class='level_description_description' wx:if="{{myMembers.limitType==1}}">永久有效</text>
     </view>
   </view>
 </view>

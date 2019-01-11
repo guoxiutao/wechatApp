@@ -9,8 +9,8 @@
         <text style='margin-left:10rpx;color:#fff;font-size:28rpx'>{{loginUser.nickName}}</text>
       </view>
       <view class='jiFenInfo'>
-        <view class='jiFenBox'><text style='font-size:28rpx'>当前积分:</text></view>
-        <view class='jiFenBox'><text style='font-size:28rpx'>{{jiFen}}</text></view>
+        <!-- <view class='jiFenBox'><text style='font-size:28rpx'>当前积分:</text></view> -->
+        <view class='jiFenBox'><text style='font-size:28rpx'>查看积分</text></view>
         <view class='jiFenImg' ><image src='../../images/icons/right1.png'></image></view> 
       </view>
     </view>

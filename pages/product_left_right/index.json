@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "产品列表",
-  "enablePullDownRefresh": true,
   "backgroundColor": "#f1f1f1",
-  "backgroundTextStyle": "#ffffff",
-  "navigationBarBackgroundColor": "#000000"
+  "backgroundTextStyle": "#000000",
+  "navigationBarBackgroundColor": "#ffffff"
 }

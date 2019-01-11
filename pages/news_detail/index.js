@@ -45,9 +45,9 @@ Page({
         console.log(res.data)
         WxParse.wxParse('article', 'html', res.data.content, that, 10);
         console.log('===0000=====', that.data.article.nodes);
-        wx.setNavigationBarTitle({
-          title: res.data.title,
-        })
+        // wx.setNavigationBarTitle({
+        //   title: res.data.title,
+        // })
         that.setData({Data:res.data})
         wx.hideLoading()
       },

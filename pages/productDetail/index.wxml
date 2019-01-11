@@ -24,17 +24,19 @@
   </view>  
  
   <view class='ProductDetailInfoContainer' style='position: relative;'>
-    <view class='pintuan_tip' wx:if="{{pintuanState}}">
-      <view class='pintuan_tip_price' style='background:{{setting.platformSetting.defaultColor}}'>拼团价格</view>
+    <view class='pintuan_tip' wx:if="{{promotionState}}">
+      <view class='pintuan_tip_price' style='background:{{setting.platformSetting.defaultColor}}'>活动价格</view>
       <view class='triangle_border_left' style='border-color: transparent transparent transparent {{setting.platformSetting.defaultColor}};'></view>
     </view>
     <view class='InfoPrice_content'>
        <view class='InfoPrice'>
           <view class='p1 price_font'>
-            <text class='pintuan' wx:if="{{pintuanState&&productData.productInfo.promotionBean.pintuanStrategy&&productData.productInfo.promotionBean.pintuanStrategy.priceZhekou}}">
-              ￥{{publicFun.toFix(productData.productInfo.price*productData.productInfo.promotionBean.pintuanStrategy.priceZhekou)}}
+          <!-- ￥{{publicFun.toFix(productData.productInfo.price*productData.productInfo.promotionBean.pintuanStrategy.priceZhekou)}}计算数据 -->
+            <text class='pintuan' wx:if="{{promotionState}}">
+              ￥{{productData.productInfo.promotionPrice}}
             </text>
             <text wx:else style='font-size:48rpx;'>￥{{productData.productInfo.price}}</text>
+            <text wx:if="{{productData.productInfo.maxPrice>productData.productInfo.price}}">-{{productData.productInfo.maxPrice}}</text>
             <text wx:if='{{productData.productInfo.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;line-height:30rpx;'>
               /{{productData.productInfo.unitShow}}
             </text>

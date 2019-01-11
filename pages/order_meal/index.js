@@ -891,7 +891,7 @@ Page({
     this.params.belongshop = options.addShopId;
     this.params.shopProductType = 0;
     this.getShopTypeData(options);
-    this.getShopListData(this.params,2)
+    // this.getShopListData(this.params,2)
 
     // 查找缓存(先暂时把id当成桌号，后台暂时没有配置桌号)
     try {

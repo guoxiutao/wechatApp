@@ -101,15 +101,15 @@
                           </view>
                       </view>
                       <view wx:if='{{list.payStatus == 1 && list.orderStatus  == 1}}' class='butn_container2'>
-                        <view></view>
-                        <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='cancelOrder'>取消订单</text>
-                      </view>
-                      <view wx:if='{{list.easyStatus == 4}}' class='butn_container2'>
                          <view class='mendianZiti' wx:if="{{list.mendianZiti==1}}" data-link="show_verification_code.html?code={{list.orderNo}}&verifyScanType=2" catchtap='tolinkUrl'>
                             <image class='ewmImg' src='http://image1.sansancloud.com/xianhua/2019_1/7/16/50/24_963.jpg'></image>
                             <text>核销码</text>
                           </view>
                           <view wx:else></view>
+                        <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='cancelOrder'>取消订单</text>
+                      </view>
+                      <view wx:if='{{list.easyStatus == 4}}' class='butn_container2'>
+                        <view></view>
                           <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='arriverOrder'>确认收货</text>
                       </view>
 

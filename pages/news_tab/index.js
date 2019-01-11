@@ -199,7 +199,11 @@ Page({
       url: '/pages/news_detail/index?id=' + id,
     })
   },
-
+  /* 组件事件集合 */
+  tolinkUrl: function (e) {
+    let linkUrl = e.currentTarget.dataset.link
+    app.linkEvent(linkUrl)
+  },
   listPage: {
     page: 1,
     pageSize: 0,

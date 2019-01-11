@@ -7,21 +7,23 @@ Page({
    */ 
 
   data: {
-   
+    myCardVoucherDetail:{},
   },
 
   getData: function (id) {
     let that = this
     let getParam = {}
-    getParam.cardVoucherId = id
-    let customIndex = app.AddClientUrl("/wx_find_user_card_voucher_instances.html", getParam, 'get')
+    getParam.instanceId = id
+    let customIndex = app.AddClientUrl("/wx_get_user_card_voucher_instance_detail.html", getParam, 'get')
     wx.request({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
         console.log(res.data)
         wx.hideLoading()
-        let myCardVoucherDetail = res.data
+        let myCardVoucherDetail = res.data.relateObj;
+        that.setData({ myCardVoucherDetail: myCardVoucherDetail})
+        console.log(that.data.myCardVoucherDetail)
       },
       fail: function (res) {
         wx.hideLoading()
@@ -46,10 +48,8 @@ Page({
 
   onReady: function () {
     this.setData({
-      setting: app.setting,
+      platformSetting: app.setting.platformSetting,
       loginUser: app.loginUser,
-      sysWidth: app.globalData.sysWidth,
-      sysHeight: app.globalData.sysHeight,
     });
   },
 

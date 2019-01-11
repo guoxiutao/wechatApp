@@ -169,6 +169,7 @@ Page({
   dellOpt: function (options) {
     let tab = this.data.tab
     this.getOrderList(tab[0], 0)
+    this.getOrderList(tab[1], 1)
     this.setData({
       showTabIndex: 0
     })
