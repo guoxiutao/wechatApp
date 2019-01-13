@@ -21,10 +21,10 @@ color: transparent;
   padding: 10px 0px 10px 10px;
   background: #f9f9f9; 
 } 
-.detail_list_mode1 .mode1_items:last-child, 
+/* .detail_list_mode1 .mode1_items:last-child, 
 .detail_list_mode1 .mode1_items:nth-last-child(1){
   margin-bottom: 0;
-}
+} */
 
 
 .mode1_items{
@@ -36,6 +36,7 @@ color: transparent;
   flex-direction: column;
   justify-content: center;
   background: #fff;
+  padding-bottom:20rpx;
 }
 .mode1_items image{
     margin: 0 auto;
@@ -56,12 +57,12 @@ color: transparent;
   line-height: 21px;
   height:36px;
 }
- .mode1_items text{
+ .mode1_items{
   text-align: left;
   overflow: hidden;
   font-size: 20px;
   color: #FF3D3D;
-  line-height: 28px;
+  /* line-height: 28px; */
 } 
 
 /* 商品排列样式2 */
@@ -107,15 +108,28 @@ color: transparent;
 
 /*新样式  */
 .NewBox{
-  width: 350rpx;
-  /* display: flex;
-  justify-content: space-around; */
-
-}
-.NewBox text{
-margin-left: 20rpx;
+  /* width: 350rpx; */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin: 0 20rpx
 }
 
+.tag_price{
+  text-decoration:line-through;
+  font-size: 24rpx;
+  color:#bbb;
+  margin-left: 6rpx;
+}
+.price{
+  font-size: 32rpx;
+}
+.unitShow{
+  color:#bbb;
+  font-size:24rpx;
+  margin-left:4rpx;  
+  letter-spacing:4rpx;
+}
 .NewBox image{
  width: 50rpx;
  height: 50rpx;

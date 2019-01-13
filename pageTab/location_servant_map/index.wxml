@@ -14,11 +14,11 @@
     </view>
     <view class="typeSearch">
      <view class='flexCenter' data-index="0" style='width:85%'>
-       <!-- <scroll-view scroll-x class="tab-h" scroll-into-view="{{'tab_'+positionTab}}" scroll-with-animation='true'>
-         <view  wx:for="{{setting.platformSetting.categories}}"
+       <scroll-view scroll-x class="tab-h" scroll-into-view="{{'tab_'+positionTab}}" scroll-with-animation='true'>
+         <view  wx:for="{{servantType}}"
           wx:for-item="type" wx:key="{{index}}" data-type="{{type}}"
           bindtap='bindTypeItem' id="{{'tab_'+type.id}}" class='tab-item {{type.active?"active":""}}' style='color:{{type.colorAtive}}'>{{type.name}}</view>
-       </scroll-view> -->
+       </scroll-view>
      </view>
     
      <view class='flexCenter' bindtap='bindservantshowWay' style='width:100rpx'>
@@ -38,15 +38,22 @@
      <view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
         <block wx:if = "{{!! servantData}}">
           <view class='servant_items2' data-info='{{result}}' bindtap='toservantDetail' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
-            <image mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
+            <view class="servant_head">
+              <image class='servant_head_img' mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
+              <view  class="servant_state">
+                <image class='servant_type_icon' wx:if="{{result.status==1}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_486.jpg'></image>
+                <image class='servant_type_icon' wx:if="{{result.status==2}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_503.jpg'></image>
+                <image class='servant_type_icon' wx:if="{{result.status==3}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_506.jpg'></image>
+              </view>
+            </view>
             <view class='servant_items2_view1'>
               <text class='servant_name'>{{result.name}}</text>
               <text class='location_name' wx:if="{{result.longitude>0}}">{{result.description}}</text>
               <text class='location_name' wx:else>{{result.description}}</text>
-              <scroll-view class='tags_content' scroll-x>
+              <!-- <scroll-view class='tags_content' scroll-x>
                 <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
-              </scroll-view>
-              <view class='servant_status'>
+              </scroll-view> -->
+              <!-- <view class='servant_status'>
                 <view class='servant_status_block'>
                   <image class='servant_status_icon' src='{{result.statusIcon}}'></image>
                 </view>
@@ -54,7 +61,10 @@
                 <text class='servant_status_text offline_bg' wx:if="{{result.status==2}}">离线</text>
                 <text class='servant_status_text busy_bg' wx:if="{{result.status==3}}">忙碌</text>
                 <text class='servant_status_text online_bg' wx:else>在线</text>
-              </view>
+              </view> -->
+            </view>
+            <view class='order_servant' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
+              <text style='color:{{setting.platformSetting.defaultColor}}'>去预约</text>
             </view>
           </view>
         </block>
@@ -71,7 +81,7 @@
 
     <block wx:if='{{servantshowWay == 1}}'>
      <scroll-view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
-          <map class='mapItem' id="map" longitude="{{localPoint.longitude}}" latitude="{{localPoint.latitude}}" scale="4" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap"  bindregionchange="regionchange" show-location style="width: 100%; height: 100%;" bindtap='hiddenProInfo'>
+          <map class='mapItem' id="map" longitude="{{localPoint.longitude}}" latitude="{{localPoint.latitude}}" scale="14" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap"  bindregionchange="regionchange" show-location='true' style="width: 100%; height: 100%;" bindtap='hiddenProInfo'>
             <cover-view class="play" >
                <cover-image class="img" src="../../images/icon/center.png" style='width:80rpx;height:80rpx;' />
             </cover-view>
@@ -80,7 +90,7 @@
             <cover-view class='return_index'>
               <cover-image src='http://image1.sansancloud.com/xianhua/2018_9/13/16/50/14_226.jpg' class='return_index_img' bindtap='toIndex'></cover-image>
             </cover-view>
-            <cover-view class='applyForm' style='background:{{setting.platformSetting.defaultColor}}' data-link='form_detail.html?customFormId={{options.customFormId||21}}' bindtap='tolinkUrl'>
+            <cover-view class='applyForm' style='background:{{setting.platformSetting.defaultColor}}' data-link='form_detail.html?customFormId={{currentType.refCustomFormId}}' bindtap='tolinkUrl'>
               <cover-image src='http://image1.sansancloud.com/yunjishi/2018_12/4/11/46/22_437.jpg' class='location_img'></cover-image>
               <cover-view class='applyFormText'>申请</cover-view>
             </cover-view>
@@ -90,19 +100,19 @@
           </cover-view>
           <cover-view class='servant_data' wx:if="{{servantDetail!=null}}">
             <cover-view class='servant_info'>
-              <cover-image class='servant_info_left' src="{{servantDetail.servantInfo.imagePath+'?x-oss-process=style/preview_120'}}"></cover-image>
+              <cover-image class='servant_info_left' src="{{servantDetail.icon+'?x-oss-process=style/preview_120'}}"></cover-image>
               <cover-view class='servant_info_center'>
-                <cover-view class='servant_info_name'>{{servantDetail.servantInfo.name}}</cover-view>
+                <cover-view class='servant_info_name'>{{servantDetail.name}}</cover-view>
                 <cover-view class='servant_info_service_time'>
                   <cover-image class='servant_info_service_time_img' src='http://image1.sansancloud.com/santigongxiang/2018_10/10/18/22/0_933.jpg'></cover-image>
                   <cover-view class='servant_info_service_time_value'>{{servantDetail.servantInfo.categoryName}}</cover-view>
                 </cover-view>
                 <cover-view class='servant_info_service_addr'>
                   <cover-image class='servant_info_service_addr_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/17/57/21_219.jpg'></cover-image>
-                  <cover-view class='servant_info_service_addr_value' style='width:96%; word-break: break-all;text-overflow: ellipsis;white-space: nowrap;'>{{servantDetail.servantInfo.location}}</cover-view>
+                  <cover-view class='servant_info_service_addr_value' style='width:96%; word-break: break-all;text-overflow: ellipsis;white-space: nowrap;'>{{servantDetail.address}}</cover-view>
                 </cover-view>
               </cover-view>
-              <cover-view class='servant_info_right' bindtap='toservantDetail' data-info='{{servantDetail.servantInfo}}'>
+              <cover-view class='servant_info_right' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{servantDetail.id}}'>
                 <cover-view class='line'></cover-view>
                 <cover-image src='http://image1.sansancloud.com/xianhua/2018_9/13/20/11/36_801.jpg?x-oss-process=style/preview_120' class='navigation'></cover-image>
               </cover-view>

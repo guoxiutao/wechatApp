@@ -717,6 +717,7 @@ button {
   flex-direction:row;
   align-items: center;
   margin-left: 48rpx;
+  width: 72%;
 }
 .navigation_addr_value{
   font-size: 26rpx;
@@ -724,7 +725,7 @@ button {
   white-space:nowrap;
   text-overflow:ellipsis;
   overflow:hidden;
-  width:90%;
+  width:100%;
 }
 .navigation_addr_img{
   width: 36rpx;
@@ -732,7 +733,7 @@ button {
   margin-right: 10rpx;
 }
 .navigation_button{
-  margin-right: 48rpx;
+  margin-right: 30rpx;
   border-radius: 30rpx;
   width: 90rpx;
   height: 30rpx;
@@ -790,6 +791,5 @@ button {
   line-height:40rpx;
 }
 .pintuan{
-  height:40rpx;
   line-height:40rpx;
 }

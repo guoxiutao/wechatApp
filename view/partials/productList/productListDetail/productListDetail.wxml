@@ -16,8 +16,13 @@
           <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
         </scroll-view>
         <view class='product_price'>
-          ￥{{result.price}}
-          <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
+          <!-- ￥{{result.price}}
+          <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text> -->
+          <text class='price' wx:if="{{result.promotion>0}}">￥{{result.promotionPrice}}</text>
+          <text class='price' wx:else>￥{{result.price}}</text>
+          <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
+          <text wx:if='{{result.unitShow}}' class="unitShow">/{{result.unitShow}}</text>
+          <text wx:if='{{result.maxPrice<=result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
         </view>
       </view>
             

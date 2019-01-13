@@ -30,10 +30,6 @@ Component({
     var that = this;
     //  封装一个函数把mendianType传进去
     that.getMenDianIfon(oldData.data.jsonData.mendianType)
-
-
-
-
   },
 
   methods: {
@@ -240,12 +236,12 @@ Component({
       wx.getLocation({
         type: 'wgs84',
         success: function (res) {
+          console.log("===getNearMenDian==",res)
           var latitude = res.latitude
           var longitude = res.longitude
           let menDian = {
-            // pageSize: 1,
             longitude: longitude,
-            longitude: longitude
+            latitude: latitude
 
           }
           // longitude 经度        
@@ -257,7 +253,7 @@ Component({
             header: app.headerPost,
             method: 'GET',
             success: function (res) {
-
+              console.log("===附近门店取第一个",res.data)
               if (res.data.errcode == "-1") {
                 wx.showToast({
                   title: res.data.errMessage,

@@ -147,7 +147,35 @@ Page({
   },
 
 
-
+  getLoctionAddr: function (longitude, latitude) {
+    var that = this
+    var param = {}
+    param.longitude = longitude
+    param.latitude = latitude
+    var customIndex = app.AddClientUrl("/get_location_detail.html", param, 'get')
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log(res.data)
+        let addressComponent = res.data.result.addressComponent
+        that.needParam.province = addressComponent.province
+        that.needParam.city = addressComponent.city
+        that.needParam.district = addressComponent.district
+        that.needParam.detail = addressComponent.street
+        that.data.region[0] = addressComponent.province
+        that.data.region[1] = addressComponent.city
+        that.data.region[2] = addressComponent.district
+        that.data.needParam.detail = addressComponent.street
+        that.setData({ region: that.data.region, needParam:that.data.needParam})
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
+  },
   onLoad: function (options) {
     var that =this
     console.log(options)
@@ -158,7 +186,8 @@ Page({
         success: function (res) {
           // success  
           var longitude = res.longitude
-          var latitude = res.latitude
+          var latitude = res.latitude;
+          that.getLoctionAddr(longitude,latitude)
           that.needParam.longitude = longitude
           that.needParam.latitude = latitude
           that.setData({ needParam: that.needParam })

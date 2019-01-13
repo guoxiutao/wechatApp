@@ -136,11 +136,21 @@ Page({
 
   onReady: function () {
     this.setData({
-      setting: app.setting,
+      platformSetting: app.setting.platformSetting,
       loginUser: app.loginUser,
       sysWidth: app.globalData.sysWidth,
       sysHeight: app.globalData.sysHeight,
     });
+    console.log(app.setting)
+    if (app.setting){
+      // wx.setNavigationBarTitle({
+      //   title: app.setting.platformSetting.siteTitle,
+      // })
+      wx.setNavigationBarColor({
+        frontColor: '#ffffff',
+        backgroundColor: app.setting.platformSetting.defaultColor,
+      })
+    }
   },
 
   /**

@@ -107,7 +107,7 @@ Page({
       servantId = e.currentTarget.dataset.servantid
     }
     wx.navigateTo({
-      url: '/pageTab/yunjishi/servantDetail/index?servantId=' + servantId,
+      url: '/pages/servantDetail/index?servantId=' + servantId,
     })
   },
   hiddenProInfo(e){

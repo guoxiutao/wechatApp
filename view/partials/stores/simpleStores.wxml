@@ -7,7 +7,7 @@
 
 <!--默认门店 -->
 <block  wx:if="{{jsonData.mendianType==0}}">
-<view class="wrap">
+<view class="wrap" bindtap='click'>
   <image class='store_logo' src='{{arr.logo}}'></image>
   <text class='store_name'>{{arr.name}}</text>
 </view>
@@ -25,7 +25,7 @@
 
 <!--用户归属门店  -->
 <block  wx:if="{{jsonData.mendianType==2}}">
-<view class="wrap">
+<view class="wrap" bindtap='click' data-id="1">
   <image class='store_logo' src='{{arr.logo}}'></image>
   <text class='store_name'>{{arr.name}}</text>
 </view>
@@ -34,7 +34,7 @@
 <!-- <block  wx:if="{{jsonData.mendianType==2}}">
 <view class="wrap">
 
-  <view  class='name'bindtap='click' data-id="1">
+  <view  class='name' bindtap='click' data-id="1">
      <view class='ListDataItemImage' wx:if="{{arr.logo!=''&& arr.logo!='0'}}"><image mode='aspectFill'  src='{{arr.logo}}'></image></view>
 
     <view class='ListDataItemImage'  wx:else> <image mode='aspectFill' src='../../../images/333.jpg'></image></view>
@@ -46,7 +46,7 @@
 
 <!--附近门店  -->
 <block  wx:if="{{jsonData.mendianType==1}}">
-<view class="wrap">
+<view class="wrap" bindtap='click1'>
   <image class='store_logo' src='{{arr.logo}}'></image>
   <text class='store_name'>{{arr.name}}</text>
 </view>

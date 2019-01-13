@@ -2,7 +2,7 @@
 
 .pore{
     width: 100%;
-  height: 390rpx;
+  height: 360rpx;
   position: relative;
 }
 .wrapTop{
@@ -28,7 +28,7 @@
   border-radius: 50%;
   position: absolute;
   left: 320rpx;
-  top: 250rpx;
+  top: 240rpx;
   z-index: 10;
 
 }
@@ -38,21 +38,20 @@
     border-radius: 50%;
 }
 .shopName{
-  height: 70rpx;
-  margin: 0 auto;
+  height: 60rpx;
+  line-height: 60rpx;
   text-align: center;
 
 }
 .shopName text{
-  font-size: 40rpx;
-  line-height: 70rpx;
+  font-size: 36rpx;
   
 }
 
 .wrapBottom{
   width: 100%;
   height: 100rpx;
-  margin-top: 30rpx;
+  margin-top: 20rpx;
   display: flex;
   flex-direction: row;
 

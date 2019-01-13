@@ -8,7 +8,7 @@
 
 <!--默认门店 -->
 <block  wx:if="{{jsonData.mendianType==0}}">
-<view class='wrap'>
+<view class='wrap1'>
     <!-- 分为3个部分第一个是logo -->
     <view class='pore'>
      <view class='wrapTop' wx:if="{{arr.banne&&arr.banner!=''&& arr.banner!='0'}}"><image mode='aspectFill'  src='{{arr.banner}}'></image></view>
@@ -50,7 +50,7 @@
 
 <!--用户归属门店  -->
 <block  wx:if="{{jsonData.mendianType==2}}">
-<view class='wrap'>
+<view class='wrap1'>
     <!-- 分为3个部分第一个是logo -->
     <view class='pore'>
      <view class='wrapTop' wx:if="{{arr.banner&&arr.banner!=''&& arr.banner!='0'}}"><image mode='aspectFill'  src='{{arr.banner}}'></image></view>
@@ -90,7 +90,7 @@
 
 <!--附近门店  -->
 <block  wx:if="{{jsonData.mendianType==1}}">
-<view class='wrap'  >
+<view class='wrap1'  >
     <!-- 分为3个部分第一个是logo -->
     <view class='pore' bindtap='click1'>
      <view class='wrapTop' wx:if="{{arr.banner&&arr.banner!=''&& arr.banner!='0'}}"><image mode='aspectFill'  src='{{arr.banner}}'></image></view>

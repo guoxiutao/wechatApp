@@ -125,12 +125,14 @@ Page({
           if (dataArr == null) { dataArr = [] }
           dataArr = dataArr.concat(res.data.result)
           for (let i = 0; i < dataArr.length; i++) {
+            dataArr[i].promotion = Number(dataArr[i].promotion);
             if (dataArr[i].tags && dataArr[i].tags!=''){
               tagArray = dataArr[i].tags.slice(1,-1).split("][")
               dataArr[i].tagArray = tagArray;
             }
           }
           that.setData({ productData: dataArr })
+          console.log(that.data.productData)
         }
         wx.hideLoading()
       },
@@ -259,6 +261,7 @@ Page({
   },
   initSetting(){
     this.setData({ setting: app.setting })
+    console.log(app.setting)
 },
   /**
    * 生命周期函数--监听页面显示

@@ -587,6 +587,7 @@ Page({
         console.log(res)
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
+        res.data.productInfo.promotion = Number(res.data.productInfo.promotion)
         if (res.data.productInfo && res.data.productInfo.promotionBean) {
           that.setData({ promotionState: true })
           if (res.data.productInfo.promotionBean.promotionStatus==2){
@@ -625,6 +626,7 @@ Page({
           // that.getCommitData(postPatam)
           that.getCart()
         }
+        console.log('productData', that.data.productData)
       },
       fail: function (res) {
         console.log("====fail=====")

@@ -1,6 +1,6 @@
    <!-- <import src="../../view-new/aikucun/aikucun_hot_product.wxml"/>    -->
 
-  <import src="productList/productList.wxml"/>  
+  <!-- <import src="productList/productList.wxml"/>   -->
 
 
 <import src="../../view-new/aikucun/measure_card.wxml"/>

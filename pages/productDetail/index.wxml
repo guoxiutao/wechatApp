@@ -33,7 +33,7 @@
           <view class='p1 price_font'>
           <!-- ￥{{publicFun.toFix(productData.productInfo.price*productData.productInfo.promotionBean.pintuanStrategy.priceZhekou)}}计算数据 -->
             <text class='pintuan' wx:if="{{promotionState}}">
-              ￥{{productData.productInfo.promotionPrice}}
+              ￥{{productData.productInfo.promotionPrice||productData.productInfo.price}}
             </text>
             <text wx:else style='font-size:48rpx;'>￥{{productData.productInfo.price}}</text>
             <text wx:if="{{productData.productInfo.maxPrice>productData.productInfo.price}}">-{{productData.productInfo.maxPrice}}</text>
@@ -41,10 +41,10 @@
               /{{productData.productInfo.unitShow}}
             </text>
           </view>
-          <block wx:if='{{productData.productInfo.tagPrice > productData.productInfo.price&&!pintuanState}}'>
+          <block wx:if='{{productData.productInfo.tagPrice > productData.productInfo.price}}'>
             <text class='tagPrice_font'>￥{{productData.productInfo.tagPrice}}</text>
           </block>
-          <block wx:if='{{pintuanState}}'>
+          <block wx:else>
             <text class='tagPrice_font'>￥{{productData.productInfo.price}}</text>
           </block>
           <view class='product_stock'><text>仅剩{{productData.productInfo.stock}}件</text></view>

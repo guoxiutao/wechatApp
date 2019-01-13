@@ -78,7 +78,7 @@ Page({
     })
   },
   //跳转到订单页面
-  toOrderPage:function(e){
+  linkUrl:function(e){
     let linkUrl = e.currentTarget.dataset.link
     app.linkEvent(linkUrl)
   },

@@ -177,7 +177,10 @@ margin-left: 0rpx;
 .product_price{
   margin-left: -6rpx;
   font-size: 38rpx;
-  color: #ff0000
+  color: #ff0000;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 .tags_item{
   border: 2rpx solid #eee;
@@ -188,4 +191,21 @@ margin-left: 0rpx;
   border-radius: 10rpx;
   white-space:nowrap;
   box-sizing: content-box
+}
+.unitShow{
+  color:#bbb;
+  font-size:24rpx;
+  margin-left:4rpx;
+  letter-spacing:4rpx;
+}
+.tag_price{
+  text-decoration:line-through;
+  font-size: 24rpx;
+  color:#bbb;
+  margin-left: 6rpx;
+}
+.price{
+  font-size: 38rpx;
+  height:38rpx;
+  line-height:38rpx;
 }

@@ -17,34 +17,26 @@
          <view  wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-type="{{type}}" bindtap='bindTypeItem' id="{{'tab_'+type.id}}" class='tab-item' style='color:{{type.colorAtive}};border-bottom:{{type.active?"2rpx solid "+type.colorAtive:""}};'>{{type.name}}</view>
        </scroll-view>
      </view>
-     <!-- <view class='flexCenter' bindtap='bindProductshowWay' style='width:100rpx'>
-        <view class='border_left'></view>
-        <block wx:if="{{ProductshowWay ==1}}">
-          <image src='http://image1.sansancloud.com/xianhua/2018_9/13/12/1/42_584.jpg'></image>
-        </block>
-        <block wx:if="{{ProductshowWay == 2}}">
-          <image src='http://image1.sansancloud.com/xianhua/2018_9/14/14/10/32_257.jpg'></image>
-        </block>
-     </view> -->
     </view>
   </view>
-
-
     <block>
      <view class='product_page_container2' style='height:{{ProductshowWay==1? "100%":""}}'>
         <block wx:if = "{{!! productData}}">
           <view class='product_items2' data-info='{{result}}' bindtap='toProductDetail' wx:for="{{productData}}" wx:for-item="result" wx:key="{{result.id}}">
-            <image mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
+            <image class='promotion_icon' wx:if="{{result.promotion>0}}" src='http://image1.sansancloud.com/jianzhan/2019_1/12/18/6/10_230.jpg'></image>
+            <image class='product_img' mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
             <view class='product_items2_view1'>
               <text class='product_name'>{{result.name}}</text>
-              <text class='location_name' wx:if="{{result.longitude>0}}">{{result.location}}</text>
-              <text class='location_name' wx:else>{{result.description}}</text>
-              <scroll-view class='tags_content' scroll-x>
-                <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
-              </scroll-view>
-              <view class='product_price'>
-                ￥{{result.price}}
+              <view class='product_price' >
+                <text wx:if="{{result.promotion>0}}">￥{{result.promotionPrice}}</text>
+                <text wx:else>￥{{result.price}}</text>
+                <text wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
                 <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
+                <text wx:if='{{result.maxPrice<=result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
+              </view>
+              <view class='promotion'>
+                <!-- <image wx:if="{{result.promotion>0}}" class="promotion_icon" src='http://image1.sansancloud.com/jianzhan/2019_1/12/17/52/44_449.jpg'></image> -->
+                <text class='expressStrategy_name' style='border:1rpx solid #ff0000;color:#ff0000' wx:if="{{result.saleStrategyName}}">{{result.saleStrategyName}}</text>
               </view>
             </view>
             

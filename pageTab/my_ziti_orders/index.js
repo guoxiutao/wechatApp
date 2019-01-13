@@ -168,6 +168,7 @@ Page({
   /* 第一次加载 */
   dellOpt: function (options) {
     let tab = this.data.tab
+    console.log("==tab===",tab)
     this.getOrderList(tab[0], 0)
     this.getOrderList(tab[1], 1)
     this.setData({
@@ -191,18 +192,6 @@ Page({
       sysHeight: app.globalData.sysHeight,
     });
   },
-  /* 支付 */
-  pay: function (e) {
-    var order = e.currentTarget.dataset.order
-    var that = this
-    console.log(order)
-    app.payItem = order
-    this.setData({ reflesh: true })
-
-    wx.navigateTo({
-      url: '/pages/submit_order_result/index',
-    })
-  },
   /* 订单详细 */
   lookMore: function (e) {
     var orderNo = e.currentTarget.dataset.orderno
@@ -211,34 +200,6 @@ Page({
     wx.navigateTo({
       url: '/pages/order_detail/index?orderNo=' + orderNo,
     })
-
-  },
-  /* 编辑订单 */
-  editOrder: function (e) {
-    var order = e.currentTarget.dataset.order
-    var orderNo = order.orderNo
-    console.log(order)
-    this.setData({ reflesh: true })
-    console.log("===========tab======", this.data.tab)
-    let list = this.data.tab;
-    let data =null;
-    for(let i=0;i<list.length;i++){
-      //  console.log(list[i])
-       for (let j = 0; j < list[i].List.length; j++){
-        //  console.log(list[i].List[j])
-         if (orderNo == list[i].List[j].orderNo){
-            data = list[i].List[j];
-           console.log("==========data========", data)
-         }
-       }
-    }
-    setTimeout(function () {
-     
-      wx.navigateTo({
-        url: '/pages/edit_order/index?orderNo=' + data.orderNo,
-      })
-    }, 200)
-
 
   },
   /* 取消订单 */
@@ -297,137 +258,7 @@ Page({
       }
     })
   },
-  /* 删除订单 */
-  delectOrder: function (e) {
-    var orderNo = e.currentTarget.dataset.orderno
-    var index = e.currentTarget.dataset.index
-    let tab = this.data.tab
-    let focusTab = tab[index]
-    var that = this
-    wx.showModal({
-      title: '提示',
-      content: '确认删除',
-      success: function (res) {
-        if (res.confirm) {
-          let param_post = {}
-          param_post.orderNo = orderNo
-          var customIndex = app.AddClientUrl("/order_unshow.html", param_post, 'post')
-
-          wx.request({
-            url: customIndex.url,
-            data: customIndex.params,
-            header: {
-              'content-type': 'application/x-www-form-urlencoded',
-              'Cookie': app.cookie
-            },
-            method: 'POST',
-            success: function (res) {
-
-              if (res.data.errcode == '0') {
-                console.log(res.data)
-                wx.showToast({
-                  title: '删除成功',
-                  icon: 'success',
-                  duration: 1000
-                })
-
-                setTimeout(function () {
-                  focusTab.params.page = 1
-                  that.getOrderList(focusTab, index, 1)
-                }, 1000)
-
-              }
-              else {
-                wx.showToast({
-                  title: res.data.errMsg,
-                  image: '/images/icons/tip.png',
-                  duration: 1000
-                })
-              }
-            },
-            fail: function (res) {
-              app.loadFail()
-            }
-          })
-        } else if (res.cancel) {
-
-        }
-      }
-    })
-  },
-  /* 订单评价 */
-  pingjiaOrder: function (e) {
-    var orderNo = e.currentTarget.dataset.orderno
-    this.setData({ reflesh: true })
-    wx.navigateTo({
-      url: '/pages/order_shop_comment/index?orderNo=' + orderNo,
-    })
-  },
-  /* 订单到货 */
-  arriverOrder: function (e) {
-    var orderNo = e.currentTarget.dataset.orderno
-
-    var that = this
-    console.log(orderNo)
-
-    wx.showModal({
-      title: '提示',
-      content: '确认到货',
-      success: function (res) {
-        if (res.confirm) {
-          let param_post = {}
-          param_post.orderNo = orderNo
-          var customIndex = app.AddClientUrl("/order_received.html", param_post, 'post')
-
-          wx.request({
-            url: customIndex.url,
-            data: customIndex.params,
-            header: app.headerPost,
-            method: 'POST',
-            success: function (res) {
-              console.log(res.data)
-              if (res.data.errcode == '0') {
-                wx.showToast({
-                  title: '订单已到货',
-                  icon: 'success',
-                  duration: 2000
-                })
-                setTimeout(function () {
-                  wx.redirectTo({
-                    url: '/pages/order_list_tab/index',
-                  })
-                }, 2000)
-
-              } else {
-                wx.showToast({
-                  title: res.data.errMsg,
-                  image: '/images/icons/tip.png',
-                  duration: 2000
-                })
-              }
-            },
-            fail: function (res) {
-              app.loadFail()
-            }
-          })
-        } else if (res.cancel) {
-
-        }
-      }
-    })
-  },
   tabBar: [
-    {
-      name: '已提订单',
-      params: {
-        ziti:2,
-        page: 1
-      },
-      state: {
-        scrollTop:0,
-      },
-      List: []
-    },
     {
       name: '未提订单',
       params: {
@@ -436,6 +267,17 @@ Page({
       },
       state: {
         scrollTop: 0,
+      },
+      List: []
+    },
+    {
+      name: '已提订单',
+      params: {
+        ziti:2,
+        page: 1
+      },
+      state: {
+        scrollTop:0,
       },
       List: []
     }

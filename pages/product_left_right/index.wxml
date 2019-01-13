@@ -21,7 +21,7 @@
         <text>{{type.name}}</text>
         </view>
       
-      <view class='ToOrderView_container'>
+      <!-- <view class='ToOrderView_container'>
         <block wx:if='{{pushItem.length > 0}}'>
           <view class='ToOrderView ToOrderView1' data-link='order_list_0.html?easyStatusName=全部订单&easyStatus=0' bindtap='toOrderPage'>
             <image mode='aspectFill' src='/images/icons/order_waimai.png'></image>
@@ -34,7 +34,7 @@
           <text>订单</text>
         </view>
        </block>
-      </view>
+      </view> -->
        
       <view class='bottomHeight'></view>
   </scroll-view>
@@ -47,21 +47,25 @@
     </view>
     <view class='productItem' wx:for="{{productData}}" wx:key='{{index}}' wx:for-item="result" data-info='{{result}}'  bindtap='toProductDetail'>
         <view class='productItemImage'>
-          <image mode='aspectFill'  src='{{result.imagePath}}?x-oss-process=style/preview'></image>
+          <image mode='aspectFill' class='productImg' src='{{result.imagePath}}?x-oss-process=style/preview'></image>
+          <image class='promotion_icon' wx:if="{{result.promotion>0}}" src='http://image1.sansancloud.com/jianzhan/2019_1/12/18/6/10_230.jpg'></image>
         </view>
         <view class='productInfo'>
           <view class='productInfo_name'>{{result.name}}</view>
           <view class='productInfo_decribe'>
-            <text class='small_decribe'>月售100件|好评99.9%</text>
-            <text class='productInfo_promotionName' wx:if='{{result.promotionName}}'>{{result.promotionName}}</text>
+            <!-- <text class='small_decribe'>月售100件|好评99.9%</text> -->
+            <text class='productInfo_promotionName' style='background:{{setting.platformSetting.defaultColor}}'  wx:if="{{result.saleStrategyName}}">{{result.saleStrategyName}}</text>
           </view>
           <view class='productInfo_Price'>
 
             <view class='price_group'>
-              <text class='price'>￥{{result.price}}</text>
-              <text class='tag_price' wx:if="{{result.tagPrice>result.price}}">￥{{result.tagPrice}}</text>
+              <text class='price' wx:if="{{result.promotion>0}}">￥{{result.promotionPrice}}</text>
+              <text class='price' wx:else>￥{{result.price}}</text>
+              <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
+              <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
+              <text wx:if='{{result.maxPrice<=result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
             </view>
-            <view class='productInfo_Nums'>
+            <!-- <view class='productInfo_Nums'>
               <block wx:if='{{!result.measureItem}}'>
                 <block wx:if='{{result.inCarCount>0}}'>
                   <image src='/images/icons/sub_waimai.png' data-id='{{index}}' catchtap='subNum'></image>
@@ -75,7 +79,7 @@
               </block>
                 <view class='choose_measureItem' data-id='{{index}}' catchtap='chooseMeasureItem'>选规格</view>
                 </block>
-            </view>
+            </view> -->
 
           </view>
         </view>
@@ -87,7 +91,7 @@
 </view>
 
   <block wx:if='{{pushItem.length > 0}}'>
-  <view class='bottomCartContainer'>
+  <view class='bottomCartContainer' style='background:{{setting.platformSetting.defaultColor}}'>
     <view class='cartInfo' bindtap='showZheshao'>
        <view class='imageCartContainer flexCenter'>
          <image src='/images/icons/Cart_waimai.png'></image>
@@ -95,13 +99,13 @@
        </view>
        <view class='Price'>￥<text class='PRICE'>{{countPrice}}</text></view>
     </view>
-    <view class='sureButn' bindtap='createOrder'>选好了</view>
+    <view class='sureButn' bindtap='linkUrl' data-link="shopping_car_list_new.html">去结算</view>
   </view>
   </block>
 
 <view wx:if='{{pushItem.length > 0}}' class='waimai_cart_container_forTap'> 
     <view class='Tap_cart' >
-      <block wx:if='{{!showType}}'><view class='Tap_cart_v1' bindtap='showZheshao'>^</view></block>
+      <block wx:if='{{!showType}}'><view class='Tap_cart_v1' style='background:{{setting.platformSetting.defaultColor}}' bindtap='showZheshao'>^</view></block>
       <block wx:else><view class='Tap_cart_v2' bindtap='showZheshao'>v</view> </block>
      </view>
   <scroll-view scroll-y class='waimai_cart_container' 
@@ -132,7 +136,7 @@
 
 
 <!-- 规格 -->
-  <view wx:if='{{showGuigeType}}' class='measureItemsContainer' >
+  <!-- <view wx:if='{{showGuigeType}}' class='measureItemsContainer' >
     <view class='measureItemsCard'>
       <view class='cardHead'>
         <view class='cardHeadTip'><view></view><view></view><view></view></view>
@@ -158,6 +162,6 @@
       </view>
 
     </view>
-  </view>
+  </view> -->
 
 <view class='zhezhao' wx:if="{{showGuigeType}}" ></view>

@@ -1,8 +1,8 @@
 import { dellUrl } from "/public/requestUrl.js";
 const Promise = require('/promise/promise.js');
 App({
-     //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
-     clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
+     clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
+     //clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
      //clientUrl: 'https://mini.tunzai.vip/chainalliance/',//106.14.213.48 mini.tunzai.vip
 
     /**
