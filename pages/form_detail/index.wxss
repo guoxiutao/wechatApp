@@ -19,7 +19,9 @@
   flex-direction: column;
   align-items: center;
   font-size: 28rpx;
-  padding: 20rpx
+  padding: 20rpx;
+  width: 100%;
+  box-sizing: border-box;
 }
 .formName{
   padding:0 0 20rpx 0;
@@ -36,6 +38,7 @@
   flex-direction: row;
   align-items: flex-start;
   color: #888;
+  width: 100%
 }
 .tip{
   display: flex;

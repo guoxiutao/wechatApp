@@ -53,15 +53,6 @@
               <!-- <scroll-view class='tags_content' scroll-x>
                 <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
               </scroll-view> -->
-              <!-- <view class='servant_status'>
-                <view class='servant_status_block'>
-                  <image class='servant_status_icon' src='{{result.statusIcon}}'></image>
-                </view>
-                <text class='servant_status_text online_bg' wx:if="{{result.status==1}}">在线</text>
-                <text class='servant_status_text offline_bg' wx:if="{{result.status==2}}">离线</text>
-                <text class='servant_status_text busy_bg' wx:if="{{result.status==3}}">忙碌</text>
-                <text class='servant_status_text online_bg' wx:else>在线</text>
-              </view> -->
             </view>
             <view class='order_servant' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
               <text style='color:{{setting.platformSetting.defaultColor}}'>去预约</text>
@@ -99,20 +90,21 @@
             </cover-view>
           </cover-view>
           <cover-view class='servant_data' wx:if="{{servantDetail!=null}}">
-            <cover-view class='servant_info'>
+            <cover-view class='servant_info' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{servantDetail.id}}'>
               <cover-image class='servant_info_left' src="{{servantDetail.icon+'?x-oss-process=style/preview_120'}}"></cover-image>
               <cover-view class='servant_info_center'>
                 <cover-view class='servant_info_name'>{{servantDetail.name}}</cover-view>
                 <cover-view class='servant_info_service_time'>
                   <cover-image class='servant_info_service_time_img' src='http://image1.sansancloud.com/santigongxiang/2018_10/10/18/22/0_933.jpg'></cover-image>
-                  <cover-view class='servant_info_service_time_value'>{{servantDetail.servantInfo.categoryName}}</cover-view>
+                  <cover-view class='servant_info_service_time_value'>{{servantDetail.categoryName}}</cover-view>
                 </cover-view>
                 <cover-view class='servant_info_service_addr'>
                   <cover-image class='servant_info_service_addr_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/17/57/21_219.jpg'></cover-image>
-                  <cover-view class='servant_info_service_addr_value' style='width:96%; word-break: break-all;text-overflow: ellipsis;white-space: nowrap;'>{{servantDetail.address}}</cover-view>
+                  <cover-view class='servant_info_service_addr_value' wx:if="{{servantDetail.address}}">{{servantDetail.address}}</cover-view>
+                  <cover-view class='servant_info_service_addr_value' wx:else>{{servantDetail.province}}-{{servantDetail.city}}-{{servantDetail.area}}</cover-view>
                 </cover-view>
               </cover-view>
-              <cover-view class='servant_info_right' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{servantDetail.id}}'>
+              <cover-view class='servant_info_right' bindtap='tolinkUrl' data-link="customFormId={{currentType.refCustomFormId}}&servantId={{servantDetail.id}}" >
                 <cover-view class='line'></cover-view>
                 <cover-image src='http://image1.sansancloud.com/xianhua/2018_9/13/20/11/36_801.jpg?x-oss-process=style/preview_120' class='navigation'></cover-image>
               </cover-view>

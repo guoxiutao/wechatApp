@@ -47,7 +47,7 @@ Page({
         }
         that.data.servantType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
         that.data.servantType[0].active = true;
-        that.setData({ servantType: that.data.servantType })
+        that.setData({ servantType: that.data.servantType, currentType: that.data.servantType[0]  })
         wx.hideLoading()
       },
       fail: function (res) {
@@ -63,6 +63,7 @@ Page({
     console.log(event)
     let that=this;
     let onId;
+    that.hiddenProInfo()
     if (event && event.currentTarget) {
       onId = event.currentTarget.dataset.type.id
       console.log('====bindTypeItem currentTarget====', onId)

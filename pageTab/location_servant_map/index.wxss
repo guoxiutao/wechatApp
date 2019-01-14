@@ -652,3 +652,9 @@ border-bottom: 2rpx solid #FE5722;
       height: 30rpx;
       border-radius: 30rpx;
     }
+    .servant_info_service_addr_value{
+      width:96%; 
+      word-break: break-all;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
