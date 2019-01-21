@@ -38,6 +38,8 @@
     "pageTab/user_level/index",
     "pageTab/my_card_voucher/index",
     "pageTab/my_ziti_orders/index",
+    "pageTab/asset_space_list/index",
+    "pageTab/asset_list/index",
     
 
 
@@ -70,6 +72,8 @@
     {
       "root": "pages",
       "pages": [
+        "asset_detail/index",
+        "space_detail/index",
         "servant_detail/index",
         "my_card_voucher_detail/index",
         "verification_record/index",
@@ -168,6 +172,7 @@
         "fx_center2/index", 
         "fx_qrcode/index",
         "fx_users/index",
+        "ws_users/index",
         "fx_yongjin_list/index",
         "tixian_list/index",
         "req_tixian_section/index",
@@ -211,13 +216,13 @@
       "text": "技师"
     },
     {
-      "pagePath": "pageTab/shopping_car_list/index",
+      "pagePath": "pageTab/my_ziti_orders/index",
       "iconPath": "images/icons/fx.png",
       "selectedIconPath": "images/icons/fx2.png",
       "text": "工作进程"
     },
     {
-      "pagePath": "pageTab/location_servant_map/index",
+      "pagePath": "pageTab/asset_space_list/index",
       "iconPath": "images/icons/good1.png",
       "selectedIconPath": "images/icons/good2.png",
       "text": "购物车"

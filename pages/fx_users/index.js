@@ -12,7 +12,6 @@ Page({
     if (!options){
       options.fxLevel = 1
     }
-    
     console.log('-------分销人--------')
     let getParam = {}
     getParam.fxLevel = options.fxLevel
@@ -44,7 +43,9 @@ Page({
           let newList = that.data.List;
           newList = newList.concat(res.data.result);
           console.log(newList);
-
+          for (let i = 0; i < newList.length;i++){
+            newList[i].lastestLoginTime = newList[i].lastestLoginTime.slice(0,-9)
+          }
           that.setData({ List: newList})
         }
 

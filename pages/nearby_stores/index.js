@@ -8,35 +8,56 @@ Page({
   data: {
      arr:null,
      reqDataState:false,
+     reqType:"",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   clickCatch:function(e){
-    console.log(e.currentTarget.dataset.index)
-    var index = e.currentTarget.dataset.index;
-    console.log(this.data.arr[index])
-    let latitude = this.data.arr[index].latitude;
-    let longitude = this.data.arr[index].longitude;
+    console.log(e.currentTarget.dataset.info)
+    var info = e.currentTarget.dataset.info;
+    let latitude = info.latitude;
+    let longitude = info.longitude;
+    let name = info.name;
+    let address = info.address;
     // 判断金纬度是否为空
     if (latitude == "" || longitude==""){
-        returen;
+      console.log("判断金纬度是否为空");
+      wx.showModal({
+        title: '提示',
+        content: '主人~该门店没有设置位置哦!',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return;
     }
     else{
       wx.openLocation({
         latitude: latitude,
         longitude: longitude,
         scale: 12,
-
+        name: name,
+        address: address,
       })
     }
-   
   },
   onLoad: function (option) {
-    this.getMendianData(option)
+    console.log("===option===",option)
+    let that=this;
+    if (option.order){
+      that.setData({ reqType:'order'})
+    }else{
+      that.setData({ reqType: 'store' })
+    }
+    that.getMendianData()
   },
-  getMendianData: function (option){
+  getMendianData: function (){
     var that = this
     wx.getLocation({
       type: 'wgs84',
@@ -59,8 +80,8 @@ Page({
       fail: function (err) {
         console.log(err)
         let menDian = {
-          longitude: "",
-          latitude: ""
+          longitude:0,
+          latitude: 0
         }
         // longitude 经度        
         // 获取门店的样式
@@ -77,13 +98,11 @@ Page({
   },
   getData: function (menDian,isAdd){
     let that=this;
-    if (!isAdd){
-      isAdd=2
-    }
+    if (!isAdd){isAdd=2}
+    let la1 = that.data.menDian.latitude
+    let lo1 = that.data.menDian.longitude
     console.log("========menDian===========", menDian)
     let menDianYangShi = app.AddClientUrl("/find_mendians.html", menDian, 'get')
-    // console.log("customIndex--------" + JSON.stringify(menDianYangShi))
-    // console.log("customIndex--------" + menDianYangShi.url)
     wx.request({
       url: menDianYangShi.url,
       data: menDianYangShi.params,
@@ -112,6 +131,12 @@ Page({
           } else {
             if (dataArr == null) { dataArr = [] }
             dataArr = dataArr.concat(res.data.relateObj.result)
+            console.log('===1111====', dataArr)
+            for (let i = 0; i<dataArr.length;i++){
+              if (dataArr[i].latitude && dataArr[i].latitude != 0 && dataArr[i].longitude&&dataArr[i].longitude != 0){
+                dataArr[i].distance = app.getDistance(la1, lo1, dataArr[i].latitude, dataArr[i].longitude)
+              }
+            }
             that.setData({ arr: dataArr })
             console.log('===1111====', that.data.arr)
           }
@@ -157,17 +182,25 @@ Page({
     })
   },
   click: function (e) {
-  
-    var index = e.currentTarget.dataset.index;
-    app.currentMendianComponentCallback(this.data.arr[index]);
-    console.log(this.data.arr[index].id);
-    this.setUpMenDian(this.data.arr[index].id)
-  wx.navigateBack({
-    delta: 1,
-  })
+    let that=this;
+    if (that.data.reqType == 'order') {
+      console.log("订单选择门店")
+      let pages = getCurrentPages();//当前页面
+      let prevPage = pages[pages.length - 2];//上一页面
+      prevPage.setData({//直接给上移页面赋值
+        selectStore: e.currentTarget.dataset.info,
+      });
+    } else {
+      console.log("变化门店")
+      var info = e.currentTarget.dataset.info;
+      app.currentMendianComponentCallback(info);
+      console.log(info);
+      this.setUpMenDian(info.id)
+    }
+    wx.navigateBack({
+      delta: 1,
+    })
     return;
-  
-   
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -201,7 +234,10 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let that=this;
+    that.listPage.page=1
+    that.getData(that.data.menDian, 1)
+    wx.stopPullDownRefresh()
   },
 
   /**
@@ -210,14 +246,14 @@ Page({
   onReachBottom: function () {
 
     var that = this
-    if(reqState){
+    if(that.data.reqState){
       that.setData({ reqState:false})
-    if (that.params.totalSize > that.params.curPage * that.params.pageSize) {
-      that.params.page++
+      if (that.listPage.totalSize > that.listPage.curPage * that.listPage.pageSize) {
+        that.listPage.page++
       // 组件内的事件
       that.getData(that.data.menDian,1)
     } else {
-      console.log('到底了', that.params.curPage)
+        console.log('到底了', that.listPage.curPage)
     }
     }
   },

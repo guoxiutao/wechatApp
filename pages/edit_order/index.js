@@ -7,6 +7,9 @@ Page({
    */ 
   data: { 
     orderData:{},
+    selectStore:null,
+    reqStore:false,
+    showTopSelect:false,
     orderNo:'',
     checkedRadio:0,
     //优惠券 
@@ -43,6 +46,7 @@ Page({
     addressId: '',
     jifenDikou: '0',
     buyerBestTime: '',
+    changeOrderMendianId:0
   },
   /* 积分抵扣 */
   jifenChange :function (e){
@@ -268,16 +272,26 @@ Page({
       success: function (res) {
         console.log("=====orde detail=======",res)
 
-        that.setData({ getEditOrderDetailData:res.data })
-        that.setData({ orderData:res.data})
+        that.setData({ getEditOrderDetailData: res.data, orderData: res.data})
+        if (res.data.belongMendian){
+          that.setData({ belongMendian: res.data.belongMendian })
+          that.orderMessage.changeOrderMendianId = res.data.belongMendian.id
+        }
 
   // 获取门店自提
         let allowMendianZiti = res.data.allowMendianZiti
+        let showTopSelect=false;
         console.log(allowMendianZiti)
         that.setData({
           allowMendianZiti: allowMendianZiti,
           mendianZiti: res.data.mendianZiti
         })
+        if (allowMendianZiti!=0){
+          showTopSelect=true
+        }else{
+          showTopSelect = false
+        }
+        that.setData({ showTopSelect: showTopSelect })
         // 允许但不优先
         // if (that.data.allowMendianZiti=="1"){
         //   that.setData({
@@ -506,9 +520,44 @@ else{
     }
 
   },
-  onLoad: function (o) {
+  clickCatch: function (e) {
+    console.log(e.currentTarget.dataset.info)
+    var info = e.currentTarget.dataset.info;
+    console.log(info)
+    let latitude = info.latitude;
+    let longitude = info.longitude;
+    let name = info.name;
+    let address = info.address;
+    // 判断金纬度是否为空
+    if (latitude == "" || longitude == "") {
+      console.log("判断金纬度是否为空");
+      wx.showModal({
+        title: '提示',
+        content: '主人~该门店没有设置位置哦!',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return;
+    }
+    else {
+      wx.openLocation({
+        latitude: latitude,
+        longitude: longitude,
+        scale: 12,
+        name: name,
+        address: address,
+      })
+    }
+  },
+  onLoad: function (option) {
     var that = this
     console.log("========app.setting======", app.setting)
+    console.log("========option======", option)
     // 查找缓存(先暂时把id当成桌号，后台暂时没有配置桌号，后面再去改)
     try {
       var tableID = wx.getStorageSync('tableID')
@@ -521,42 +570,156 @@ else{
      
     }
     console.log("=========tableID===========", tableID)
-
-    wx.getLocation({
-      type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
-      success: function (res) {
-        // success  
-        var longitude = res.longitude
-        var latitude = res.latitude
-        that.needParam.longitude = longitude
-        that.needParam.latitude = latitude
-        that.setData({ needParam: that.needParam })
-      },
-      fail: function () {
-        // fail  
-      },
-      complete: function () {
-        // complete  
-      }
-    })
-    this.setData({ setting: app.setting })
-    this.setData({ loginUser: app.loginUser })
-    console.log("==================o===================", o)
-    console.log("==================o===================", o.orderNo)
-    let orderData = o.orderNo
-  
-
+    that.setData({ setting: app.setting })
+    that.setData({ loginUser: app.loginUser })
+    console.log("==================option===================", option.orderNo)
+    let orderData = option.orderNo
   //  获取订单号
     if (!!orderData && orderData!=""){
       this.data.orderNo = orderData
       this.setData({
         orderData: orderData
       })
-     
       that.getEditOrderDetail()
       console.log("===================", this.data.orderData)
     }
   },
+  gainUserLocation:function(){
+    let that=this;
+    wx.getLocation({
+      type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
+      success: function (res) {
+        // success  
+        console.log("===wx.getLocation===", res)
+        var longitude = res.longitude
+        var latitude = res.latitude
+        that.needParam.longitude = longitude
+        that.needParam.latitude = latitude
+        that.setData({ needParam: that.needParam })
+      },
+      fail: function (res) {
+        // fail  
+        console.log("===wx.getLocatiofailn===", res)
+        wx.openSetting({
+          success: function (res) {
+            if (res.authSetting["scope.userLocation"] == true) {
+              wx.showToast({
+                title: '授权成功',
+                icon: 'success',
+                duration: 1000
+              })
+              //再次授权，调用wx.getLocation的API
+              that.gainUserLocation();
+            } else {
+              wx.showToast({
+                title: '授权失败',
+                icon: 'none',
+                duration: 1000
+              })
+            }
+          }
+        })
+      },
+      complete: function () {
+        // complete  
+        console.log("===wx.getLocationcomplete===")
+      }
+    })
+  },
+  getUserLocation:function(){
+    let that=this;
+    wx.getSetting({
+      success: (res) => {
+        // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
+        // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
+        // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
+        if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+          //未授权
+          wx.showModal({
+            title: '请求授权当前位置',
+            content: '需要获取您的地理位置，请确认授权',
+            success: function (res) {
+              if (res.cancel) {
+                //取消授权
+                wx.showToast({
+                  title: '拒绝授权',
+                  icon: 'none',
+                  duration: 1000
+                })
+              } else if (res.confirm) {
+                //确定授权，通过wx.openSetting发起授权请求
+                wx.openSetting({
+                  success: function (res) {
+                    res.authSetting = {
+                      "scope.userLocation": true,
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else if (res.authSetting['scope.userLocation'] == undefined) {
+          //用户首次进入页面,调用wx.getLocation的API
+          console.log("用户首次进入页面", res)
+          that.gainUserLocation();
+        }
+        else {
+          console.log('授权成功')
+          //调用wx.getLocation的API
+          that.gainUserLocation();
+        }
+      }
+    })
+  },
+  tolinkUrl: function (e) {
+    if(!app.loginUser){
+      wx.showModal({
+        title: '提示',
+        content: '主人~您还在登陆哦!稍等片刻',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    let that=this;
+    let linkUrl = e.currentTarget.dataset.link
+    if (linkUrl.indexOf("nearby_stores.html")!=-1) {
+      console.log("选择门店")
+      that.setData({ reqStore: true })
+    } else {
+      that.setData({ reqStore: false })
+    }
+    app.linkEvent(linkUrl)
+  },
+  selectType:function(e){
+    console.log("====selectType====",e)
+    let that=this;
+    let type = e.currentTarget.dataset.type;
+    if (that.data.allowMendianZiti == 3 && type==0){
+      wx.showModal({
+        title: '提示',
+        content: '主人~您的订单不支持配送上门哦！',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return;
+    }
+    that.setData({
+      mendianZiti: type
+    })
+    that.getEditOrderDetail();
+  },
+  
   check:function(){
     if (this.data.allowMendianZiti=="3"){
       this.setData({
@@ -609,20 +772,35 @@ else{
    */
   hasEditAddr: false,
   onShow: function () {
-    if (!!this.data.orderNo) {
+    let that = this;
+    that.getUserLocation();
+    if (!!that.data.orderNo) {
       //this.getEditOrderDetail()
-      this.getAddr()
+      that.getAddr()
     }
-    if (this.data.hasAddnewAddr) {
-      this.showOtherArr()
+    if (that.data.hasAddnewAddr) {
+      that.showOtherArr()
       // this.getAddr()
     }
     let addrEditParam = app.addrEditParam
     if (addrEditParam && this.hasEditAddr) {
       console.log(addrEditParam)
-      this.changOutAddr(addrEditParam);
+      that.changOutAddr(addrEditParam);
     }
-    
+    if (that.data.reqStore){
+      //选择门店
+      console.log("从附近店铺页面返回")
+      var pages = getCurrentPages();
+      var currPage = pages[pages.length - 1]; //当前页面
+      console.log(currPage) //就可以看到data里mydata的值了
+      if (that.data.selectStore) {
+        console.log("选择门店了", that.data.selectStore)
+        that.setData({ belongMendian: that.data.selectStore })
+        that.orderMessage.changeOrderMendianId = that.data.selectStore.id
+      }else{
+        console.log("没选择门店")
+      }
+    }
   },
   changOutAddr: function (addrEditParam) {
     app.addrEditParam = null

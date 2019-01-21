@@ -4,7 +4,48 @@
     font-size: 0.8em;
     position:absolute;
     width:100%;
+    padding-top:20rpx;
 
+}
+.distribution_mode{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin:0 20rpx;
+  font-size: 26rpx;
+}
+.delivery_door{
+  width: 49%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  height:80rpx;
+  background: #fff;
+}
+.delivery_door_icon{
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+}
+.ziti_type{
+  width: 49%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  height:80rpx;
+  background: #fff;
+}
+.ziti_type_icon{
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
 }
 .cart_star{
   display: flex;
@@ -31,22 +72,22 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1em;
-  margin-left: 0.6em;
-  margin-right: 0.6em;
+  /* margin-top: 1em; */
+  font-size: 28rpx;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
   margin-bottom: 10rpx;
   background: #fff;
-  border-radius: 0.2em;
-
-
+  border-bottom-left-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
 }
 .addrItems > image{
-  width: 1.2em;
-  height: 1.2em;
-  margin-right: 1.5em;
+  width: 30rpx;
+  height: 30rpx;
+  margin-right:36rpx;
 }
 .addrItems > .addrItems_info{
-  padding: 1em;
+  padding: 30rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -79,7 +120,19 @@
 }
 /*04.11修改  end*/
 .addrName{
-  padding-bottom: 0.4em;
+  /* padding-bottom: 0.4em; */
+}
+.selectStore{
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100rpx;
+  justify-content:center;
+}
+.selectStoreIcon{
+  width: 30rpx;
+  height: 30rpx;
 }
 .font2{
   font-size: 0.9em;

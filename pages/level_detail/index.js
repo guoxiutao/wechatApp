@@ -9,6 +9,7 @@ Page({
    */
   data: {
     memberState:false,
+    rechargeState:false,
   },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
@@ -26,19 +27,23 @@ Page({
           let data = res.data.relateObj
           that.setData({ membersList: res.data.relateObj })
           for (let i = 0; i < data.length; i++) {
-            if (that.data.loginUser && data[i].levelValue == that.data.loginUser.platformUser.userLevel) {
-              console.log("拥有会员")
-              that.setData({ myMembers: data[i], memberState:true })
-            } else {
-              console.log("未购买会员")
-              if (data[i].id == id) {
-                that.setData({ myMembers: data[i], memberState: false})
+            if (that.data.loginUser && data[i].levelValue == that.data.loginUser.platformUser.userLevel && id == data[i].id) {
+              console.log("点击当前的是自己的会员")
+              that.setData({ memberState:true })
+            } 
+          }
+          for (let i = 0; i < data.length; i++) {
+            console.log("当前点击")
+            if (data[i].id == id) {
+              that.setData({ myMembers: data[i]})
+              if (that.data.loginUser && Number(data[i].levelValue) >= Number(that.data.loginUser.platformUser.userLevel)) {
+                console.log("可充值")
+                that.setData({ rechargeState: true })
+              }else{
+                console.log("不可充值")
+                that.setData({ rechargeState: false })
               }
             }
-            // if (data[i].id == id) {
-            //   console.log("拥有会员")
-            //   that.setData({ myMembers: data[i] })
-            // }
           }
         } else {
           wx.showModal({

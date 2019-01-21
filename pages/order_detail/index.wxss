@@ -140,7 +140,7 @@
   margin-left: 1em;
   display: flex;
   flex-direction: column;
-  width:100%;
+  width:80%;
 
 }
 .addrInfo > view{
@@ -308,4 +308,19 @@
 
 .orderTime2 text{
   padding: 2px;
+}
+.check_info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width:18%;
+}
+.check_info_text{
+  color: #a5c1dd;
+  font-size: 20rpx;
+  margin-right: 10rpx;
+}
+.check_info_icon{
+  width: 26rpx;
+  height: 26rpx;
 }

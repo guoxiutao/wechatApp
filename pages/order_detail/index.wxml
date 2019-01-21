@@ -39,19 +39,39 @@
         <text wx:else style='padding:0 0.4em;border-radius:0.4em;color:#e24148; border:2rpx solid #e24148; margin-left:0.6em;'></text>
       </view>
   </view>
-  <view bindtap='showOtherArr' class='editAddr' wx:if='{{orderDetailData.orderStatus < 3}}'><!--  -->
-    <view class='editAddr_text'>修改收货地址</view>
-    <image src='/images/icons/right.png'></image>
-  </view>
-  <view class='addrItems2'>
-      <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
-      <view class='addrInfo'>
-        <view>
-          <text>{{orderDetailData.buyerName}}</text>
-          <text class='marginleft'>{{orderDetailData.buyerTelno}}</text>
+  <view wx:if="{{orderDetailData.mendianZiti==0}}">
+    <view bindtap='showOtherArr' class='editAddr' wx:if='{{orderDetailData.orderStatus < 3}}'><!--  -->
+      <view class='editAddr_text'>修改收货地址</view>
+      <image src='/images/icons/right.png'></image>
+    </view>
+    <view class='addrItems2' wx:if="{{orderDetailData.mendianZiti==0}}">
+        <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
+        <view class='addrInfo'>
+          <view>
+            <text>{{orderDetailData.buyerName}}</text>
+            <text class='marginleft'>{{orderDetailData.buyerTelno}}</text>
+          </view>
+          <text class='font2'>{{orderDetailData.buyerProvince}} {{orderDetailData.buyerCity}} {{orderDetailData.buyerArea}} {{orderDetailData.buyerAddress}}</text>
         </view>
-        <text class='font2'>{{orderDetailData.buyerProvince}} {{orderDetailData.buyerCity}} {{orderDetailData.buyerArea}} {{orderDetailData.buyerAddress}}</text>
-      </view>
+    </view>
+  </view>
+  <view wx:else>
+    <view class='editAddr'><!--  -->
+      <view class='editAddr_text'>自提门店：【{{orderDetailData.belongMendian.name}}】</view>
+      <!-- <image src='/images/icons/right.png'></image> -->
+    </view>
+    <view class='addrItems2' catchtap='clickCatch' data-info="{{orderDetailData.belongMendian}}">
+        <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
+        <view class='addrInfo'>
+          <text>{{orderDetailData.belongMendian.telno}}</text>
+          <text class='font2' wx:if="{{orderDetailData.belongMendian.address}}">{{orderDetailData.belongMendian.address}}</text>
+          <text class='font2' wx:else>{{orderDetailData.belongMendian.province}}-{{orderDetailData.belongMendian.city}}</text>
+        </view>
+        <view class='check_info'>
+          <text class='check_info_text'>去导航</text>
+          <image class='check_info_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/14/5/10_367.jpg'></image>
+        </view>
+    </view>
   </view>
   <view class='server_container'>
      <view>{{orderDetailData.storageName}}</view>

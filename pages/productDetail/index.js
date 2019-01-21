@@ -34,6 +34,7 @@ Page({
     promotionState:false,
     pintuanListData: [],
     color:'',
+    secondColor:"",
     clientNo:'',
     minCount:'1',
   },
@@ -591,7 +592,7 @@ Page({
         if (res.data.productInfo && res.data.productInfo.promotionBean) {
           that.setData({ promotionState: true })
           if (res.data.productInfo.promotionBean.promotionStatus==2){
-            that.setData({ color: '#888' })
+            that.setData({ color: '#888', secondColor: '#fff' })
           }
           if (res.data.productInfo.promotionBean.pintuanStrategy && res.data.productInfo.promotionBean.pintuanStrategy.id) {
             that.setData({ pintuanState: true })
@@ -653,7 +654,8 @@ Page({
       proId: options.id,
       shopId: options.addShopId,
       clientNo: app.clientNo,
-      color: that.data.setting.platformSetting.defaultColor
+      color: app.setting.platformSetting.defaultColor,
+      secondColor: app.setting.platformSetting.secondColor
     });
     console.log("商品id和店铺id",options)
     that.dataFOr_getData.id = options.id

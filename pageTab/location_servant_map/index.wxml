@@ -104,7 +104,7 @@
                   <cover-view class='servant_info_service_addr_value' wx:else>{{servantDetail.province}}-{{servantDetail.city}}-{{servantDetail.area}}</cover-view>
                 </cover-view>
               </cover-view>
-              <cover-view class='servant_info_right' bindtap='tolinkUrl' data-link="customFormId={{currentType.refCustomFormId}}&servantId={{servantDetail.id}}" >
+              <cover-view class='servant_info_right' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{currentType.refCustomFormId}}&servantId={{servantDetail.id}}" >
                 <cover-view class='line'></cover-view>
                 <cover-image src='http://image1.sansancloud.com/xianhua/2018_9/13/20/11/36_801.jpg?x-oss-process=style/preview_120' class='navigation'></cover-image>
               </cover-view>

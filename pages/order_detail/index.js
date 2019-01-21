@@ -16,6 +16,40 @@ Page({
     addrArr: null,
     hasAddnewAddr: false,
   },
+  clickCatch: function (e) {
+    console.log(e.currentTarget.dataset.info)
+    var info = e.currentTarget.dataset.info;
+    console.log(info)
+    let latitude = info.latitude;
+    let longitude = info.longitude;
+    let name = info.name;
+    let address = info.address;
+    // 判断金纬度是否为空
+    if (latitude == "" || longitude == "") {
+      console.log("判断金纬度是否为空");
+      wx.showModal({
+        title: '提示',
+        content: '主人~该门店没有设置位置哦!',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return;
+    }
+    else {
+      wx.openLocation({
+        latitude: latitude,
+        longitude: longitude,
+        scale: 12,
+        name: name,
+        address: address,
+      })
+    }
+  },
   /* 获取地址列表 */
   showOtherArr: function () {
     var customIndex = app.AddClientUrl("/get_login_user_address_list.html")

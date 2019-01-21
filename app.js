@@ -1206,10 +1206,11 @@ App({
         }
   
        //   如果带有id的产品传参则进入产品详情页
-        if (pageCode.id && pageCode.id!=""){
+      if (pageCode.id && pageCode.id != "" && pageName=="productDetail"){
           pageCode.SHARE_PRODUCT_DETAIL_PAGE = pageCode.id
-       }
-       else{
+      } else if (pageCode.id && pageCode.id != "" && pageName == "news_detail"){
+          pageCode.SHARE_NEWS_DETAIL_PAGE = pageCode.id
+       }else{
           // pageCode.SHARE_PRODUCT_DETAIL_PAGE = pageName
        }
         if (pageCode.belongShop && pageCode.belongShop != "") {
@@ -1250,6 +1251,30 @@ App({
             urls: urls // 需要预览的图片http链接列表
         })
     },
+
+  getRad: function (d) {
+    let PI = Math.PI;
+    return d * PI / 180.0;
+  },
+  getDistance: function (lng1, lat1, lng2, lat2) {
+    let that = this;
+    let EARTH_RADIUS = 6378.1370; //单位KM
+    lng1 = parseFloat(lng1);
+    lat1 = parseFloat(lat1);
+    lng2 = parseFloat(lng2);
+    lat2 = parseFloat(lat2);
+    let radLat1 = that.getRad(lat1);
+    let radLat2 = that.getRad(lat2);
+
+    let a = radLat1 - radLat2;
+    let b = that.getRad(lng1) - that.getRad(lng2);
+
+    let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+    s = s * EARTH_RADIUS;
+    s = Math.round(s * 10000) / 10000.0;
+    console.log("====getDistance===", s)
+    return s;
+  },
     SDKVersion: '',
     // 个人信息，连接90行
     getSdkVersion: function () {
@@ -1262,6 +1287,7 @@ App({
             }
         })
     },
+
     compareVersion: function (v1, v2) {
         //判断版本大小
         v1 = v1.split('.')

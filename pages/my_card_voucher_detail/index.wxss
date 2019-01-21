@@ -59,14 +59,13 @@
 }
 .my_card_voucher_card{
   border-radius: 30rpx;
-  height: 340rpx;
+  height: 300rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 40rpx;
   color: #fff;
-  background:#aadcda;
-  box-sizing:border-box;
+  /* box-sizing:border-box; */
   background-repeat: no-repeat;
   background-size:100% 100%;
   background-position-y: center;

@@ -1,9 +1,15 @@
 <!-- swiper轮播图 -->
 <import src="simpleActivitiesGoods.wxml"/>  <!-- 正常的活动列表 -->
+<import src="column_promotion_list/column_promotion_list.wxml"/>  <!-- 正常的活动列表 -->
 
    <block wx:if='{{data.androidTemplate == ""}}'>
   <template is="simpleActivitiesGoods" 
        data="{{...data,countDownDay,countDownHour,countDownMinute,countDownSecond}}"></template> 
+
+  </block> 
+   <block wx:if='{{data.androidTemplate == "column_promotion_list"}}'>
+  <template is="column_promotion_list" 
+       data="{{...data,countDownDay,countDownHour,countDownMinute,countDownSecond,color}}"></template> 
 
   </block> 
 

@@ -21,7 +21,7 @@
 <block wx:if='{{servantshowWay == 1}}' >
      <view class='servant_page_container2'>
         <block wx:if = "{{!! servantData}}">
-          <view class='servant_items2' data-servantId='{{result.id}}' bindtap='toServantDetail' wx:for="{{servantData}}" wx:for-item="result" wx:key="{{result.id}}">
+          <view class='servant_items2' data-link="servant_detail.html?servantId={{result.id}}" bindtap='tolinkUrl' wx:for="{{servantData}}" wx:for-item="result" wx:key="{{result.id}}">
             <view class='servantImg'><image mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image></view>
             <view class='servant_items2_view1'>
               <view class='name_and_address'>

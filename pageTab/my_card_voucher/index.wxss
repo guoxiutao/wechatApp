@@ -57,10 +57,10 @@
   padding:30rpx 50rpx; 
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   justify-content: space-between;
   margin-bottom:30rpx;
-  box-shadow:0rpx 10rpx 15rpx #888;
+  box-shadow:0rpx 10rpx 15rpx #555;
 }
 .item_bg{
   position: absolute;

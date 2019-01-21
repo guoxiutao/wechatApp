@@ -33,7 +33,7 @@
           <view class='p1 price_font'>
           <!-- ￥{{publicFun.toFix(productData.productInfo.price*productData.productInfo.promotionBean.pintuanStrategy.priceZhekou)}}计算数据 -->
             <text class='pintuan' wx:if="{{promotionState}}">
-              ￥{{productData.productInfo.promotionPrice||productData.productInfo.price}}
+              ￥{{productData.productInfo.promotionPrice}}
             </text>
             <text wx:else style='font-size:48rpx;'>￥{{productData.productInfo.price}}</text>
             <text wx:if="{{productData.productInfo.maxPrice>productData.productInfo.price}}">-{{productData.productInfo.maxPrice}}</text>
@@ -206,14 +206,14 @@
   <block wx:if='{{!pintuanState}}'>
     <view class='right_bottom addto font_08' data-way='cart' bindtap='readyPay2' style=' border: 2rpx solid {{scolor}};color:{{color}}' wx:if="{{!productData.productInfo.preOrderCustomFormId}}" >加入购物车</view>
     <!-- <view wx:else class='right_bottom'></view> -->
-    <view class='{{productData.productInfo.preOrderCustomFormId?"w_540":""}} right_bottom bynow font_08' data-way='buy' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{setting.platformSetting.secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
+    <view class='{{productData.productInfo.preOrderCustomFormId?"w_540":""}} right_bottom bynow font_08' data-way='buy' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
       <text wx:if="{{productData.productInfo.preOrderCustomFormId}}">立即下单</text>
       <text wx:else>立即购买</text>
     </view>
   </block>
   <block wx:else>
     <view class='right_bottom addto font_08' data-way='pintuanOne' bindtap='readyPay2' style=' border: 2rpx solid {{color}};color: {{color}}'>单独购买</view>
-  <view class='right_bottom bynow font_08' data-way='pintuanMore' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{setting.platformSetting.secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>发起拼单</view>
+  <view class='right_bottom bynow font_08' data-way='pintuanMore' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>发起拼单</view>
   </block>
 </view>
 

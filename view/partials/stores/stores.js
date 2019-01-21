@@ -46,17 +46,33 @@ Component({
       else if (this.data.arr.name == "您还未登录") {
 
         return;
+      } else if (!this.data.arr.latitude && !this.data.arr.longitude){
+        wx.showModal({
+          title: '提示',
+          content: '主人~该门店没有设置位置哦!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return;
       }
       else {
         console.log(this.data.arr.latitude)
         console.log(this.data.arr.longitude)
         var latitude = this.data.arr.latitude;
         var longitude = this.data.arr.longitude;
+        var address = this.data.arr.address;
+        var name = this.data.arr.name;
         wx.openLocation({
           latitude: latitude,
           longitude: longitude,
           scale: 12,
-
+          address: address,
+          name: name
         })
       }
 

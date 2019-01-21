@@ -117,11 +117,49 @@ Page({
       }
     })
   },
+  get_gzhcode: function () {
+    console.log('-------获取公众号二维码信息--------')
+    var customIndex = app.AddClientUrl("/get_bind_gz_notify_qrcode.html")
+    var that = this
+    wx.showLoading({
+      title: 'loading'
+    })
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("获取公众号二维码信息",res)
+        if (res.data.errcode == '0') {
+          that.setData({
+            FxImage: res.data.relateObj
+          })
+        }
+        else {
+          wx.showToast({
+            title: res.data.errMsg,
+            icon: '/images/icons/tip.png',
+            duration: 1500
+          })
+        }
+        console.log(res.data)
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.get_qrcode()
+    console.log("options", options)
+    if (options.type="gzh"){
+      this.get_gzhcode()
+    } else {
+      this.get_qrcode()
+    }
   },
 
   /**

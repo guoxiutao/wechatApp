@@ -12,16 +12,18 @@ Component({
   data: {
     // 这里是一些组件内部数据
     someData: {},
-   
-     countDownDay: "",
+    color:"",
+    countDownDay: "",
     countDownHour: "",
     countDownMinute: "",
     countDownSecond: "",
   },
   
   ready: function (options) {
-  var me=this;
+  var that=this;
   var oldData = this.data;
+  that.setData({ color: app.setting.platformSetting.defaultColor})
+    console.log("=======color====", that.data.color)
   // oldData.countDownMinute = '1fffffffffffffffffffffffffffffffffffffff11';
   // console.log("hel11lo", JSON.stringify(oldData)); 
   // console.log("hel11lo", oldData.data.relateBean.endDate); 
@@ -152,7 +154,7 @@ Component({
       // 如果是已经开始的就前往详情
       var oldData = this.data;
       if (oldData.data.relateBean.promotionStatus == 1) {
-        var a = "product_detail.html?productId=" + e.currentTarget.dataset.index;
+        var a = "product_detail.html?productId=" + e.currentTarget.dataset.id;
         app.linkEvent(a);
       }
 
