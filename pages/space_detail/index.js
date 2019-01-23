@@ -16,8 +16,22 @@ Page({
     swiperIndex: 1,
     totalImg:0,
     organizesList: [],
+    currentTab: 1,
     color:'',
     secondColor:"",
+    leaseData:[],
+  },
+  clickTypeTab: function (e) {
+    console.log("====clickTypeTab====", e)
+    let that=this;
+    let currentTab = e.currentTarget.dataset.type;
+    if (currentTab==1){
+      that.setData({ leaseData: that.data.spaceData.organizes})
+    }else{
+      that.setData({ leaseData: that.data.spaceData.personal||[] })
+    }
+    that.setData({ currentTab: currentTab});
+
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -153,18 +167,11 @@ Page({
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
         that.setData({ spaceData: res.data.relateObj })
-        if (res.data.relateObj.icon){
-          that.setData({ totalImg: 1, imgArr: [{ icon: res.data.relateObj.icon}]}, )
+        if (res.data.relateObj.firstImage){
+          that.setData({ totalImg: 1, imgArr: [{ firstImage: res.data.relateObj.firstImage}]}, )
         }
-        if (res.data.relateObj && res.data.relateObj.tags){
-          let tagsStr = res.data.relateObj.tags
-          let tagsStr2 = tagsStr.replace(/\[/g, '');
-          let tagArr = tagsStr2.split(']')
-          tagArr.length --;
-          that.setData({
-            targs: tagArr
-          })
-          console.log('targs', that.data.targs)
+        if (res.data.relateObj.organizes && res.data.relateObj.organizes.length){
+          that.setData({ leaseData: res.data.relateObj.organizes})
         }
         if (res.data.relateObj.text){
           WxParse.wxParse('article', 'html', res.data.relateObj.text, that, 10);

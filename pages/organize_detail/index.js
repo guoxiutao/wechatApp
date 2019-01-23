@@ -9,13 +9,12 @@ Page({
    */
   data: {
     setting: null, // setting 
-    assetData: null, // 商品数据 
+    organizeData: null, // 商品数据 
     targs:null,
     posterState: false,
     qrCodeUrl:"",
     swiperIndex: 1,
     totalImg:0,
-    organizesList: [],
     color:'',
     secondColor:"",
   },
@@ -23,7 +22,6 @@ Page({
   swiperChange: function (e) {
     this.setData({ swiperIndex: e.detail.current + 1 })
   },
-
   // 关闭海报
   getChilrenPoster(e) {
     let that = this;
@@ -99,37 +97,6 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  getOrganizesData: function (spaceId){
-    let that=this;
-    let data={
-      spaceId: spaceId,
-    }
-    that.setData({ pintuanParam: data})
-    var pintuanUrl = app.AddClientUrl("/wx_find_asset_space_organizes.html", data, 'post')
-    wx.request({
-      url: pintuanUrl.url,
-      data: pintuanUrl.params,
-      header: app.headerPost,
-      method: 'POST',
-      success: function (res) {
-        console.log('--------add----------')
-        console.log(res.data)
-        that.setData({ organizesList: res.data.relateObj.result })
-        if (that.data.organizesList.length==1){
-          that.setData({ visiblePintuanNum: 1 })
-        }else{
-          that.setData({ visiblePintuanNum: 2 })
-        }
-
-      },
-      fail: function (res) {
-        app.loadFail()
-      },
-      complete: function () {
-        wx.hideLoading()
-      }
-    })
-  },
   getData:function(options){
     let param = {}
     let that = this
@@ -143,8 +110,8 @@ Page({
     })
     console.log('==param===', param)
     let postParam = {}
-    postParam.assetId = param.assetId
-    let customIndex = app.AddClientUrl("/wx_get_asset_detail.html", postParam)
+    postParam.organizeId = param.organizeId
+    let customIndex = app.AddClientUrl("/wx_get_asset_organize_detail.html", postParam)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -152,32 +119,15 @@ Page({
         console.log(res)
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
+        that.setData({ organizeData: res.data.relateObj })
         if (res.data.relateObj.firstImage){
           that.setData({ totalImg: 1, imgArr: [{ firstImage: res.data.relateObj.firstImage}]}, )
-        }
-        if (res.data.relateObj && res.data.relateObj.tags){
-          let tagsStr = res.data.relateObj.tags
-          let tagsStr2 = tagsStr.replace(/\[/g, '');
-          let tagArr = tagsStr2.split(']')
-          tagArr.length --;
-          that.setData({
-            targs: tagArr
-          })
-          console.log('targs', that.data.targs)
         }
         if (res.data.relateObj.text){
           WxParse.wxParse('article', 'html', res.data.relateObj.text, that, 10);
           console.log('====article====', that.data.article)
         }
-        if (res.data.relateObj.leaseStartDatetime || res.data.relateObj.leaseEndDatetime) {
-          let reg = new RegExp('-', "g")
-          res.data.relateObj.leaseStartDatetime = res.data.relateObj.leaseStartDatetime.replace(reg , ".")
-          res.data.relateObj.leaseEndDatetime = res.data.relateObj.leaseEndDatetime.replace(reg , ".")
-          res.data.relateObj.leaseStartDatetime = res.data.relateObj.leaseStartDatetime.slice(0, -9)
-          res.data.relateObj.leaseEndDatetime = res.data.relateObj.leaseEndDatetime.slice(0, -9)
-        }
-        that.setData({ assetData: res.data.relateObj })
-        console.log('assetData', that.data.assetData)
+        console.log('organizeData', that.data.organizeData)
       },
       fail: function (res) {
         console.log("====fail=====")
@@ -189,7 +139,7 @@ Page({
     })
   },
   dataFOr_getData:{
-    assetId:'',
+    organizeId:''
   }, 
   onError:function(options){
     console.log("on error!!!");
@@ -199,12 +149,12 @@ Page({
     let that = this;
     that.setData({ setting: app.setting })
     that.setData({
-      assetId: options.assetId,
+      organizeId: options.organizeId,
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
     console.log("商品id和店铺id",options)
-    that.dataFOr_getData.id = options.assetId
+    that.dataFOr_getData.organizeId = options.organizeId
     that.setData({ dataFOr_getData:that.dataFOr_getData})
     that.getData(options)
   },
@@ -260,12 +210,12 @@ Page({
     console.log(res)
     let that = this
     let params = that.dataFOr_getData;
-    let productItem = that.data.assetData;
+    let productItem = that.data.organizeData;
     if (!productItem.brandName || productItem.brandName == "") {
       productItem.brandName = ""
     };
     let shareName = '活动价：￥' + productItem.price + '(原价：￥' + productItem.tagPrice + ')' + productItem.brandName + productItem.name;
-    console.log('params:', params, that.data.assetData)
+    console.log('params:', params, that.data.organizeData)
     return app.shareForFx2('productDetail', shareName, params)
   },
   // 获取二维码
@@ -298,11 +248,11 @@ Page({
   },
   // 定位
   clickCatch: function (e) {
-    console.log(this.data.assetData)
-    let latitude = this.data.assetData.latitude;
-    let longitude = this.data.assetData.longitude;
-    let name = this.data.assetData.name;
-    let address = this.data.assetData.province + this.data.assetData.city + this.data.assetData.area +this.data.assetData.address 
+    console.log(this.data.organizeData)
+    let latitude = this.data.organizeData.latitude;
+    let longitude = this.data.organizeData.longitude;
+    let name = this.data.organizeData.name;
+    let address = this.data.organizeData.province + this.data.organizeData.city + this.data.organizeData.area +this.data.organizeData.address 
     wx.openLocation({
       latitude: latitude,
       longitude: longitude,

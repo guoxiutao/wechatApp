@@ -36,21 +36,39 @@
     <block wx:if='{{SpaceshowWay == 2}}' >
      <view class='space_page_container2' style='height:{{SpaceshowWay==1? "100%":""}}'>
         <block wx:if = "{{!! assetsList}}">
-          <view class='space_items2' data-link='asset_detail.html?assetId={{result.id}}' bindtap='tolinkUrl' wx:for="{{assetsList}}" wx:for-item="result">
-            <image mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
+          <view class='asset_item' data-link='asset_detail.html?assetId={{result.id}}' bindtap='tolinkUrl' wx:for="{{assetsList}}" wx:for-item="result">
+            <view class='asset_item_left'>
+              <image class='asset_img' mode='aspectFill' src='{{result.firstImage}}'></image>
+              <view class='asset_detail'>
+                <view class='asset_view'>
+                  <image class='asset_icon' src='{{result.icon}}'></image>
+                  <text class='asset_name'>{{result.name}}</text>
+                </view>
+                <view class='asset_view'>
+                  <text class='asset_online_value'>在线</text>
+                  <text class='asset_addtime'>{{result.leaseEndDatetime}}</text>
+                </view>
+                <view class='asset_view' wx:if="{{result.leaseOrganizeId||result.leasePlatformUserId}}">
+                  <text class='asset_state_text'>已租</text>
+                  <text class='lease_name' wx:if="{{result.leaseOrganizeId}}">{{result.leaseOrganizeName}}</text>
+                  <text class='lease_name' wx:if="{{result.leasePlatformUserId}}">{{result.leasePlatformUserName}}</text>
+                </view>
+                <view class='asset_view'>
+                <text class='asset_price'>￥{{result.price||0}}</text>
+                <text class='asset_unit'>{{result.unit||"元/工位/月"}}</text>
+                </view>
+              </view>
+            </view>
+            <!-- <view class='navigations' catchtap='toNavigate' data-info="{{result}}" style='background:{{setting.platformSetting.defaultColor}}'>
+              <image src='http://image1.sansancloud.com/xianhua/2018_9/13/21/22/3_772.jpg' class='navigation_icon'></image>
+              <text class='navigation_text'>导航</text>
+            </view> -->
+            <!-- <image mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
             <view class='space_items2_view1'>
               <text class='space_name'>{{result.name}}</text>
               <text class='location_name' wx:if="{{result.longitude>0}}">{{result.province}}-{{result.city}}-{{result.area}}-{{result.address}}</text>
               <text class='location_name' wx:else>{{result.description}}</text>
-              <!-- <scroll-view class='tags_content' scroll-x>
-                <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
-              </scroll-view> -->
-              <!-- <view class='space_price'>
-                ￥{{result.price}}
-                <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
-              </view> -->
-            </view>
-            
+            </view> -->
           </view>
         </block>
 

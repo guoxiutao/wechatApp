@@ -21,40 +21,6 @@ Page({
       longitude: 119.30130341796878,
     }]
   },
-  //获取产品分类
-  getSpaceType: function (parentCategoryId,categoryId,callback){
-    var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: parentCategoryId})
-    wx.showLoading({
-      title: 'loading'
-    })
-    var that = this
-    wx.request({
-      url: customIndex.url,
-      header: app.header,
-      success: function (res) {
-        wx.hideLoading()
-        console.log("getSpaceType",res.data)
-        if (res.data.errcode==0){
-          that.setData({ spaceType: res.data.relateObj })
-        }else{
-          that.setData({ spaceType: that.data.spaceType })
-        }
-        that.data.spaceType.unshift({ id: categoryId || parentCategoryId,name:"全部"})
-        for (let i = 0; i < that.data.spaceType.length; i++) {
-          that.data.spaceType[i].colorAtive = '#888';
-        }
-        that.data.spaceType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
-        that.data.spaceType[0].active = true;
-        that.setData({ spaceType: that.data.spaceType })
-        wx.hideLoading()
-      },
-      fail: function (res) {
-        console.log("fail")
-        wx.hideLoading()
-        app.loadFail()
-      }
-    })
-  },
   toIndex(){
     app.toIndex()
   },
@@ -118,6 +84,7 @@ Page({
       success: function (res) {
         wx.hideLoading()
         console.log("getProductType", res.data)
+        let dataArr = res.data
         if (res.data.errcode == 0) {
           that.setData({ productType: res.data.relateObj })
         } else {
@@ -209,9 +176,8 @@ Page({
           if (dataArr == null) { dataArr = [] }
           dataArr = dataArr.concat(res.data.relateObj.result)
           for (let i = 0; i < dataArr.length; i++) {
-            if (dataArr[i].tags && dataArr[i].tags!=''){
-              tagArray = dataArr[i].tags.slice(1,-1).split("][")
-              dataArr[i].tagArray = tagArray;
+            if (dataArr[i].leaseEndDatetime ){
+              dataArr[i].leaseEndDatetime = dataArr[i].leaseEndDatetime.slice(0,-9)
             }
           }
           that.setData({ assetsList: dataArr })
@@ -301,20 +267,19 @@ Page({
       success: function (res) {
         console.log(res.data)
         wx.hideLoading()
-        if (!res.data.relateObj.result || res.data.relateObj.result.length == 0) {
+        let dataArr = res.data.relateObj.result
+        if (!dataArr || dataArr.length == 0) {
           that.setData({ assetsList: null })
         } else {
-          let tagArray;
-          for (let i = 0; i < res.data.relateObj.result.length; i++) {
-            if (res.data.relateObj.result[i].tags && res.data.relateObj.result[i].tags != '') {
-              tagArray = res.data.relateObj.result[i].tags.slice(1, -1).split("][")
-              res.data.relateObj.result[i].tagArray = tagArray;
+          for (let i = 0; i < dataArr.length; i++) {
+            if (dataArr[i].leaseEndDatetime) {
+              dataArr[i].leaseEndDatetime = dataArr[i].leaseEndDatetime.slice(0, -9)
             }
           }
-          that.setData({ assetsList: res.data.relateObj.result })
+          that.setData({ assetsList: dataArr })
         }
 
-        that.setData({ markers: that.data.assetsList })
+        that.setData({ markers: dataArr })
         let conut = 0;
         if (that.data.markers) {
           for (let i = 0; i < that.data.markers.length; i++) {
@@ -364,6 +329,22 @@ Page({
 
   },
   /* 组件事件集合 */
+  // 定位
+  toNavigate: function (e) {
+    console.log("===toNavigate=====", e)
+    let itemInfo = e.currentTarget.dataset.info;
+    let latitude = itemInfo.latitude;
+    let longitude = itemInfo.longitude;
+    let name = itemInfo.name;
+    let address = itemInfo.province + itemInfo.city + itemInfo.area + itemInfo.address;
+    wx.openLocation({
+      latitude: latitude,
+      longitude: longitude,
+      scale: 12,
+      name: name,
+      address: address
+    })
+  },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
     app.linkEvent(linkUrl)

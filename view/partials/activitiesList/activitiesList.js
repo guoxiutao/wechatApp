@@ -23,7 +23,7 @@ Component({
   ready: function (options) {
     var me = this;
     var oldData = this.data;
-    console.log( JSON.stringify(oldData));
+    console.log("===actEndTimeList===", oldData);
 
     // 已经开始的活动
     if (oldData.data.relateBean[0].promotionStatus == 1){

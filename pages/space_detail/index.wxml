@@ -6,7 +6,7 @@
     <swiper class='SwiperIndex' autoplay="true" interval="5000" duration="500" bindchange="swiperChange">
       <block wx:for="{{imgArr}}"  wx:key="{{swiper}}" style="border-radius: 20rpx">
         <swiper-item data-imageUrl='{{imgArr}}' data-index='{{index}}' bindtap='lookBigImage' style="border-radius: 20rpx">
-          <image mode='aspectFit' src="{{item.icon}}?x-oss-process=style/normal"  style="border-radius: 20rpx" />
+          <image mode='aspectFit' src="{{item.firstImage}}?x-oss-process=style/normal"  style="border-radius: 20rpx" />
         </swiper-item> 
       </block>
     </swiper>
@@ -21,50 +21,71 @@
       </view>
     </block>
   </view>  
- 
-  <view class='ProductDetailInfoContainer' style='position: relative;'>
-    <view class='InfoName' >
-      <text>{{spaceData.name}}</text>
-      <view class='share_product' bindtap='showPoster'><image src='http://image.tunzai.vip/tunzai/2018_8/28/9/48/50_64.jpg'></image></view>
+  <!-- 空间内容 -->
+  <view class='space_detail_head'>
+    <view class='space_detail_left'>
+      <image class='space_detail_logo' src='{{spaceData.icon}}'></image>
+      <view class='space_detail_center'>
+        <text class='space_detail_name'>{{spaceData.name}}</text>
+        <text class='space_detail_addr'>{{spaceData.province}}{{spaceData.city}}{{spaceData.area}}{{spaceData.address}}</text>
+      </view>
     </view>
-    <block wx:if='{{!!spaceData.description}}'>
-      <view class='InfoSubName '>·{{spaceData.description}}</view>
-    </block>
+    <view class='navigation' bindtap='clickCatch'>
+      <image class='navigation_icon' src='http://image1.sansancloud.com/xianhua/2019_1/22/14/18/30_510.jpg'></image>
+      <text class='navigation_text'>去导航</text>
+    </view>
   </view>
-<!-- <view class='helpBlank'></view> -->
-    <!-- 导航 -->
-    <view class='navigation_to_map' wx:if='{{spaceData.latitude&&spaceData.latitude!=0}}'>
-      <view class='navigation_addr'>
-        <image class='navigation_addr_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/17/57/21_219.jpg?x-oss-process=style/preview_120'></image>
-        <text class='navigation_addr_value'>{{spaceData.province}}{{spaceData.city}}{{spaceData.area}}{{spaceData.address}}</text>
+  <!-- 空间简介 -->
+  <view class='space_description'>
+    <text class='space_description_text'>{{spaceData.description}}</text>
+  </view>
+   <!-- 空间的资产类别 -->
+  <view class="assets_type_list">
+    <scroll-view scroll-x="true" style="white-space: nowrap; display: block" class="showmian">
+      <view bindtap="tolinkUrl" class="assetsType_item" data-link="asset_list.html?spaceId={{spaceData.id}}&assetTypeId={{assetType.id}}" wx:for='{{spaceData.assetTypes}}' wx:for-item="assetType">
+        <image class='assetsType_icon' src='{{assetType.icon}}'></image>
+        <text class='assetsType_text'>{{assetType.name}}</text>
       </view>
-      <view class='navigation_button' style='background:{{setting.platformSetting.defaultColor}}' bindtap='clickCatch'>
-        <image class='navigation_button_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/21/22/3_772.jpg?x-oss-process=style/preview_120'></image>
-        <text class='navigation_button_value'>位置</text>
+      <view bindtap="tolinkUrl" class="assetsType_item" data-link="asset_list.html?spaceId={{spaceData.id}}&assetTypeId={{assetType.id}}" wx:for='{{spaceData.assetTypes}}' wx:for-item="assetType">
+        <image class='assetsType_icon' src='{{assetType.icon}}'></image>
+        <text class='assetsType_text'>{{assetType.name}}</text>
+      </view>
+    </scroll-view>
+  </view>
+  <!-- 组织类型 -->
+  <view class='lease_content'>
+    <view class='organizes_head'>
+      <view bindtap='clickTypeTab' data-type="1" class='{{currentTab==1?"organizes_tab have_border":"organizes_tab"}}'>
+        <image class='organizes_icon' wx:if="{{currentTab==1}}" src='http://image1.sansancloud.com/xianhua/2019_1/23/10/30/22_187.jpg'></image>
+        <image class='organizes_icon no' wx:else src='http://image1.sansancloud.com/xianhua/2019_1/23/10/30/22_176.jpg'></image>
+        <text class='{{currentTab==1?"organizes_text have_color":"organizes_text"}}'>组织</text>
+      </view>
+      <view bindtap='clickTypeTab' data-type="2" class='{{currentTab==2?"personal_tab have_border":"personal_tab"}}'>
+        <text class='{{currentTab==2?"personal_text have_color":"personal_text"}}'>个人</text>
+        <image class='personal_icon' wx:if="{{currentTab==2}}" src='http://image1.sansancloud.com/xianhua/2019_1/23/10/30/22_184.jpg'></image>
+        <image class='personal_icon no' wx:else src='http://image1.sansancloud.com/xianhua/2019_1/23/10/30/21_861.jpg'></image>
       </view>
     </view>
-    <!-- 资产类型 -->
-    <view class='assets_type_list'>
-      <scroll-view class='assetsType_content' scroll-x>
-          <text class='assetsType_item' data-link="asset_list.html?assetTypeId={{assetType.id}}&spaceId={{spaceData.id}}" wx:if="{{spaceData.assetTypes}}" wx:for='{{spaceData.assetTypes}}' wx:for-item="assetType" catchtap='tolinkUrl'>{{assetType.name}}</text>
-        </scroll-view>
+    <view class='lease_list' wx:if="{{leaseData.length!=0}}">
+      <view class='lease_item' wx:for="{{leaseData}}" wx:for-item="organizeItem" bindtap='tolinkUrl' data-link="organize_detail.html?organizeId={{organizeItem.id}}">
+        <image class='lease_item_img' mode='aspectFill' src='{{organizeItem.firstImage}}'></image>
+        <view class='lease_item_info'>
+          <text class='lease_item_name'>{{organizeItem.name}}</text>
+          <text class='lease_item_industry'>{{organizeItem.industry}}</text>
+        </view>
+      </view>
     </view>
+    <view wx:else class='no_lease'><text>主人~还没有任何组织或个人租赁哦！</text></view>
+  </view>
 
     <!-- 首页组件-私有产品详情装饰-->
     <view style='margin-top:20rpx;'>
      <component-tag-customPage data="product_detail_{{spaceData.productId}}" wx:if="{{spaceData.productId}}"></component-tag-customPage> 
     </view>
-    <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
-    <view class='product_main_info' wx:if="{{spaceData.description.description!=''&&spaceData.description.description!='<p><br></p>'}}"><text>图文详情</text></view>
-    <view class="tab_detail_container" wx:if="{{spaceData.description.description!=''&&spaceData.description.description!='<p><br></p>'}}">
-       <view class='wxParseHtmlContainer'> <template is="1" data="{{wxParseData:article.nodes}}"></template> </view>
-    </view>
-
 </view>
 
 
 
 <posters proId="{{proId}}" shopId="{{shopId}}" ewmImgUrl='{{qrCodeUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters> 
-<pintuan pintuanParam="{{pintuanParam}}" wx:if='{{pintuanPopupState}}' bind:closePintuan="getChilrenPintuan" bind:goPintuan='readyPay2'></pintuan> 
  <!-- 首页组件-公共产品详情装饰-->
  <component-tag-customPage data="productdetail"></component-tag-customPage> 

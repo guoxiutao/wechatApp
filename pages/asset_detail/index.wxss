@@ -1,6 +1,5 @@
  /* pages/productDetail/index.wxss */
  @import"../../wxParse/wxParse.wxss";/* 富文本 */
-@import '../../view-new/aikucun/measure_card.wxss';/*  detail_list_card  */ 
 
 .assetsType_content::-webkit-scrollbar{
 width: 0;
@@ -86,226 +85,75 @@ font-size: 0.8em;
   height:32rpx;
   margin-left: 24rpx
 }
-/* 产品信息 */
-.ProductDetailInfoContainer{
-  padding: 0 48rpx 40rpx 48rpx;
-  background: #fff; 
-  display: flex;
-  flex-direction: column;
-}
-.InfoName{
-  padding-top: 12rpx;
-  font-size: 28rpx;
-  color: #333;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between
-}
-.InfoSale{
-  padding: 12rpx 48rpx 12rpx 48rpx;
-  font-size: 26rpx;
-  color: #333;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.InfoSaleDes{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding:6rpx;
-  margin-right: 14rpx;
-  border-radius: 6rpx
-}
-.InfoSaleText{
-  color: #fff;
-  font-size:16rpx;
-  width:32rpx;
-  height:16rpx;
-  display:inline-block;
-  margin:0;
-  padding:0;
-  line-height:16rpx;
 
-}
-.info_describe{
-  font-size: 20rpx;
-  color: #ccc;
-}
-.InfoSubName{
-  font-size: 20rpx;
-  color: #ccc;
-  margin-top: 8rpx
-}
-.InfoPrice_content{
-  margin-top: 30rpx;
+
+
+
+.asset_content{
+  padding: 30rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content:space-between;
-  height: 86rpx;
-  overflow: hidden;
-}
-.InfoPrice{
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  overflow: hidden
-}
-.price_font{
-  font-size: 48rpx;
-  line-height:40rpx;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-}
-.tagPrice_font{
-  font-size: 24rpx;
-  line-height:24rpx;
-  color:#aaa;
-  text-decoration:line-through;
-  margin-left: 8rpx
-}
-.product_stock{
-  border: 3rpx solid #FF996E ;
-  border-radius: 8rpx;
-  margin-left: 36rpx;
-  padding: 0 6rpx 0 6rpx;
-  font-size: 24rpx;
-  color: #FF996E
-}
-.share_product{
-  width: 86rpx;
-  height: 86rpx;
-  overflow: hidden
-}
-.share_product image{
-  width: 86rpx;
-  height:86rpx;
-}
-.p1{
-  color: #FF3D3D;
-}
-.p2{
-  margin-left: 1em;
-  color: #aaa;
-  text-decoration: line-through;
-}
-.tap_title{
-  display: flex;
-  background: #FCFCFC;
-  flex-direction: row;
-  align-items: center;
-  height: 64rpx;
   justify-content: space-between;
-  padding:0 48rpx 0px 48rpx;
+  background:#fff;
+  margin-bottom:20rpx;
 }
-.tap_title_left{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.tap_title_right{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start
-}
-.tap_title_item{
-  margin-right: 36rpx;
+.asset_content_left{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.tap_title_font{
-  font-size: 20rpx;
-  color: #ccc;
-  white-space:nowrap;
+.asset_icon{
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 30rpx;
 }
-.tap_title_item .dot{
-  width:6rpx;
-  height:6rpx;
-  background:rgba(255,81,70,0.5);
-  border:2rpx solid rgba(255,81,70,0.2);
-  box-shadow:0px 4rpx 14rpx 0px rgba(255,81,70,0.2),0px 4rpx 6rpx 0rpx rgba(255,81,70,0.1);
-  margin-right: 12rpx;
-  border-radius: 6rpx
+.asset_info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.tap_title_right .dot_no{
-  width:6rpx;
-  height:6rpx;
-  border-radius: 6rpx;
-  margin-left: 6rpx;
-  background:rgba(216,216,216,1);
+.asset_name{
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  letter-spacing:2rpx;
 }
-.InfoYunfei{
-  margin-top: 1em;
-  color: #aaa;
+.asset_info_extra{
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
 }
-.specifications{
-  padding:0 48rpx 0px 48rpx;
-  margin-top: 16rpx;
-  margin-bottom: 16rpx;
-  height:88rpx;
-  background:rgba(255,255,255,1);
-  border-radius:16rpx;
+.asset_info_item{
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: #888;
+  margin-bottom:6rpx;
+}
+.asset_info_item_text{
+  color: #C0271F;
+  margin-right: 30rpx;
+  width:56rpx;
+}
+.asset_info_item_state{
 
 }
-.specifications .no_select{
-  font-size: 28rpx;
-  color:#4aa8ff;
-  margin-right: 36rpx;
-}
-.specifications .have_select{
-  font-size: 28rpx;
-  color:#777;
-  margin-right: 36rpx;
-}
-.value .value_item{
-  margin-right: 24rpx;
+.asset_info_item_price{
+  color: #C0271F;
   font-weight: bold;
-  font-size: 28rpx
+  margin-right: 30rpx;
+  width:56rpx;
 }
-.product_introduce{
-  padding:0 48rpx 0px 48rpx;
-  background:rgba(255,255,255,1);
-  border-top-left-radius:16rpx;
-  border-top-right-radius:16rpx;
-  display: flex;
-  flex-direction: column;
-}
-.product_introduce_short{
-  display: flex;
-  flex-direction: column;
-}
-.product_introduce_title{
-  font-size: 28rpx;
-  color: #333;
-  font-weight: bold;
-  margin-top: 24rpx;
-  margin-bottom: 28rpx;
-}
-.product_introduce_item{
-  margin-bottom: 16rpx;
-  display: flex;
-  flex-direction: row;
-}
-.product_introduce_item_name{
-  font-size: 24rpx;
-  color: #ccc;
-  margin-right: 50rpx;
-  white-space: nowrap
-}
-.product_introduce_item_vaule{
-  font-size: 24rpx;
-  color: #888;
+.lease_btn{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  color:#fff;
+  background:#C0271F;
+  border-radius:60rpx;
+  padding:12rpx 26rpx;
+  font-size:28rpx;
 }
 .product_main_info{
   font-size: 28rpx;
@@ -315,33 +163,29 @@ font-size: 0.8em;
   line-height: 80rpx;
   background:rgba(255,255,255,1);
   padding:0 48rpx;
-}
-.price_explain{
-  padding:24rpx 48rpx 0 48rpx;
-  height:332rpx;
-  background:rgba(255,255,255,1);
-  border-radius:16rpx;
-  margin-bottom: 76rpx;
-  margin-top:20rpx;
-}
-.price_explain_content{
-  font-size:24rpx;
-  font-weight:400;
-  color: #ccc;
-  line-height:34rpx;
-  margin-top:28rpx;
-}
-.price_explain_title{
-  height:40rpx;
-  font-size:28rpx;
-  font-weight:600;
-  color:#333;
-  line-height:40rpx;
-}
-.selectType{
+  text-align:center;
+  position: relative;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+.tab_detail_container{
+  background: #fff
+}
+.rich_title{
+  width: 100rpx;
+  background: #fff;
+  position: relative;
+  display: inline-block;
+  z-index: 2
+}
+.line{
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  background: #ddd;
+  height: 1rpx;
+  width: 30%;
 }
 /* 导航 */
 .navigation_to_map{

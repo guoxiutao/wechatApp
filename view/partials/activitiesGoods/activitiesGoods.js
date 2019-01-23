@@ -22,6 +22,7 @@ Component({
   ready: function (options) {
   var that=this;
   var oldData = this.data;
+    console.log("====oldData====", oldData)
   that.setData({ color: app.setting.platformSetting.defaultColor})
     console.log("=======color====", that.data.color)
   // oldData.countDownMinute = '1fffffffffffffffffffffffffffffffffffffff11';

@@ -4,10 +4,10 @@
 
 <block >
 <view class='promotion_product_list'>
-  <view class='promotion_product_item' wx:for="{{relateBean.products}}" bindtap='clickLink' data-id='{{item.id}}'>
+  <view class='promotion_product_item' wx:for="{{relateBean.products}}" bindtap='clickLink' wx:for-item="item" wx:key="index" data-id='{{item.id}}'>
     <view class='promotion_product_head'>
       <image class='promotion_product_img' mode='aspectFill' src='{{item.imagePath}}'></image>
-      <view class='promotion_time'>
+      <view class='promotion_time' wx:if="{{relateBean.id}}">
         <!-- <view></view> -->
         <!-- <view class='promotion_start_time'>
           <text class='promotion_start_time_text'>开始</text>

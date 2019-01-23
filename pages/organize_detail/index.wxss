@@ -1,6 +1,5 @@
- /* pages/productDetail/index.wxss */
+
  @import"../../wxParse/wxParse.wxss";/* 富文本 */
-@import '../../view-new/aikucun/measure_card.wxss';/*  detail_list_card  */ 
 
 .assetsType_content::-webkit-scrollbar{
 width: 0;
@@ -13,8 +12,6 @@ color: transparent;
 .container{
 background: #F8FBFF;
 font-size: 0.8em;
-width:100%;
-overflow:hidden;
 }
 /* swiper */
 .SwiperContainer{
@@ -92,14 +89,8 @@ overflow:hidden;
   padding: 20rpx 30rpx;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  /* align-items: center; */
   background:#fff;
-}
-.space_detail_left{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 .space_detail_logo{
   width: 90rpx;
@@ -109,31 +100,25 @@ overflow:hidden;
 .space_detail_center{
   display: flex;
   flex-direction: column;
-  height: 90rpx;
-  justify-content: space-between;
   letter-spacing: 2rpx;
 }
 .space_detail_name{
   font-size: 34rpx;
   font-weight: bold;
+  margin-bottom: 20rpx;
 }
-.space_detail_addr{
-  font-size: 24rpx;
-  color: #999;
-}
-.navigation{
+.space_detail_item{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-}
-.navigation_icon{
-  width: 40rpx;
-  height: 40rpx;
-  margin-bottom: 10rpx;
-}
-.navigation_text{
-  font-size: 22rpx;
+  margin-bottom: 6rpx;
   color: #999;
+  font-size: 24rpx;
+}
+.space_detail_icon{
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 20rpx;
 }
 .space_description{
   display: flex;
@@ -173,9 +158,8 @@ overflow:hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 50rpx 0;
-  width:36%;
 }
 .organizes_tab{
   padding: 6rpx 10rpx;
@@ -217,7 +201,7 @@ overflow:hidden;
   align-items: center;
   justify-content: space-between;
   padding:0 40rpx;
-  width:92%;
+  width:100%;
 }
 .lease_item{
   width: 46%;
@@ -261,4 +245,36 @@ overflow:hidden;
   background: #f7f7f7;
   width: 100%;
   
+}
+.product_main_info{
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  height:80rpx;
+  line-height: 80rpx;
+  background:rgba(255,255,255,1);
+  padding:0 48rpx;
+  text-align:center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tab_detail_container{
+  background: #fff
+}
+.rich_title{
+  width: 100rpx;
+  background: #fff;
+  position: relative;
+  display: inline-block;
+  z-index: 2
+}
+.line{
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  background: #ddd;
+  height: 1rpx;
+  width: 30%;
 }

@@ -183,11 +183,13 @@
        <view class='wxParseHtmlContainer'> <template is="1" data="{{wxParseData:article.nodes}}"></template> </view>
     </view>
 
-    <view class='price_explain'>
+    <!-- <view class='price_explain'>
       <text class='price_explain_title'>价格说明</text>
       <view class='price_explain_content'>店铺中展示的中间未划横线价格为该店铺的销售价，该价格是交易成交价，是您最终决定是否购买商品的依据。店铺展示的中间划横线价格(显示如¥1000)为参考价，采集自品牌专柜标价、商品吊牌价或由品牌供应商提供的正品零售价由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价可能会与您购物时展示的不一致。该价格仅供您参考。</view>
-    </view>
+    </view> -->
 
+ <!-- 首页组件-公共产品详情装饰-->
+ <component-tag-customPage data="productdetail"></component-tag-customPage> 
 </view>
 
 
@@ -221,5 +223,3 @@
 <pintuan pintuanParam="{{pintuanParam}}" wx:if='{{pintuanPopupState}}' bind:closePintuan="getChilrenPintuan" bind:goPintuan='readyPay2'></pintuan> 
 
  <template is="measure_card2" data="{{setting:setting,showCount,minCount,focusData:productData.productInfo,measures:productData.measures,byNowParams:byNowParams,measurementJson:measurementJson,type:bindway}}"></template> 
- <!-- 首页组件-公共产品详情装饰-->
- <component-tag-customPage data="productdetail"></component-tag-customPage> 

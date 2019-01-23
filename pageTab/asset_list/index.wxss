@@ -108,196 +108,88 @@ page{
   height:40rpx;
   width: 40rpx;
 }
-.typeSearch_view_height{
-  height: 90rpx;
-  background: #f1f1f1;
-}
-
-
- /*  */
-.smoprice{
-  font-size: xx-small;
-  color: red;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-/*分类弹出来的样式*/
-.typeSearch_item_container{
-  position: fixed;
-  top: 170rpx;
-  left: 0;
-  right: 0;
-  height: 60%;
-  width: 100%;
-  z-index: 110;
+/* 列表样式 */
+.space_page_container2{
   background: #fff;
-}
-
- .typeSearch_item_left_container{
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  right: 50%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  
-} 
-
-.searchPrice{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-/* .typeSearch_item_left_container view{
-  font-size: small;
-  background: #f1f1f1;
   width: 100%;
-  height: 40px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-} */
- .typeSearch_item_left_container cover-view{
-
-  font-size: small;
-  background: #f1f1f1;
-  height:100rpx;
-  display:flex;
-  line-height: 100rpx;
-  flex-direction: column;
-  justify-content: flex-start
-
-} 
-.typeSearch_item_left_container .line,.typeSearch_item_right_container .line{
-  width: 100%;
-  height: 2rpx; 
-  background: #ccc;
-}
-.typeSearch_item_left_container .ml_48{
-  background: #fff;
-  margin-left:48rpx;
-}
-.typeSearch_item_right_container{
- background: #fff;
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-.typeSearch_item_right_container cover-view{
-  
-  font-size: small;
-  background: #fff;
-  height:100rpx;
-  display:flex;
-  flex-direction: column;
-  line-height: 100rpx;
-  color:#888;
-  justify-content: space-between
-
-}
-
-/* 智能排序 */
-.typeSearch_Sort_container{
-  width: 100%;
-  height: 100%;
-}
-.typeSearch_Sort_container view{
-  font-size: small;
-  padding:10px;
-  background: #fff;
-  border-bottom: 1rpx solid #f1f1f1
-}
-
-/* 价格排序 */
-
-.typeSearch_price_container{
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  position: relative;
+  margin-top:80rpx;
 }
-.typeSearch_price_container view{
-  width: 90%;
+.asset_item{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   align-items: center;
-  color: #777;
-  border-bottom: 1rpx solid #f1f1f1;
-  font-size: small;
-  padding: 5px 0;
+  justify-content: space-between;
+  box-shadow:4rpx 4rpx 10rpx #ddd;
+  margin: 20rpx;
+  height: 240rpx;
+  border-radius: 20rpx;
 }
-.typeSearch_price_container input{
-  width: 50%;
-  height: 3em;
-  color: #8B572A;
+.asset_item_left{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height:240rpx;
+}
+.asset_img{
+  width: 260rpx;
+  height: 100%;
+  border-radius: 20rpx;
+}
+.asset_detail{
+  display: flex;
+  flex-direction: column;
+  margin-left: 30rpx;
+}
+.asset_view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 6rpx;
+  color: #888;
+  font-size: 28rpx;
+}
+.asset_icon{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 30rpx;
+}
+.asset_name{
+  font-size: 32rpx;
+}
+.asset_online_value{
+  color: #C0271F;
+  margin-right: 20rpx;
+}
+.asset_state_text{
+  color: #C0271F;
+  margin-right: 20rpx;
+}
+.asset_price{
+  color: #C0271F;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-right: 30rpx;
 }
 
-.typeSearch_price_container button{
-  margin-top: 2em;
-  width: 90%;
-  background: #8B572A;
+
+.navigations{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
   color: #fff;
+  width:100rpx;
+  padding: 0 10rpx
 }
-
-/* 商品排列样式1 */
-.space_page_container{
-  background: #f1f1f1;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  padding-bottom: 1em;
-}
-.space_items{
-  width: 44%;
-  margin: 1%;
-  padding: 2%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  background: #fff;
-  border-radius: 5px;
-}
-.space_items image{
-  width: 100%;
-  height: 9em;
-  border-radius: 5px;
-}
-.space_items view{
-  text-align: left;
-  font-size: small;
-  margin-top: 5px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  width: 100%;
-}
-.space_items text{
-  font-size: small;
-  width: 100%;
-  text-align: left;
-  margin-top: 5px;
-}
-.priceTagLine{
-  color: #aaa;
-  margin-left: 10px;
-  text-decoration: line-through;
+.navigation_icon{
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 10rpx;
 }
 /* 没有商品时 */
 .nospace{
@@ -315,86 +207,6 @@ page{
 }
 .nospace image{
   width: 30%;
-}
-/* 商品排列样式2 */
-.space_page_container2{
-  background: #f1f1f1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  margin-top:80rpx;
-}
-.play{
-  position: absolute;
-  top:50%;
-  left: 50%;
-  height: 80rpx;
-  width: 80rpx;
-  margin-left: -40rpx;
-  margin-top: -70rpx;
-}
-.space_items2{
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  background: #fff;
-  border-bottom: 1px solid #f1f1f1;
-  min-height:120rpx; 
-}
-.space_items2 image{
-  width: 220rpx;
-  height: 220rpx;
-  border-radius: 20rpx
-}
-.space_items2 .space_items2_view1{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-left: 20rpx;
-  min-height:220rpx;
-  width: 65%;
-}
-.space_items2_view1 .tags_content{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  overflow-x:hidden;
-  width:100%;
-  height:50rpx;
-  white-space: nowrap
-}
-.location_name{
-  color: #aaa;
-  font-size: 24rpx;
-  overflow:hidden; 
-  text-overflow:ellipsis;
-  white-space:nowrap; 
-  width:100%;
-}
-.space_name{
-  color: #555;
-  font-size: 28rpx;
-  font-weight: bold;
-  overflow:hidden; 
-  text-overflow:ellipsis;
-  white-space:nowrap; 
-  width:100%;
-}
-.space_price{
-  margin-left: -6rpx;
-  font-size: 38rpx;
-  color: #ff0000
-}
-.tags_item{
-  border: 2rpx solid #eee;
-  padding: 2rpx 12rpx;
-  font-size: 22rpx;
-  color: #888;
-  margin-right: 10rpx;
-  border-radius: 10rpx;
 }
 
 .active{

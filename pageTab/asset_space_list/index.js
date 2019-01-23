@@ -146,15 +146,17 @@ Page({
   },
   /* 获取数据 */
   getData: function (param, ifAdd) {
+    var that = this
     //根据把param变成&a=1&b=2的模式
     if (!ifAdd) {
       ifAdd = 1
     }
+    let la1 = that.data.localPoint.latitude
+    let lo1 = that.data.localPoint.longitude
     var customIndex = app.AddClientUrl("/wx_find_asset_space.html", param)
     wx.showLoading({
       title: 'loading'
     })
-    var that = this
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -178,6 +180,11 @@ Page({
             if (dataArr[i].tags && dataArr[i].tags!=''){
               tagArray = dataArr[i].tags.slice(1,-1).split("][")
               dataArr[i].tagArray = tagArray;
+            }
+          }
+          for (let i = 0; i < dataArr.length; i++) {
+            if (dataArr[i].latitude && dataArr[i].latitude != 0 && dataArr[i].longitude && dataArr[i].longitude != 0) {
+              dataArr[i].distance = app.getDistance(la1, lo1, dataArr[i].latitude, dataArr[i].longitude)
             }
           }
           that.setData({ spaceData: dataArr })
@@ -329,6 +336,23 @@ Page({
 
   },
   /* 组件事件集合 */
+
+  // 定位
+  toNavigate: function (e) {
+    console.log("===toNavigate=====",e)
+    let itemInfo = e.currentTarget.dataset.info;
+    let latitude = itemInfo.latitude;
+    let longitude = itemInfo.longitude;
+    let name = itemInfo.name;
+    let address = itemInfo.province + itemInfo.city + itemInfo.area + itemInfo.address;
+    wx.openLocation({
+      latitude: latitude,
+      longitude: longitude,
+      scale: 12,
+      name: name,
+      address: address
+    })
+  },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
     app.linkEvent(linkUrl)
