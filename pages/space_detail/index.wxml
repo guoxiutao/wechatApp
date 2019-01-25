@@ -46,10 +46,6 @@
         <image class='assetsType_icon' src='{{assetType.icon}}'></image>
         <text class='assetsType_text'>{{assetType.name}}</text>
       </view>
-      <view bindtap="tolinkUrl" class="assetsType_item" data-link="asset_list.html?spaceId={{spaceData.id}}&assetTypeId={{assetType.id}}" wx:for='{{spaceData.assetTypes}}' wx:for-item="assetType">
-        <image class='assetsType_icon' src='{{assetType.icon}}'></image>
-        <text class='assetsType_text'>{{assetType.name}}</text>
-      </view>
     </scroll-view>
   </view>
   <!-- 组织类型 -->

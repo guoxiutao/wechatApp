@@ -10,6 +10,7 @@ Page({
     noAssetBillList: [], // 商品数据 
     currentTab:1,
     showNoneBill:false,
+    butn_show_loading:false,
   },
   clickShowNoPay:function(){
     let that = this;
@@ -20,6 +21,18 @@ Page({
       showNoneBill = true
     }
     that.setData({ showNoneBill: showNoneBill})
+    let animation = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease-in-out',
+    })
+    if (showNoneBill) {
+      animation.height(250).step()
+    } else {
+      animation.height(0).step()
+    }
+    this.setData({
+      animationData: animation.export()
+    })
   },
   toIndex(){
     app.toIndex()
@@ -32,6 +45,119 @@ Page({
     that.getData(that.params,2)
     that.setData({ currentTab: currentTab });
 
+  },
+  subMitButn: function () {
+    var that = this
+    let billIds ;
+    if (that.data.currentTab==0){
+      billIds = that.data.noAssetBillList.userUnpayedBillIds
+    } else if (that.data.currentTab == 1){
+      billIds = that.data.noAssetBillList.organizeUnpayedBillIds
+    }
+    let wxChatPayParam = {
+      billIds: billIds,
+    }
+    if (billIds.length==0){
+      wx.showModal({
+        title: '提示',
+        content: '主人~您没有任何未支付账单哦!',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    this.setData({ butn_show_loading: true })
+    let customIndex = app.AddClientUrl("/wx_create_bill_order.html", wxChatPayParam, 'post')
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        console.log(res.data)
+        //这里拿到订单数据
+        //下面应该吊起支付
+        let orderNo = res.data.relateObj.orderNo
+        if (!res.data.relateObj || !res.data.relateObj.payType) {
+          console.log('--------失败-------')
+        }
+        if (res.data.relateObj.payType == 3) {
+          that.payByWechat(orderNo)
+        }
+
+      },
+      fail: function () {
+
+      },
+      complete: function () {
+        that.setData({ butn_show_loading: true })
+      }
+
+    })
+  },
+  payByWechat: function (orderNo) {
+    var that = this
+    let loginUser = app.loginUser
+    console.log(loginUser)
+    let wxChatPayParam = {
+      openid: '',
+      orderNo: '',
+      app: 3
+    }
+    wxChatPayParam.openid = loginUser.platformUser.miniOpenId
+    wxChatPayParam.orderNo = orderNo
+    console.log(wxChatPayParam)
+    let customIndex = app.AddClientUrl("/unifined_order.html", wxChatPayParam, 'post')
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        console.log(res.data)
+        let PayStr = res.data
+        PayStr = '{' + PayStr + '}'
+        let wechatPayStr = JSON.parse(PayStr)
+        console.log(wechatPayStr)
+        wx.requestPayment({
+          'timeStamp': wechatPayStr.timeStamp,
+          'nonceStr': wechatPayStr.nonceStr,
+          'package': wechatPayStr.package,
+          'signType': wechatPayStr.signType,
+          'paySign': wechatPayStr.paySign,
+          'success': function (res) {
+            console.log('------成功--------')
+            console.log(res)
+            wx.showToast({
+              title: '支付成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          'fail': function (res) {
+            console.log('------fail--------')
+            console.log(res)
+            wx.showToast({
+              title: '支付失败',
+              image: '/images/icons/tip.png',
+              duration: 2000
+            })
+          },
+          'complete': function () {
+            console.log('------complete--------')
+            console.log(res)
+            that.setData({ butn_show_loading: false })
+            that.getData(that.params, 2);
+            that.getNonData()
+          }
+        })
+      }
+    })
   },
   /* 获取数据 */
   getData: function (param, ifAdd) {

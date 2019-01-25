@@ -49,11 +49,11 @@
       <text class='total_price_value' wx:if="{{currentTab==0}}">￥{{noAssetBillList.userUnpayedTotalAmount}}</text>
       <text class='total_price_value' wx:if="{{currentTab==1}}">￥{{noAssetBillList.organizeUnpayedTotalAmount}}</text>
     </view>
-    <view class='to_pay_btn'>
+    <button  loading='{{butn_show_loading}}' class='to_pay_btn' bindtap='subMitButn'>
       <text>结算</text>
       <text class='num' wx:if="{{currentTab==0}}">({{noAssetBillList.userUnpayedTotalCount}})</text>
       <text class='num' wx:if="{{currentTab==1}}">({{noAssetBillList.organizeUnpayedTotalCount}})</text>
-    </view>
+    </button>
   </view>
 </view>
 
