@@ -241,7 +241,7 @@ Page({
   },
   /*onload*/
   onLoad: function (options) {
-
+    // wx.hideTabBar({})
     console.warn("======onLoad:options======", options)
     console.log('--------------- custom_index --------------')
     if(!app.setting){
@@ -266,10 +266,6 @@ Page({
   },
 
   onReady: function () { 
-  
-   
-
-   
     if (app.shareParam && app.shareParam.pageName){
       console.log("这是custom_page里面ready事件的shareParam" + app.shareParam)
       this.jumpToPage(app.shareParam)

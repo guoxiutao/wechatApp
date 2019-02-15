@@ -113,7 +113,8 @@ App({
     },
     //第一次登录加载的函数
     loadFirstEnter: function (more_scene) {
-        console.log('第一次登录加载的函数')
+        console.log('第一次登录加载的函数');
+        // this.linkEvent("https://mini.sansancloud.com/chainalliance/sansancloud/bindWxGz.html?platformUserId=71076")
         this.wxLogin(more_scene)
         this.getSetting()
     },
@@ -486,7 +487,7 @@ App({
         }
         else if (linkUrl.substr(0, 5) == 'https') {
           let url = encodeURIComponent(linkUrl);
-          console.log("==url===", url)
+          console.log("==url+web_view===", url)
           wx.navigateTo({
             url: '/pages/' + 'web_view' + '/index?url=' + url,
           })
@@ -1115,8 +1116,12 @@ App({
   getQrCode: function (data) {
     console.log(" this.loginUser", this.loginUser)
     let userId = "";
+    let mendianId = "";
     if (this.loginUser && this.loginUser.platformUser) {
       userId = 'MINI_PLATFORM_USER_ID_' + this.loginUser.platformUser.id
+      if(this.loginUser.platformUser.managerMendianId){
+        mendianId ='%26ENTER_MENDIAN%3d' + this.loginUser.platformUser.managerMendianId
+      }
     }
     console.log("this.loginUser.platformUser", this.loginUser.platformUser.id)
     console.log("data", data)
@@ -1151,7 +1156,7 @@ App({
     postParam.scene = userId
     console.log(str, str2, postParam)
     // 上面是需要的参数下面的url
-    var customIndex = this.AddClientUrl(str2 + postParam[str] + "%26scene%3d" + userId, postParam, 'get', '1')
+    var customIndex = this.AddClientUrl(str2 + postParam[str] + "%26scene%3d" + userId + mendianId, postParam, 'get', '1')
     var result = customIndex.url.split("?");
 
     customIndex.url = result[0] + "?" + result[1]

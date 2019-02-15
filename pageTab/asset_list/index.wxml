@@ -40,7 +40,7 @@
             <view class='asset_item_left'>
               <image class='asset_img' mode='aspectFill' src='{{result.firstImage}}'></image>
               <view class='asset_detail'>
-                <view class='asset_view'>
+                <view class='asset_view' style='margin-bottom:10rpx'>
                   <image class='asset_icon' src='{{result.icon}}'></image>
                   <text class='asset_name'>{{result.name}}</text>
                 </view>
@@ -54,6 +54,10 @@
                   <text class='lease_name' wx:if="{{result.leasePlatformUserId}}">{{result.leasePlatformUserName}}</text>
                 </view>
                 <view class='asset_view'>
+                  <text class='asset_online_value'>归属</text>
+                  <text class='space_name'>{{result.belongSpaceName}}</text>
+                </view>
+                <view class='asset_view' style='font-size:34rpx'>
                 <text class='asset_price'>￥{{result.price||0}}</text>
                 <text class='asset_unit'>{{result.unit||"元/工位/月"}}</text>
                 </view>

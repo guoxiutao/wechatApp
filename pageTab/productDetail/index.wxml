@@ -1,5 +1,6 @@
     <!--pages/productDetail/index.wxml-->
      <import src="../../view-new/aikucun/measure_card2.wxml"/>
+    <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
 
 <view class='container'>
 
@@ -27,7 +28,7 @@
           <block wx:if='{{productData.productInfo.tagPrice > productData.productInfo.price}}'>
             <text class='tagPrice_font'>￥{{productData.productInfo.tagPrice}}</text>
           </block>
-          <view class='product_stock'><text>仅剩{{productData.productInfo.stock}}件</text></view>
+          <view class='product_stock' wx:if="{{productData.productInfo.stock<50}}"><text>仅剩{{productData.productInfo.stock}}件</text></view>
        </view>
        <view class='share_product' bindtap='showPoster'><image src='http://image.tunzai.vip/tunzai/2018_8/28/9/48/50_64.jpg'></image></view>
     </view>
@@ -77,9 +78,6 @@
       </view>
       <view class='product_main_info'><text>图文详情</text></view>
     </view>
-
-    <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
-
     <view class="tab_detail_container">
        <view class='wxParseHtmlContainer'> <template is="1"   data="{{wxParseData:article.nodes}}"></template> </view>
     </view>

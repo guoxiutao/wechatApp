@@ -133,6 +133,7 @@ margin-left: 0rpx;
   background: #fff;
   border-bottom: 1px solid #f1f1f1;
   min-height:120rpx; 
+  position: relative;
 }
 .product_items2 image{
   width: 220rpx;
@@ -208,4 +209,18 @@ margin-left: 0rpx;
   font-size: 38rpx;
   height:38rpx;
   line-height:38rpx;
+}
+.to_car{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  bottom: 10rpx;
+  right: 10rpx;
+  border-radius: 24rpx;
+  font-size: 20rpx;
+  border: 1rpx solid #ff0000;
+  color: #ff0000;
+  padding: 6rpx 18rpx;
 }

@@ -72,16 +72,31 @@ font-size: 0.8em;
   margin-right: 24rpx;
 }
 .timeText{
-  font-size:20rpx;
+  font-size:22rpx;
   font-weight:500;
   color: #fff;
   height:28rpx;
   margin-right: 10rpx
 }
 .timeLeftImg{
-  width:132rpx;
+  width:32rpx;
   height:32rpx;
   margin-left: 24rpx
+}
+.promotionTitle{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 50%;
+}
+.promotionName{
+  font-size:26rpx;
+  margin-left:12rpx;
+  color:#fff;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width:80%;
 }
 /* 产品信息 */
 .ProductDetailInfoContainer{
@@ -156,7 +171,7 @@ font-size: 0.8em;
 }
 .tagPrice_font{
   font-size: 24rpx;
-  line-height:24rpx;
+  /* line-height:24rpx; */
   color:#aaa;
   text-decoration:line-through;
   margin-left: 8rpx
@@ -784,7 +799,8 @@ button {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  height:50rpx;
+  height:40rpx;
+  margin-top: 10rpx
 }
 .noPintuan{
   height:40rpx;

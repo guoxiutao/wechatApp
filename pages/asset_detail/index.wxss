@@ -102,6 +102,7 @@ font-size: 0.8em;
   display: flex;
   flex-direction: row;
   align-items: center;
+  width:80%;
 }
 .asset_icon{
   width: 100rpx;
@@ -112,12 +113,16 @@ font-size: 0.8em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width:76%;
 }
 .asset_name{
   font-size: 34rpx;
   font-weight: bold;
   margin-bottom: 10rpx;
   letter-spacing:2rpx;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
 }
 .asset_info_extra{
   display: flex;
@@ -143,7 +148,6 @@ font-size: 0.8em;
   color: #C0271F;
   font-weight: bold;
   margin-right: 30rpx;
-  width:56rpx;
 }
 .lease_btn{
   display:flex;

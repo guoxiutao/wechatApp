@@ -13,12 +13,28 @@
     </swiper>
     <view class='swiperItemIndex'>{{swiperIndex}}/{{totalImg}}</view>
     <block wx:if="{{productData.productInfo.promotionBean}}">
-      <view class='timeCountDownBg' style='background:linear-gradient(116deg,{{setting.platformSetting.secondColor}} 0%,{{color}} 100%);' wx:if="{{productData.productInfo.promotionBean.promotionStatus==1}}"></view>
+      <view class='timeCountDownBg' style='background:linear-gradient(116deg,{{setting.platformSetting.secondColor}} 0%,{{color}} 100%);' wx:if="{{productData.productInfo.promotionBean.promotionStatus!=2}}"></view>
       <view class='timeCountDownBg' style='background:linear-gradient(116deg,#eee 0%,#999 100%);' wx:else></view>
-      <view class='timeCountDown' wx:if="{{productData.productInfo.promotionBean.promotionStatus!=0}}">
-        <image class='timeLeftImg' src='http://image.tunzai.vip/tunzai/2018_8/29/10/29/14_880.jpg' wx:if="{{productData.productInfo.promotionBean.promotionStatus==1}}"></image>
-        <image class='timeLeftImg' src='http://image.tunzai.vip/tunzai/2018_9/12/17/6/41_92.jpg' wx:else></image>
-        <view class='timeItem'><text class='timeText'>距结束仅剩</text><time wx:if="{{productData!=null}}" data="{{productData.productInfo.promotionBean.endDate}}"></time></view>
+      <view class='timeCountDown' wx:if="{{productData.productInfo.promotionBean}}">
+        <view class='promotionTitle' wx:if="{{productData.productInfo.promotionBean.promotionStatus==1}}">
+          <image class='timeLeftImg' src='http://image1.sansancloud.com/xianhua/2019_1/28/15/11/13_55.jpg'></image>
+          <text class='promotionName'>{{productData.productInfo.promotionBean.name}}</text>
+        </view>
+        <view class='promotionTitle' wx:if="{{productData.productInfo.promotionBean.promotionStatus==2}}">
+          <image class='timeLeftImg' src='http://image1.sansancloud.com/xianhua/2019_1/28/15/11/13_60.jpg'></image>
+          <text class='promotionName'>{{productData.productInfo.promotionBean.name}}</text>
+        </view>
+        <view class='promotionTitle' wx:if="{{productData.productInfo.promotionBean.promotionStatus==0}}">
+          <image class='timeLeftImg' src='http://image1.sansancloud.com/xianhua/2019_1/28/15/11/13_55.jpg'></image>
+          <text class='promotionName'>{{productData.productInfo.promotionBean.name}}</text>
+        </view>
+        <view class='timeItem'>
+          <text class='timeText' wx:if="{{productData.productInfo.promotionBean.promotionStatus==1}}">距结束</text>
+          <text class='timeText' wx:if="{{productData.productInfo.promotionBean.promotionStatus==2}}">已结束</text>
+          <text class='timeText' wx:if="{{productData.productInfo.promotionBean.promotionStatus==0}}">距开始</text>
+          <time wx:if="{{productData!=null&&productData.productInfo.promotionBean.promotionStatus==0}}" data="{{productData.productInfo.promotionBean.startDate}}"></time>
+          <time wx:if="{{productData!=null&&productData.productInfo.promotionBean.promotionStatus==1}}" data="{{productData.productInfo.promotionBean.endDate}}"></time>
+        </view>
       </view>
     </block>
   </view>  

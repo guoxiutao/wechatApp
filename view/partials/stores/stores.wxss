@@ -35,8 +35,8 @@ line-height: 100rpx;
   width: 60rpx;
   height: 60rpx;
   overflow: hidden;
-     margin-top: 20rpx;
-     margin-left: 30rpx;
+  margin-top: 20rpx;
+  margin-left: 30rpx;
   border-radius: 50%;
 }
 .ListDataItemImage image{
@@ -54,6 +54,7 @@ line-height: 100rpx;
   align-items: center;
   color: #fff;
   left: 16rpx;
+  z-index: 10;
 }
 .store_logo{
   width: 60rpx;

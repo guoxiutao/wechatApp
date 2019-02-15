@@ -75,7 +75,7 @@ Page({
           params: that.params,
         })
         if (callback){
-          callback
+          callback(that.params,2)
         }
       }
     }) //获取当前地图的中心经纬度
@@ -87,10 +87,10 @@ Page({
         console.log('====scale====')
       } else if(e.causedBy == 'drag') {
         console.log('====drag====');
-        this.getCenterPoint(this.getData(this.params, 2));
+        this.getCenterPoint(this.getData);
         }else{
         console.log('====all====');
-        this.getCenterPoint(this.getData(this.params, 2));
+        this.getCenterPoint(this.getData);
         }
     }
   },

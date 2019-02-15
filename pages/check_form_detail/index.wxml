@@ -13,64 +13,21 @@
   </view>
   <view class='formContent'>
   <!-- 0字符串   1数字 2下拉框  3单选框  4复选框  5日期  6时间  7 图片  8 间隔 -->
-    <view wx:for='{{customForm.items}}' wx:for-item='items'>
+    <view wx:for='{{customForm.items}}' wx:for-item='item'>
       
         <!-- 字符串 -->
-        <view class='inputString common' wx:if='{{items.type!=7||items.type!=9}}'>
+        <view class='inputString common' wx:if='{{item.type!=7&&item.type!=9}}'>
           <view class='inputName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
+            <text wx:if="{{item.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{item.title}}</text>
           </view>
-          <input name="{{items.name}}" disabled value='{{items.defaultValue}}'></input>
+          <input name="{{item.name}}" disabled value='{{item.defaultValue}}'></input>
         </view>
-        <!-- 下拉框 -->
-        <!-- <view class='selectType common' wx:if='{{items.type==2}}'>
-          <view class='selectName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
-          </view>
-          <picker class='picker' style='' bindchange="bindPickerChange" name='{{items.name}}' value="{{items.defaultValue}}" range="{{items.listValues}}">
-            <view class="pickerValue"><text>{{items.listValues[pickerIndex]}}</text></view>
-            <view class='pickerRight'>
-              <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
-            </view>
-          </picker >
-        </view> -->
-        <!-- 日期 -->
-        <!-- <view class='inputString common' wx:if='{{items.type==5}}'>
-          <view class='inputName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
-          </view>
-          <picker mode="date" value="{{date}}" name='{{items.name}}' data-index="{{index}}" bindchange="bindDateChange">
-            <view class="picker">
-              {{dataAndTime[items.name]}}
-            </view>
-            <view class='pickerRight'>
-              <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
-            </view>
-          </picker>
-        </view> -->
-        <!-- 时间 -->
-        <!-- <view class='inputString common' wx:if='{{items.type==6}}'>
-          <view class='inputName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
-          </view>
-          <picker mode="time" data-index="{{index}}" name='{{items.name}}' value="{{time}}" bindchange="bindTimeChange">
-            <view class="picker">
-              {{dataAndTime[items.name]}}
-            </view>
-            <view class='pickerRight'>
-              <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
-            </view>
-          </picker>
-        </view> -->
         <!-- 图片 -->
-        <view class='imgType common' wx:if='{{items.type==7}}'>
+        <view class='imgType common' wx:if='{{item.type==7}}'>
           <view class='imgName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
+            <text wx:if="{{item.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{item.title}}</text>
           </view>
           <view class='upload'>
             <view class='uploadedImg' wx:if="{{upLoadImageList['img_'+index]}}">
@@ -84,34 +41,18 @@
           </view>
         </view>
          <!-- 多行文本 -->
-        <view class='inputString common' wx:if='{{items.type==9}}' style='align-items:flex-start;padding:10px;flex-direction:column;'>
+        <view class='inputString common' wx:if='{{item.type==9}}' style='align-items:flex-start;padding:10px;flex-direction:column;'>
           <view class='inputName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
+            <text wx:if="{{item.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{item.title}}</text>
           </view>
-          <textarea auto-height="" placeholder="{{items.defaultValue}}" name="{{items.name}}"/>
+          <textarea auto-height="" placeholder="{{item.defaultValue}}" name="{{item.name}}"/>
         </view>
-        <!-- 地址 -->
-        <!-- <view class='inputString common' wx:if='{{items.type==10}}'>
-          <view class='inputName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
-            <text>{{items.title}}</text>
-          </view>
-          <picker mode="region" data-index="{{index}}" name='{{items.name}}' value="{{region}}"  bindchange="bindRegionChange">
-            <view class="picker">
-              {{region}}
-            </view>
-            <view class='pickerRight'>
-              <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
-            </view>
-          </picker>
-        </view> -->
-        <!--  -->
         </view>
          <!-- 回复 -->
         <view class='inputString common' wx:if='{{allFormData.reply}}' style='align-items:flex-start;padding:10px;flex-direction:column;'>
           <view class='inputName'>
-            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text wx:if="{{item.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>平台回复</text>
           </view>
           <textarea auto-height="" value='{{allFormData.reply}}' />

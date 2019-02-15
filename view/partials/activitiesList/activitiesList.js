@@ -45,7 +45,7 @@ Component({
         // console.log("endTimeList" + endTimeList)
         // 对结束时间进行处理渲染到页面
         endTimeList.forEach(o => {
-          let endTime = new Date(o).getTime();
+          let endTime = new Date(Date.parse(o.replace(/-/g, "/"))).getTime();
           let obj = null;
           // 如果活动未结束，对时间进行处理
           if (endTime - newTime > 0) {
@@ -100,17 +100,15 @@ Component({
          actEndTimeList: arr,
          dataArr: dataArr
           })
-      
-
       var interval = setInterval(function () {
         // 获取当前时间，同时得到活动结束时间数组
         let newTime = new Date().getTime();
-        let endTimeList = oldData.actEndTimeList;
+        let endTimeList = me.data.actEndTimeList;
         let countDownArr = [];
-        // console.log("endTimeList" + endTimeList)
+        // console.log("endTimeList" , endTimeList)
         // 对结束时间进行处理渲染到页面
         endTimeList.forEach(o => {
-          let endTime = new Date(o).getTime();
+          let endTime = new Date(Date.parse(o.replace(/-/g, "/"))).getTime();
           let obj = null;
           // 如果活动未结束，对时间进行处理
           if (endTime - newTime > 0) {
@@ -121,10 +119,10 @@ Component({
             let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
             let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
             obj = {
-              day: this.timeFormat(day),
-              hou: this.timeFormat(hou),
-              min: this.timeFormat(min),
-              sec: this.timeFormat(sec)
+              day: me.timeFormat(day),
+              hou: me.timeFormat(hou),
+              min: me.timeFormat(min),
+              sec: me.timeFormat(sec)
             }
           } else {//活动已结束，全部设置为'00'
             obj = {
@@ -137,10 +135,10 @@ Component({
           countDownArr.push(obj);
         })
         // 渲染，然后每隔一秒执行一次倒计时函数
-        this.setData({ countDownList: countDownArr })
+        me.setData({ countDownList: countDownArr })
         // console.log(oldData.countDownList)
 
-      }.bind(this), 1000);
+      }.bind(me), 1000);
     }
    
   },

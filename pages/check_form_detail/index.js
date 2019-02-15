@@ -43,15 +43,27 @@ Page({
             for (let j in commitJson){
               if (customForm.items[i].type == 7) {
                 if (customForm.items[i].name == j) {
-                  upLoadImageList['img_' + i] = commitJson[j]
+                  if (typeof (commitJson[j])=="object"){
+                    upLoadImageList['img_' + i] = commitJson[j].value
+                  }else{
+                    upLoadImageList['img_' + i] = commitJson[j]
+                  }
                 }
               } else if(customForm.items[i].type == 9) {
                 if (customForm.items[i].name == j) {
-                  customForm.items[i].defaultValue = commitJson[j]
+                  if (typeof (commitJson[j]) == "object") {
+                    customForm.items[i].defaultValue = commitJson[j].value
+                  } else {
+                    customForm.items[i].defaultValue = commitJson[j]
+                  }
                 }
               } else {
                 if (customForm.items[i].name==j){
-                  customForm.items[i].defaultValue = commitJson[j]
+                  if (typeof (commitJson[j]) == "object") {
+                    customForm.items[i].defaultValue = commitJson[j].value
+                  } else {
+                    customForm.items[i].defaultValue = commitJson[j]
+                  }
                 }
               } 
             }

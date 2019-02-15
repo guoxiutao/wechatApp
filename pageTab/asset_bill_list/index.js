@@ -243,6 +243,19 @@ Page({
               }
             }
           }
+          for (let i = 0; i < dataArr.organizeUnpayedBills.length; i++) {
+            if (dataArr.organizeUnpayedBills[i].unitEndTime || dataArr.organizeUnpayedBills[i].unitEndTime) {
+              let reg = new RegExp('-', "g")
+              dataArr.organizeUnpayedBills[i].unitEndTime = dataArr.organizeUnpayedBills[i].unitEndTime.replace(reg, ".")
+              dataArr.organizeUnpayedBills[i].unitStartTime = dataArr.organizeUnpayedBills[i].unitStartTime.replace(reg, ".")
+              if (dataArr.organizeUnpayedBills[i].unitEndTime.length > 12) {
+                dataArr.organizeUnpayedBills[i].unitEndTime = dataArr.organizeUnpayedBills[i].unitEndTime.slice(0, -9)
+              }
+              if (dataArr.organizeUnpayedBills[i].unitStartTime.length > 12) {
+                dataArr.organizeUnpayedBills[i].unitStartTime = dataArr.organizeUnpayedBills[i].unitStartTime.slice(0, -9)
+              }
+            }
+          }
           that.setData({ noAssetBillList: dataArr })
         }
         wx.hideLoading()

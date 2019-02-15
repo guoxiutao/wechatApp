@@ -31,7 +31,7 @@
     </view>
   </view>
   <!-- 微商数据 -->
-  <view class='ws_data_center' wx:if="{{fxDetail.fxSetting.distributeModel==1}}">
+  <view class='ws_data_center' wx:if="{{fxDetail.fxSetting.distributeModel==1&& fxDetail.leader==1}}">
     <view class='fx_data_item'>
       <text class='fx_data_value' style='color:{{setting.platformSetting.defaultColor}}'>0</text>
       <text class='fx_data_title'>平台这个月业绩</text>
@@ -56,14 +56,14 @@
       <text class='fx_data_value' style='color:{{setting.platformSetting.defaultColor}}'>0</text>
       <text class='fx_data_title'>团队直属下级人数</text>
     </view>
-    <view class='interval_line' wx:if="{{fxDetail.leader==1}}"></view>
-    <view class='fx_data_item'  data-link='ws_users.html?wsType=1' bindtap='tolinkUrl' wx:if="{{fxDetail.leader==1}}">
+    <view class='interval_line'></view>
+    <view class='fx_data_item'  data-link='ws_users.html?wsType=1' bindtap='tolinkUrl'>
       <text class='fx_data_value' style='color:{{setting.platformSetting.defaultColor}}'>0</text>
       <text class='fx_data_title'>团队所有人数</text>
     </view>
   </view>
   <!-- 推广中心 -->
-  <view class='{{fxDetail.fxSetting.distributeModel==0?"fx_recommend_center mt_110":"fx_recommend_center"}}'>
+  <view class='{{fxDetail.fxSetting.distributeModel==0||fxDetail.leader==0?"fx_recommend_center mt_110":"fx_recommend_center"}}'>
     <view class='fx_recommend_title'>
       <text class='fx_recommend_title_text'>推广中心</text>
     </view>
@@ -111,12 +111,12 @@
         <text class='fx_recommend_item_text'>推广计划书</text>
       </view>
     </view>
-    <view class='fx_recommend_item' data-link='fx_qrcode.html?type=gzh'  bindtap='tolinkUrl'>
+    <!-- <view class='fx_recommend_item' data-link='fx_qrcode.html?type=gzh'  bindtap='tolinkUrl'>
       <view class='fx_recommend_info'>
         <image class='fx_recommend_item_icon' src='http://image1.sansancloud.com/xianhua/2019_1/18/17/19/11_249.jpg'></image>
         <text class='fx_recommend_item_text'>公众号推送二维码</text>
       </view>
-    </view>
+    </view> -->
     <view class='fx_recommend_item' data-link='user_bank_info_setting.html' bindtap='tolinkUrl' >
       <view class='fx_recommend_info'>
         <image class='fx_recommend_item_icon' src='http://image1.sansancloud.com/xianhua/2019_1/17/14/41/34_623.jpg'></image>

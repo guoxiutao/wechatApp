@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    promotionData:null,
 ///
   },
   getData:function(b){
@@ -30,6 +31,7 @@ Page({
           })
         }    
        else{
+          that.setData({ promotionData: res.data.relateObj})
           if (res.data.relateObj.name) {
             wx.setNavigationBarTitle({
               title: res.data.relateObj.name,

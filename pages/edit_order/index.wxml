@@ -45,7 +45,12 @@
       <view class='selectStore' catchtap='tolinkUrl' data-link="nearby_stores.html?order={{orderData.orderNo}}">
         <image class='selectStoreIcon' mode='aspectFill' src='/images/icons/right.png'></image>
       </view>
-    </view> 
+    </view>
+    <view class='buyInfo' wx:if="{{mendianZiti==1}}">
+      <text class='name'>提货人信息</text>
+      <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName}}' placeholder='请输入提货人'></input>
+      <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno}}' placeholder='请输入提货人手机号'></input>
+    </view>
 <!--上面是单纯不允许自提的情况下 -->
 
     <!-- <view class='allowMendianZiti' wx:if="{{allowMendianZiti!='0'}}">
@@ -151,6 +156,12 @@
     </radio-group>
 
     <button class='fottButn'  formType="submit" style='background:{{setting.platformSetting.defaultColor}}'>提交订单</button>
+    <view class='agreement' wx:if="{{isAgreement}}" >
+      <icon wx:if="{{!agreementState}}" bindtap="changeAgreement" data-type="1" type="circle" size="34rpx"></icon> 
+      <icon wx:else bindtap="changeAgreement" data-type="0" type="success" size="34rpx"></icon>
+      <text class='agreementName' catchtap='tolinkUrl' data-link="custom_page_order_agreement.html">《订单协议》</text>
+      <text class='agreementTip'>提交订单表示您同意协议内容</text>
+    </view>
 </form>
 </view>
 <view class='height'></view>

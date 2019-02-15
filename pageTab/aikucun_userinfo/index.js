@@ -11,7 +11,7 @@ Page({
     PaiXuPartials: null,
 
     loginUser: null,
-    componentState:false, //组件的data
+    componentState:true, //组件的data
 
     // headData:null,
     blankData: null,

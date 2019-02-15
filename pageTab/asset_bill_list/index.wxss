@@ -10,6 +10,10 @@
   justify-content: center;
   padding: 20rpx 0 40rpx 0rpx;
   border-bottom: 1rpx solid #ddd;
+  position:fixed;
+  width:95%;
+  background:#fff;
+  top:0;
 }
 .bill_tab{
   display: flex;
@@ -35,6 +39,8 @@
 .asset_bill_list{
   display: flex;
   flex-direction: column;
+  margin-top:90rpx;
+  margin-bottom:79rpx;
 }
 .asset_bill_item{
   display: flex;
@@ -144,7 +150,12 @@
   bottom: 100rpx;
   background: #fff;
   width: 100%;
-  box-sizing: border-box
+  box-sizing: border-box;
+  border-top:0.5px solid #eee;
+  border-top-right-radius:20rpx;
+  border-top-left-radius:20rpx;
+  border-left:0.5px solid #eee;
+  border-right:0.5px solid #eee;
 }
 .non_payment_title{
   font-size: 28rpx;
@@ -189,4 +200,14 @@
   color: #999;
   font-size: 26rpx;
   padding: 20rpx;
+}
+.no_bill{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  font-size:26rpx;
+  padding:30rpx;
+  background:#f7f7f7;
 }

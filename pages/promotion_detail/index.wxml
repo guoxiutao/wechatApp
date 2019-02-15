@@ -2,6 +2,9 @@
 
 <view class='wxParseHtmlContainer'>
 
-
+<!-- <view class='promotion_title'>
+  <text class='promotion_name'>{{promotionData.name}}</text>
+  <text class='promotion_time'>【{{promotionData.startDate}}】后开始</text>
+</view> -->
 <template is="1"   data="{{wxParseData:article.nodes}}"></template> 
 </view>

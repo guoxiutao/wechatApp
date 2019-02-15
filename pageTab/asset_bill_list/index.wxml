@@ -62,14 +62,14 @@
   <view class='non_payment_title'>
     <text>待支付订单</text>
   </view>
-  <scroll-view
+  <scroll-view wx:if="{{noAssetBillList.userUnpayedBills.length!=0}}"
     scroll-y
     style="height: 200px;"
     bindscrolltoupper="upper"
     bindscrolltolower="lower"
     bindscroll="scroll"
   >
-  <view class='non_payment_item' wx:for="{{noAssetBillList.userUnpayedBills}}" wx:for-item="item">
+  <view class='non_payment_item' wx:for="{{currentTab==0?noAssetBillList.userUnpayedBills:noAssetBillList.organizeUnpayedBills}}" wx:for-item="item">
     <view class='non_payment_item_left'>
       <text class='non_payment_item_name'>{{item.assetName}}</text>
       <text class='non_payment_item_time'>账单起止时间：{{item.unitStartTime}}-{{item.unitEndTime}}</text>
@@ -79,4 +79,7 @@
     </view>
   </view>
   </scroll-view>
+  <view class='no_bill' wx:else>
+    <text>暂无账单</text>
+  </view>
 </view>

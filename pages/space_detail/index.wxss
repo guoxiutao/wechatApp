@@ -100,6 +100,7 @@ overflow:hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
+  width:90%;
 }
 .space_detail_logo{
   width: 90rpx;
@@ -112,14 +113,23 @@ overflow:hidden;
   height: 90rpx;
   justify-content: space-between;
   letter-spacing: 2rpx;
+  width:80%;
 }
 .space_detail_name{
   font-size: 34rpx;
   font-weight: bold;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width:100%;
 }
 .space_detail_addr{
   font-size: 24rpx;
   color: #999;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width:100%;
 }
 .navigation{
   display: flex;
@@ -238,6 +248,14 @@ overflow:hidden;
   font-size: 28rpx;
   padding: 20rpx;
   box-sizing:border-box;
+  width:100%;
+}
+.lease_item_name{
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width:100%;
+  text-align: center
 }
 .lease_item_industry{
   font-size: 22rpx;

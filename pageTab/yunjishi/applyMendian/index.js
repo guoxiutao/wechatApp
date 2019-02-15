@@ -258,26 +258,6 @@ this.setData({
                 }
               }
             });
-       } else if (that.data.schoolName == ""){
-            wx.showModal({
-              content: '请填写学校名称',
-              showCancel: false,
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                }
-              }
-            });
-       } else if (that.data.learn == ""){
-            wx.showModal({
-              content: '请填写专业名称',
-              showCancel: false,
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                }
-              }
-            });
        } else if (that.data.shopName.length > 9){
             wx.showModal({
               content: '店铺名不能超过9个字符',
@@ -309,7 +289,7 @@ this.setData({
            //  bankPhone: this.data.bankPhone,//银行电话
            //  bankNumber: this.data.bankNumber,//银行账户
            //  bankUserName: this.data.bankUserName,//开户名
-           learn: this.data.learn,
+          //  learn: this.data.learn,
            formId: formId,
          }
          var customIndex = app.AddClientUrl("/applyServer.html", params, 'post')

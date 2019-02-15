@@ -87,35 +87,57 @@ Page({
   },
   get_qrcode:function(){
     console.log('-------获取推广二维码信息--------')
-    var customIndex = app.AddClientUrl("/get_qrcode.html")
-    var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
-    wx.request({
-      url: customIndex.url,
-      header: app.header,
-      success: function (res) {
-        if (res.data.errcode == '0'){
-          that.setData({
-            FxImage: res.data.relateObj
-          })
+    let that = this;
+    console.log('===showPoster====', that.data.loginUser.id)
+    if (that.data.loginUser && that.data.loginUser.platformUser.id) {
+      let ewmImgUrl = app.getQrCode({ type: "user_info", id: that.data.loginUser.platformUser.id })
+      that.setData({
+        posterState: true,
+        ewmImgUrl: ewmImgUrl,
+      })
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '您还未登录，点击【确定】重新加载',
+        success: function (res) {
+          if (res.confirm) {
+            that.getSessionUserInfo();
+            this.getParac()
+          } else if (res.cancel) {
+
+          }
         }
-        else{
-          wx.showToast({
-            title: res.data.errMsg,
-            icon: '/images/icons/tip.png',
-            duration: 1500
-          })
-        }
-        console.log(res.data)
-        wx.hideLoading()
-      },
-      fail: function (res) {
-        wx.hideLoading()
-        app.loadFail()
-      }
-    })
+      })
+    }
+    // var customIndex = app.AddClientUrl("/get_qrcode.html")
+    // var that = this
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    // wx.request({
+    //   url: customIndex.url,
+    //   header: app.header,
+    //   success: function (res) {
+    //     if (res.data.errcode == '0'){
+    //       that.setData({
+    //         FxImage: res.data.relateObj
+    //       })
+    //     }
+    //     else{
+    //       wx.showToast({
+    //         title: res.data.errMsg,
+    //         icon: '/images/icons/tip.png',
+    //         duration: 1500
+    //       })
+    //     }
+    //     console.log(res.data)
+    //     wx.hideLoading()
+    //   },
+    //   fail: function (res) {
+    //     wx.hideLoading()
+    //     app.loadFail()
+    //   }
+    // })
   },
   get_gzhcode: function () {
     console.log('-------获取公众号二维码信息--------')
@@ -155,7 +177,12 @@ Page({
    */
   onLoad: function (options) {
     console.log("options", options)
-    if (options.type="gzh"){
+    this.setData({
+      loginUser: app.loginUser,
+      userInfo: app.globalData.userInfo,
+      setting: app.setting
+    })
+    if (options.type=="gzh"){
       this.get_gzhcode()
     } else {
       this.get_qrcode()

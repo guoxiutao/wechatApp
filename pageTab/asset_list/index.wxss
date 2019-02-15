@@ -124,14 +124,15 @@ page{
   justify-content: space-between;
   box-shadow:4rpx 4rpx 10rpx #ddd;
   margin: 20rpx;
-  height: 240rpx;
+  height: 250rpx;
   border-radius: 20rpx;
 }
 .asset_item_left{
   display: flex;
   align-items: center;
   flex-direction: row;
-  height:240rpx;
+  height:250rpx;
+  width:100%;
 }
 .asset_img{
   width: 260rpx;
@@ -142,6 +143,7 @@ page{
   display: flex;
   flex-direction: column;
   margin-left: 30rpx;
+  width: 58%
 }
 .asset_view{
   display: flex;
@@ -152,12 +154,22 @@ page{
   font-size: 28rpx;
 }
 .asset_icon{
-  width: 40rpx;
-  height: 40rpx;
+  width: 46rpx;
+  height: 46rpx;
   margin-right: 30rpx;
 }
 .asset_name{
   font-size: 32rpx;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width:80%;
+}
+.space_name{
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width:80%;
 }
 .asset_online_value{
   color: #C0271F;
@@ -169,11 +181,13 @@ page{
 }
 .asset_price{
   color: #C0271F;
-  font-size: 30rpx;
+  font-size: 34rpx;
   font-weight: bold;
-  margin-right: 30rpx;
+  margin-right: 20rpx;
 }
-
+.asset_unit{
+  font-size: 28rpx
+}
 
 .navigations{
   display: flex;

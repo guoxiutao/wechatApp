@@ -12,6 +12,8 @@ Page({
     showTopSelect:false,
     orderNo:'',
     checkedRadio:0,
+    agreementState:true,
+    isAgreement:false,
     //优惠券 
     getEditOrderDetailData:null,
     coupon:[],
@@ -28,6 +30,41 @@ Page({
     showArr:false,
     addrArr:null,
     hasAddnewAddr:false,
+  },
+  // 判断是否有协议页面；
+  getParac: function () {
+    var that = this
+    var customIndex = app.AddClientUrl("/custom_page_order_agreement.html", {}, 'get', '1')
+    //拿custom_page
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("====== res.data=========", res.data)
+        if (!res.data.errcode || res.data.errcode == '0') {
+          wx.hideLoading()
+          that.setData({ isAgreement: true })
+        } else {
+          console.log('加载失败')
+          that.setData({ isAgreement: false })
+        }
+      },
+      fail: function (res) {
+        console.log('------------2222222-----------', res)
+        that.setData({ isAgreement: false })
+        wx.hideLoading()
+      }
+    })
+  },
+  changeAgreement(e) {
+    let that=this;
+    console.log('checkbox发生change事件，携带value值为：', e)
+    let type = e.target.dataset.type;
+    if(type==1){
+      that.setData({ agreementState:true})
+    } else {
+      that.setData({ agreementState: false })
+    }
   },
   radioChance:function(e){
     var index = e.currentTarget.dataset.index
@@ -46,7 +83,9 @@ Page({
     addressId: '',
     jifenDikou: '0',
     buyerBestTime: '',
-    changeOrderMendianId:0
+    changeOrderMendianId:0,
+    contactName:"",
+    contactTelno:"",
   },
   /* 积分抵扣 */
   jifenChange :function (e){
@@ -292,29 +331,6 @@ Page({
           showTopSelect = false
         }
         that.setData({ showTopSelect: showTopSelect })
-        // 允许但不优先
-        // if (that.data.allowMendianZiti=="1"){
-        //   that.setData({
-        //     mendianZiti:0
-        //   })
-        // }
-        // // 允许并优先(2)只允许门店自提(3)
-        // else if (that.data.allowMendianZiti == "2"){
-        //   that.setData({
-        //     mendianZiti: 1
-        //   })
-        // }
-        // // 只允许门店自提
-        // else if (that.data.allowMendianZiti == "3") {
-        //   that.setData({
-        //     mendianZiti: 1
-        //   })
-        // }
-        // else{
-        //   that.setData({
-        //     mendianZiti: 0
-        //   })
-        // }
         console.log("=====mendianZiti======", that.data.mendianZiti)
         that.getavailableCouponsArr()
         that.loadMessage()
@@ -348,8 +364,6 @@ Page({
           }
         })
       
-  
-      
     }else{
       // 如果允许自提但没打勾
       if (that.data.allowMendianZiti != "0" && that.data.mendianZiti == "0" && !that.orderMessage.addressId){
@@ -366,9 +380,7 @@ Page({
             }
           }
         })
-        }
-
-else{
+        }else{
 
         // 如果是订餐的话携带桌子ID
         // 查找缓存
@@ -385,6 +397,36 @@ else{
         that.orderMessage.mendianZiti = that.data.mendianZiti
         that.orderMessage.miniNotifyFormId = miniNotifyFormId
         console.log("=========参数orderMessage===========", JSON.stringify(that.orderMessage))
+        if (that.data.mendianZiti == 1 && !that.orderMessage.contactName && !that.orderMessage.contactTelno){
+          wx.showModal({
+            title: '提示',
+            content: '请完善提货人信息！',
+            success: function (res) {
+              if (res.confirm) {
+               
+              } else if (res.cancel) {
+
+              }
+            }
+          })
+          return;
+        }
+        if (that.data.isAgreement){
+          if (!that.data.agreementState){
+            wx.showModal({
+              title: '提示',
+              content: '请您勾选《订单协议》同意协议内容！',
+              success: function (res) {
+                if (res.confirm) {
+                  that.setData({ agreementState: true })
+                } else if (res.cancel) {
+
+                }
+              }
+            })
+            return;
+          }
+        }
         var customIndex = app.AddClientUrl("/submit_order.html", that.orderMessage, 'post')
 
         wx.showLoading({
@@ -580,7 +622,8 @@ else{
       this.setData({
         orderData: orderData
       })
-      that.getEditOrderDetail()
+      that.getEditOrderDetail();
+      that.getParac();
       console.log("===================", this.data.orderData)
     }
   },
@@ -719,7 +762,24 @@ else{
     })
     that.getEditOrderDetail();
   },
-  
+  // 1提货人
+  contactNameInput: function (e) {
+    let that=this;
+    console.log("提货人", e.detail.value)
+    that.orderMessage.contactName = e.detail.value
+    that.setData({
+      orderMessage: that.orderMessage
+    })
+  },
+  // 1.提货人手机号
+  contactTelnoInput: function (e) {
+    let that=this;
+    console.log("提货人手机号", e.detail.value)
+    that.orderMessage.contactTelno = e.detail.value
+    that.setData({
+      orderMessage: that.orderMessage
+    })
+  },
   check:function(){
     if (this.data.allowMendianZiti=="3"){
       this.setData({
@@ -759,6 +819,8 @@ else{
     }
     this.orderMessage.gotCouponListId = this.data.gotCouponListId
     this.orderMessage.addressId = this.data.orderData.addressId
+    this.orderMessage.contactName = this.data.orderData.contactName
+    this.orderMessage.contactTelno = this.data.orderData.contactTelno
 
 
 

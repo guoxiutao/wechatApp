@@ -4,6 +4,7 @@
     "pageTab/tunzai/index/index",
     "pageTab/tunzai/teMai/index",
     "pageTab/custom_page_index/index",
+    "pageTab/custom_page_footer2/index",
     "pageTab/product/index",
     "pageTab/near_shop_page/index",
     "pageTab/aikucun_userinfo/index",
@@ -217,7 +218,7 @@
       "text": "技师"
     },
     {
-      "pagePath": "pageTab/asset_bill_list/index",
+      "pagePath": "pageTab/shopping_car_list_new/index",
       "iconPath": "images/icons/fx.png",
       "selectedIconPath": "images/icons/fx2.png",
       "text": "工作进程"

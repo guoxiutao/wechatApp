@@ -193,3 +193,51 @@
   color: red;
 }
 
+
+.tagPrice_font{
+  font-size: 24rpx;
+  line-height:24rpx;
+  color:#aaa;
+  text-decoration:line-through;
+  margin-left: 8rpx
+}
+.price_group{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  height:40rpx;
+  margin-top: 10rpx
+}
+.noPintuan{
+  height:40rpx;
+  line-height:40rpx;
+}
+.pintuan{
+  line-height:40rpx;
+}
+.zhezhao {
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#000;
+opacity:0.6;
+z-index:10;
+
+}
+.font_aaa {
+  color:#aaa;
+}
+.font_1 {
+  font-size:1em;
+}
+.flexCenter {
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.font_14 {
+  font-size:1.4em;
+}
+

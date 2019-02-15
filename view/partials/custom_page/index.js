@@ -21,6 +21,7 @@ Component({
   ready: function () {
     let that=this;
     console.log('zujian',this.data.data)
+    if (this.data.data){}
     this.setData({ setting: app.setting })
     console.log('setting', this.data.setting)
     this.getParac();
@@ -66,9 +67,11 @@ Component({
         success: function (res) {
           console.log("====== res.data=========", res.data)
           if (!res.data.errcode||res.data.errcode=='0'){
-            // wx.setNavigationBarTitle({
-            //   title: res.data.channelTitle,
-            // })
+            if (res.data.channelName !="index"){
+             wx.setNavigationBarTitle({
+               title: res.data.channelTitle,
+             })
+           }
             wx.hideLoading()
             app.renderData = res.data
             that.setData({ renderData: res.data })

@@ -204,9 +204,13 @@ Page({
   },
   /* 查找商品 */
   getSearchProductName: function (e) {
-    this.params.productName = e.detail.value
     var that = this
-    var customIndex = this.more_product_list_URL(this.params);
+    if (e.detail.value) {
+      that.params.productName = e.detail.value
+    } else {
+      that.params.productName = ''
+    }
+    var customIndex = that.more_product_list_URL(that.params);
     console.log(customIndex)
     wx.showLoading({
       title: 'loading'

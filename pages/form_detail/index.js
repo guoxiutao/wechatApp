@@ -93,12 +93,13 @@ Page({
   formSubmit:function(e){
     console.log('form发生了submit事件，携带数据为：', e)
     var that = this;
+    let newObj={}
     console.log(that.params);
     let value = e.detail.value;
     let imgObj = {};
     for (let i = 0; i<that.data.formData.items.length;i++){
       if (that.data.formData.items[i].type==7){
-        imgObj[that.data.formData.items[i].name] = that.data.upLoadImageList['img_' + i]
+        imgObj[that.data.formData.items[i].name] = that.data.upLoadImageList['img_' + i]||""
       } else if (that.data.formData.items[i].type ==2){
         
       }
@@ -111,6 +112,9 @@ Page({
     console.log('===itemData====', itemData)
     for (let i = 0; i < itemData.length;i++){
       for (let j in value) {
+        if(itemData[i].name == j){
+          newObj[itemData[i].name] = { value: value[j], title: itemData[i].title, type: itemData[i].type}
+        }
         if (itemData[i].name == j && itemData[i].mustInput==1&& !value[j]){
           wx.showModal({
             title: '提示',
@@ -124,10 +128,12 @@ Page({
             }
           })
           return
-        }
+        } 
       }
     }
-    that.params.formJson = JSON.stringify(value);
+    console.log("==newObj====", newObj)
+    //that.params.formJson = JSON.stringify(value);
+    that.params.formJson = JSON.stringify(newObj);
     var formData = app.AddClientUrl("/wx_commit_custom_form.html", that.params, 'post')
     wx.request({
       url: formData.url,

@@ -1,6 +1,6 @@
 .userinfo_head3{
   width: 100%;
-  height: 12em;
+  height: 450rpx;
   background: #eee;
   position: relative;
   z-index: 0;
@@ -51,6 +51,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 30rpx;
 }
 .loginOut_icon{
   display: flex;

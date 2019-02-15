@@ -64,7 +64,7 @@ Page({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
-        console.log(res)
+        console.log("====custom_page=====",res)
 
         if(res.data.errcode<0){
           console.log(res.data.errMsg)
@@ -113,6 +113,7 @@ Page({
    */
   onloadOpt:{},
   onLoad: function (options) {
+    console.log("===options==", options)
     if (!options){
       console.log('-------noOption------')
       return

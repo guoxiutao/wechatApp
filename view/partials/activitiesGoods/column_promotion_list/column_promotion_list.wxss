@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   margin-bottom:50rpx;
+  border-bottom:1rpx solid #ddd;
+  padding-bottom:50rpx;
 }
 .promotion_product_head{
   display: flex;

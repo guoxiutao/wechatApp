@@ -2,15 +2,17 @@
 @import 'oneColumns/oneColumns.wxss';/* 引入一列的 */
 @import 'productListDetail/productListDetail.wxss';/* 引入详细列表跟新闻列表一样的样式 */
 @import 'productListSlide/productListSlide.wxss';/* 引入可以滑动的样式 */
+@import '../../../view-new/aikucun/measure_card.wxss';/*  detail_list_card  */ 
+@import"../../../wxParse/wxParse.wxss";/* 富文本 */
 
 
 
 
 
 .tags_content::-webkit-scrollbar{
-width: 0;
-height: 0;
-color: transparent;
+  width: 0;
+  height: 0;
+  color: transparent;
 }
 .detail_list_mode1{
   display: flex;

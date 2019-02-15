@@ -347,6 +347,7 @@ page{
   box-sizing:border-box;
   width: 48%;
   margin: 1%;
+  position: relative
 }
 .product_img{
   width: 100%;
