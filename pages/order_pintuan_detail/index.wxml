@@ -28,7 +28,7 @@
         <image class='pintuan_bg_right_img' src='http://image1.sansancloud.com/jianzhan/2018_9/10/18/4/59_988.jpg'></image>
      </view>
   </view>
-  <view class='addrItems2'>
+  <!-- <view class='addrItems2'>
       <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
       <view class='addrInfo'>
         <view>
@@ -37,9 +37,13 @@
         </view>
         <text class='font2'>{{orderDetailData.buyerProvince}} {{orderDetailData.buyerCity}} {{orderDetailData.buyerArea}} {{orderDetailData.buyerAddress}}           </text>
       </view>
-  </view>
+  </view> -->
 
   <view class='pintuan_container'>
+     <view class='share_btn' bindtap='showPoster'>
+        <image class='share_icon' src='http://image1.sansancloud.com/xianhua/2019_1/7/16/50/24_963.jpg'></image>
+        <text class='share_text'>分享码</text>
+     </view>
      <view class='pintuan_tiltle'>
        <image class='pintuan_user_img' src='http://image1.sansancloud.com/jianzhan/2018_9/10/19/37/5_305.jpg?x-oss-process=style/preview_120'></image>
        <view class='pintuan_info' wx:if='{{orderDetailData.pintuanRecord.recordStatus!=2}}'>
@@ -177,3 +181,4 @@
       </view>
   </view >
 </block>
+<posters-user-info ewmImgUrl='{{ewmImgUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters-user-info>

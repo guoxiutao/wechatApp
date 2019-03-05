@@ -15,10 +15,10 @@
       <view class='product_price'>
         <view class='product_tags'>
           <text class='product_tags_item' style='background:{{setting.platformSetting.defaultColor}}'>包邮</text>
-          <text class='product_tags_item' style='background:{{setting.platformSetting.defaultColor}}'>拼单省{{pintuanData.productBean.price-pintuanData.productBean.price*pintuanData.pintuanStrategyBean.priceZhekou}}元</text>
+          <text class='product_tags_item' style='background:{{setting.platformSetting.defaultColor}}'>拼单省{{pintuanData.productBean.price-pintuanData.productBean.promotionPrice}}元</text><!-- pintuanData.productBean.price-pintuanData.productBean.price*pintuanData.pintuanStrategyBean.priceZhekou -->
         </view>
         <view class='product_pindan_price'>
-          <text class='product_discount' style='color:{{setting.platformSetting.defaultColor}}'>￥{{pintuanData.productBean.price}}</text>
+          <text class='product_discount' style='color:{{setting.platformSetting.defaultColor}}'>￥{{pintuanData.productBean.promotionPrice||pintuanData.productBean.price}}</text>
           <view class='product_count'>
             <text>已拼10万+件</text>
           </view>

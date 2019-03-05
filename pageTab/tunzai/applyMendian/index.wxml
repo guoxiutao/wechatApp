@@ -9,7 +9,7 @@
  
   <view class='shopIfonName'>
       <view class='shopIfonNameTitle'>店铺名称</view>
-      <view class='shopIfonNameInput'><input placeholder="请输入九个字符内(中英文数字皆可)" bindinput="shopNameInput"></input></view>
+      <view class='shopIfonNameInput'><input placeholder="请输入店铺名称(中英文数字皆可)" bindinput="shopNameInput"></input></view>
   </view>
 
   <view class='InviteCode'>

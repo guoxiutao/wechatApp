@@ -52,8 +52,12 @@ Page({
       success: function (res) {
         console.log('-----------orderDetail--------')
         console.log(res.data)
+        let productData = res.data.relateObj.productBean;
+        productData.promotionBean = res.data.relateObj.promotionBean
+        productData.promotionBean.pintuanStrategy = res.data.relateObj.pintuanStrategyBean
         that.setData({ pintuanData: res.data.relateObj })
-        that.setData({ productData: res.data.relateObj.productBean })
+        that.setData({ productData: productData })
+        console.log("===productData===", that.data.productData)
         wx.hideLoading()
       },
       fail: function (res) {
@@ -239,10 +243,12 @@ Page({
   //获取规格价格参数
   get_measure_cartesion: function () {
 
+    this.setData({ measurementJson: { waitDataState: false } })
     let productId = this.data.productData.id
     let postStr = ''
     if (this.MeasureParams.length == 0) {
       this.byNowParams.cartesianId = '0'
+      this.setData({ measurementJson: { waitDataState: true } })//没有规格时 不需要等待请求
       return
     }
     for (let i = 0; i < this.MeasureParams.length; i++) {
@@ -264,6 +270,10 @@ Page({
         that.setData({
           measurementJson: res.data
         })
+        that.data.measurementJson.waitDataState = true
+        that.setData({ measurementJson: that.data.measurementJson })
+        that.data.byNowParams.itemCount = that.data.measurementJson.minSaleCount
+        that.setData({ byNowParams: that.data.byNowParams })
       },
       fail: function (res) {
         console.log("fail")

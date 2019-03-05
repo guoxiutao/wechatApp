@@ -396,8 +396,9 @@ Page({
         console.log("======mendianZiti=========", that.data.mendianZiti)
         that.orderMessage.mendianZiti = that.data.mendianZiti
         that.orderMessage.miniNotifyFormId = miniNotifyFormId
-        console.log("=========参数orderMessage===========", JSON.stringify(that.orderMessage))
-        if (that.data.mendianZiti == 1 && !that.orderMessage.contactName && !that.orderMessage.contactTelno){
+        console.log("=========参数orderMessage===========", that.orderMessage)
+        console.log("=========参数orderMessage===========", !that.orderMessage.contactName && !that.orderMessage.contactTelno)
+        if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno)){
           wx.showModal({
             title: '提示',
             content: '请完善提货人信息！',

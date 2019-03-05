@@ -99,6 +99,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
+  orderAsset:function(){
+  },
   getOrganizesData: function (spaceId){
     let that=this;
     let data={

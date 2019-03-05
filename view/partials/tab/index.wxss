@@ -1,32 +1,37 @@
 .wrap{
       height: 80rpx;
 }
-
+.fixed{
+  position: fixed;
+  top: 0;
+  z-index:100;
+}
 .tab-h{
-    height: 80rpx;
+    height: 76rpx;
     width: 100%; 
     box-sizing: border-box;
     overflow: hidden;
-    line-height: 80rpx;
-    /* background: #F7F7F7; */
-     font-size: 16px; 
-     white-space: nowrap;
-     position: fixed;
-     top: 0; 
-     left: 0; 
-     z-index: 99;
+    line-height: 68rpx;
+    font-size: 28rpx; 
+    white-space: nowrap
      }
-.tab-item{
-   margin:0 36rpx;
-   display: inline-block;
+ .tab-item{
+     margin:0 24rpx;
+     height: 66rpx;
+     display: inline-block;
+   }
+    .tab-item:first-child{
+     margin-left: 20rpx;
+     height: 60rpx;
+     display: inline-block;
    }
 .tab-item.active{
    color: #4675F9;
    position: relative;
   }
 .tab-item.active:after{
-          content: "";
-        display: block;
+      content: "";
+      display: block;
       height: 8rpx;
       width: 100%;
       background: #4675F9;

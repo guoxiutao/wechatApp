@@ -41,7 +41,9 @@ Component({
     // 这里是一个自定义方法
     /* 组件事件集合 */
     bindGetUserInfo: function (e) {
-      this.setData({ showPopup: false })
+      let that=this;
+      that.setData({ showPopup: false })
+      console.log(that.data.showPopup)
       console.log(e.detail.userInfo)
       if (e.detail.userInfo) {
         //用户按了允许授权按钮
@@ -58,24 +60,40 @@ Component({
       this.setData({ showPopup: false })
     },
     getParac: function () {
-      var that = this
-      var customIndex = app.AddClientUrl("/custom_page_" + that.data.data + ".html", {}, 'get', '1')
+      var that = this;
+      let url
+      let jsonData
+      try {
+        jsonData = JSON.parse(that.data.data);
+        url = jsonData.url
+      } catch (e) {
+        jsonData = that.data.data
+        console.log(e); //error in the above string(in this case,yes)!
+        url = jsonData
+      }
+      console.log("====url====", url, jsonData)
+      var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", {}, 'get', '1')
       //拿custom_page
       wx.request({
         url: customIndex.url,
         header: app.header,
         success: function (res) {
           console.log("====== res.data=========", res.data)
-          if (!res.data.errcode||res.data.errcode=='0'){
-            if (res.data.channelName !="index"){
-             wx.setNavigationBarTitle({
-               title: res.data.channelTitle,
-             })
+          let data = res.data;
+          if (!data.errcode | data.errcode=='0'){
+            if (data.channelName !="index"){
+              if (jsonData.title && jsonData.title =="noTitle"){
+                console.log("======不设置标题=======")
+              } else (
+                wx.setNavigationBarTitle({
+                  title: data.channelTitle,
+                })
+              )
            }
             wx.hideLoading()
-            app.renderData = res.data
-            that.setData({ renderData: res.data })
-            if (res.data.partials.length == 0) {
+            app.renderData = data
+            that.setData({ renderData: data })
+            if (data.partials.length == 0) {
               that.setData({ PaiXuPartials: null })
             } else {
               that.getPartials();

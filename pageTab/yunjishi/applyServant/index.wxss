@@ -59,11 +59,9 @@ color:rgba(102,102,102,1);
 line-height:40rpx;
 }
 .shopIfonNameInput{
-width:498rpx;
+/* width:498rpx; */
 font-size:30rpx;
 display:flex;
-
-
 line-height:40rpx;
 }
 .shopIfonNameInput input{

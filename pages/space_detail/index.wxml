@@ -48,6 +48,10 @@
       </view>
     </scroll-view>
   </view>
+  <!-- 首页组件-私有产品详情装饰-->
+  <view>
+    <component-tag-customPage data="space_{{spaceData.id}}" wx:if="{{spaceData.id}}"></component-tag-customPage> 
+  </view>
   <!-- 组织类型 -->
   <view class='lease_content'>
     <view class='organizes_head'>
@@ -73,15 +77,10 @@
     </view>
     <view wx:else class='no_lease'><text>主人~还没有任何组织或个人租赁哦！</text></view>
   </view>
-
-    <!-- 首页组件-私有产品详情装饰-->
-    <view style='margin-top:20rpx;'>
-     <component-tag-customPage data="product_detail_{{spaceData.productId}}" wx:if="{{spaceData.productId}}"></component-tag-customPage> 
-    </view>
 </view>
 
 
 
 <posters proId="{{proId}}" shopId="{{shopId}}" ewmImgUrl='{{qrCodeUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters> 
  <!-- 首页组件-公共产品详情装饰-->
- <component-tag-customPage data="productdetail"></component-tag-customPage> 
+ <component-tag-customPage data="space"></component-tag-customPage> 

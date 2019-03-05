@@ -8,6 +8,19 @@
  <view class='shopIfonTitle'>店铺信息</view>
  
   <view class='shopIfonName'>
+      <view class='shopIfonNameTitle'>LOGO</view>
+      <view class='shopIfonNameInput'>
+        <view class='uploadedImg' wx:if="{{upLoadImageList['img_headImg']}}">
+          <view class='removeImgIcon' bindtap='removeImg' data-index='headImg'>x</view>
+          <image class='uploadedImgUrl' src="{{upLoadImageList['img_headImg']}}" mode='aspectFill'></image>
+        </view>
+        <view class='uploadImg' bindtap='addCommitImage' data-index='headImg' wx:if="{{!upLoadImageList['img_headImg']}}">
+              <image class='uploadImgIcon' src='http://image1.sansancloud.com/jianzhan/2018_10/22/18/4/3_874.jpg?x-oss-process=style/preview_120'></image>
+              <text style='font-size:24rpx;color:#555;margin-top:10rpx'>添加头像</text>
+            </view>
+      </view>
+  </view>
+  <view class='shopIfonName'>
       <view class='shopIfonNameTitle'>店铺名称</view>
       <view class='shopIfonNameInput'><input placeholder="请输入九个字符内(中英文数字皆可)" bindinput="shopNameInput"></input></view>
   </view>
@@ -27,11 +40,11 @@
  <view class='mt16'></view>
   <view class='userIfonName'>
       <view class='userIfonNameTitle'>真实姓名</view>
-      <view class='userIfonNameInput'><input placeholder="初入江湖，报上大名" bindinput="userName"></input></view>
+      <view class='userIfonNameInput'><input placeholder="请输入您的真实姓名" bindinput="userName"></input></view>
   </view>
    <view class='userIfonName'>
       <view class='userIfonNameTitle'>手机号码</view>
-      <view class='userIfonNameInput'><input placeholder="绝不骚扰，除非你想"bindinput="phoneInput" type='number'></input></view>
+      <view class='userIfonNameInput'><input placeholder="请输入您的手机号码"bindinput="phoneInput" type='number'></input></view>
   </view>
   
      <!-- <view class='userIfonCode'>
@@ -46,7 +59,7 @@
   <!--验证码结束  -->
       <view class='userIfonName'>
       <view class='userIfonNameTitle'>年龄</view>
-      <view class='userIfonNameInput' type='number'><input placeholder="对灯发誓绝对保密 "bindinput="ageInput"></input></view>
+      <view class='userIfonNameInput' type='number'><input placeholder="请输入您的年龄 "bindinput="ageInput"></input></view>
   </view>
        <view class='userIfonName'>
       <view class='userIfonNameTitle'>性别</view>

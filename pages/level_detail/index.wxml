@@ -14,7 +14,8 @@
           <text class='my_level_value'>{{myMembers.levelName}}</text>
         </view>
       </view>
-      <view class='my_level_limit_time'><text>有效期：</text><text wx:if="{{myMembers.limitType==1}}">永久有效</text></view>
+      <!-- <view class='my_level_limit_time'><text>有效期：</text><text wx:if="{{myMembers.limitType==1}}">永久有效</text></view> -->
+      <view class='my_level_limit_time'><text wx:if="{{loginUser.platformUser.platformUserCode}}">{{loginUser.platformUser.platformUserCode}}</text></view>
     </view>
     <view class='extra_info'>
       <view class='extra_info_item' wx:if="{{memberState}}">

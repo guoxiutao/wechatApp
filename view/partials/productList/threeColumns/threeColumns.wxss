@@ -45,6 +45,9 @@
   width: 100%;
   font-size: 30rpx;
   color: red;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .tag_price{
   text-decoration:line-through;
@@ -62,4 +65,26 @@
   font-size:24rpx;
   margin-left:4rpx;
   letter-spacing:4rpx;
+}
+.money{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.limit{
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  width: 70%;
+}
+.cart{
+  height: 30rpx;
+  width: 30rpx;
+  font-size: 30rpx;
+  text-align: center;
+  line-height: 30rpx;
+  border: 1rpx solid red;
+  border-radius: 30rpx;
+  padding: 5rpx;
 }

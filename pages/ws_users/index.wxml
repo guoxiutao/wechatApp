@@ -19,10 +19,10 @@
           <view class='flx_user_item_info'>
             <view class='flx_user_item_head'>
               <text>{{item.nickname}}</text>
-              <view class='tg_num_info'>
+              <!-- <view class='tg_num_info'>
                 <image class='tg_num_icon' src='http://image1.sansancloud.com/xianhua/2019_1/17/17/44/13_843.jpg'></image>
                 <text class='tg_num'>{{item.levelOneFxUserCount}}</text>
-              </view>
+              </view> -->
             </view>
             <view class='font_small'>推荐人：{{item.parentName}}</view>
           </view>

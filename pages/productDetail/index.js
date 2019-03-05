@@ -14,8 +14,12 @@ Page({
     countGood:0,
     sysWidth: 320,//图片大小
     showCount:false,
+    saleStrategyState: false,
+    measuresState: false,
+    positionState: false,
+    attrsState: false,
     byNowParams:{},
-    targs:null,
+    targs:[],
     posterState: false,
     pintuanPopupState: false,
     proId:'',
@@ -37,6 +41,7 @@ Page({
     secondColor:"",
     clientNo:'',
     minCount:'1',
+    sendIndexData:{},
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -588,6 +593,8 @@ Page({
         console.log(res)
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
+        let sendProductData = JSON.stringify({ title: 'noTitle', url: "product_detail_" + res.data.productInfo.productId })
+        that.setData({ sendProductData: sendProductData })
         res.data.productInfo.promotion = Number(res.data.productInfo.promotion)
         if (res.data.productInfo && res.data.productInfo.promotionBean) {
           that.setData({ promotionState: true })
@@ -616,6 +623,22 @@ Page({
         if (res.data.description && res.data.description.description){
           WxParse.wxParse('article', 'html', res.data.description.description, that, 10);
           console.log('====article====', that.data.article)
+        }
+        if (res.data.productInfo.saleStrategy && res.data.productInfo.saleStrategy!=0) {
+          that.setData({ saleStrategyState:true})
+          console.log('====saleStrategyState====', that.data.saleStrategyState)
+        }
+        if (res.data.measuresState && res.data.measuresState.length!= 0) {
+          that.setData({ measuresState: true })
+          console.log('====measuresState====', that.data.measuresState)
+        }
+        if (res.data.productInfo.latitude && res.data.productInfo.latitude != 0) {
+          that.setData({ positionState: true })
+          console.log('====positionState====', that.data.positionState)
+        }
+        if (res.data.attrs&&res.data.attrs.length != 0) {
+          that.setData({ attrsState: true })
+          console.log('====attrsState====', that.data.attrsState)
         }
         if (!!res.data.productInfo){
           let info = res.data.productInfo
@@ -648,7 +671,8 @@ Page({
   onLoad: function (options) {
     console.log('--------product----------', options)
     let that = this;
-    that.setData({ setting: app.setting })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail" })
+    that.setData({ setting: app.setting, sendIndexData: sendIndexData})
     that.setData({
       sysWidth: app.globalData.sysWidth,
       proId: options.id,

@@ -46,7 +46,7 @@
           <text class='my_members_describe'>充值{{membersItem.needPayAmount}}元升级为{{membersItem.levelName}}</text>
         </view>
         <!-- 充值按钮 -->
-        <view class='recharge_btn' style='color:{{membersItem.backgroundColor?membersItem.backgroundColor:setting.platformSetting.secondColor}}' data-link="user_recharge.html?money={{membersItem.needPayAmount}}" bindtap='tolinkUrl' wx:if="{{membersItem.levelValue>myMembers.levelValue||myMembers.userLevel==0}}">
+        <view class='recharge_btn' style='color:{{membersItem.backgroundColor?membersItem.backgroundColor:setting.platformSetting.secondColor}}' data-link="user_recharge.html?money={{membersItem.needPayAmount}}" catchtap='tolinkUrl' wx:if="{{membersItem.levelValue>myMembers.levelValue||myMembers.userLevel==0}}">
           <text>充值</text>
         </view>
       </view>

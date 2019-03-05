@@ -139,6 +139,25 @@
   background:#fff;
 }
 
+.noList{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 28rpx;
+  color: #fff;
+  height:100%;
+}
+
+.ewmCode{
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+}
+.ewmImg{
+  width: 80rpx;
+  height: 50rpx;
+}
 /* .tab{
   width: 100%;
   display: flex;

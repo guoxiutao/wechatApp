@@ -113,7 +113,11 @@ Page({
     for (let i = 0; i < itemData.length;i++){
       for (let j in value) {
         if(itemData[i].name == j){
-          newObj[itemData[i].name] = { value: value[j], title: itemData[i].title, type: itemData[i].type}
+          if (itemData[i].type == 2) {
+            newObj[itemData[i].name] = { value: itemData[i].listValues[value[j]], title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
+          }else{
+            newObj[itemData[i].name] = { value: value[j], title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
+          }
         }
         if (itemData[i].name == j && itemData[i].mustInput==1&& !value[j]){
           wx.showModal({

@@ -6,7 +6,7 @@
 
     <component-tag-mofang  wx:if='{{item.partialType == "14"}}'  data="{{item}}"></component-tag-mofang> <!-- 魔方-->
 
-    <component-tag-nametab id="tabPage{{index}}" wx:if='{{item.partialType == "13"}}'  data="{{item}}"   bind:action='exFun'></component-tag-nametab> <!-- 13 -->
+    <component-tag-nametab id="tabPage" wx:if='{{item.partialType == "13"}}' class="positionNotifyer"  data="{{item}}"   bind:action='exFun'></component-tag-nametab> <!-- 13 -->
 
     <component-tag-nameBanner wx:if='{{item.partialType =="7"}}' data="{{item}}"></component-tag-nameBanner><!-- 7 Banner-->
 

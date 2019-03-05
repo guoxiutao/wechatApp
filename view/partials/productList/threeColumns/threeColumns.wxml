@@ -13,11 +13,14 @@
      
           <!--价格和购物车图片  -->
        <view class='threeColumnsBoxMoney'>
-         <text class='price' wx:if="{{relateBean.promotion>0}}">￥{{relateBean.promotionPrice}}</text>
-         <text class='price' wx:else>￥{{relateBean.price}}</text>
-         <text class='price' wx:if='{{relateBean.maxPrice>relateBean.price}}'>-{{relateBean.maxPrice}}</text>
-         <text wx:if='{{relateBean.unitShow}}' class='unitShow'>/{{relateBean.unitShow}}</text>
-         <text wx:if='{{relateBean.maxPrice<=relateBean.price}}' class="tag_price">￥{{relateBean.tagPrice}}</text>
+         <view class='money {{jsonData.showCard==1?"limit":""}}'>
+            <text class='price' wx:if="{{relateBean.promotion>0}}">￥{{relateBean.promotionPrice}}</text>
+            <text class='price' wx:else>￥{{relateBean.price}}</text>
+            <text class='price' wx:if='{{relateBean.maxPrice>relateBean.price}}'>-{{relateBean.maxPrice}}</text>
+            <text wx:if='{{relateBean.unitShow}}' class='unitShow'>/{{relateBean.unitShow}}</text>
+            <text wx:if='{{relateBean.maxPrice<=relateBean.price&&result.tagPrice>result.price}}' class="tag_price">￥{{relateBean.tagPrice}}</text>
+         </view>
+         <text class='cart' wx:if="{{jsonData.showCard==1}}" catchtap='readyAddCar' data-product="{{relateBean}}">+</text>
        </view>
     
     </view> 

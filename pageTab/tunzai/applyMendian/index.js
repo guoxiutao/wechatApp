@@ -278,17 +278,7 @@ this.setData({
                 }
               }
             });
-       } else if (that.data.shopName.length > 9){
-            wx.showModal({
-              content: '店铺名不能超过9个字符',
-              showCancel: false,
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                }
-              }
-            });
-       }else{
+       } else{
          console.log("成功了")
 
          let params = {

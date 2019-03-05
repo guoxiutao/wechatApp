@@ -59,9 +59,9 @@ Component({
          totalSecond--;
          if (totalSecond < 0) {
            clearInterval(interval);
-           wx.showToast({
-             title: '活动已结束',
-           });
+          //  wx.showToast({
+          //    title: '活动已结束',
+          //  });
            that.setData({
              countDownDay: '00',
              countDownHour: '00',

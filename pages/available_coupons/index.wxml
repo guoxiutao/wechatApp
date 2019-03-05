@@ -1,6 +1,6 @@
 <view class='container'>
    
-    <view class='couponListContainer'>
+    <view class='couponListContainer' wx:if="{{showCoupon&&showCoupon.length!=0}}">
     <!-- bindtap='toCouponDetail' -->
       <view class='couponListItem' wx:for='{{showCoupon}}' wx:for-item='cou' wx:key='{{cou.id}}'  data-id='{{cou.id}}'>
           <view class='itemHead' style='background:{{setting.platformSetting.defaultColor}}'>{{cou.name}}</view>
@@ -22,6 +22,10 @@
           </view>
           <view class='itemBottom'>{{cou.startDate}} 至 {{cou.endDate}}</view>
       </view>
+    </view>
+
+    <view class='noList' wx:else>
+      <text>主人~暂时还没有任何可领取的优惠券哦！</text>
     </view>
     
 </view>

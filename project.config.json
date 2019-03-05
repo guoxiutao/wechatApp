@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.4.2",
 	"appid": "wx37b3f495891dd60c",
-	"projectname": "chunzixiang",
+	"projectname": "yuanchaye",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 17,
 			"list": [
 				{
 					"id": 0,
@@ -56,7 +56,7 @@
 				{
 					"id": 3,
 					"name": "预览页面",
-					"pathName": "pages/news_detail/index",
+					"pathName": "pageTab/yunjishi/preApplyMendian/index",
 					"query": "id=30426",
 					"scene": "1011"
 				},
@@ -154,7 +154,7 @@
 					"id": 17,
 					"name": "拼团转发",
 					"pathName": "pages/pintuan_invitation/index",
-					"query": "pintuanRecordId=22",
+					"query": "pintuanRecordId=226",
 					"scene": "1001"
 				},
 				{

@@ -11,11 +11,14 @@
       <view class='chooseName1'>{{item.name}}</view>
              <!--价格和购物车图片  -->
        <view class='productListSlidePrice'>
-         <text class='price' wx:if="{{item.promotion>0}}">￥{{item.promotionPrice}}</text>
-         <text class='price' wx:else>￥{{item.price}}</text>
-         <text class='price' wx:if='{{item.maxPrice>item.price}}'>-{{item.maxPrice}}</text>
-         <text wx:if='{{item.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{item.unitShow}}</text>
-         <text wx:if='{{item.maxPrice<=item.price}}' class="tag_price">￥{{item.tagPrice}}</text>
+         <view class='money {{jsonData.showCard==1?"limit":""}}'>
+            <text class='price' wx:if="{{item.promotion>0}}">￥{{item.promotionPrice}}</text>
+            <text class='price' wx:else>￥{{item.price}}</text>
+            <text class='price' wx:if='{{item.maxPrice>item.price}}'>-{{item.maxPrice}}</text>
+            <text wx:if='{{item.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{item.unitShow}}</text>
+            <text wx:if='{{item.maxPrice<=item.price&&result.tagPrice>result.price}}' class="tag_price">￥{{item.tagPrice}}</text>
+         </view>
+         <text class='cart' wx:if="{{jsonData.showCard==1}}" catchtap='readyAddCar' data-product="{{item}}">+</text>
        </view>
      
       </view>

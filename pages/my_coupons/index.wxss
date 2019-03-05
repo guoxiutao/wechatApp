@@ -91,3 +91,12 @@
 .itemBody .ccc{
   color: #333;
 }
+.noList{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 28rpx;
+  color: #ddd;
+  height:100%;
+}

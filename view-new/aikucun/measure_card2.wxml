@@ -14,7 +14,7 @@
              <text wx:else>￥{{focusData.price}}</text>
            </view>
            <view class='price font_14 price_group' wx:else>
-              <view class='pintuan' wx:if="{{focusData.promotionBean&&focusData.promotionBean.pintuanStrategy&&type=='pintuanMore'}}">
+              <view class='pintuan' wx:if="{{focusData.promotionBean&&focusData.promotionBean.pintuanStrategy&&(type=='pintuanMore'||type=='addPintuan')}}">
                 <text class='show_price' wx:if="{{measurementJson.promotionPrice}}">￥{{measurementJson.promotionPrice}}</text>
                 <text class='loading_price' wx:else>￥{{measurementJson.price}}</text>
               </view>

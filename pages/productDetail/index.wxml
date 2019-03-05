@@ -73,12 +73,12 @@
     </block>
   </view>
 <!-- 促销 -->
-<view class='InfoSale' wx:if='{{productData.productInfo.saleStrategy!=0}}' style='background:{{setting.platformSetting.secondColor}}'>
+  <view class='InfoSale' wx:if='{{saleStrategyState}}' style='background:{{setting.platformSetting.secondColor}}'>
       <view class='InfoSaleDes' style='background:{{setting.platformSetting.defaultColor}}'>
         <view class='InfoSaleText'>促销</view><view class='InfoSaleText'>活动</view>
       </view>
       <text style='color:{{setting.platformSetting.defaultColor}}'>{{productData.productInfo.saleStrategyName}}</text>
-    </view>
+  </view>
 <!-- <view class='helpBlank'></view> -->
    <block wx:if="{{clientNo=='tunzai'}}">
     <view class='tap_title'>
@@ -95,7 +95,7 @@
       </view>
     </block>
     <block wx:else>
-      <block wx:if='{{targs}}'>
+      <block wx:if='{{targs.length!=0}}'>
         <view class='tap_title'>
         <view class='tap_title_left'>
           <scroll-view style='width:100%;overflow:hidden;white-space:nowrap' scroll-x>
@@ -116,7 +116,7 @@
       </block>
     </block>
     <!-- 导航 -->
-    <view class='navigation_to_map' wx:if='{{productData.productInfo.latitude&&productData.productInfo.latitude!=0}}'>
+    <view class='navigation_to_map' wx:if='{{positionState}}'>
       <view class='navigation_addr'>
         <image class='navigation_addr_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/17/57/21_219.jpg?x-oss-process=style/preview_120'></image>
         <text class='navigation_addr_value'>{{productData.productInfo.location}}</text>
@@ -164,7 +164,7 @@
        <!-- </scroll-view> -->
     </view>
 
-    <view wx:if='{{productData.measures.length!=0}}'>
+    <view wx:if='{{measuresState}}'>
       <block wx:if='{{haveMeasuresState}}'>
         <view class='specifications' data-way='select' bindtap='readyPay2' >
           <text class='have_select'>已选择</text>
@@ -181,7 +181,7 @@
     </view>
 
     <view class='product_introduce'>
-      <view class='product_introduce_short' wx:if='{{productData.attrs.length!=0}}'>
+      <view class='product_introduce_short' wx:if='{{attrsState}}'>
         <text class='product_introduce_title'>商品介绍</text>
         <view class='product_introduce_item' wx:for='{{productData.attrs}}' wx:for-item='item' wx:key='{{index}}'>
             <text class='product_introduce_item_name'>{{item.attributeName}}</text>
@@ -191,7 +191,7 @@
     </view>
     <!-- 首页组件-私有产品详情装饰-->
     <view style='margin-top:20rpx;'>
-     <component-tag-customPage data="product_detail_{{productData.productInfo.productId}}" wx:if="{{productData.productInfo.productId}}"></component-tag-customPage> 
+     <component-tag-customPage data="{{sendProductData}}" wx:if="{{productData.productInfo.productId}}"></component-tag-customPage> 
     </view>
     <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
     <view class='product_main_info' wx:if="{{productData.description.description!=''&&productData.description.description!='<p><br></p>'}}"><text>图文详情</text></view>
@@ -205,7 +205,7 @@
     </view> -->
 
  <!-- 首页组件-公共产品详情装饰-->
- <component-tag-customPage data="productdetail"></component-tag-customPage> 
+ <component-tag-customPage data="{{sendIndexData}}"></component-tag-customPage> 
 </view>
 
 

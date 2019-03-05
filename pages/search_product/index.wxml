@@ -2,6 +2,7 @@
 
 <!-- <import src="../../view/partials/type_search.wxml"/> --><!-- type_search -->
 
+<import src="../../view-new/aikucun/measure_card2.wxml"/>
 <view class="container"> 
   
   <view class="typeSearchContainer1" > 
@@ -9,7 +10,7 @@
         <view class='search_input'>
           <view class='search_input_left'>
             <image class='input_img' src='http://image1.sansancloud.com/xianhua/2018_9/14/16/25/0_222.jpg?x-oss-process=style/preview_120'></image>
-            <input class='input' bindconfirm='getSearchProductName'   bindinput="searchProductValue" placeholder='搜索产品名'></input>
+            <input class='input' bindconfirm='getSearchProductName'   bindinput="searchProductValue" placeholder='搜索产品名' value='{{searchProductName}}'></input>
           </view>
           <view class='empty_button' bindtap='getSearchProductName'><text>x</text></view>
         </view>
@@ -94,10 +95,10 @@
   
 
 
-    <block wx:if="{{ProductshowWay == 1}}">
+    <block wx:if="{{ProductshowWay == 2}}">
         <view class='product_page_container'>
-          <block wx:if = "{{!! productData}}">
-            <view class='product_items' wx:for="{{productData}}" wx:key='{{index}}' wx:for-item="result" 
+          <block wx:if = "{{!! productListData}}">
+            <view class='product_items' wx:for="{{productListData}}" wx:key='{{index}}' wx:for-item="result" 
                    data-info='{{result}}' bindtap='toProductDetail'>
               <image mode="aspectFit" style='height:{{sysWidth*44/100}}px;width:100%;' src='{{result.imagePath}}?x-oss-process=style/preview'></image>
               <view>{{result.name}}</view>
@@ -122,8 +123,8 @@
 
     <block wx:else>
      <view class='product_page_container2'>
-        <block wx:if = "{{!! productData}}">
-          <view class='product_items2' data-info='{{result}}' bindtap='toProductDetail' wx:for="{{productData}}" wx:for-item="result" wx:key="{{result.id}}">
+        <block wx:if = "{{!! productListData}}">
+          <!-- <view class='product_items2' data-info='{{result}}' bindtap='toProductDetail' wx:for="{{productListData}}" wx:for-item="result" wx:key="{{result.id}}">
             <image mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
             <view class='product_items2_view1'>
               
@@ -135,6 +136,29 @@
               <text class='font2'>销量： {{result.saleCount}}</text>
             </view>
             
+          </view> -->
+          <view class='product_items2' data-info='{{result}}' data-link="product_detail.html?id={{result.id}}"  bindtap='linkUrl' wx:for="{{productListData}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
+            <view class='product_items2_view1'>
+              <text class='product_name'>{{result.name}}</text>
+              <text class='location_name' wx:if="{{result.longitude>0}}">{{result.location}}</text>
+              <text class='location_name' wx:else>{{result.description}}</text>
+              <scroll-view class='tags_content' scroll-x>
+                <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
+              </scroll-view>
+              <view class='product_price'>
+                <!-- ￥{{result.price}}
+                <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text> -->
+                <text class='price' wx:if="{{result.promotion>0}}">￥{{result.promotionPrice}}</text>
+                <text class='price' wx:else>￥{{result.price}}</text>
+                <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
+                <text wx:if='{{result.unitShow}}' class="unitShow">/{{result.unitShow}}</text>
+                <text wx:if='{{result.maxPrice<=result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
+              </view>
+            </view>
+            <view class='to_car' catchtap='readyAddCar' data-product="{{result}}">
+              <text>加入购物车</text>
+            </view>
           </view>
         </block>
 
@@ -147,5 +171,5 @@
       </view>
     </block>
   
-
+<template is="measure_card2" data="{{setting:setting,showCount,focusData:productData.productInfo,measures:productData.measures,byNowParams:byNowParams,measurementJson:measurementJson,type:bindway}}"></template> 
 </view>

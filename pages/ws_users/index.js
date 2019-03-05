@@ -11,9 +11,9 @@ Page({
   },
   get_ws_users: function (options) {
     let url;
-    if (!options && options.wsType == 1){
+    if (options && options.wsType == 1){
       url ="/wx_get_fx_group_leader_children.html"
-    }else{
+    } else if ((options && options.wsType == 2)){
       url = "/wx_get_fx_group_children.html"
     }
     console.log('-------分销人--------')
@@ -63,6 +63,7 @@ Page({
    */
   options:{},
   onLoad: function (options) {
+    console.log("===options===", options)
     this.options = options
     this.get_ws_users(options)
   },

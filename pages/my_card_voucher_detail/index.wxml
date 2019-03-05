@@ -53,6 +53,3 @@
     </view>
   </view>
 </view>
-<view class='recharge_btn' style='background:{{platformSetting.defaultColor}}' data-link="user_recharge.html?money={{myMembers.needPayAmount}}" bindtap='tolinkUrl'>
-  <text>充值</text>
-</view>

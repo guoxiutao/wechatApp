@@ -8,7 +8,7 @@ App({
     /**
      *   切换项目的开关 ↓↓↓↓↓
      */
-    clientNo: 'jianzhan',   //自定义的项目的名称。
+  clientNo: 'jianzhan',   //自定义的项目的名称。
     preCallbackObj:{key:{callback:''}},
     clientName: '',
     more_scene: '', //扫码进入场景   用来分销
@@ -443,9 +443,9 @@ App({
         console.log('==jpg===', linkUrl.substr(-3, 3))
         console.log(If_Order_url)
         if (linkUrl.substr(0, 3) == 'tel') {
-            wx.navigateTo({
-                url: '/pages/custom_page_contact/index',
-            })
+          wx.makePhoneCall({
+            phoneNumber: linkUrl.substr(4) //仅为示例，并非真实的电话号码
+          })
         } else if (linkUrl.substr(0, 4) == 'http' && (linkUrl.substr(-3, 3).toLowerCase() == 'jpg' || linkUrl.substr(-3, 3).toLowerCase() == 'png')) {
           this.lookBigImage(linkUrl)
         }else if (linkUrl.substr(0, 12) == 'custom_page_') {
@@ -1147,6 +1147,11 @@ App({
       console.log(data.type)
       str = 'SHARE_USER_INFO_PAGE'
       str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_USER_INFO_PAGE%3d'
+      postParam[str] = data.id;
+    } else if (data.type == 'pin_tuan') {
+      console.log(data.type)
+      str = 'PINTUAN_CODE'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fPINTUAN_CODE%3d'
       postParam[str] = data.id;
     }else {
       str = 'SHARE_PRODUCT_DETAIL_PAGE'

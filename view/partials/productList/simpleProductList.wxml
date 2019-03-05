@@ -20,19 +20,18 @@
 
 <block  wx:if="{{relateBean.length!=0}}">
     <view class='detail_list_mode1' style='background:  #eeeeee;'>
-      <view class="mode1_items"   wx:for="{{relateBean}}" wx:for-item="relateBean" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{relateBean.id}}'
+      <view class="mode1_items"   wx:for="{{relateBean}}" wx:for-item="item" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{item.id}}'
         style='border-right: 10px solid #eeeeee;'> 
-        
-        <image  mode='aspectFill'  src="{{relateBean.imagePath}}"></image>
-        <view class='center'>{{relateBean.name}}</view>
+        <image  mode='aspectFill'  src="{{item.imagePath}}"></image>
+        <view class='center'>{{item.name}}</view>
         <!--价格和购物车图片  -->
        <view class='NewBox'>
-          <text class='price' wx:if="{{relateBean.promotion>0}}">￥{{relateBean.promotionPrice}}</text>
-          <text class='price' wx:else>￥{{relateBean.price}}</text>
-          <text class='price' wx:if='{{relateBean.maxPrice>relateBean.price}}'>-{{relateBean.maxPrice}}</text>
-          <text wx:if='{{relateBean.unitShow}}' class='unitShow'>/{{relateBean.unitShow}}</text>
-          <text wx:if='{{relateBean.maxPrice<=relateBean.price}}' class="tag_price">￥{{relateBean.tagPrice}}</text>
-         <!-- <image src="../../../images/icons/shoppingCar.png"></image>  -->
+          <text class='price' wx:if="{{item.promotion>0}}">￥{{item.promotionPrice}}</text>
+          <text class='price' wx:else>￥{{item.price}}</text>
+          <text class='price' wx:if='{{item.maxPrice>item.price}}'>-{{item.maxPrice}}</text>
+          <text wx:if='{{item.unitShow}}' class='unitShow'>/{{item.unitShow}}</text>
+          <text wx:if='{{item.maxPrice<=item.price&&result.tagPrice>result.price}}' class="tag_price">￥{{item.tagPrice}}</text>
+          <image src="../../../images/icons/shoppingCar.png" wx:if="{{jsonData.showCard==1}}" catchtap='readyAddCar' data-product="{{item}}"></image> 
        </view>
        
     

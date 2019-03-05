@@ -48,8 +48,8 @@
     </view>
     <view class='buyInfo' wx:if="{{mendianZiti==1}}">
       <text class='name'>提货人信息</text>
-      <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName}}' placeholder='请输入提货人'></input>
-      <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno}}' placeholder='请输入提货人手机号'></input>
+      <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName||""}}' placeholder='请输入提货人'></input>
+      <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno||""}}' placeholder='请输入提货人手机号'></input>
     </view>
 <!--上面是单纯不允许自提的情况下 -->
 

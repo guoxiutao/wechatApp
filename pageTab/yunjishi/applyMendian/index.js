@@ -35,14 +35,95 @@ Page({
     area: "",
     schoolName:"", //学校名称
     learn:"",   //专业
-
+    upLoadImageList: {},
     // 银行信息
     bankName:"",  //开户行
     bankPhone:"",    //银行卡绑定的手机号
     bankNumber:"",    //银行卡号码
     bankUserName:"",  //开户人姓名
   },
+  removeImg: function (event) {
+    let that = this;
+    console.log('======event==', event);
+    let index = event.currentTarget.dataset.index;
+    that.data.upLoadImageList['img_' + index] = '';
+    console.log('that.data.upLoadImageList', that.data.upLoadImageList);
+    that.setData({ upLoadImageList: that.data.upLoadImageList })
+  },
+  addCommitImage: function (e) {
+    console.log('===addCommitImage=', e)
+    var that = this;
+    let index = e.currentTarget.dataset.index;
+    let upLoadImageList = that.data.upLoadImageList
+    if (upLoadImageList.length == 1) {
+      return
+    }
+    wx.chooseImage({
+      count: 8, // 默认9
+      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        let tempFilePaths = res.tempFilePaths
+        that.uploadImage(tempFilePaths, tempFilePaths.length, index)
+      }
+    })
+  },
+  uploadImage: function (tempFilePaths, count, index) {
+    if (!app.loginUser) {
+      app.echoErr('用户未登录')
+      return
+    }
+    console.log(count)
+    let that = this
+    let param = {
+      userId: app.loginUser.id
+    }
+    var customIndex = app.AddClientUrl("/file_uploading.html", param, 'POST')
+    wx.uploadFile({
+      url: customIndex.url, //仅为示例，非真实的接口地址
+      header: {
+        'content-type': 'multipart/form-data'
+      },
+      filePath: tempFilePaths[count - 1],
+      name: 'file',
+      formData: customIndex.params,
+      success: function (res) {
+        let upLoadImageList = that.data.upLoadImageList
+        var data = res.data
+        console.log(data)
 
+        if (typeof (data) == 'string') {
+          data = JSON.parse(data)
+          console.log(data)
+          if (data.errcode == 0) {
+            upLoadImageList['img_' + index] = data.relateObj.imageUrl
+            // upLoadImageList.push(data.relateObj.imageUrl)
+            that.setData({
+              upLoadImageList: upLoadImageList
+            })
+          }
+        } else if (typeof (data) == 'object') {
+          if (data.errcode == 0) {
+            upLoadImageList.push(data.relateObj.imageUrl)
+            that.setData({
+              upLoadImageList: upLoadImageList
+            })
+          }
+        }
+        console.log('==upLoadImageList==', that.data.upLoadImageList)
+        //do something
+      }, fail: function (e) {
+        console.log(e)
+      }, complete: function (e) {
+        if (count == 1 || count < 1) {
+          return false;
+        } else {
+          that.uploadImage(tempFilePaths, --count)
+        }
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -268,6 +349,16 @@ this.setData({
                 }
               }
             });
+       } else if (!that.data.upLoadImageList['img_headImg']) {
+         wx.showModal({
+           content: '请上传您的头像',
+           showCancel: false,
+           success: function (res) {
+             if (res.confirm) {
+               console.log('用户点击确定')
+             }
+           }
+         });
        }else{
          console.log("成功了")
 
@@ -283,6 +374,7 @@ this.setData({
            city: this.data.city,
            area: this.data.area,
            school: this.data.schoolName,
+           headImg: this.data.upLoadImageList['img_headImg'],
            //  checkCode: this.data.code,
 
            //  bankName: this.data.bankName,  //开户行

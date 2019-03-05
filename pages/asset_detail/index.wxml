@@ -45,8 +45,8 @@
           </view>
         </view>
       </view>
-      <view class='lease_btn'>
-        <text>租赁</text>
+      <view class='lease_btn' data-link='form_detail.html?customFormId={{assetData.assetType.refCustomFormId}}' bindtap='tolinkUrl'>
+        <text>预约</text>
       </view>
     </view>
     <!-- 导航 -->
@@ -62,11 +62,9 @@
     </view> -->
 
     <!-- 首页组件-私有产品详情装饰-->
-    <view wx:if="{{assetData.productId}}">
-     <component-tag-customPage data="product_detail_{{assetData.productId}}" wx:if="{{assetData.productId}}"></component-tag-customPage> 
+    <view wx:if="{{assetData.id}}">
+     <component-tag-customPage data="asset_{{assetData.id}}" wx:if="{{assetData.id}}"></component-tag-customPage> 
     </view>
-     <!-- 首页组件-公共产品详情装饰-->
-    <component-tag-customPage data="productdetail"></component-tag-customPage> 
     <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
     <view class='product_main_info' wx:if="{{assetData.text!=''&&assetData.text!='<p><br></p>'}}">
       <view class='line'></view>
@@ -76,6 +74,7 @@
        <view class='wxParseHtmlContainer'> <template is="1" data="{{wxParseData:article.nodes}}"></template> </view>
     </view>
 </view>
-
+  <!-- 首页组件-公共产品详情装饰-->
+<component-tag-customPage data="asset"></component-tag-customPage> 
 <posters proId="{{proId}}" shopId="{{shopId}}" ewmImgUrl='{{qrCodeUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters>
 

@@ -40,6 +40,7 @@ Page({
   clickTypeTab: function (e) {
     console.log("====clickTypeTab====", e)
     let that = this;
+    that.params.page=1
     let currentTab = e.currentTarget.dataset.type;
     that.params.payUserType = currentTab
     that.getData(that.params,2)

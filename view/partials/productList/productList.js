@@ -25,6 +25,7 @@ Component({
     },
     MeasureParams:[],
     showCount:false,
+    bindway:"",
   },
      ready:function(){
        // 主色调

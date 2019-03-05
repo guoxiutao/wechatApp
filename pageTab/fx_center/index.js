@@ -11,7 +11,9 @@ Page({
     fxState:false,
     loginUser:null,
     fxDetail:null,
-    wsState:false
+    wsState:false,
+    posterState:false,
+    ewmImgUrl:"",
     
   },
   /* 组件事件集合 */
@@ -85,6 +87,20 @@ Page({
       }
     })
   },
+  // 这里是一个自定义方法
+  calling: function (e) {
+    console.log('====e===', e)
+    let phoneNumber = e.currentTarget.dataset.phonenumber
+    wx.makePhoneCall({
+      phoneNumber: phoneNumber, //此号码并非真实电话号码，仅用于测试
+      success: function () {
+        console.log("拨打电话成功！")
+      },
+      fail: function () {
+        console.log("拨打电话失败！")
+      }
+    })
+  },
   //获取推广中心，查看是否有资格
   get_fx_detail: function (setting) {
     console.log('-------推广中心--------')
@@ -110,12 +126,72 @@ Page({
       }
     })
   },
+  // 关闭海报
+  getChilrenPoster(e) {
+    let that = this;
+    that.setData({
+      posterState: false,
+    })
+  },
+  showPoster: function () {
+    let that = this;
+    console.log('===showPoster====', that.data.loginUser.id)
+    if (that.data.loginUser && that.data.loginUser.platformUser.id) {
+      let ewmImgUrl = app.getQrCode({ type: "user_info", id: that.data.loginUser.platformUser.id })
+      that.setData({
+        posterState: true,
+        ewmImgUrl: ewmImgUrl,
+      })
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '您还未登录，点击【确定】重新加载',
+        success: function (res) {
+          if (res.confirm) {
+            that.getSessionUserInfo();
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+    }
+  },
+  getSessionUserInfo: function () {
+    var that = this;
+    var postParamUserBank = app.AddClientUrl("/get_session_userinfo.html")
+    wx.request({
+      url: postParamUserBank.url,
+      data: postParamUserBank.params,
+      header: app.headerPost,
+      success: function (res) {
+        console.log(res.data)
+
+        if (res.data.errcode == '0') {
+          that.setData({
+            loginUser: res.data.relateObj
+          })
+          app.loginUser = res.data.relateObj
+        } else {
+          wx.showToast({
+            title: res.data.errMsg,
+            image: '/images/icons/tip.png',
+            duration: 1000
+          })
+        }
+      },
+      fail: function (res) {
+        console.log(res.data)
+      },
+      complete: function (res) {
+        wx.stopPullDownRefresh()
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({setting:app.setting})
-    this.setData({ loginUser: app.loginUser })
+    this.setData({ setting: app.setting, loginUser: app.loginUser })
     this.get_fx_center(app.setting)
     this.get_fx_detail();
     this.get_fxLevel(app.setting)

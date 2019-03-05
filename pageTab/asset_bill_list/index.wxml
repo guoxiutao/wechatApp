@@ -62,7 +62,7 @@
   <view class='non_payment_title'>
     <text>待支付订单</text>
   </view>
-  <scroll-view wx:if="{{noAssetBillList.userUnpayedBills.length!=0}}"
+  <scroll-view wx:if="{{noAssetBillList.userUnpayedBills.length!=0||noAssetBillList.organizeUnpayedBills.length!=0}}"
     scroll-y
     style="height: 200px;"
     bindscrolltoupper="upper"
@@ -79,7 +79,10 @@
     </view>
   </view>
   </scroll-view>
-  <view class='no_bill' wx:else>
-    <text>暂无账单</text>
+  <view class='no_bill' wx:if="{{noAssetBillList.userUnpayedBills.length==0&&currentTab==0}}">
+    <text>暂无个人账单</text>
+  </view>
+  <view class='no_bill' wx:if="{{noAssetBillList.organizeUnpayedBills.length==0&&currentTab==1}}">
+    <text>暂无组织账单</text>
   </view>
 </view>

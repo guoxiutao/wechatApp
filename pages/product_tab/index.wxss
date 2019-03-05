@@ -601,7 +601,7 @@ border-bottom: 2rpx solid #FE5722;
     white-space: nowrap;
 
      }
-     .tab-item{
+    .tab-item{
      margin-left: 60rpx;
      height: 60rpx;
      display: inline-block;

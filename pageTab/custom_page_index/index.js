@@ -156,17 +156,10 @@ Page({
       })
     }
 
-    if (app.setting.platformSetting.topColor =='') {
-      wx.setNavigationBarColor({
-        frontColor: '#ffffff',
-        backgroundColor: '#000000',
-      })
-    } else {
-      wx.setNavigationBarColor({
-        frontColor: '#ffffff',
-        backgroundColor: app.setting.platformSetting.topColor,
-      })
-    }
+    wx.setNavigationBarColor({
+      frontColor: app.setting.platformSetting.topColor.toLowerCase(),
+      backgroundColor: app.setting.platformSetting.topBgColor,
+    })
   },
   // getParac:function(){
   //   var that = this
@@ -287,6 +280,15 @@ Page({
       })
     }
 
+  },
+  onPageScroll:function(object){
+    var positionNotifyer = this.selectComponent("#container").selectAllComponents(".positionNotifyer"); 
+    // console.log("===positionNotifyer===", positionNotifyer)
+    if (positionNotifyer != null) {
+      for (let i = 0; i < positionNotifyer.length; i++) {
+        try { positionNotifyer[i].scrollTo(object); } catch (e) { }
+      }
+    }
   },
   onShow: function () {
     console.log('-----------------a---------------')

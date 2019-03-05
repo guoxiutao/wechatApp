@@ -240,6 +240,20 @@ Page({
       }, 200)
       return;
     }
+    // 拼团邀请
+    if (options.PINTUAN_CODE && options.PINTUAN_CODE != "") {
+      console.log("拼团邀请", options)
+      setTimeout(function () {
+        wx.navigateTo({
+          url: '/pages/pintuan_invitation/index?pintuanRecordId=' + options.PINTUAN_CODE,
+          success: function () {
+            app.shareSubPage = true;
+          }
+        })
+
+      }, 200)
+      return;
+    }
     // 分享出来带分享SHARE_PROMOTION_PRODUCTS_PAGE跳到产品详情页
     if (options.SHARE_PROMOTION_PRODUCTS_PAGE && options.SHARE_PROMOTION_PRODUCTS_PAGE != "") {
 

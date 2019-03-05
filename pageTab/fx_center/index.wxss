@@ -8,6 +8,7 @@
   justify-content: space-between;
   height: 260rpx;
   padding: 30rpx;
+  position: relative;
 }
 .fx_user_info{
   display: flex;
@@ -36,24 +37,31 @@
   font-size: 26rpx;
 }
 .fx_recommend_btn{
+  position: absolute;
+  right: -10rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 20rpx;
+  padding:10rpx 20rpx;
   color: #888;
   background: #fff;
   border-radius: 10rpx;
-  box-shadow:6rpx 6rpx 20rpx #777;
+  box-shadow:6rpx 6rpx 10rpx #555;
   height:40rpx;
-  margin-top:40rpx;
+  top:10%;
+  /* margin-top:40rpx; */
 }
 .fx_recommend_icon{
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 20rpx;
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
 }
 .fx_recommend_text{
-  font-size: 26rpx;
+  font-size: 22rpx;
+}
+.telno{
+  margin-top:40px;
+  padding:30rpx 20rpx;
 }
 .fx_data_center{
   position: absolute;
@@ -72,7 +80,7 @@
   border-top-right-radius: 20rpx;
   width:88%;
   margin:0 45rpx;
-  box-shadow: 4rpx 2rpx 30rpx #ccc;
+  box-shadow: 4rpx 2rpx 20rpx #999;
 }
 .ws_data_center{
   display: flex;
@@ -87,7 +95,7 @@
   border-top-left-radius: 10rpx;
   border-top-right-radius: 10rpx;
   width:92%;
-  margin:50rpx 30rpx 0rpx 30rpx;
+  margin:70rpx 30rpx 0rpx 30rpx;
   box-shadow: 4rpx 2rpx 30rpx #ccc;
 }
 .fx_data_item{
@@ -96,10 +104,11 @@
   flex-direction: column;
   align-items: center;
   font-size: 24rpx;
+  margin-bottom:20rpx;
 }
 .fx_data_value{
   margin-bottom: 12rpx;
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 .fx_data_title{
   color: #888;
@@ -174,8 +183,8 @@
   width: 20rpx;
   height: 20rpx;
 }
-.mt_110{
-  margin-top: 110rpx;
+.mt_130{
+  margin-top: 130rpx;
 }
 /* .fx_head_container{
   margin: 10px;

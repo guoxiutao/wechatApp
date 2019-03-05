@@ -7,8 +7,10 @@ Page({
    */
   data: {
     code:"",
-    applyImgBg:'',
+    applyImgBg: '',
+    applyText: '',
     applyState:'',
+    setting:"",
   },
   // 返回首页
   login: function (e) {
@@ -49,9 +51,11 @@ checkState:function(){
     console.log('record=======', record)
     if(record.status==0){
       that.data.applyImgBg ='http://image.tunzai.vip/tunzai/2018_8/14/13/41/3_623.jpg'
+      that.data.applyText = "您的资料还在审核中~";
       that.data.applyState = record.status;
     } else if (record.status==1){
-      that.data.applyImgBg = 'http://image.tunzai.vip/tunzai/2018_8/14/13/41/15_606.jpg'
+      that.data.applyImgBg = 'http://image1.sansancloud.com/xianhua/2019_2/20/11/56/0_164.jpg'
+      that.data.applyText = "您的资料已提交成功，请等待审核~";
       that.data.applyState = record.status;
     } else if (record.status == 2) {
       wx.showModal({
@@ -60,13 +64,16 @@ checkState:function(){
         })
       that.data.applyState = record.status;
       that.data.applyImgBg = 'http://image.tunzai.vip/tunzai/2018_8/14/13/40/56_666.jpg'
+      that.data.applyText = "点击按钮去注册吧~";
     } else if (record.errcode == '-1') {
       that.data.applyState = record.errcode;
+      that.data.applyText = "点击按钮去注册吧~";
       that.data.applyImgBg = 'http://image.tunzai.vip/tunzai/2018_8/14/13/40/56_666.jpg'
     }
     that.setData({
       applyImgBg: that.data.applyImgBg,
       applyState:that.data.applyState,
+      applyText:that.data.applyText
     }) 
     })
 },
@@ -83,12 +90,14 @@ loginFailed:function(err){
    */
   onLoad: function (options) {
     console.log('======options=====', options)
+    console.log('======app.setting=====', app.setting)
       let a=""; 
       if(options.code){
         a=options.code;
       }
       this.setData({
-        code: a
+        code: a,
+        setting: app.setting
       }) 
       /**** */
       console.log('======4444444======', app.loginUser)

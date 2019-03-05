@@ -43,9 +43,6 @@
     
     
 
-<template is="measure_card2" data="{{setting:setting,showCount,focusData:productData.productInfo,measures:productData.measures,byNowParams:byNowParams,measurementJson:measurementJson,type:bindway}}"></template> 
-
-  <!-- <view>{{data.id}}</view> -->
-<slot></slot>
+<template is="measure_card2" data="{{setting:setting,showCount,focusData:productData.productInfo,measures:productData.measures,byNowParams:byNowParams,measurementJson:measurementJson,type:bindway}}"></template>
 
 

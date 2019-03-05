@@ -71,8 +71,8 @@
               </block>
               <block wx:else>
                 <block wx:if='{{result.inCarCount>0}}'>
-                  <view class='PRICE'> {{result.inCarCount}}</view>
-              </block>
+                  <view class='PRICE'>{{result.inCarCount}}</view>
+                </block>
                 <view class='choose_measureItem' data-id='{{index}}' catchtap='chooseMeasureItem'>选规格</view>
                 </block>
             </view>
