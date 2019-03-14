@@ -21,8 +21,13 @@ Component({
     this.getPintuanData()
   },
   methods: {
-    goToPintuan:function(){
-      let data = { way:'addPintuan'}
+    goToPintuan:function(e){
+      console.log("==goToPintuan===",e)
+      let pintuanid;
+      if (e.currentTarget.dataset.pintuanid){
+        pintuanid = e.currentTarget.dataset.pintuanid
+      }
+      let data = { way: 'addPintuan', pintuanid: pintuanid}
       this.triggerEvent("goPintuan", { data});
     },
     getPintuanData: function () {

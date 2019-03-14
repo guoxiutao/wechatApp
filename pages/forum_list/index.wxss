@@ -59,7 +59,7 @@ swiper image{
   line-height: 2;
 }
 .tab{
-  width: 60rpx;
+  padding: 2rpx 6rpx;
   height: 30rpx;
   font-size: 20rpx;
   float: right;
@@ -135,7 +135,7 @@ float: left;
 padding:13rpx 65rpx 10rpx;
 font-size: 24rpx;
 text-align: center;
-
+display:flex;
 }
 .pcIcon image{
  /* width: 35rpx;

@@ -29,15 +29,15 @@
 
       <view class='pcIcon'>
         <view class='ydlIcon'>
-          <image src='/images/icons/browse@2x.png' style="width:36rpx;height:24rpx "></image>
+          <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120' style="width:30rpx;height:30rpx "></image>
           <text>{{detail.readTime}}</text>
         </view>
         <view class='llIcon' >
-          <image src='/images/icons/discuss@2x.png' style="width:30rpx;height:28rpx" ></image>
+          <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120' style="width:30rpx;height:30rpx"></image>
           <text>{{detail.commentCount}}</text>
         </view>
         <view class='fbIcon'>
-          <image src='/images/icons/praise@2x.png' style="width:30rpx;height:28rpx"></image>
+          <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_500.jpg?x-oss-process=style/preview_120'  style="width:30rpx;height:30rpx"></image>
           <text>{{detail.likeCount}}</text>
         </view>
       </view>
@@ -53,7 +53,7 @@
     <view class='comment'>
       <view class='comment-Icon' >
             <!-- 选择预览上传图片 -->
-        <image src='/images/icons/upload picture.png' bindtap="chooseImg" mode="aspectFitf"></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/16/31/21_131.jpg?x-oss-process=style/preview_120' bindtap="chooseImg" mode="aspectFitf"></image>
       </view>
 
       <view class='comment-publish'>
@@ -100,11 +100,11 @@
       <view class='re_icon'>
         
         <view class='llIcon' >
-          <image src='/images/icons/discuss@2x.png' style="width:30rpx;height:28rpx"></image>
+          <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120' style="width:30rpx;height:30rpx"></image>
           <text>{{item.plun}}</text>
         </view>
         <view class='fbIcon'>
-          <image src='/images/icons/praise@2x.png' style="width:30rpx;height:28rpx"></image>
+          <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/16/19/50_638.jpg?x-oss-process=style/preview_120' style="width:30rpx;height:30rpx"></image>
           <text>{{item.dzan}}</text>
         </view>
         
@@ -125,7 +125,7 @@
            <text>{{recomment.comment}}</text>
          </view>
        </view>
-        <view  class='fz_fe' style='color: #F64C70; text-align: center; z-index: 99; font-size:30rpx;' data-id='{{item.id}}' bindtap='listToggle'>
+        <view  class='fz_fe' style='color: #F64C70; text-align: center; z-index: 99; font-size:30rpx;' data-id='{{item.id}}' wx:if="{{item.recomments.length>=3}}" bindtap='listToggle'>
         查看更多
            <icon class="icon-list-open"></icon>
       </view>

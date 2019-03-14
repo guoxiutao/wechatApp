@@ -4,12 +4,12 @@
 
    <block wx:if='{{data.androidTemplate == ""}}'>
   <template is="simpleActivitiesGoods" 
-       data="{{...data,countDownDay,countDownHour,countDownMinute,countDownSecond}}"></template> 
+       data="{{...data,countDownDay,countDownHour,countDownMinute,countDownSecond,setting}}"></template> 
 
   </block> 
    <block wx:if='{{data.androidTemplate == "column_promotion_list"}}'>
   <template is="column_promotion_list" 
-       data="{{...data,countDownDay,countDownHour,countDownMinute,countDownSecond,color}}"></template> 
+       data="{{...data,countDownDay,countDownHour,countDownMinute,countDownSecond,setting}}"></template> 
 
   </block> 
 

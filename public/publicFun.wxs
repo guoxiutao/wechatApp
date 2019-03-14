@@ -3,6 +3,10 @@ var filters = {
     console.log("===filters==", value)
     return value.toFixed(2) // 此处2为保留两位小数，保留几位小数，这里写几    
   },
+  toAbs: function (value) {
+    console.log("===filters==", value)
+    return Math.abs(value)
+  },
 }
-module.exports = {toFix: filters.toFix, toNumber: filters.toNumber, }
+module.exports = { toFix: filters.toFix, toAbs: filters.toAbs, }
 module.exports.msg = "some msg";

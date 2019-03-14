@@ -60,9 +60,9 @@
           <block wx:if='{{productData.productInfo.tagPrice > productData.productInfo.price}}'>
             <text class='tagPrice_font'>￥{{productData.productInfo.tagPrice}}</text>
           </block>
-          <block wx:else>
+          <!-- <block wx:else>
             <text class='tagPrice_font'>￥{{productData.productInfo.price}}</text>
-          </block>
+          </block> -->
           <view class='product_stock'><text>仅剩{{productData.productInfo.stock}}件</text></view>
        </view>
        <view class='share_product' bindtap='showPoster'><image src='http://image.tunzai.vip/tunzai/2018_8/28/9/48/50_64.jpg'></image></view>

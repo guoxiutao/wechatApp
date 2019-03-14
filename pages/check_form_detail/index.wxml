@@ -1,5 +1,4 @@
-<form bindsubmit="formSubmit" report-submit>
-<view class='content'>
+<view class='content' wx:if="{{allFormData.belongFormType!=0}}">
   <!-- <view class='formBanner'>
     <image class='bannerUrl' src='{{customForm.banner}}' mode='widthFix'></image>
   </view> -->
@@ -63,4 +62,114 @@
         </view>
   </view>
 </view>
-</form>
+<view class='content2' wx:if="{{allFormData.belongFormType==0}}">
+  <view class='form_detail_top'>
+    <view class='form_detail_top_left'>
+      <image class='user_head_img' src='{{allFormData.commitPlatformUserIcon}}'></image>
+      <view class='user_base_info'>
+        <text class='user_base_name'>{{allFormData.commitPlatformUserName}}</text>
+        <text class='release_time'>{{allFormData.commitDate}}</text>
+      </view>
+    </view>
+    <image class='telno_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/11/51/38_517.jpg'></image>
+  </view>
+  <view class='form_detail_center'>
+    <view class='read_number'>
+      <text>1314</text>
+      <text>阅读</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>顺风车类型</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>车找人</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>车牌号</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>闽E98K56</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>出发地</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>福州</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>目的地</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>长泰</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>出发时间</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>3月7日(周四)18:30</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>手机号</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>18950463636</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>人数/空位</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>4</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>人数/空位</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>4</text>
+    </view>
+    <view class='form_detail_center_item'>
+      <text class='center_part_item_title'>详细信息</text>
+      <text class='interval'>:</text>
+      <text class='center_part_item_value'>可提前或延迟半个小时</text>
+    </view>
+    <view class='form_detail_center_arr'>
+      <image class='form_detail_center_arr_img' mode='aspectFill' src='{{allFormData.commitPlatformUserIcon}}'></image>
+    </view>
+    <view class='map_location'>
+      <map class='mapItem' id="map" longitude="119.272080" latitude="26.074790" scale="14" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" style="width: 100%; height: 100%;" bindtap='hiddenProInfo'>
+        <cover-view class='map_bg' bindtap='clickCatch'>
+          <cover-view class="play" >
+              <cover-view class='to_addr_text'>福州至诚学院</cover-view>
+              <cover-image class='to_addr_icon' src='http://image1.sansancloud.com/xianhua/2019_3/13/15/44/15_549.jpg'></cover-image>
+          </cover-view>
+          <cover-image class='sanjiao' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/34/45_96.jpg?x-oss-process=style/preview_120'></cover-image>
+        </cover-view>
+      </map>
+    </view>
+    <view class='form_detail_bottom'>
+      <view class='form_detail_bottom_top'>
+        <view class='bottom_top_item'>
+          <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
+          <text class='bottom_top_item_text'>1314</text>
+        </view>
+        <view class='bottom_top_item'>
+          <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120'></image>
+          <text class='bottom_top_item_text'>1314</text>
+        </view>
+      </view>
+      <view class='comments_list'>
+        <view class='comments_item'>
+          <image class='user_img' src='{{allFormData.commitPlatformUserIcon}}'></image>
+          <view class='comments_item_right'>
+            <text class='user_name'>{{allFormData.commitPlatformUserName}}</text>
+            <text class='user_need'>还有座位嘛？</text>
+            <view class='other_reply_item'>
+              <text class="other_reply_name" >亭子</text>
+              <text class='interval'>:</text>
+              <text class='other_reply_text'>还有，电话联系</text>
+            </view>
+            <view class='comments_item_bottom'>
+              <text class='user_time'>03-06 07:32</text>
+              <image class='comments_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/6/38_907.jpg?x-oss-process=style/preview_120'></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='comments_part'>
+  <input class='comments_input' bindconfirm='btn_send'  cursor-spacing="130" placeholder='发表评论...' maxlength="76" ></input>
+  <image class='comments_img_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/13/18/4/57_119.jpg?x-oss-process=style/preview_120' mode="aspectFitf"></image>
+</view>

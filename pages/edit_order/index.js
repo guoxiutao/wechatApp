@@ -8,12 +8,14 @@ Page({
   data: { 
     orderData:{},
     selectStore:null,
-    reqStore:false,
+    reqStore: false,
+    reqAddress: false,
     showTopSelect:false,
     orderNo:'',
     checkedRadio:0,
     agreementState:true,
     isAgreement:false,
+    jifenState:true,
     //优惠券 
     getEditOrderDetailData:null,
     coupon:[],
@@ -88,14 +90,19 @@ Page({
     contactTelno:"",
   },
   /* 积分抵扣 */
-  jifenChange :function (e){
-    //console.log(e.detail.value[0])
+  jifenChange: function (e) {
+    let that=this;
+    console.log("==e==", e)
     let jifen = e.detail.value[0]
+    console.log("==jifen==", jifen)
     if (jifen){
-    this.orderMessage.jifenDikou = jifen
-    }else{
-      this.orderMessage.jifenDikou = 0
+      that.data.jifenState=true;
+      that.orderMessage.jifenDikou = jifen
+    } else {
+      that.data.jifenState = false;
+      that.orderMessage.jifenDikou = 0
     }
+    console.log("that.orderMessage", that.orderMessage)
   },
   /* 获取地址列表 */
   showOtherArr:function() {
@@ -299,7 +306,7 @@ Page({
     var that = this
     var getParams = {}
     getParams.orderNo = that.data.orderNo
-    getParams.gotCouponListId = that.data.gotCouponListId
+    getParams.gotCouponListId = that.orderMessage.gotCouponListId
     getParams.mendianZiti = that.data.mendianZiti
     var customIndex = app.AddClientUrl("/get_edit_order_detail.html", getParams)
     wx.showLoading({
@@ -346,6 +353,7 @@ Page({
   submitOrder:function(e){
     console.log('====formId====',e)
     var that = this
+    that.setData({ reqAddress: false })
     let miniNotifyFormId = e.detail.formId||'';
     console.log(that.orderMessage)
     // 不允许自提的时候没写地址
@@ -355,11 +363,12 @@ Page({
           content: '请添加收货地址',
           success: function (res) {
             if (res.confirm) {
+              that.setData({ reqAddress: true })
               wx.navigateTo({
-                url: '/pages/add_address/index'
+                url: '/pages/add_address/index?type="order"'
               })
             } else if (res.cancel) {
-
+              that.setData({ reqAddress: false })
             }
           }
         })
@@ -372,11 +381,12 @@ Page({
           content: '请添加收货地址',
           success: function (res) {
             if (res.confirm) {
+              that.setData({ reqAddress: true })
               wx.navigateTo({
-                url: '/pages/add_address/index'
+                url: '/pages/add_address/index?type="order"'
               })
             } else if (res.cancel) {
-
+              that.setData({ reqAddress: false })
             }
           }
         })
@@ -445,6 +455,20 @@ Page({
             console.log(res.data)
             if (res.data.errcode == '10001') {
               app.loadLogin()
+            } else if (res.data.errcode == '-1') {
+              wx.hideLoading()
+              wx.showModal({
+                title: '警告',
+                content: res.data.errMsg,
+                success: function (res) {
+                  if (res.confirm) {
+                   
+                  } else if (res.cancel) {
+
+                  }
+                }
+              })
+              return;
             } else {
               app.payItem = res.data  /* 全局传过去吧... */
               wx.hideLoading()
@@ -815,13 +839,13 @@ Page({
     this.orderMessage.platformNo = app.setting.platformSetting.platformNo
     this.orderMessage.userId = app.loginUser.id
     this.orderMessage.orderNo = this.data.orderData.orderNo
-    if (this.data.orderData.orderJifen && this.data.orderData.orderJifen.tuijianDikou){
-    this.orderMessage.jifenDikou = this.data.orderData.orderJifen.tuijianDikou
+    if (this.data.orderData.orderJifen && this.data.orderData.orderJifen.tuijianDikou && this.data.jifenState){
+      this.orderMessage.jifenDikou = this.data.orderData.orderJifen.tuijianDikou
     }
     this.orderMessage.gotCouponListId = this.data.gotCouponListId
     this.orderMessage.addressId = this.data.orderData.addressId
-    this.orderMessage.contactName = this.data.orderData.contactName
-    this.orderMessage.contactTelno = this.data.orderData.contactTelno
+    this.orderMessage.contactName = this.data.orderData.contactName||"",
+    this.orderMessage.contactTelno = this.data.orderData.contactTelno || "",
 
 
 
@@ -862,6 +886,32 @@ Page({
         that.orderMessage.changeOrderMendianId = that.data.selectStore.id
       }else{
         console.log("没选择门店")
+      }
+    }
+    if (that.data.reqAddress) {
+      //选择门店
+      console.log("从添加地址页面返回")
+      var pages = getCurrentPages();
+      var currPage = pages[pages.length - 1]; //当前页面
+      console.log(currPage) //就可以看到data里mydata的值了
+      if (that.data.selectAddress) {
+        console.log("保存好了地址", that.data.selectAddress)
+        let selectAddr = that.data.selectAddress
+        that.changeAddressData(selectAddr.id)
+        let newData = that.data.orderData
+        newData.buyerName = selectAddr.contactName
+        newData.buyerTelno = selectAddr.telNo
+        newData.buyerProvince = selectAddr.province
+        newData.buyerCity = selectAddr.city
+        newData.buyerArea = selectAddr.area
+        newData.buyerAddress = selectAddr.address
+        newData.addressId = selectAddr.id
+        that.orderMessage.addressId = selectAddr.id
+        that.setData({
+          orderData: newData,
+        })
+      } else {
+        console.log("取消保存地址")
       }
     }
   },

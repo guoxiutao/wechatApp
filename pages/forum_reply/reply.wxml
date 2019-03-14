@@ -22,7 +22,7 @@
 <view class='comment'>
       <view class='comment-Icon' >
             <!-- 选择预览上传图片 -->
-        <image src='/images/icons/upload picture.png' bindtap="chooseImg" mode="aspectFitf"></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/12/16/31/21_131.jpg?x-oss-process=style/preview_120' bindtap="chooseImg" mode="aspectFitf"></image>
       </view>
         <!-- 选择图片 -->
       <view class="question-images">

@@ -14,16 +14,32 @@ Page({
     processType:false,
     gainActionEvent: {},
     region: "请选择您的地址",
+    markers:[],
   },
   // 返回
   back:function(){
     wx.navigateBack()
+  },
+  // 定位
+  clickCatch: function (e) {
+    let latitude = 26.074790;
+    let longitude = 119.272080;
+    let name = "福州至诚学院";
+    let address = "福州至诚学院";
+    wx.openLocation({
+      latitude: latitude,
+      longitude: longitude,
+      scale: 12,
+      name: name,
+      address: address
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     let that=this;
+    console.log("that.data.markers",that.data.markers)
     console.log(options)
     let formDetailData = app.AddClientUrl("/wx_get_custom_form_commit.html", { formCommitId: options.custom_form_commit_id}, 'get')
     wx.request({

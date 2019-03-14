@@ -15,6 +15,7 @@ Page({
     loginUser: null,
     ifEid: false,
     addressType:0,
+    reqType:"",
   },
 
 
@@ -108,7 +109,17 @@ Page({
           wx.hideLoading()
           if (res.data.errcode=='0'){
             app.addrEditParam = that.needParam
-            wx.navigateBack()
+            if (that.data.reqType == 'order') {
+              console.log("订单选择地址")
+              let pages = getCurrentPages();//当前页面
+              let prevPage = pages[pages.length - 2];//上一页面
+              prevPage.setData({//直接给上移页面赋值
+                selectAddress: res.data.relateObj,
+              });
+            } 
+            wx.navigateBack(
+              { delta: 1,}
+            )
           }else{
             wx.showModal({
               content: res.data.errMsg,
@@ -179,6 +190,11 @@ Page({
   onLoad: function (options) {
     var that =this
     console.log(options)
+    if (options.type) {
+      that.setData({ reqType: 'order' })
+    } else {
+      that.setData({ reqType: 'normal' })
+    }
     if (!options.addrId){
       this.setData({ ifEid:false })
       wx.getLocation({

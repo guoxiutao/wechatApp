@@ -17,6 +17,7 @@
     "pageTab/productDetail/index",
     "pageTab/product_left_right/index",
     "pageTab/productType_left_right/index",
+    "pageTab/task_management/index",
 
 
     "pageTab/tunzai/preApplyMendian/index",
@@ -44,6 +45,7 @@
     "pageTab/asset_space_list/index",
     "pageTab/asset_list/index",
     "pageTab/asset_bill_list/index",
+    "pageTab/organizes_list/index",
     
 
 
@@ -76,6 +78,11 @@
     {
       "root": "pages",
       "pages": [
+        "about_us/index",
+        "forum_list/index",
+        "forum_detail/detail",
+        "forum_reply/reply",
+        "forum_publish/publish",
         "asset_detail/index",
         "space_detail/index",
         "servant_detail/index",
@@ -212,19 +219,19 @@
       "text": "技师"
     },
     {
-      "pagePath": "pageTab/productType_left_right/index",
+      "pagePath": "pageTab/organizes_list/index",
       "iconPath": "images/icons/fx.png",
       "selectedIconPath": "images/icons/fx2.png",
       "text": "工作进程"
     },
     {
-      "pagePath": "pageTab/fx_center/index",
+      "pagePath": "pageTab/task_management/index",
       "iconPath": "images/icons/good1.png",
       "selectedIconPath": "images/icons/good2.png",
       "text": "购物车"
     },
     {
-      "pagePath": "pageTab/aikucun_userinfo/index",
+      "pagePath": "pageTab/yunjishi/myInfo/index",
       "iconPath": "images/icons/me1.png",
       "selectedIconPath": "images/icons/me2.png",
       "text": "我的"

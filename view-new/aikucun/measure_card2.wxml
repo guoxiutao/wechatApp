@@ -10,7 +10,7 @@
            <view class='font_1'>{{focusData.name}}</view>
            <view class='font_aaa font_08'>商品编号: {{focusData.orderNumber}}</view>
            <view class='price font_14' wx:if='{{measures.length == 0||!measures}}'>
-             <text wx:if="{{focusData.promotion>0}}">￥{{focusData.promotionPrice}}</text>
+             <text wx:if="{{focusData.promotion>0&&type!='pintuanOne'}}">￥{{focusData.promotionPrice}}</text>
              <text wx:else>￥{{focusData.price}}</text>
            </view>
            <view class='price font_14 price_group' wx:else>

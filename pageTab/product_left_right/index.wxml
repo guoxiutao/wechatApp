@@ -64,7 +64,7 @@
               <text class='price' wx:else>￥{{result.price}}</text>
               <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
               <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
-              <text wx:if='{{result.maxPrice<=result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
+              <text wx:if='{{result.maxPrice<=result.price&&result.tagPrice>result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
             </view>
             <view class='productInfo_Nums'>
               <block wx:if='{{!result.measureItem}}'>

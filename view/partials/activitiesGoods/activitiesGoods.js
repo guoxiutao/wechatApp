@@ -17,15 +17,16 @@ Component({
     countDownHour: "",
     countDownMinute: "",
     countDownSecond: "",
+    setting:{},
   },
   
   ready: function (options) {
   var that=this;
   var oldData = this.data;
-    console.log("====oldData====", oldData)
-  that.setData({ color: app.setting.platformSetting.defaultColor})
-    console.log("=======color====", that.data.color)
-  // oldData.countDownMinute = '1fffffffffffffffffffffffffffffffffffffff11';
+  console.log("====oldData====", oldData)
+  that.setData({ setting: app.setting.platformSetting})
+  console.log("=======setting====", that.data.setting)
+// oldData.countDownMinute = '1fffffffffffffffffffffffffffffffffffffff11';
   // console.log("hel11lo", JSON.stringify(oldData)); 
   // console.log("hel11lo", oldData.data.relateBean.endDate); 
     if (oldData.data.relateBean.promotionStatus == 1) {

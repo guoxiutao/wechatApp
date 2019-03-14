@@ -124,7 +124,7 @@
         <checkbox-group bindchange="jifenChange">
           <label class='jifenContainer'>
             <view>
-              <checkbox color="{{setting.platformSetting.defaultColor}}" checked='{{true}}' value='{{orderData.orderJifen.tuijianDikou}}'></checkbox>
+              <checkbox color="{{setting.platformSetting.defaultColor}}" checked='{{jifenState}}' value='{{orderData.orderJifen.tuijianDikou}}'></checkbox>
               <text>使用{{orderData.orderJifen.tuijianDikou}}积分</text>
             </view>
             <view style='color:{{setting.platformSetting.defaultColor}}'>抵扣￥{{orderData.orderJifen.tuijianDikouAmount}}</view>

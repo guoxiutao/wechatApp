@@ -72,6 +72,10 @@
   height: 340rpx;
   width:100%;
 }
+.promotion_product_price{
+  font-size: 36rpx;
+  height:44rpx;
+}
 .promotion_product_info{
   display: flex;
   flex-direction: column;

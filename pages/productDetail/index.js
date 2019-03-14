@@ -269,11 +269,14 @@ Page({
     }
     let productData = this.data.productData
     let way;
+    let pintuanRecordId;
     console.log(productData)
     if (e.currentTarget.dataset.way){
        way = e.currentTarget.dataset.way
+       pintuanRecordId = e.currentTarget.dataset.pintuanid
     }else{
       way = e.detail.data.way
+      pintuanRecordId = e.detail.data.pintuanid
     }
     this.setData({ bindway: way })
     console.log('====q=====',this.data.bindway)
@@ -309,7 +312,7 @@ Page({
       this.setData({ pintuanPopupState: false })
       this.byNowParams.orderType = 0
       this.pintuanParams.pintuanCreateType = 2
-      this.pintuanParams.pintuanRecordId = e.currentTarget.dataset.pintuanid
+      this.pintuanParams.pintuanRecordId = pintuanRecordId
       this.setData({ byNowParams: this.byNowParams,pintuanParams: this.pintuanParams})
       this.chooseMeasureItem()
     } else if (way == 'select') {
@@ -406,8 +409,14 @@ Page({
     let productInfo = that.data.productData.productInfo
     let params = Object.assign({}, params, that.byNowParams, that.pintuanParams)
     if (productInfo.preOrderCustomFormId) {
+      let url;
+      if (that.byNowParams.cartesianId){
+        url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId + '&params=' + JSON.stringify(params);
+      }else{
+        url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId;
+      }
       wx.navigateTo({
-        url: '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId,
+        url: url,
       })
       return
     } else {

@@ -1,7 +1,7 @@
 <view class='container'>
   <view class='form_commit_list'>
     <block wx:if="{{formCommitList.length!=0}}">
-    <view class='form_commit_item' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}" >
+    <view class='form_commit_item' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{formCommitItem.belongFormType!=0}}" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}">
       <view class='form_title'>
         <view class='form_title_left'>
           <image class='user_icon' src='{{formCommitItem.commitPlatformUserIcon}}'></image>
@@ -30,6 +30,76 @@
           <image class='form_commit_icon' src='http://image1.sansancloud.com/xianhua/2018_11/14/19/58/37_380.jpg?x-oss-process=style/preview_120'></image>
           <text class='form_commit_time'>{{formCommitItem.commitDate}}</text>
           <image bindtap='checkFormDetail' data-id="{{formCommitItem.id}}" class='form_commit_dot'src='http://image1.sansancloud.com/xianhua/2018_11/14/21/7/48_739.jpg?x-oss-process=style/preview_120'></image>
+        </view>
+      </view>
+    </view>
+    <view class='form_commit_item_info' wx:for="{{formCommitList}}" wx:for-item="formCommitItemInfo" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItemInfo.id}}"  wx:if="{{formCommitItemInfo.belongFormType==0}}">
+      <view class='top_part'>
+        <view class='top_part_left'>
+          <image class='top_part_left_img' src='{{formCommitItemInfo.commitPlatformUserIcon}}'></image>
+          <view class='user_base_info'>
+            <text class='user_base_info_name'>{{formCommitItemInfo.commitPlatformUserName}}</text>
+            <view class='user_base_info_type'>
+              <text class='user_base_info_type_name'>车找人</text>
+              <text class='user_base_info_type_num'>闽E98K56</text>
+            </view>
+          </view>
+        </view>
+        <view class='top_part_right'>
+           <image class='telno_img' src='http://image1.sansancloud.com/jianzhan/2019_3/12/11/51/38_517.jpg'></image>
+        </view>
+      </view>
+      <view class='center_part'>
+        <view class='center_part_item'>
+          <text class='center_part_item_title'>出发地</text>
+          <text class='interval'>:</text>
+          <text class='center_part_item_value'>厦门</text>
+        </view>
+        <view class='center_part_item'>
+          <text class='center_part_item_title'>目的地</text>
+          <text class='interval'>:</text>
+          <text class='center_part_item_value'>长泰</text>
+        </view>
+        <view class='center_part_item'>
+          <text class='center_part_item_title'>时间</text>
+          <text class='interval'>:</text>
+          <text class='center_part_item_value'>3月7日 18:30</text>
+        </view>
+        <view class='center_part_item'>
+          <text class='center_part_item_title'>剩余座位</text>
+          <text class='interval'>:</text>
+          <text class='center_part_item_value'>4</text>
+          <image class='showMore' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/41/38_573.jpg'></image>
+        </view>
+        <view class='show_img'>
+          <image class='show_img_item' mode='aspectFill' src='{{formCommitItemInfo.commitPlatformUserIcon}}'></image>
+          <image class='show_img_item' mode='aspectFill' src='{{formCommitItemInfo.commitPlatformUserIcon}}'></image>
+          <image class='show_img_item' mode='aspectFill' src='{{formCommitItemInfo.commitPlatformUserIcon}}'></image>
+        </view>
+        <view class='addr_time'>
+          <view class='addr_con'>
+            <image class='addr_con_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_480.jpg'></image>
+            <text class='addr_con_text'>厦门湖里区</text>
+          </view>
+          <text class='time_con'>03-04 07:32</text>
+        </view>
+      </view>
+      <view class='bottom_part'>
+        <view class='bottom_part_item'>
+          <image class='bottom_part_item_icon to_view' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
+          <text class=''>1314</text>
+        </view>
+        <view class='bottom_part_item'>
+          <image class='bottom_part_item_icon to_share' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_486.jpg?x-oss-process=style/preview_120'></image>
+          <text class=''>1314</text>
+        </view>
+        <view class='bottom_part_item'>
+          <image class='bottom_part_item_icon to_comments' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120'></image>
+          <text class=''>520</text>
+        </view>
+        <view class='bottom_part_item'>
+          <image class='bottom_part_item_icon to_heart' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_500.jpg?x-oss-process=style/preview_120'></image>
+          <text class=''>520</text>
         </view>
       </view>
     </view>

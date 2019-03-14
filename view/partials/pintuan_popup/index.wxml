@@ -17,7 +17,7 @@
                     <view class='pintuan_time'>剩余<time data="{{item.endTime}}"></time></view>
                 </view>
               </view>
-              <view class='pintuan_item_right' style='background:{{platformSetting.defaultColor}}' bindtap='goToPintuan'>
+              <view class='pintuan_item_right' style='background:{{platformSetting.defaultColor}}' data-pintuanid='{{item.id}}' bindtap='goToPintuan'>
                 <text>去拼团</text>
               </view>
            </view>

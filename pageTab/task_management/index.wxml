@@ -1,0 +1,59 @@
+<view class='container'>
+  <view class='head_banner' style='background-image:linear-gradient({{setting.platformSetting.defaultColor}},{{setting.platformSetting.secondColor}})'>
+    <image src='{{loginUser.platformUser.headimgurl}}' class='user_hear_img'></image>
+    <view class='head_right'>
+      <view class='head_right_top'>
+        <text class='my_honor'>我的荣誉</text>
+        <text class='my_jifen'>897积分</text>
+      </view>
+      <view class='head_right_bottom'>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_856.jpg' class='own_honor'></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_856.jpg' class='own_honor'></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_856.jpg' class='own_honor'></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_856.jpg' class='own_honor'></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_849.jpg' class='no_honor'></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_849.jpg' class='no_honor'></image>
+        <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_849.jpg' class='no_honor'></image>
+        <text class="check_more" style='background:rgba(255,255,255,0.2)'>查看更多</text>
+      </view>
+    </view>
+  </view>
+  <view class='main'>
+    <view class='main_tab'>
+      <text class='main_tab_item left_radius active' style='background:{{setting.platformSetting.defaultColor}}'>我的</text>
+      <text class='main_tab_item right_radius'>所有</text>
+    </view>
+    <view class='main_container'>
+      <view class='task_list'>
+        <view class='task_list_title'>
+          <text class='task_list_name'>每日任务</text>
+          <text class='task_list_describe'>完成任务即可获得奖励</text>
+        </view>
+        <view class='task_item'>
+          <view class='task_item_title'>
+            <view class='task_item_title_left'>
+              <image src='http://image1.sansancloud.com/jianzhan/2019_3/5/15/37/11_808.jpg' class='task_item_state'></image>
+              <text class='task_item_name'>推广一个新人</text>
+              <text class='task_item_describe'>(所有用户)</text>
+            </view>
+            <view class='task_item_title_right'>
+              <text class='task_item_percent'>1/3</text>
+            </view>
+          </view>
+          <view class='task_item_container'>
+            <view class='task_item_conditions'>
+              <text class='task_item_conditions_name'>分享小程序到微信群</text>
+              <text class='task_item_conditions_state'>去完成</text>
+            </view>
+            <view class='reward_content'>
+              <text class='reward_content_name'>奖励:</text>
+              <view class='reward_content_item'>
+                <text>1、</text><text>获取10积分</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

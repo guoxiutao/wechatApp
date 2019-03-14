@@ -8,9 +8,9 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.2",
-	"appid": "wx37b3f495891dd60c",
-	"projectname": "yuanchaye",
+	"libVersion": "2.6.2",
+	"appid": "wx43f49cf1bbfe9068",
+	"projectname": "gongyixiangmu",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

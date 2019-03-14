@@ -87,7 +87,7 @@ text-align: center;
   padding: 10rpx;
 }
 .article_pict1 .article_pict2,image{
-  width: 750rpxs;
+  width: 750rpx;
   height: 535rpx;
 }
 .comment{

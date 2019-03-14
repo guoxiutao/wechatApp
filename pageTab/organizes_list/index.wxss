@@ -124,18 +124,18 @@ page{
   justify-content: space-between;
   box-shadow:4rpx 4rpx 10rpx #ddd;
   margin: 20rpx;
-  height: 250rpx;
+  height: 180rpx;
   border-radius: 20rpx;
 }
 .asset_item_left{
   display: flex;
   align-items: center;
   flex-direction: row;
-  height:250rpx;
-  width:100%;
+  height:180rpx;
+  width:90%;
 }
 .asset_img{
-  width: 260rpx;
+  width: 180rpx;
   height: 100%;
   border-radius: 20rpx;
 }
@@ -143,7 +143,7 @@ page{
   display: flex;
   flex-direction: column;
   margin-left: 30rpx;
-  width: 58%
+  width: 66%
 }
 .asset_view{
   display: flex;
@@ -169,7 +169,7 @@ page{
   white-space:nowrap;
   text-overflow:ellipsis;
   overflow:hidden;
-  width:80%;
+  width:70%;
 }
 .asset_online_value{
   color: #C0271F;
@@ -194,21 +194,23 @@ page{
   overflow:hidden;
   width:80%;
 }
-.navigations{
+.calling{
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 50rpx;
-  border-radius: 12rpx;
   font-size: 24rpx;
   color: #fff;
-  width:100rpx;
-  padding: 0 10rpx
+  border-radius: 50rpx;
+  padding: 10rpx;
+  margin-right:20rpx;
+  border: 1px solid #999; 
+  outline: none;   
+  background:#fff;
+
 }
-.navigation_icon{
+.calling_icon{
   width: 26rpx;
   height: 26rpx;
-  margin-right: 10rpx;
 }
 /* 没有商品时 */
 .nospace{

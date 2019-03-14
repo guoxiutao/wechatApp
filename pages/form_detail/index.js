@@ -11,7 +11,10 @@ Page({
     pickerIndex:{},
     upLoadImageList:{},
     dataAndTime:{},
-    processType:false,
+    processType: false,
+    refProductFormType: false,
+    productId:0,
+    skuData:{},
     gainActionEvent: {},
     region: "请选择您的地址",
     formId:0,
@@ -156,8 +159,22 @@ Page({
             setTimeout(function () {
               that.toProcessList(res.data.relateObj.id)
             }, 1000)
-          } else if (that.data.formData.refProductId&&that.data.formData.refProductId!=0){
+          } else if (that.data.refProductFormType){
             let baseProData={
+              productId: that.data.skuData.productId,
+              itemCount: that.data.skuData.itemCount,
+              shopId: that.data.skuData.shopId,
+              cartesianId: that.data.skuData.cartesianId,
+              fromSource: 'mini',
+              orderType: that.data.skuData.orderType,
+            };
+            let pintuanData = {
+              pintuanCreateType: that.data.skuData.pintuanCreateType,
+              pintuanRecordId: that.data.skuData.pintuanRecordId,
+              };
+            app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
+          } else if (that.data.formData.refProductId && that.data.formData.refProductId != 0) {
+            let baseProData = {
               productId: that.data.formData.refProductId,
               itemCount: 1,
               shopId: 0,
@@ -168,7 +185,7 @@ Page({
             let pintuanData = {
               pintuanCreateType: 0,
               pintuanRecordId: 0
-              };
+            };
             app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
           }else{
             setTimeout(function () {
@@ -272,6 +289,16 @@ Page({
       }
     })
   },
+  skuData:{
+    productId: 0,
+    itemCount: 1,
+    shopId: 0,
+    cartesianId: 0,
+    fromSource: 'mini',
+    orderType: 0,
+    pintuanCreateType: 0,
+    pintuanRecordId: 0
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -281,10 +308,21 @@ Page({
     that.data.gainActionEvent = options.actionEvent
     that.setData({ formId: options.customFormId})
     that.params.customFormId = options.customFormId;
-    if (options && options.actionEvent){
-      that.data.processType=true;
-    }else{
+    if (options && options.actionEvent) {
+      that.data.processType = true;
+    } else {
       that.data.processType = false;
+    }
+    if (options && options.productId){
+      that.data.refProductFormType=true;
+      that.data.productId = options.productId
+      if (options.params) {
+        that.data.skuData = JSON.parse(options.params)
+      }else{
+        that.data.skuData = that.skuData;
+      }
+    }else{
+      that.data.refProductFormType = false;
     }
     if (options.servantId){
       that.params.servantId = options.servantId 

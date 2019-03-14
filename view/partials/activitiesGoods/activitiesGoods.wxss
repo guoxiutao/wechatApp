@@ -34,7 +34,6 @@
 .recommend_hot_box_copy text{
   font-size: 32rpx;
    /* display: block;  */
-  color: #FF6767;
   line-height: 222rpx;
 }
 
@@ -120,5 +119,4 @@ white-space:nowrap;
    display: block;
   font-size: 20rpx;
   line-height: 40rpx;
-  color: red;
 }
