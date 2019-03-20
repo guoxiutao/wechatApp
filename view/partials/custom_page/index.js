@@ -62,7 +62,8 @@ Component({
     getParac: function () {
       var that = this;
       let url
-      let jsonData
+      let jsonData;
+      let params={};
       try {
         jsonData = JSON.parse(that.data.data);
         url = jsonData.url
@@ -71,8 +72,11 @@ Component({
         console.log(e); //error in the above string(in this case,yes)!
         url = jsonData
       }
+      if (jsonData.id){
+        params.pageObjectId = jsonData.id
+      }
       console.log("====url====", url, jsonData)
-      var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", {}, 'get', '1')
+      var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", params, 'get', '1')
       //拿custom_page
       wx.request({
         url: customIndex.url,

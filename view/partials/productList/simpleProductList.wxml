@@ -30,7 +30,7 @@
           <text class='price' wx:else>￥{{item.price}}</text>
           <text class='price' wx:if='{{item.maxPrice>item.price}}'>-{{item.maxPrice}}</text>
           <text wx:if='{{item.unitShow}}' class='unitShow'>/{{item.unitShow}}</text>
-          <text wx:if='{{item.maxPrice<=item.price&&result.tagPrice>result.price}}' class="tag_price">￥{{item.tagPrice}}</text>
+          <text wx:if='{{item.maxPrice<=item.price&&item.tagPrice>item.price}}' class="tag_price">￥{{item.tagPrice}}</text>
           <image src="../../../images/icons/shoppingCar.png" wx:if="{{jsonData.showCard==1}}" catchtap='readyAddCar' data-product="{{item}}"></image> 
        </view>
        

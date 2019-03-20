@@ -98,6 +98,11 @@ Page({
     })
 
     // 预览页面 实际上就2点更改clientNo，重新获取setting（自己想多了）
+    if (options.REDIRECT && options.REDIRECT != "") {
+      app.linkEvent(options.REDIRECT);
+      return;
+    }
+    // 预览页面 实际上就2点更改clientNo，重新获取setting（自己想多了）
     if (options.ENTER_PLATFORM_NO && options.ENTER_PLATFORM_NO != "" && options.ENTER_PAGE_NAME && options.ENTER_PAGE_NAME != "") {
       console.log("options.page_name", options.ENTER_PAGE_NAME)
       that.setData({

@@ -153,11 +153,11 @@ Component({
 // 跳转页面
     clickLink: function (e) {
   console.log(e)
-   // 如果是已经开始的就前往详情
+   // 如果是已经开始的就前往详情../../pages/new_promotion_products/index?promotionId=' + e.currentTarget.dataset.id
    var oldData = this.data;
    if (oldData.data.relateBean[0].promotionStatus==1){
     wx.navigateTo({
-      url: '../../pages/new_promotion_products/index?promotionId=' + e.currentTarget.dataset.id,
+      url: '../../pageTab/tunzai/teMai/index?promotionId=' + e.currentTarget.dataset.id,
     })
   }
   

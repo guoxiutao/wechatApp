@@ -1,4 +1,5 @@
-<view class='content' wx:if="{{allFormData.belongFormType!=0}}">
+<block wx:if="{{!loading}}">
+<view class='content' wx:if="{{allFormData.belongFormType!=2}}">
   <!-- <view class='formBanner'>
     <image class='bannerUrl' src='{{customForm.banner}}' mode='widthFix'></image>
   </view> -->
@@ -62,7 +63,7 @@
         </view>
   </view>
 </view>
-<view class='content2' wx:if="{{allFormData.belongFormType==0}}">
+<view class='content2' wx:if="{{allFormData.belongFormType==2}}">
   <view class='form_detail_top'>
     <view class='form_detail_top_left'>
       <image class='user_head_img' src='{{allFormData.commitPlatformUserIcon}}'></image>
@@ -71,62 +72,29 @@
         <text class='release_time'>{{allFormData.commitDate}}</text>
       </view>
     </view>
-    <image class='telno_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/11/51/38_517.jpg'></image>
+    <image class='telno_icon' data-phonenumber="{{customForm.telno}}" catchtap='calling'  src='http://image1.sansancloud.com/jianzhan/2019_3/12/11/51/38_517.jpg'></image>
   </view>
   <view class='form_detail_center'>
     <view class='read_number'>
       <text>1314</text>
       <text>阅读</text>
     </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>顺风车类型</text>
+    <view class='form_detail_center_item' wx:for="{{customForm.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type!=7&&itemData.type!=11}}">
+      <text class='center_part_item_title'>{{itemData.title}}</text>
       <text class='interval'>:</text>
-      <text class='center_part_item_value'>车找人</text>
+      <text class='center_part_item_value' wx:if="{{itemData.type!=12}}">{{itemData.value}}</text>
+      <text class='center_part_item_value' wx:if="{{itemData.type==12}}">{{itemData.value.value}}</text>
+      <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{itemData.type==12}}" catchtap='clickCatch' data-item="{{itemData.value}}">
+        <text>去导航</text>
+      </view>
     </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>车牌号</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>闽E98K56</text>
+    <view class='form_detail_center_arr' wx:for="{{customForm.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==7}}">
+      <image class='form_detail_center_arr_img' wx:if="{{itemData.value}}" mode='aspectFill' src='{{itemData.value}}'></image>
     </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>出发地</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>福州</text>
+    <view class='form_detail_center_arr' wx:for="{{customForm.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==11}}">
+      <image class='form_detail_center_arr_img' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:for-item="img"></image>
     </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>目的地</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>长泰</text>
-    </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>出发时间</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>3月7日(周四)18:30</text>
-    </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>手机号</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>18950463636</text>
-    </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>人数/空位</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>4</text>
-    </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>人数/空位</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>4</text>
-    </view>
-    <view class='form_detail_center_item'>
-      <text class='center_part_item_title'>详细信息</text>
-      <text class='interval'>:</text>
-      <text class='center_part_item_value'>可提前或延迟半个小时</text>
-    </view>
-    <view class='form_detail_center_arr'>
-      <image class='form_detail_center_arr_img' mode='aspectFill' src='{{allFormData.commitPlatformUserIcon}}'></image>
-    </view>
-    <view class='map_location'>
+    <!-- <view class='map_location'>
       <map class='mapItem' id="map" longitude="119.272080" latitude="26.074790" scale="14" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" style="width: 100%; height: 100%;" bindtap='hiddenProInfo'>
         <cover-view class='map_bg' bindtap='clickCatch'>
           <cover-view class="play" >
@@ -136,7 +104,7 @@
           <cover-image class='sanjiao' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/34/45_96.jpg?x-oss-process=style/preview_120'></cover-image>
         </cover-view>
       </map>
-    </view>
+    </view> -->
     <view class='form_detail_bottom'>
       <view class='form_detail_bottom_top'>
         <view class='bottom_top_item'>
@@ -149,27 +117,35 @@
         </view>
       </view>
       <view class='comments_list'>
-        <view class='comments_item'>
-          <image class='user_img' src='{{allFormData.commitPlatformUserIcon}}'></image>
+        <view class='comments_item' wx:for="{{conmmentList}}" wx:key="*this" wx:for-item="conmmentItem" wx:if="{{conmmentList.length!=0}}">
+          <image class='user_img' src='{{conmmentItem.commentUserIcon}}'></image>
           <view class='comments_item_right'>
-            <text class='user_name'>{{allFormData.commitPlatformUserName}}</text>
-            <text class='user_need'>还有座位嘛？</text>
-            <view class='other_reply_item'>
-              <text class="other_reply_name" >亭子</text>
+            <text class='user_name'>{{conmmentItem.commentUserName}}</text>
+            <text class='user_need'>{{conmmentItem.comment}}</text>
+            <view class='other_reply_item' wx:for="{{conmmentItem.recomments}}" wx:key="*this" wx:for-item="reconmmentItem" wx:if="{{conmmentItem.length!=0}}">
+              <text class="other_reply_name" >{{reconmmentItem.commentUserName}}</text>
               <text class='interval'>:</text>
-              <text class='other_reply_text'>还有，电话联系</text>
+              <text class='other_reply_text'>{{reconmmentItem.comment}}</text>
+            </view>
+            <view class='more_reply' data-link="form_reply.html?id={{conmmentItem.id}}" bindtap='tolinkUrl' wx:if="{{conmmentItem.recommentCount>3}}">
+              <text>查看更多回复...</text>
             </view>
             <view class='comments_item_bottom'>
-              <text class='user_time'>03-06 07:32</text>
-              <image class='comments_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/6/38_907.jpg?x-oss-process=style/preview_120'></image>
+              <text class='user_time'>{{conmmentItem.commentTime}}</text>
+              <image class='comments_icon' data-link="form_reply.html?id={{conmmentItem.id}}" bindtap='tolinkUrl' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/6/38_907.jpg?x-oss-process=style/preview_120'></image>
             </view>
           </view>
+        </view>
+        <view class='no_item_reply' wx:if="{{conmmentList.length==0}}">
+          <text wx:if="{{allFormData.commentAble==1}}">主人~该帖子还没有人回复哦！</text>
+          <text wx:else>主人~改帖子设置了不能回复哦！</text>
         </view>
       </view>
     </view>
   </view>
 </view>
-<view class='comments_part'>
-  <input class='comments_input' bindconfirm='btn_send'  cursor-spacing="130" placeholder='发表评论...' maxlength="76" ></input>
-  <image class='comments_img_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/13/18/4/57_119.jpg?x-oss-process=style/preview_120' mode="aspectFitf"></image>
+<view class='comments_part' wx:if="{{allFormData.belongFormType==2&&allFormData.commentAble==1}}">
+  <input class='comments_input b' bindconfirm='sendComments'  bindinput="saveData" cursor-spacing="130" placeholder='发表评论...' maxlength="76" ></input>
+  <image class='comments_img_icon' bindtap='sendComments' src='http://image1.sansancloud.com/jianzhan/2019_3/13/18/4/57_119.jpg?x-oss-process=style/preview_120' mode="aspectFitf"></image>
 </view>
+</block>

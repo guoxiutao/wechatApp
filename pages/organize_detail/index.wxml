@@ -43,10 +43,10 @@
 
     <!-- 首页组件-私有产品详情装饰-->
     <view>
-     <component-tag-customPage data="product_detail_{{organizeData.productId}}" wx:if="{{organizeData.productId}}"></component-tag-customPage> 
+     <component-customPage data="{{sendOrganizeData}}"></component-customPage> 
     </view>
     <!-- 首页组件-公共产品详情装饰-->
-    <component-tag-customPage data="productdetail"></component-tag-customPage> 
+    <component-customPage data="{{sendIndexData}}"></component-customPage> 
     <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
     <view class='product_main_info' wx:if="{{assetData.text!=''&&assetData.text!='<p><br></p>'}}">
       <view class='line'></view>

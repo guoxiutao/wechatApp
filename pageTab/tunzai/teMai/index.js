@@ -125,7 +125,7 @@ Page({
             startTime: promotionInfo.startDate,
             background: '#fff',
             color: that.data.setting.defaultColor,
-            fontSize: 30
+            fontSize: 26
           };
           if (promotionInfo.content) {
             WxParse.wxParse('article', 'html', promotionInfo.content, that);
@@ -137,7 +137,7 @@ Page({
             endTime: promotionInfo.endDate,
             background: '#fff',
             color: that.data.setting.defaultColor, 
-            fontSize: 30
+            fontSize: 26
           };
         }
         that.setData({ promotionInfo: promotionInfo })
@@ -161,6 +161,7 @@ Page({
       setting: app.setting.platformSetting,
       shopId: app.setting.platformSetting.defaultShopBean.id
     })
+    console.log("setting", this.data.setting)
     this.getProductData(this.params)
     this.getPromotionInfo(this.params)
   },

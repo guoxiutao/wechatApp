@@ -37,12 +37,17 @@ Page({
         if (res.data.errcode==0){
           that.data.newType = res.data.relateObj
         }
-        for (let i = 0; i < that.data.newType.length; i++) {
-          that.data.newType[i].colorAtive = '#888';
+        if (that.data.newType.length!=0){
+          for (let i = 0; i < that.data.newType.length; i++) {
+            that.data.newType[i].colorAtive = '#888';
+          }
+          that.data.newType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
+          that.data.newType[0].active = true;
+          callback(that.data.newType[0].id)
+        }else{
+          that.setData({ newList: null })
         }
-        that.data.newType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
-        that.data.newType[0].active = true;
-        callback(that.data.newType[0].id)
+        
         that.setData({ newType: that.data.newType })
         wx.hideLoading()
       },

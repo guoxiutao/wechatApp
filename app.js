@@ -8,7 +8,7 @@ App({
     /**
      *   切换项目的开关 ↓↓↓↓↓
      */
-  clientNo: 'xianhua',   //自定义的项目的名称。
+  clientNo: 'jianzhan',   //自定义的项目的名称。
     preCallbackObj:{key:{callback:''}},
     clientName: '',
     more_scene: '', //扫码进入场景   用来分销
@@ -47,9 +47,9 @@ App({
     shareSubPage :true,
     onHide: function (e) {
       console.log('hide', this.shareSubPage)
-        console.log(e)
+      console.log(e)
     },
-    addLoginListener:function(listener){
+    addinkoginListener:function(listener){
       console.log('addLoginListener', listener)
       this.loginSuccessListeners.push(listener);
     },
@@ -495,15 +495,18 @@ App({
         else if (linkUrl.substr(0, 14) == 'product_detail') {
             let productId = linkUrl.replace(/[^0-9]/ig, "");
             console.log(linkUrl.substr(15, 6))
-            if (linkUrl.substr(15, 6) == 'tunzai'){
-              wx.navigateTo({
-                url: '/pages/productDetail_tunzai/index?id=' + productId + "&addShopId=236",
-              })
-            } else {
-              wx.navigateTo({
-                url: '/pages/productDetail/index?id=' + productId + "&addShopId=236",
-              })
-            }
+            wx.navigateTo({
+              url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
+            })
+            // if (linkUrl.substr(15, 6) == 'tunzai'){
+            //   wx.navigateTo({
+            //     url: '/pages/productDetail_tunzai/index?id=' + productId + "&addShopId=236",
+            //   })
+            // } else {
+            //   wx.navigateTo({
+            //     url: '/pages/productDetail/index?id=' + productId + "&addShopId=236",
+            //   })
+            // }
         }
         else if (urlData.url == 'shop_map') {
             this.openLocation()
@@ -539,6 +542,15 @@ App({
                     console.log("跳转tab页")
                     wx.switchTab({
                       url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+                      fail: function () {
+                        console.log("跳转tunzai定制页")
+                        wx.navigateTo({
+                          url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
+                          fail: function () {
+                            console.log("没有定义" + urlData.url +"页面")
+                          }
+                        })
+                      }
                     })
                   }
                 })

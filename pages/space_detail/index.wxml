@@ -50,7 +50,7 @@
   </view>
   <!-- 首页组件-私有产品详情装饰-->
   <view>
-    <component-tag-customPage data="space_{{spaceData.id}}" wx:if="{{spaceData.id}}"></component-tag-customPage> 
+    <component-customPage data="{{sendSpaceData}}"></component-customPage> 
   </view>
   <!-- 组织类型 -->
   <view class='lease_content'>
@@ -83,4 +83,4 @@
 
 <posters proId="{{proId}}" shopId="{{shopId}}" ewmImgUrl='{{qrCodeUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters> 
  <!-- 首页组件-公共产品详情装饰-->
- <component-tag-customPage data="space"></component-tag-customPage> 
+ <component-customPage data="{{sendIndexData}}"></component-customPage> 

@@ -104,7 +104,7 @@ loginFailed:function(err){
   },
   tolinkUrl:function(){
     wx.navigateTo({
-      url: '/pageTab/lanHu/applyMendian/index?code=' +this.data.code
+      url: '/pageTab/tunzai/applyMendian/index?code=' +this.data.code
     })
   },
   /**

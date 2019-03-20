@@ -15,8 +15,10 @@
     <view class='wxParseData'>
       <template is="1"   data="{{wxParseData:article.nodes}}"></template> 
     </view>
-    <component-tag-customPage data="news_detail_{{Data.id}}" wx:if="{{Data.id}}"></component-tag-customPage> 
+    <component-customPage data="{{sendNewsData}}"></component-customPage> 
 </view>
+<!-- 首页组件-公共新闻详情装饰-->
+<component-customPage data="{{sendIndexData}}"></component-customPage> 
 <view class='bottomBar'>
   <button open-type='share' class='shareToFriends' >
     <image class='shareToFriendsIcon' src='http://image1.sansancloud.com/jianzhan/2018_12/14/14/30/55_49.jpg'></image>

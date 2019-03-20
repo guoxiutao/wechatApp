@@ -1,11 +1,114 @@
 .container{
-  background: #eee;
+  background: #f1f1f1;
+  margin-bottom:100rpx;
+}
+.select_top{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  background:#fff;
+  z-index:11;
+}
+.select_tab{
+  width: 100%;
+  /* padding: 0 35rpx; */
+  box-sizing: border-box;
+  font-size: 26rpx;
+  color: #888;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom:1rpx solid #eee;
+  position: relative;
+  border-top:1rpx solid #f1f1f1;
+}
+.select_tab_item{
+  width: 25%;
+  display: flex;
+  padding: 25rpx 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+}
+.select_tab_item_icon{
+  margin-left: 10rpx;
+  width: 20rpx;
+  height: 20rpx;
+}
+.select_tab_item_value{
+  position: fixed;
+  top: 84rpx;
+  z-index: 11;
+  left: 0;
+  width: 100%;
+  /* padding: 30rpx; */
+  height: 500rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-size: 24rpx;
+  color: #888;
+  background:#fff;
+  /* border-top: 1rpx solid #eee */
+}
+.select_tab_item_value_name:first-child{
+  border: none;
+}
+.select_tab_item_value_name{
+  border-top:1rpx solid #f1f1f1;
+  display:flex;
+  align-items: center;
+  padding:20rpx 30rpx;
+  margin:0 25rpx;
+  /* box-sizing: border-box; */
+}
+.zhezhao {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:#000;
+  opacity:0.6;
+  z-index:10;
+}
+/* tab */
+.tab-h{
+  height: 68rpx;
+  width: 100%; 
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 68rpx;
+  font-size: 24rpx; 
+  white-space: nowrap;
+
+  }
+  .tab-item{
+  margin-left: 60rpx;
+  height: 60rpx;
+  display: inline-block;
+}
+  .tab-item:first-child{
+  margin-left: 0rpx;
+  height: 60rpx;
+  display: inline-block;
+}
+.switch_tab{
+  padding: 0 20rpx;
+}
+.mt_80{
+  margin-top: 80rpx;
+}
+.mt_160{
+  margin-top: 160rpx;
 }
 .form_commit_list{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* margin-top:160rpx; */
 }
 .form_commit_item{
   display: flex;
@@ -137,7 +240,7 @@
 .form_commit_item_info{
   display: flex;
   flex-direction: column;
-  margin: 10rpx;
+  margin: 16rpx;
   box-shadow: 2rpx 4rpx 10rpx #ccc;
   width: 96%;
   box-sizing: border-box;
@@ -210,7 +313,7 @@
 .center_part{
   display: flex;
   flex-direction: column;
-  font-size: 22rpx;
+  font-size: 24rpx;
   color: #888;
   padding: 0 30rpx;
 }
@@ -226,16 +329,23 @@
 }
 .showMore{
   position: absolute;
-  right: 14rpx;
-  top: 0;
+  right: -4rpx;
+  top: -10rpx;
   width: 30rpx;
   height: 30rpx;
+  padding:20rpx;
 }
 .show_img{
   display: flex;
+  position: relative;
   flex-direction: row;
   align-items: center;
   margin-bottom: 15rpx
+}
+.more{
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .show_img_item{
   width: 180rpx;
@@ -283,3 +393,37 @@
   height: 32rpx;
   margin-right: 4rpx;
 }
+.publish_message_btn{
+  position: fixed;
+  bottom: 0rpx;
+  height: 100rpx;
+  color: #fff;
+  font-size: 30rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%
+}
+.publish_message_icon{
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 10rpx;
+}
+/* .publish_message_btn{
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  bottom: 80rpx;
+  right: 20rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100rpx;
+  box-sizing: border-box;
+}
+.publish_message_icon{
+  width: 60rpx;
+  height: 60rpx;
+} */

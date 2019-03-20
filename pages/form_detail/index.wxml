@@ -66,11 +66,11 @@
           </view>
           <view class='upload'>
           <!-- wx:for="{{upLoadImageList['img_'+index]}}" wx:for-item="imgs"  -->
-            <view class='uploadedImg' wx:if="{{upLoadImageList['img_'+index]}}">
-              <view class='removeImgIcon' bindtap='removeImg' data-index='{{index}}'><text>x</text></view>
-              <image class='uploadedImgUrl' src="{{upLoadImageList['img_'+index]}}" mode='aspectFill'></image>
+            <view class='uploadedImg' wx:for="{{upLoadImageList['img_'+index]}}" wx:for-item="img" wx:for-index="idx">
+              <view class='removeImgIcon' bindtap='removeImg' data-index="{{index}}" data-num='{{idx}}'><text>x</text></view>
+              <image class='uploadedImgUrl' src="{{img}}" mode='aspectFill'></image>
             </view>
-            <view class='uploadImg' bindtap='addCommitImage' data-index='{{index}}'>
+            <view class='uploadImg' bindtap='addCommitImage' data-index='{{index}}' data-type="{{items.type}}">
               <image class='uploadImgIcon' src='http://image1.sansancloud.com/jianzhan/2018_10/22/18/4/3_874.jpg?x-oss-process=style/preview_120'></image>
               <text style='font-size:24rpx;color:#555;margin-top:10rpx'>添加图片</text>
             </view>
@@ -98,6 +98,37 @@
               <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
             </view>
           </picker>
+        </view>
+        <!-- 多图片 -->
+        <view class='imgType common' wx:if='{{items.type==11}}'>
+          <view class='imgName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{items.title}}</text>
+          </view>
+          <view class='upload'>
+          <!-- wx:for="{{upLoadImageList['img_'+index]}}" wx:for-item="imgs"  -->
+            <view class='uploadedImg' wx:for="{{upLoadImageList['img_'+index]}}" wx:for-item="imgs" wx:for-index="idx">
+              <view class='removeImgIcon' bindtap='removeImg'  data-index="{{index}}" data-num='{{idx}}'><text>x</text></view>
+              <image class='uploadedImgUrl' src="{{imgs}}" mode='aspectFill'></image>
+            </view>
+            <view class='uploadImg' bindtap='addCommitImage' data-index='{{index}}' data-type="{{items.type}}">
+              <image class='uploadImgIcon' src='http://image1.sansancloud.com/jianzhan/2018_10/22/18/4/3_874.jpg?x-oss-process=style/preview_120'></image>
+              <text style='font-size:24rpx;color:#555;margin-top:10rpx'>添加图片</text>
+            </view>
+          </view>
+        </view>
+        <!-- 位置 -->
+        <view class='inputString common' wx:if='{{items.type==12}}'>
+          <view class='inputName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{items.title}}</text>
+          </view>
+          <view class='location' catchtap="tolinkUrl" data-link="select_location.html" data-index="{{index}}">
+            <input class='select_address' style='width:80%' disabled="disabled" value="{{locationList['position_'+index].value}}" placeholder='{{items.remark}}'></input>
+            <view class='pickerRight'>
+              <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
+            </view>
+          </view>
         </view>
         <!--  -->
         </view>

@@ -18,6 +18,9 @@ Page({
     gainActionEvent: {},
     region: "请选择您的地址",
     formId:0,
+    reqLocation:false,
+    locationList:{},
+    locationIndex:"",
   },
   // 关闭海报
   getChilrenPoster(e) {
@@ -58,6 +61,33 @@ Page({
     this.setData({
       region: e.detail.value
     })
+  },
+
+  tolinkUrl: function (e) {
+    if (!app.loginUser) {
+      wx.showModal({
+        title: '提示',
+        content: '主人~您还在登陆哦!稍等片刻',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    let that = this;
+    let linkUrl = e.currentTarget.dataset.link
+    let index = e.currentTarget.dataset.index
+    if (linkUrl.indexOf("select_location.html") != -1) {
+      console.log("选择位置")
+      that.setData({ reqLocation: true, locationIndex: "position_" + index})
+    } else {
+      that.setData({ reqLocation: false })
+    }
+    app.linkEvent(linkUrl)
   },
   // 返回首页
   toFormCommitList: function (){
@@ -100,14 +130,16 @@ Page({
     console.log(that.params);
     let value = e.detail.value;
     let imgObj = {};
+    let positionObj = {};
     for (let i = 0; i<that.data.formData.items.length;i++){
-      if (that.data.formData.items[i].type==7){
+      if (that.data.formData.items[i].type == 7||that.data.formData.items[i].type ==11){
         imgObj[that.data.formData.items[i].name] = that.data.upLoadImageList['img_' + i]||""
+      } else if (that.data.formData.items[i].type == 12) {
+        positionObj[that.data.formData.items[i].name] = that.data.locationList['position_' + i] || ""
       } else if (that.data.formData.items[i].type ==2){
-        
       }
     }
-    value = Object.assign({}, value, imgObj)
+    value = Object.assign({}, value, imgObj, positionObj)
     console.log('===value=====', value, that.data.formData)
     that.params.miniNotifyFormId = e.detail.formId;
     let itemData = that.data.formData.items
@@ -116,7 +148,7 @@ Page({
     for (let i = 0; i < itemData.length;i++){
       for (let j in value) {
         if(itemData[i].name == j){
-          if (itemData[i].type == 2) {
+          if (itemData[i].type == 2) {//下拉框
             newObj[itemData[i].name] = { value: itemData[i].listValues[value[j]], title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
           }else{
             newObj[itemData[i].name] = { value: value[j], title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
@@ -139,7 +171,6 @@ Page({
       }
     }
     console.log("==newObj====", newObj)
-    //that.params.formJson = JSON.stringify(value);
     that.params.formJson = JSON.stringify(newObj);
     var formData = app.AddClientUrl("/wx_commit_custom_form.html", that.params, 'post')
     wx.request({
@@ -212,7 +243,8 @@ Page({
     let that=this;
     console.log('======event==',event);
     let index = event.currentTarget.dataset.index;
-    that.data.upLoadImageList['img_' + index]='';
+    let num = event.currentTarget.dataset.num;
+    that.data.upLoadImageList['img_' + index].splice(num, 1);
     console.log('that.data.upLoadImageList', that.data.upLoadImageList);
     that.setData({ upLoadImageList: that.data.upLoadImageList })
   },
@@ -220,17 +252,37 @@ Page({
     console.log('===addCommitImage=',e)
     var that = this;
     let index = e.currentTarget.dataset.index;
+    let count=1;
+    let type = e.currentTarget.dataset.type;
     let upLoadImageList = that.data.upLoadImageList
-    if (upLoadImageList.length == 1) {
-      return
+    if (!that.data.upLoadImageList['img_' + index]){
+      that.data.upLoadImageList['img_' + index]=[];//初始化数据
+    }
+    if (type == 7 ){
+      count=1;
+      if (upLoadImageList['img_' + index]&&upLoadImageList['img_' + index].length == 1){
+        console.log("只能选一张")
+        wx.showToast({
+          title: "只能选一张",
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+    } else if (type == 11) {
+      console.log("可选多张")
+      count=9
     }
     wx.chooseImage({
-      count: 8, // 默认9
+      count: count - upLoadImageList['img_' + index].length, // 默认9
       sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
+        console.log("===chooseImage===",res)
         let tempFilePaths = res.tempFilePaths
-        that.uploadImage(tempFilePaths, tempFilePaths.length,index)
+        for (let i = 0; i < tempFilePaths.length;i++){
+          that.uploadImage(tempFilePaths[i], tempFilePaths.length, index)
+        }
       }
     })
   },
@@ -244,32 +296,31 @@ Page({
     let param = {
       userId: app.loginUser.id
     }
+    console.log("==upLoadImageList===", that.data.upLoadImageList)
     var customIndex = app.AddClientUrl("/file_uploading.html", param, 'POST')
     wx.uploadFile({
-      url: customIndex.url, //仅为示例，非真实的接口地址
-      header: {
-        'content-type': 'multipart/form-data'
-      },
-      filePath: tempFilePaths[count - 1],
+      url: customIndex.url, //接口地址
+      filePath: tempFilePaths,
       name: 'file',
       formData: customIndex.params,
+      header: {'content-type': 'multipart/form-data'},
       success: function (res) {
         let upLoadImageList = that.data.upLoadImageList
         var data = res.data
-        console.log(data)
+        console.log("===success===",data)
         if (typeof (data) == 'string') {
           data = JSON.parse(data)
-          console.log(data)
+          console.log("====string====",data)
           if (data.errcode == 0) {
-            upLoadImageList['img_' + index] = data.relateObj.imageUrl
-            // upLoadImageList.push(data.relateObj.imageUrl)
+            upLoadImageList['img_' + index].push(data.relateObj.imageUrl)
             that.setData({
               upLoadImageList: upLoadImageList
             })
           }
         } else if (typeof (data) == 'object') {
+          console.log("===object====", data)
           if (data.errcode == 0) {
-            upLoadImageList.push(data.relateObj.imageUrl)
+            upLoadImageList['img_' + index].push(data.relateObj.imageUrl)
             that.setData({
               upLoadImageList: upLoadImageList
             })
@@ -280,11 +331,11 @@ Page({
       }, fail: function (e) {
         console.log(e)
       }, complete: function (e) {
-        if (count == 1 || count < 1) {
-          return false;
-        } else {
-          that.uploadImage(tempFilePaths, --count)
-        }
+        // if (count == 1 || count < 1) {
+        //   return false;
+        // } else {
+        //   that.uploadImage(tempFilePaths, --count)
+        // }
 
       }
     })
@@ -374,7 +425,22 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that=this;
+    if (that.data.reqLocation){
+      let locationList={};
+      console.log("从选择地点页面返回", that.data.selectAddress)
+      var pages = getCurrentPages();
+      var currPage = pages[pages.length - 1]; //当前页面
+      console.log(currPage) //就可以看到data里mydata的值了
+      if (that.data.selectAddress){
+        console.log("选择了地点")
+        locationList[that.data.locationIndex] = that.data.selectAddress
+        that.setData({ locationList: locationList})
+        console.log("==locationList==", locationList)
+      }else{
+        console.log("没选择地点")
+      }
+    }
   },
 
   /**

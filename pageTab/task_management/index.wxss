@@ -192,6 +192,11 @@
   font-size: 22rpx;
   padding: 4rpx;
 }
+.finished_icon{
+  width:60rpx;
+  height:40rpx;
+  padding:8rpx;
+}
 .reward_content{
   display: flex;
   flex-direction: column;

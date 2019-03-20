@@ -204,6 +204,10 @@ Page({
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "space", id: options.spaceId })
+    that.setData({ sendIndexData: sendIndexData })
+    let sendSpaceData = JSON.stringify({ title: 'noTitle', url: "space_" + options.spaceId })
+    that.setData({ sendSpaceData: sendSpaceData })
     console.log("商品id和店铺id",options)
     that.dataFOr_getData.id = options.id
     that.setData({ dataFOr_getData:that.dataFOr_getData})

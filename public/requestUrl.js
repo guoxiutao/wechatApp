@@ -50,7 +50,8 @@ function dellUrl(url, params, method, random, loginToken){
     post.url = post.url + post.params
   } else {
     post.params = params
-    post.params.apiversion=2
+    post.params.apiversion = 2
+    post.params.jsonOnly = 1
   }
   post.method = method;
   

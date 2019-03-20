@@ -10,7 +10,7 @@ Page({
     fxCenter: null,
     fxState:false,
     loginUser:null,
-    fxDetail:null,
+    taskManagementData:null,
     wsState:false,
     posterState:false,
     ewmImgUrl:"",
@@ -81,9 +81,9 @@ Page({
     })
   },
   //获取推广中心，查看是否有资格
-  get_fx_detail: function (setting) {
+  getTaskManagementData: function () {
     console.log('-------推广中心--------')
-    var customIndex = app.AddClientUrl("/wx_get_fx_data.html")
+    var customIndex = app.AddClientUrl("/wx_find_user_reward_package_results.html")
     var that = this
     wx.showLoading({
       title: 'loading'
@@ -92,10 +92,16 @@ Page({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
-        console.log("===get_fx_detail===",res)
+        console.log("===getTaskManagementData===",res)
         if (res.data.errcode == '0') {
-          let fxDetail = res.data.relateObj;
-          that.setData({ fxDetail: fxDetail })
+          let taskManagementData = res.data.relateObj;
+          for (let i = 0;i<taskManagementData.length;i++){
+            if (taskManagementData[i].conditionPackage.rewardContent){
+              taskManagementData[i].conditionPackage.rewardContent = JSON.parse(taskManagementData[i].conditionPackage.rewardContent)
+            }
+            
+          }
+          that.setData({ taskManagementData: taskManagementData })
         }
         wx.hideLoading()
       },
@@ -111,6 +117,7 @@ Page({
   onLoad: function (options) {
     let that=this;
     that.setData({ setting: app.setting, loginUser: app.loginUser })
+    that.getTaskManagementData()
     console.log("loginUser", that.data.loginUser)
   },
 

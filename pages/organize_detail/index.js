@@ -17,6 +17,8 @@ Page({
     totalImg:0,
     color:'',
     secondColor:"",
+    sendOrganizeData:"",
+    sendIndexData:"",
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -153,6 +155,10 @@ Page({
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "organize", id: options.organizeId })
+    that.setData({ sendIndexData: sendIndexData })
+    let sendOrganizeData = JSON.stringify({ title: 'noTitle', url: "organize_" + options.organizeId })
+    that.setData({ sendOrganizeData: sendOrganizeData })
     console.log("商品id和店铺id",options)
     that.dataFOr_getData.organizeId = options.organizeId
     that.setData({ dataFOr_getData:that.dataFOr_getData})

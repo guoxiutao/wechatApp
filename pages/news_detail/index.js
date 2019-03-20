@@ -63,10 +63,15 @@ Page({
    */
   onloadOpt:{},
   onLoad: function (options) {
-    this.onloadOpt = options
-    this.setData({ params: options,setting:app.setting})
+    let that=this;
+    that.onloadOpt = options
+    that.setData({ params: options,setting:app.setting})
     console.log('options',options)
-    this.getData(options)
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "news", id: options.id || options.newsId })
+    that.setData({ sendIndexData: sendIndexData })
+    let sendNewsData = JSON.stringify({ title: 'noTitle', url: "news_detail_" + options.id || options.newsId })
+    that.setData({ sendNewsData: sendNewsData })
+    that.getData(options)
   },
 
   /**

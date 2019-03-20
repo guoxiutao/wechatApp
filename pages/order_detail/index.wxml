@@ -116,15 +116,6 @@
     </view>
   </view> 
 
-
-  
-  <!-- <view class='orderTime2'>
-    <view class='wuliuItem' wx:for='{{[1,1,1,1,1,1,1,1,1,2,1,11]}}' wx:key='{{index}}'>
-      <view>撒打算的撒发生覅以撒福看撒即可放款时间按不付款看阿双方将咖啡开始交话费</view>
-      <view class='time'>2018-8-10 22:10:12 </view>
-    </view>
-  </view> -->
-
   
 </view>
 <block wx:if='{{showArr}}'>

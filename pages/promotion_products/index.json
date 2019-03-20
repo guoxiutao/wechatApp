@@ -4,7 +4,7 @@
   "enablePullDownRefresh": true,
   "navigationBarTitleText": "特卖",
       "usingComponents": {
-        "productList": "../../pageTab/lanHu/components/productList/productList",
+        "productList": "../../pageTab/tunzai/components/productList/productList",
         "posters": "../../view/partials/canvas/index",
         "posterActive": "../../view/partials/canvas_active/index"
       }

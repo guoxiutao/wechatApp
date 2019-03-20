@@ -140,7 +140,7 @@
 .uploadImg{
   width: 150rpx;
   height: 150rpx;
-  border:2rpx solid #888;
+  border:2rpx dashed #ccc;
   display: flex;
   flex-direction: column;
   align-items:center;
@@ -154,7 +154,7 @@
 .uploadedImgUrl{
   width: 150rpx;
   height: 150rpx;
-  margin-right: 20rpx;
+  margin-right: 18rpx;
   border-radius: 10rpx
 }
 .uploadedImg{
@@ -223,4 +223,17 @@
 .shareFormPosterImg{
   width: 70rpx;
   height: 70rpx;
+}
+.location{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 50rpx;
+  width: 70%;
+  justify-content: space-between
+}
+.select_address{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
