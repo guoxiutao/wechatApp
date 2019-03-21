@@ -47,35 +47,28 @@ Component({
     },
     // 获取附近店铺数据
     getData:function(){
-  
-      var that = this;
-
+      let that = this;
       // 店铺名可以从app.setting中拿到
       console.log("app.setting.platformSetting", app.setting);
       let shopName = app.setting.platformSetting.defaultShopBean.account.shopName
       wx.getLocation({
         type: 'wgs84',
         success: function (res) {
-          var latitude = res.latitude
-          var longitude = res.longitude
-          console.log(latitude)
+          let latitude = res.latitude
+          let longitude = res.longitude
+          console.log(longitude + "..............." + latitude)
           console.log(that.data.page)
-
           // 获取附近店铺数据
-          var nearShopUrl = "/more_near_shops.html"
-          var pageParam = { 
+          let pageParam = { 
             "longitude": longitude,
             "latitude": latitude,
-        //    "shopName": shopName,
             "page": that.data.page
              }
-          console.log(nearShopUrl + pageParam)
-          var customIndex = app.AddClientUrl(nearShopUrl, pageParam, 'get', 1)
-
+          console.log(pageParam)
+          let customIndex = app.AddClientUrl("/more_near_shops.html", pageParam, 'get', 1)
           wx.showLoading({
             title: 'loading'
           })
-          //拿custom_page
           wx.request({
             url: customIndex.url,
             header: app.header,
@@ -87,36 +80,18 @@ Component({
               })
               // 店铺标签是带【】的字符串需要改
               console.log("=====shops=====", that.data.shops)
-              let shops = that.data.shops;
-              for (let j = 0; j < shops.length;j++){
-                if (shops[j].shopTag &&shops[j].shopTag!=""){
-                  let shopTag = that.data.shops[j].shopTag
-                  shopTag = shopTag.replace(/\[/g, '')
-                  shopTag= shopTag.split(']')
-                  console.log(shopTag);
-                  shops[j].shopTag = shopTag
-                  that.setData({
-                    shops: shops
-                  })
+              let shops = res.data.relateObj.result;
+              let tagArray=[];
+              for (let j = 0; j < shops.length; j++) {
+                // 获取公里数
+                shops[j].distance = app.getDistance(latitude, longitude, shops[j].latitude, shops[j].longitude)
+                if (shops[j].shopTag) {
+                  tagArray = shops[j].shopTag.slice(1, -1).split("][")
+                  shops[j].tagArray = tagArray;
                 }
-               
               }
+              that.setData({shops: shops})
               console.log("=========shops=======", that.data.shops)
-              // 获取公里数
-              var userLongitude = longitude;
-              var userLatitude = latitude;
-              var index="0"
-              for (var i = 0; i < res.data.relateObj.result.length; i++) {
-                index=i;
-                var shopLongitude = res.data.relateObj.result[index].longitude;
-                var shopLatitude = res.data.relateObj.result[index].latitude;
-
-                that.getGreatCircleDistance(userLongitude, userLatitude, shopLongitude, shopLatitude);
-
-                // 店铺介绍
-                // WxParse.wxParse('article', 'html', res.data.relateObj.result[index].shopDescription, that, 10);
-              }
-              
               if (res.data.errcode < 0) {
                 console.log(res.data.errMsg)
               }

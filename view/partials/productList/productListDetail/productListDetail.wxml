@@ -9,6 +9,8 @@
         <text class='location_name' wx:else>{{result.description}}</text>
         <scroll-view class='tags_content' scroll-x>
           <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
+          <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
+          <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
         </scroll-view>
         <view class='product_price'>
           <!-- ￥{{result.price}}

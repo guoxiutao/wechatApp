@@ -20,7 +20,7 @@
       </scroll-view>
     </view>
   </view>
-  <view class='form_commit_list' class='{{selectTab.length!=0?"mt_160":"mt_80"}}'>
+  <view class='form_commit_list' class='{{selectTab.length!=0?"mt_150":"mt_80"}}'>
     <block wx:if="{{formCommitList.length!=0}}">
     <view class='form_commit_item' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{formCommitItem.belongFormType!=2}}" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}">
       <view class='form_title'>
@@ -84,11 +84,11 @@
             <image class='showMore' data-index="{{index}}" data-length="{{formCommitItemInfo.commitArr.length}}" data-type="show" catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_428.jpg?x-oss-process=style/preview_120' ></image>
           </view>
         </view>
-        <view class='show_img' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==7}}">
+        <view class='show_img' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==7&&itemData.value}}">
           <image class='show_img_item' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:for-item="img" wx:if="{{publicFun.typeOf(itemData.value)!='string'}}"></image>
           <image class='show_img_item' mode='aspectFill' src='{{itemData.value}}' wx:if="{{publicFun.typeOf(itemData.value)=='string'}}"></image>
         </view>
-        <view class='show_img' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==11}}">
+        <view class='show_img' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==11&&itemData.value}}">
           <image class='show_img_item' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:for-item="img"></image>
         </view>
         <view class='addr_time'>

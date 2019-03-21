@@ -18,7 +18,8 @@
       <view class='my_level_limit_time'><text wx:if="{{loginUser.platformUser.platformUserCode}}">{{loginUser.platformUser.platformUserCode}}</text></view>
     </view>
     <view class='extra_info'>
-      <view class='extra_info_item' wx:if="{{memberState}}">
+      <view class='extra_info_item' wx:if="{{memberState}}" >
+      <!-- catchtap='tolinkUrl' data-link="mendian_zijin.html" -->
         <text class='extra_info_title'>余额</text>
         <text class='extra_info_value' style='color:{{platformSetting.defaultColor}}'>￥{{loginUser.platformUser.account}}</text>
       </view>

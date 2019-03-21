@@ -1297,6 +1297,18 @@ App({
     console.log("====getDistance===", s)
     return s;
   },
+  calling: function (phoneNumber) {
+    console.log('====e===', phoneNumber)
+    wx.makePhoneCall({
+      phoneNumber: phoneNumber, //此号码并非真实电话号码，仅用于测试
+      success: function () {
+        console.log("拨打电话成功！")
+      },
+      fail: function () {
+        console.log("拨打电话失败！")
+      }
+    })
+  },
     SDKVersion: '',
     // 个人信息，连接90行
     getSdkVersion: function () {

@@ -5,7 +5,7 @@
 
 
      <block wx:if='{{data.androidTemplate == ""}}'>
-        <template is="simpleNearShop" data="{{...data,shops,journey}}"></template> 
+        <template is="simpleNearShop" data="{{...data,shops,defaultColor}}"></template> 
      </block>
 
 

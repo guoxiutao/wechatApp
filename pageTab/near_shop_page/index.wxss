@@ -1,20 +1,124 @@
 
 /* 外卖模式的点单啊 */
 .waimaiContainer{
-  position: absolute;
+  /* position: absolute;
   left: 0;
   right: 0; 
   top: 0;
-  bottom: 0;
+  bottom: 0; */
   width: 100%;
   height: 100%;
   background: #fff;
   overflow: hidden;
 }
+/*分享  */
+.share_shop{
+  position: absolute;
+  height: 40rpx;
+  width: 110rpx;
+  top:30rpx;
+  right: 0;
+  background: #000;
+  border-top-left-radius: 30rpx;
+  border-bottom-left-radius: 30rpx;
+  color: #fff;
+  line-height: 40rpx;
+  font-size: 20rpx
+}
+.share_shop_title{
+  margin-left: 20rpx;
+}
 /*店铺顶部信息  */
 .shop_top{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-size: 24rpx;
+  height:500rpx;
+  border-bottom: 16rpx solid #F8F8F8;
+}
+.shop_banner{
+  height: 266rpx;
+  width: 100%;
+}
+.shop_banner_img{
+  width: 100%;
+  height: 100%;
+}
+.shop_info{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0rpx;
+  background: #fff;
+  border-radius: 32rpx;
+  width: 100%;
+  height:300rpx;
+  padding:40rpx 32rpx 0 32rpx;
+  box-sizing:border-box;
+}
+.shop_info_top{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12rpx;
+}
+.shop_info_left{
+  display: flex;
+  flex-direction: column;
+  font-size: 24rpx;
+  color: #9B9B9B
+}
+.shop_info_name{
+  font-size: 38rpx;
+  margin-bottom: 24rpx;
+  color: #020003;
+  font-weight: 500;
+}
+.shop_info_service{
+  margin-bottom: 16rpx;
+}
+.shop_info_address{
+  margin-bottom: 16rpx
+}
+.shop_info_right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.shop_info_logo{
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 16rpx;
+}
+.shop_info_bottom{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18rpx;
+  border-top: 1rpx solid #F0F0F2;
+}
+.shop_btn_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding:26rpx 0;
+}
+.shop_btn_img{
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 8rpx;
+}
+.shop_btn_text{
+  font-size: 24rpx;
+  color: #333333
+}
+/* .shop_top{
   height: 180rpx;
-  background: #48b250;
+  background: #c53f43;
   display: flex;
   flex-direction: row;
   padding:0 30rpx 0 30rpx;
@@ -54,12 +158,18 @@
 .decribe_base{
   font-size: 22rpx;
   color: #fff;
+} */
+.product_info{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height:1000rpx;
 }
 /* 左边的type */
 .leftScrollType{
   position: absolute;
   left: 0;
-  top: 200rpx;
+  top: 0;
   bottom: 0;
   width:25%;
   background: #f4f4f4;
@@ -79,6 +189,7 @@
   background: #f4f4f4;
   padding: 15px 0;
   font-size: 24rpx;
+  position: relative
 }
 .activeTypeItem{
   width: 100%;
@@ -90,6 +201,7 @@
   background: #ffffff;
   font-size: 24rpx;
   padding: 15px 0;
+  position: relative
 }
 .TypeItem_iamge{
   width: 4em;
@@ -133,7 +245,7 @@
 .RightProductContainer{
   position: absolute;
   right: 0;
-  top: 200rpx;
+  top: 0;
   bottom: 0;
   width:75%;
   background: #fff;
@@ -230,7 +342,8 @@
 } */
 
 .bottomHeight{
-  height: 10em;
+  /* height: 10em; */
+  height: 20rpx;
 }
 /* 下面的购物车 */
 .bottomCartContainer{

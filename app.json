@@ -125,8 +125,6 @@
         "new_pay_offline/index",
         "nearby_stores/index",
         "integral_mall/index",
-        "near_shops/index", 
-        "near_shop_page/index",
         "shopping_car_list_new/index",
         "index/index",
         "product/index",
@@ -221,7 +219,7 @@
       "text": "技师"
     },
     {
-      "pagePath": "pageTab/organizes_list/index",
+      "pagePath": "pageTab/fx_center/index",
       "iconPath": "images/icons/fx.png",
       "selectedIconPath": "images/icons/fx2.png",
       "text": "工作进程"

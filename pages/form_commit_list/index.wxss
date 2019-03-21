@@ -1,6 +1,6 @@
 .container{
   background: #f1f1f1;
-  margin-bottom:100rpx;
+  padding-bottom:100rpx;
 }
 .select_top{
   position: fixed;
@@ -100,8 +100,8 @@
 .mt_80{
   margin-top: 80rpx;
 }
-.mt_160{
-  margin-top: 160rpx;
+.mt_150{
+  margin-top: 150rpx;
 }
 .form_commit_list{
   display: flex;

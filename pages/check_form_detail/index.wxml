@@ -72,7 +72,7 @@
         <text class='release_time'>{{allFormData.commitDate}}</text>
       </view>
     </view>
-    <image class='telno_icon' data-phonenumber="{{customForm.telno}}" catchtap='calling'  src='http://image1.sansancloud.com/jianzhan/2019_3/12/11/51/38_517.jpg'></image>
+    <image class='telno_icon' data-phonenumber="{{customForm.telno}}" catchtap='calling'  src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_426.jpg?x-oss-process=style/preview_120'></image>
   </view>
   <view class='form_detail_center'>
     <view class='read_number'>

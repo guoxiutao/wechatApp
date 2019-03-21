@@ -9,7 +9,7 @@
       
         <!-- 字符串 -->
         <view class='inputString common' wx:if='{{items.type==0}}'>
-          <view class='inputName'>
+          <view class='inputName'>padding-bottom
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
