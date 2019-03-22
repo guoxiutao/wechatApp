@@ -15,11 +15,15 @@ Page({
     pageSize :10,
     totalSize : 1
   },
-
+  tolinkUrl: function (e) {
+    console.log("e.currentTarget.dataset.link=====", e.currentTarget.dataset.link)
+    let linkUrl = e.currentTarget.dataset.link
+    app.linkEvent(linkUrl)
+  },
   // 获取附近店铺数据
   getData: function () {
 
-    var that = this;
+    let that = this;
 
     // 店铺名可以从app.setting中拿到
     console.log("app.setting.platformSetting", app.setting);
@@ -27,21 +31,21 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        var latitude = res.latitude
-        var longitude = res.longitude
+        let latitude = res.latitude
+        let longitude = res.longitude
         console.log(latitude)
         console.log(that.data.page)
 
         // 获取附近店铺数据
-        var nearShopUrl = "/more_near_shops.html"
-        var pageParam = {
+        let nearShopUrl = "/more_near_shops.html"
+        let pageParam = {
           "longitude": longitude,
           "latitude": latitude,
        //  "shopTag":"",
           "page": that.data.page
         }
         console.log(nearShopUrl + pageParam)
-        var customIndex = app.AddClientUrl(nearShopUrl, pageParam, 'get', 1)
+        let customIndex = app.AddClientUrl(nearShopUrl, pageParam, 'get', 1)
 
         wx.showLoading({
           title: 'loading'
@@ -53,40 +57,24 @@ Page({
           method: 'GET',
           success: function (res) {
             console.log("数据", res.data.relateObj)
-        
-           
-              that.setData({
-                shops: res.data.relateObj.result,
-                curPage: res.data.relateObj.curPage,
-                pageSize: res.data.relateObj.pageSize,
-                totalSize: res.data.relateObj.totalSize
-              })
-            
-         
-
+            let shops = res.data.relateObj.result;
             // 获取公里数
-            var userLongitude = longitude;
-            var userLatitude = latitude;
-            var index = "0"
-            for (var i = 0; i < res.data.relateObj.result.length; i++) {
-              index = i;
-              var shopLongitude = res.data.relateObj.result[index].longitude;
-              var shopLatitude = res.data.relateObj.result[index].latitude;
-
-              that.getGreatCircleDistance(userLongitude, userLatitude, shopLongitude, shopLatitude);
-
-              // 店铺介绍
-              // WxParse.wxParse('article', 'html', res.data.relateObj.result[index].shopDescription, that, 10);
+            for (let i = 0; i < shops.length; i++) {
+              shops[i].distance = app.getDistance(latitude, longitude, shops[i].latitude, shops[i].longitude)
             }
-
+            that.setData({
+              shops: shops,
+              curPage: res.data.relateObj.curPage,
+              pageSize: res.data.relateObj.pageSize,
+              totalSize: res.data.relateObj.totalSize
+            })
 
 
 
 
             if (res.data.errcode < 0) {
               console.log(res.data.errMsg)
-            }
-            else {
+            }else {
               wx.hideLoading()
               if (!!res.data.partials) {
                 that.getPartials(res.data.partials)

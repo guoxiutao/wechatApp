@@ -435,8 +435,10 @@ Page({
       if (that.data.selectAddress){
         console.log("选择了地点")
         locationList[that.data.locationIndex] = that.data.selectAddress
-        that.setData({ locationList: locationList})
+        that.data.locationList = Object.assign({}, that.data.locationList, locationList)
+        that.setData({ locationList: that.data.locationList })
         console.log("==locationList==", locationList)
+        console.log("==that.data.locationList ==", that.data.locationList )
       }else{
         console.log("没选择地点")
       }

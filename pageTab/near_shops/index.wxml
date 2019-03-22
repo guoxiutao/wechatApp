@@ -1,18 +1,36 @@
-
-
-  <block wx:if='{{shops.length >= "1"}}'>
+<wxs src="../../public/publicFun.wxs" module="publicFun"></wxs>
+<block wx:if='{{shops.length >0}}'>
+  <view class='store_list'>
+    <view class='store_item' wx:for="{{shops}}" wx:key="{{index}}"  data-link='near_shop_page.html?addShopId={{item.id}}' bindtap='tolinkUrl'>
+      <view class='store_item_left'>
+        <image class='store_item_logo' mode='widthFix' src='{{item.shopLogo}}?x-oss-process=style/preview' wx:if="{{item.shopLogo}}"></image>
+        <image class='store_item_logo' mode='widthFix' src='../../../images/333.jpg' wx:else></image>
+      </view>
+      <view class='store_item_right'>
+        <text class='store_item_name'>{{item.shopName}}</text>
+        <view class='store_item_service'>
+          <text>服务时间：{{item.serviceStartTime}}:00-{{item.serviceEndTime}}:00</text>
+          <text class='distance_text' wx:if="{{item.distance}}">{{publicFun.toFix(item.distance)}}km</text>
+          <text class='distance_text' wx:else>未设置</text>
+        </view>
+        <scroll-view class='tags_content' scroll-x wx:if="{{item.tagArray&&item.tagArray.length!=0}}">
+          <text style='border:2rpx solid {{defaultColor}};color:{{defaultColor}}' class='tags_item' wx:if="{{item.tagArray}}" wx:for='{{item.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
+        </scroll-view>
+        <view class='shop_content' wx:else>
+          <text>{{item.shopContent}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- <block wx:if='{{shops.length >= "1"}}'>
      <view class='ListDataContainer' >
-        <view class='ListDataItem' wx:for="{{shops}}" wx:key="{{index}}" data-id="{{item.id}}" bindtap='tolinkUrl'>
-  <!--左边的图片  -->
+        <view class='ListDataItem' wx:for="{{shops}}" wx:key="{{index}}"  data-link='near_shop_page.html?addShopId={{item.id}}' bindtap='tolinkUrl'>
      <view wx:if='{{item.shopLogo}}' class='ListDataItemImage'><image mode='aspectFill' src='{{item.shopLogo}}?x-oss-process=style/preview'></image></view>
         <view wx:else class='ListDataItemImage'><image mode='aspectFill' src='../../images/333.jpg'></image></view> 
-     <!--右边的字  -->
        <view class='ListDataItemWord'> 
-       <!--店铺名  -->
          <view class='ListDataItemWordTitle'>
           <text >{{item.shopName}}</text>
          </view>
-        <!-- 五星 -->
            <view class='ListDataItemWordStar'>
                <view class='star'>
                  <view class='starImg'>
@@ -23,7 +41,6 @@
                <image src='../../images/icons/star3.png'></image>
                <image src='../../images/icons/star3.png'></image>
                <view class='fenShu'>5.0</view>
-               <!--公里  -->
                        <view  wx:if="{{journey[index]!='NaN'}}" class='time color'>{{journey[index]}}km</view>
                 <view wx:else class='time color' >未知</view>
              </view>
@@ -31,17 +48,15 @@
                  </view>
                </view>
          </view>
-               <!--经营范围，服务时间  -->
          <view class='fanWei'><text>服务范围：{{item.range}}km</text></view>
            <view class='fanWei'><text>服务时间：{{item.serviceStartTime}}:00-{{item.serviceEndTime}}:00</text></view>
-         <!--店铺介绍  -->
          <view class='introduce'>
             <text>{{item.shopContent}}</text>
 </view> 
          
     </view>
   </view>
- </view>
+ </view> -->
 
   </block>
 <block wx:if="{{shops.length==0}}">

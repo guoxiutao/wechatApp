@@ -61,7 +61,7 @@
     </view>
   </view> -->
   <!-- 首页组件-私有产品详情装饰-->
-<component-customPage data="{{sendShopData}}" wx:if="{{componentState}}"></component-customPage> 
+<component-customPage data="{{sendShopData}}" wx:if="{{componentState||componentIndexState}}"></component-customPage> 
   <view class='product_info' wx:else>
     <!-- 左边的导航 -->   
     <scroll-view scroll-y class='leftScrollType'>

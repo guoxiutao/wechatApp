@@ -19,7 +19,8 @@ Page({
     shopProList: null,
     proTypeState: false,
     allPro: true,
-    componentState:true,
+    componentState: true,
+    componentIndexState: true,
     topName: {
       SearchProductName: "",//头部搜索的
     },
@@ -959,6 +960,7 @@ Page({
 
     that.params.belongShop = options.addShopId;
     let belongShopId = 'belongShopId_' + options.addShopId
+    that.getParac("index");
     that.getParac();
     if (app.cart_offline[belongShopId]) {
       that.setData({ pushItem: app.cart_offline[belongShopId] })
@@ -968,14 +970,19 @@ Page({
     console.log("app.cart_offline", app.cart_offline)
     that.params.shopProductType = 0;
     that.getShopTypeData(options);
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "shop", id: that.params.belongShop })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "shop", params: { pageObjectId: that.params.belongShop, pageObjectType: 9} })
     that.setData({ sendIndexData: sendIndexData })
     let sendShopData = JSON.stringify({ title: 'noTitle', url: "shop_" + that.params.belongShop })
     that.setData({ sendShopData: sendShopData })
   },
-  getParac: function () {
-    var that = this
-    var customIndex = app.AddClientUrl("/custom_page_shop_" + this.params.belongShop+".html", {}, 'get', '1')
+  getParac: function (type) {
+    var that = this;
+    let customIndex;
+    if (type == "index") {
+      customIndex = app.AddClientUrl("/custom_page_shop.html", {}, 'get', '1')
+     }else{
+      customIndex = app.AddClientUrl("/custom_page_shop_" + this.params.belongShop + ".html", {}, 'get', '1')
+     }
     //拿custom_page
     wx.request({
       url: customIndex.url,
@@ -984,10 +991,18 @@ Page({
         console.log("====== res.data=========", res.data)
         wx.hideLoading()
         if (!res.data.errcode || res.data.errcode == '0') {
-          that.setData({ componentState: true })
+          if(type=="index"){
+            that.setData({ componentIndexState: true})
+          }else{
+            that.setData({ componentState: true })
+          }
         } else {
           console.log('加载失败')
-          that.setData({ componentState: false })
+          if (type == "index") {
+            that.setData({ componentIndexState: false })
+          } else {
+            that.setData({ componentState: false })
+          }
         }
       },
       fail: function (res) {

@@ -230,7 +230,7 @@
   border-top: 1rpx solid #ddd;
   color: #888;
   position: relative;
-  font-size: 24rpx;
+  font-size: 26rpx;
 }
 .form_detail_center_item{
   display: flex;

@@ -204,7 +204,7 @@ Page({
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "space", id: options.spaceId })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "space", params: { pageObjectId: options.spaceId} })
     that.setData({ sendIndexData: sendIndexData })
     let sendSpaceData = JSON.stringify({ title: 'noTitle', url: "space_" + options.spaceId })
     that.setData({ sendSpaceData: sendSpaceData })

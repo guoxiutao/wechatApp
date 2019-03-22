@@ -245,7 +245,8 @@ Page({
         });
        //this.getData()
        //this.getParac()
-      this.setData({ partialsName:'index'})
+      let partialsName = JSON.stringify({ url: "index" })
+      this.setData({ partialsName: partialsName })
         if (!!app.setting) {
           this.setNavBar()
         }

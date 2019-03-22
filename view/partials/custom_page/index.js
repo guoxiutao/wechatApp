@@ -72,8 +72,8 @@ Component({
         console.log(e); //error in the above string(in this case,yes)!
         url = jsonData
       }
-      if (jsonData.id){
-        params.pageObjectId = jsonData.id
+      if (jsonData.params){
+        params = Object.assign({}, params, jsonData.params)
       }
       console.log("====url====", url, jsonData)
       var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", params, 'get', '1')

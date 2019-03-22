@@ -1,8 +1,8 @@
 <wxs src="../../public/publicFun.wxs" module="publicFun"></wxs>
-<view class='container' wx:if="{{!loading}}">
+<view class='container' wx:if="{{!loading}}" style='padding-bottom:{{publishState&&customFormId?"100rpx":"0"}}'>
   <!-- 选择tab -->
   <view class='zhezhao' wx:if="{{showCount}}" bindtap='closeZhezhao'></view>
-  <view class='select_top'>
+  <view class='select_top' wx:if="{{showTop}}">
     <view class='switch_tab'>
       <scroll-view scroll-x class="tab-h" scroll-into-view="{{'tab_'+positionTab}}" scroll-with-animation='true'>
         <view  wx:for="{{formType}}" wx:for-item="type" wx:key="{{index}}" data-type="{{type}}" bindtap='bindTypeItem' id="{{'tab_'+type.id}}" class='tab-item' style='color:{{type.colorAtive}};border-bottom:{{type.active?"2rpx solid "+type.colorAtive:""}};'>{{type.formName}}</view>
@@ -20,7 +20,7 @@
       </scroll-view>
     </view>
   </view>
-  <view class='form_commit_list' class='{{selectTab.length!=0?"mt_150":"mt_80"}}'>
+  <view class='form_commit_list' style='{{!showTop?"margin-top":""}}:{{!showTop?"0px":""}}' class='{{selectTab.length!=0?"mt_150":"mt_80"}}'>
     <block wx:if="{{formCommitList.length!=0}}">
     <view class='form_commit_item' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{formCommitItem.belongFormType!=2}}" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}">
       <view class='form_title'>
@@ -73,8 +73,8 @@
       <view class='center_part'>
       <!--  wx:for-index="key" -->
         <view class='center_part_item' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-index="idx" wx:for-item="itemData"  wx:if="{{itemData.type!=11&&itemData.type!=7&&idx<=formCommitItemInfo.showNum}}">
-          <text class='center_part_item_title'>{{itemData.title}}</text>
-          <text class='interval'>:</text>
+          <text class='center_part_item_title' wx:if="{{itemData.type!=9}}">{{itemData.title}}</text>
+          <text class='interval' wx:if="{{itemData.type!=9}}">:</text>
           <text class='center_part_item_value' wx:if="{{itemData.type!=12}}">{{itemData.value}}</text>
           <text class='center_part_item_value' wx:if="{{itemData.type==12}}">{{itemData.value.value}}</text>
           <view class='more' wx:if="{{formCommitItemInfo.commitArr.length>3&&idx==formCommitItemInfo.showNum-1&&formCommitItemInfo.showMoreState}}">
@@ -124,7 +124,7 @@
     </block>
   </view>
 </view>
-<view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState}}">
+<view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId}}">
   <image class='publish_message_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/10/45/42_450.jpg?x-oss-process=style/preview_120'></image>
   <text class='publish_message_text'>发布信息</text>
 </view>

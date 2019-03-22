@@ -9,7 +9,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.6.2",
-	"appid": "wx5d6f78c8968373a3",
+	"appid": "wx42d98cf6cb1a1316",
 	"projectname": "aofeisi",
 	"isGameTourist": false,
 	"condition": {
@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 17,
+			"current": 9,
 			"list": [
 				{
 					"id": 0,
@@ -99,7 +99,7 @@
 					"id": 9,
 					"name": "转发产品详情",
 					"pathName": "pageTab/index/index",
-					"query": "id=9860&addShopId=236&scene=MINI_PLATFORM_USER_ID_9860&SHARE_PRODUCT_DETAIL_PAGE=9860",
+					"query": "id=8040&addShopId=236&scene=MINI_PLATFORM_USER_ID_9860&SHARE_PRODUCT_DETAIL_PAGE=8040",
 					"scene": "1011"
 				},
 				{

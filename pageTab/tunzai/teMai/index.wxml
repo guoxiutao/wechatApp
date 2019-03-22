@@ -62,6 +62,7 @@
       </view>
       <view class='productPriceAndStock'>
         <view style='height:56rpx;'>
+          <component-price-group data="{{item}}"></component-price-group>
           <text class='productPrice' style='color:{{setting.defaultColor}}'>¥{{item.price}}</text>
           <text class='productTagPrice'>¥{{item.tagPrice}}</text>
         </view>

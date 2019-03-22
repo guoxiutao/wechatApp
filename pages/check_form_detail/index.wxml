@@ -80,8 +80,8 @@
       <text>阅读</text>
     </view>
     <view class='form_detail_center_item' wx:for="{{customForm.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type!=7&&itemData.type!=11}}">
-      <text class='center_part_item_title'>{{itemData.title}}</text>
-      <text class='interval'>:</text>
+      <text class='center_part_item_title' wx:if="{{itemData.type!=9}}">{{itemData.title}}</text>
+      <text class='interval' wx:if="{{itemData.type!=9}}">:</text>
       <text class='center_part_item_value' wx:if="{{itemData.type!=12}}">{{itemData.value}}</text>
       <text class='center_part_item_value' wx:if="{{itemData.type==12}}">{{itemData.value.value}}</text>
       <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{itemData.type==12}}" catchtap='clickCatch' data-item="{{itemData.value}}">

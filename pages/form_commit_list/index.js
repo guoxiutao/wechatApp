@@ -18,6 +18,7 @@ Page({
     selectResultsObj:{},
     showCount:false,
     formType:[],
+    showTop:false,
   },
   showMore:function(e){
     console.log("==showMore===",e)
@@ -132,6 +133,8 @@ Page({
           that.data.formType[0].active = true;
           if (callback) {
             that.listPage.customFormId = that.data.formType[0].id
+            that.getFormDetail();
+            that.setData({ customFormId: that.data.formType[0].id })
             callback()
           }
         } else {
@@ -175,6 +178,7 @@ Page({
 
     this.listPage.page = 1
     this.listPage.customFormId = onId
+    this.setData({ customFormId: onId })
     this.getData()
     this.getFormDetail()
   },
@@ -283,6 +287,8 @@ Page({
             console.log("==selectTab===", selectTab)
             console.log("==selectResultsObj===", selectResultsObj)
             that.setData({ selectTab: selectTab, selectResultsObj: selectResultsObj})
+          }else{
+            that.setData({ selectTab: [] })
           }
         }
       }
@@ -340,13 +346,20 @@ Page({
     let that=this;
     that.initSetting();
     console.log('===options===', options)
-    // if (options.customFormId){
-    //   that.setData({ customFormId: options.customFormId })
-    // }
-    let groupName = options.groupName ? options.groupName:"";
-    that.getFormType(groupName,that.getData);
-    that.params=options;
-    that.getFormDetail();
+    if (options.customFormId){
+      console.log("提交按钮后返回的页面")
+      that.setData({ showTop:false})
+      // that.setData({ customFormId: options.customFormId })
+      this.listPage.page = 1
+      this.listPage.customFormId = options.customFormId
+      that.getData();
+    } else {
+      console.log("点击类型返回的页面")
+      that.setData({ showTop: true })
+      let groupName = options.groupName ? options.groupName : "";
+      that.getFormType(groupName, that.getData);
+      that.params = options;
+    }
   },
   initSetting() {
     this.setData({ setting: app.setting })

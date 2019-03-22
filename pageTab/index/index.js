@@ -189,7 +189,7 @@ Page({
       console.log("options.SHARE_PRODUCT_DETAIL_PAGE", options.SHARE_PRODUCT_DETAIL_PAGE)
       setTimeout(function () {
         wx.navigateTo({
-          url: '/pages/productDetail/index?id=' + options.SHARE_PRODUCT_DETAIL_PAGE + "&addShopId=236",
+          url: '/pageTab/productDetail/index?id=' + options.SHARE_PRODUCT_DETAIL_PAGE + "&addShopId=236",
           success: function () {
             app.shareSubPage = true;
           }

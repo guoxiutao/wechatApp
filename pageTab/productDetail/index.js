@@ -686,7 +686,7 @@ Page({
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail", id: options.id })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail", params: { pageObjectId: options.id} })
     that.setData({ sendIndexData: sendIndexData })
     let sendProductData = JSON.stringify({ title: 'noTitle', url: "product_detail_" + options.id })
     that.setData({ sendProductData: sendProductData })

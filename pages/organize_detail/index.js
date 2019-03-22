@@ -155,7 +155,7 @@ Page({
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "organize", id: options.organizeId })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "organize", params: { pageObjectId: options.organizeId} })
     that.setData({ sendIndexData: sendIndexData })
     let sendOrganizeData = JSON.stringify({ title: 'noTitle', url: "organize_" + options.organizeId })
     that.setData({ sendOrganizeData: sendOrganizeData })

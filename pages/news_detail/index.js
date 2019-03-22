@@ -67,7 +67,7 @@ Page({
     that.onloadOpt = options
     that.setData({ params: options,setting:app.setting})
     console.log('options',options)
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "news", id: options.id || options.newsId })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "news", params: { pageObjectId:options.id || options.newsId} })
     that.setData({ sendIndexData: sendIndexData })
     let sendNewsData = JSON.stringify({ title: 'noTitle', url: "news_detail_" + options.id || options.newsId })
     that.setData({ sendNewsData: sendNewsData })
