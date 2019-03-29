@@ -217,3 +217,17 @@ margin-left: 0rpx;
   color: #ff0000;
   padding: 6rpx 18rpx;
 }
+.sale_item{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  font-size: 20rpx;
+}
+.sale_item_title{
+  color: #fff;
+  padding:4rpx 6rpx;
+}
+.sale_item_value{
+  padding:4rpx 6rpx;
+  margin-left:10rpx;
+}

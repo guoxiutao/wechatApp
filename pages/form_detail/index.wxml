@@ -21,8 +21,8 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <picker class='picker' data-index="{{index}}" bindchange="bindPickerChange" name='{{items.name}}' value="{{items.defaultValue}}" range="{{items.listValues}}">
-            <view class="pickerValue"><text>{{items.listValues[pickerIndex["picker_"+index]]}}</text></view>
+          <picker class='picker' data-index="{{index}}" data-value="{{items.listValues}}" bindchange="bindPickerChange" name='{{items.name}}' value="{{items.defaultValue}}" range="{{items.listValues}}">
+            <view class="pickerValue"><text>{{selectPicker["picker_"+index]}}</text></view>
             <view class='pickerRight'>
               <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
             </view>
@@ -34,7 +34,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <picker mode="date" value="{{date}}" name='{{items.name}}' data-index="{{index}}" bindchange="bindDateChange">
+          <picker mode="date" value="{{date}}" name="{{items.name}}" data-index="{{index}}" bindchange="bindDateChange">
             <view class="picker">
               {{dataAndTime[items.name]}}
             </view>
@@ -49,7 +49,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <picker mode="time" data-index="{{index}}" name='{{items.name}}' value="{{time}}" bindchange="bindTimeChange">
+          <picker mode="time" data-index="{{index}}" name="{{items.name}}" value="{{time}}" bindchange="bindTimeChange">
             <view class="picker">
               {{dataAndTime[items.name]}}
             </view>
@@ -82,7 +82,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <textarea auto-height="" placeholder='{{items.remark}}' name="{{items.name}}"/>
+          <textarea auto-height="" placeholder='{{items.remark}}' value='{{items.defaultValue}}' name="{{items.name}}"/>
         </view>
         <!-- 地址 -->
         <view class='inputString common' wx:if='{{items.type==10}}'>
@@ -92,7 +92,7 @@
           </view>
           <picker mode="region" data-index="{{index}}" name='{{items.name}}' value="{{region}}"  bindchange="bindRegionChange">
             <view class="picker">
-              {{region}}
+              {{region['address_'+index]}}
             </view>
             <view class='pickerRight'>
               <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>

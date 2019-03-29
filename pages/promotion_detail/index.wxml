@@ -7,4 +7,10 @@
   <text class='promotion_time'>【{{promotionData.startDate}}】后开始</text>
 </view> -->
 <template is="1"   data="{{wxParseData:article.nodes}}"></template> 
+<view class='attend_promotion' data-state="attend" catchtap='attendPromotion' wx:if="{{promotionData.signUp==0}}" style='background:{{setting.platformSetting.defaultColor}}'>
+  <text>参加活动</text>
+</view>
+<view class='disattend_promotion' data-state="disattend" catchtap='attendPromotion' wx:if="{{promotionData.signOut==0&&promotionData.signUp==1}}">
+  <text>退出活动</text>
+</view>
 </view>

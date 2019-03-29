@@ -7,7 +7,23 @@
         <text class='product_name'>{{result.name}}</text>
         <text class='location_name' wx:if="{{result.longitude>0}}">{{result.location}}</text>
         <text class='location_name' wx:else>{{result.description}}</text>
-        <scroll-view class='tags_content' scroll-x>
+        <view class='sale_item' style='border:1rpx solid {{defaultColor}}' wx:if="{{result.itemSpecialSaleType!=0}}">
+          <view class='sale_item_title' style='background:{{defaultColor}}'>
+            <text wx:if="{{result.itemSpecialSaleType==1}}">满减</text>
+            <text wx:if="{{result.itemSpecialSaleType==2}}">买赠</text>
+            <text wx:if="{{result.itemSpecialSaleType==3}}">限购</text>
+          </view>
+          <view class='sale_item_value' wx:if="{{result.itemSpecialSaleType==1}}" style='color:{{defaultColor}}'>
+            满<text>{{result.itemSpecialSaleValue1}}</text>减<text>{{result.itemSpecialSaleValue2}}</text>
+          </view>
+          <view class='sale_item_value' wx:if="{{result.itemSpecialSaleType==2}}" style='color:{{defaultColor}}'>
+            买<text>{{result.itemSpecialSaleValue1}}</text>赠<text>{{result.itemSpecialSaleValue2}}</text>
+          </view>
+          <view class='sale_item_value' wx:if="{{result.itemSpecialSaleType==3}}" style='color:{{defaultColor}}'>
+            限购<text>{{result.itemSpecialSaleValue1}}</text>
+          </view>
+        </view>
+        <scroll-view class='tags_content' scroll-x wx:else>
           <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
           <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
           <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>

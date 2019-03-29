@@ -8,7 +8,7 @@ Page({
   data: {
     formData:null,
     sexArray:['男','女'],
-    pickerIndex:{},
+    selectPicker:{},
     upLoadImageList:{},
     dataAndTime:{},
     processType: false,
@@ -16,7 +16,7 @@ Page({
     productId:0,
     skuData:{},
     gainActionEvent: {},
-    region: "请选择您的地址",
+    region: {},
     formId:0,
     reqLocation:false,
     locationList:{},
@@ -58,8 +58,12 @@ Page({
   },
   bindRegionChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
+    let index = e.target.dataset.index
+    let that=this;
+    let region = that.data.region;
+    region['address_' + index] = e.detail.value
     this.setData({
-      region: e.detail.value
+      region: region
     })
   },
 
@@ -113,10 +117,11 @@ Page({
   bindPickerChange:function(event){
     console.log('====index', event)
     let that=this;
-    let index = event.target.dataset.index
-    let value = event.detail.value
-    that.data.pickerIndex["picker_"+index] = value
-    that.setData({ pickerIndex: that.data.pickerIndex})
+    let value = event.currentTarget.dataset.value
+    let index = event.currentTarget.dataset.index
+    let selectIndex = event.detail.value
+    that.data.selectPicker["picker_" + index] = value[selectIndex]
+    that.setData({ selectPicker: that.data.selectPicker})
   },
   params:{
     formJson:'',
@@ -131,15 +136,24 @@ Page({
     let value = e.detail.value;
     let imgObj = {};
     let positionObj = {};
+    let dataAndTime = {};
+    let selectPicker = {};
+    let region={}
     for (let i = 0; i<that.data.formData.items.length;i++){
       if (that.data.formData.items[i].type == 7||that.data.formData.items[i].type ==11){
         imgObj[that.data.formData.items[i].name] = that.data.upLoadImageList['img_' + i]||""
+      }else if (that.data.formData.items[i].type == 10) {
+        region[that.data.formData.items[i].name] = that.data.region['address_' + i] || ""
+      } else if (that.data.formData.items[i].type == 5||that.data.formData.items[i].type == 6) {
+        dataAndTime[that.data.formData.items[i].name] = that.data.dataAndTime[that.data.formData.items[i].name] || ""
+      } else if (that.data.formData.items[i].type == 2) {
+        selectPicker[that.data.formData.items[i].name] = that.data.selectPicker['picker_' + i] || ""
       } else if (that.data.formData.items[i].type == 12) {
         positionObj[that.data.formData.items[i].name] = that.data.locationList['position_' + i] || ""
       } else if (that.data.formData.items[i].type ==2){
       }
     }
-    value = Object.assign({}, value, imgObj, positionObj)
+    value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker)
     console.log('===value=====', value, that.data.formData)
     that.params.miniNotifyFormId = e.detail.formId;
     let itemData = that.data.formData.items
@@ -148,11 +162,7 @@ Page({
     for (let i = 0; i < itemData.length;i++){
       for (let j in value) {
         if(itemData[i].name == j){
-          if (itemData[i].type == 2) {//下拉框
-            newObj[itemData[i].name] = { value: itemData[i].listValues[value[j]], title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
-          }else{
-            newObj[itemData[i].name] = { value: value[j], title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
-          }
+          newObj[itemData[i].name] = { value: value[j] || "", title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
         }
         if (itemData[i].name == j && itemData[i].mustInput==1&& !value[j]){
           wx.showModal({
@@ -388,19 +398,72 @@ Page({
       success: function (res) {
         console.log(res)
         that.setData({ formData: res.data.relateObj})
-        if (that.data.formData.items.length>0){
+        if (that.data.formData.items.length > 0) {
+          let upLoadImageList = {};
+          let region = {};
+          let dataAndTime = {};
+          let selectPicker = {};
           for (let i = 0; i < that.data.formData.items.length; i++) {
-            if (that.data.formData.items[i].listValues) {
+            if (that.data.formData.items[i].listValues && that.data.formData.items[i].type == 2) {
               that.data.formData.items[i].listValues=that.data.formData.items[i].listValues.split(",")
-            }
-            if (that.data.formData.items[i].type==7){
+              if (that.data.formData.items[i].defaultValue) {
+                console.log("下拉框有值")
+                selectPicker["picker_" + i] = that.data.formData.items[i].defaultValue
+              } else {
+                console.log("下拉框没值")
+                selectPicker["picker_" + i] = ""
+              }
+              that.setData({
+                selectPicker: selectPicker
+              })
+            }else if (that.data.formData.items[i].type == 7||that.data.formData.items[i].type == 11){
               if (that.data.formData.items[i].defaultValue){
-                let upLoadImageList={};
-                upLoadImageList['img_' + i] = that.data.formData.items[i].defaultValue
+                let defaultValue;
+                try {
+                  defaultValue = JSON.parse(that.data.formData.items[i].defaultValue);
+                } catch (e) {
+                  defaultValue = that.data.formData.items[i].defaultValue
+                  console.log(e);
+                }
+                upLoadImageList['img_' + i]=[];
+                if (typeof (defaultValue) == 'object' && defaultValue){
+                  upLoadImageList['img_' + i] = defaultValue
+                }else{
+                  upLoadImageList['img_' + i].push(defaultValue)
+                }
                 that.setData({
                   upLoadImageList: upLoadImageList
                 })
               }
+            } else if (that.data.formData.items[i].type == 10){
+              if (that.data.formData.items[i].defaultValue) {
+                console.log("地址有值")
+                let defaultRegion;
+                try {
+                  defaultRegion = JSON.parse(that.data.formData.items[i].defaultValue).join(",")
+                } catch (e) {
+                  defaultRegion = that.data.formData.items[i].defaultValue
+                  console.log(e);
+                }
+                region['address_' + i] = defaultRegion
+              } else {
+                console.log("地址没值")
+                region['address_' + i] = "请选择您的地址"
+              }
+              that.setData({
+                region: region
+              })
+            } else if (that.data.formData.items[i].type == 5 || that.data.formData.items[i].type == 6) {
+              if (that.data.formData.items[i].defaultValue) {
+                console.log("日期时间有值")
+                dataAndTime[that.data.formData.items[i].name] = that.data.formData.items[i].defaultValue
+              } else {
+                console.log("日期时间没值")
+                dataAndTime[that.data.formData.items[i].name]  = ""
+              }
+              that.setData({
+                dataAndTime: dataAndTime
+              })
             }
           }
           that.setData({ formData: that.data.formData })

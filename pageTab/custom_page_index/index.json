@@ -5,6 +5,7 @@
   "navigationBarTitleText": "首页",
 
     "usingComponents": {
-      "component-tag-customPage": "../../view/partials/custom_page/index"
+      "component-tag-customPage": "../../view/partials/custom_page/index",
+      "component-footer": "../../view/partials/footer/index"
     }
 }

@@ -18,3 +18,28 @@
   font-size: 28rpx;
   color: #999;
 }
+.attend_promotion{
+  position: fixed;
+  bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border-radius: 60rpx;
+  padding: 20rpx;
+  width: 90%;
+  font-size: 32rpx;
+}
+.disattend_promotion{
+  position: fixed;
+  bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border-radius: 60rpx;
+  padding: 20rpx;
+  width: 90%;
+  font-size: 32rpx;
+  background: #ccc;
+}

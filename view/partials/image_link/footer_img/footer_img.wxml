@@ -1,0 +1,6 @@
+
+<template name="footer_img">
+  <view class='footerImg'>
+    <image mode="aspectFit" src="{{jsonData.imageUrl}}"></image>
+  </view>
+</template> 

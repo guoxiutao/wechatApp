@@ -16,6 +16,7 @@ Component({
     PaiXuPartials: [], 
     kefuCount: 0,
     defaultTop:0,
+    footerImgState:false,
   },
 
   ready: function () {
@@ -130,17 +131,22 @@ Component({
     },
     getPartials: function () {
       let that=this;
-      var partials = this.data.renderData.partials;
+      var partials = that.data.renderData.partials;
       console.log("=====partials=====", partials)
       var PaiXuPartials = [];
       //排序
       if (partials && partials.length) {
         for (let i = 0; i < partials.length; i++) {
           // 产品标签的转化为数组start
-          if (partials[i].partialType == 24 ){
-            this.data.kefuCount++;
+          if (partials[i].partialType == 6 && partials[i].androidTemplate=="footer-img"){
+            console.log("====存在浮动图片====", that.data.footerImgState)
+            that.setData({ footerImgState: true })
+            console.log("====存在浮动图片====", that.data.footerImgState)
           }
-          console.log('=========this.kefuCount=====',this.data.kefuCount)
+          if (partials[i].partialType == 24 ){
+            that.data.kefuCount++;
+          }
+          console.log('=========that.kefuCount=====', that.data.kefuCount)
           // if (partials[i].partialType == 15 && partials[i].relateBean && partials[i].relateBean.length != 0) {
           //   for (let j = 0; j < partials[i].relateBean.length; j++) {
           //     if (partials[i].relateBean[j].tags && partials[i].relateBean[j].tags != '') {

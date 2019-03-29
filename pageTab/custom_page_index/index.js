@@ -235,13 +235,14 @@ Page({
   /*onload*/
   onLoad: function (options) {
     // wx.hideTabBar({})
-    console.warn("======onLoad:options======", options)
+    console.warn("======onLoad:options======", options, app.setting)
     console.log('--------------- custom_index --------------')
     if(!app.setting){
       app.promiseonLaunch(this)
     }else{
        this.setData({
-          sysWidth: app.globalData.sysWidth
+          sysWidth: app.globalData.sysWidth,
+          setting: app.setting
         });
        //this.getData()
        //this.getParac()

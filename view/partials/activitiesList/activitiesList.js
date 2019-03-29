@@ -15,7 +15,7 @@ Component({
     actEndTimeList: [],
     countDownList:[],
     dataArr:[],
-
+    setting:{}
 
 
   },
@@ -24,7 +24,8 @@ Component({
     var me = this;
     var oldData = this.data;
     console.log("===actEndTimeList===", oldData);
-
+    this.setData({ setting: app.setting, defaultColor: app.setting.platformSetting.defaultColor})
+    console.log("=======defaultColor====", this.data.defaultColor)
     // 已经开始的活动
     if (oldData.data.relateBean[0].promotionStatus == 1){
       var arr=[];
@@ -152,23 +153,20 @@ Component({
 
 // 跳转页面
     clickLink: function (e) {
-  console.log(e)
-   // 如果是已经开始的就前往详情../../pages/new_promotion_products/index?promotionId=' + e.currentTarget.dataset.id
-   var oldData = this.data;
-   if (oldData.data.relateBean[0].promotionStatus==1){
-    wx.navigateTo({
-      url: '../../pageTab/tunzai/teMai/index?promotionId=' + e.currentTarget.dataset.id,
-    })
-  }
-  
-   if (oldData.data.relateBean[0].promotionStatus == 0) {
-     wx.navigateTo({
-       url: '../../pages/promotion_detail/index?promotionId=' + e.currentTarget.dataset.id,
-     })
-   }   
-
-
-
+      console.log("===clickLink===",e)
+      let data ={};
+      if (e.currentTarget.dataset){
+        data = e.currentTarget.dataset.item
+      }
+      if (data.promotionStatus == 1 && data.promotionType!=50){
+        wx.navigateTo({
+          url: '../../pageTab/tunzai/teMai/index?promotionId=' + data.id,
+        })
+      } else if (data.promotionStatus == 0 || data.promotionType == 50) {
+        wx.navigateTo({
+          url: '../../pages/promotion_detail/index?promotionId=' + data.id,
+        })
+      }   
     },
   },
 

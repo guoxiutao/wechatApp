@@ -23,7 +23,9 @@
 
 
 
-
+.container{
+  position: relative;
+}
 .buttom{
   height: 50rpx;
   margin-top: 40rpx;
@@ -36,5 +38,3 @@
  line-height: 50rpx;
  color: #999;
 }
-
-

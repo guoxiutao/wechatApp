@@ -130,9 +130,9 @@ App({
   createOrder: function (baseProData, pintuanData, customFromCommitId,callback,failed){
       console.log('=====app.createOrder=====');
       let params = Object.assign({}, params, baseProData, pintuanData,{})
-    if (customFromCommitId){
-      params = Object.assign({}, params, { customFromCommitId: customFromCommitId})
-    }
+      if (customFromCommitId){
+        params = Object.assign({}, params, { customFromCommitId: customFromCommitId})
+      }
       let that = this
       let customIndex = that.AddClientUrl("/buy_now.html", params, 'post')
       wx.request({
@@ -142,23 +142,32 @@ App({
         method: 'POST',
         success: function (res) {
           console.log("点击确定后内容", res.data)
-          if(callback){
-            callback(res);
-            return;
-          }
-          if (res.data.payStatus==0) {
-            wx.navigateTo({
-              url: '/pages/edit_order/index?orderNo=' + res.data.orderNo,
-            })
-          } else if (res.data.payStatus == 1 && res.data.processInstanceCount>0){//进入流程列表
-            wx.hideLoading()
-            let processId=0
-            wx.navigateTo({
-              url: '/pages/process_list/index?processId=' + processId,
-            })
-          } else if (res.data.payStatus == 1 && res.data.processInstanceCount == 0){
-            wx.redirectTo({
-              url: '/pages/order_list_tab/index',
+          wx.hideLoading()
+          if (res.data.errcode != -1 || !res.data.errcode) {
+            console.log("====成功===")
+            if (callback) {
+              callback(res);
+              return;
+            }
+            if (res.data.payStatus == 0) {
+              wx.navigateTo({
+                url: '/pages/edit_order/index?orderNo=' + res.data.orderNo,
+              })
+            } else if (res.data.payStatus == 1 && res.data.processInstanceCount > 0) {//进入流程列表
+              let processId = 0
+              wx.navigateTo({
+                url: '/pages/process_list/index?processId=' + processId,
+              })
+            } else if (res.data.payStatus == 1 && res.data.processInstanceCount == 0) {
+              wx.redirectTo({
+                url: '/pages/order_list_tab/index',
+              })
+            }
+          }else{
+            wx.showToast({
+              title: res.data.errMsg,
+              image: '/images/icons/tip.png',
+              duration: 1000
             })
           }
         },

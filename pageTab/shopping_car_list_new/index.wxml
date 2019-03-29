@@ -53,8 +53,7 @@
                 库存不足，剩余库存（{{cart.stock}}）  
               </view>
               <view class='cart_infoMeasure'>
-                <view wx:for='{{cart.measureCartensian.measurements}}'
-                wx:for-item='mesure' wx:key='{{index}}' class='cart_infoMeasure_name'>{{mesure.measureName}}</view>
+                <view wx:for='{{cart.measureCartensian.measurements}}' wx:for-item='mesure' wx:key='{{index}}' class='cart_infoMeasure_name'>{{mesure.measureName}}</view>
               </view>
               <view class='item_infomation_nums_cart_not_add'> 
                 <view class='dellCart_butn_container_1' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
@@ -74,6 +73,7 @@
               ￥{{cart.carItemPrice}}
               <text wx:if='{{cart.unitShow}}' style='color:#bbb;font-size:20rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{cart.unitShow}}</text>
               </view>
+
             </view>
           </view>
           <!-- 商品信息end -->

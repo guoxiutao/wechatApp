@@ -13,6 +13,10 @@ Component({
     // 这里是一些组件内部数据
     someData: {}
   },
+  ready: function () {
+    let that = this;
+    console.log('=====导航=====', this.data.data)
+  },
   methods: {
     // 这里是一个自定义方法
 

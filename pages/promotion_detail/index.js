@@ -13,6 +13,44 @@ Page({
     promotionData:null,
 ///
   },
+  attendPromotion:function(e){
+    console.log("===attendPromotion===",e)
+    let state = e.currentTarget.dataset.state
+    let promotionUrl="";
+    let title="";
+    if (state =="disattend"){
+      promotionUrl="/wx_dis_attend_promotion.html",
+      title="取消成功"
+    }else{
+      promotionUrl = "/wx_attend_promotion.html"
+      title = "参加成功"
+    }
+    let param = this.opt
+    let customIndex = app.AddClientUrl(promotionUrl, param, 'get')
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log(res.data)
+        if (res.data.errcode == 0) {
+          wx.showToast({
+            title: title,
+            icon: "success",
+            duration: 2000
+          })
+        }else{
+          wx.showToast({
+            title: res.data.errMsg,
+            image: '/images/icons/tip.png',
+            duration: 2000
+          })
+        }
+      },
+      fail: function (res) {
+        app.loadFail()
+      }
+    })
+  },
   getData:function(b){
     var that= this
     var param = { promotionId: b.promotionId}
@@ -53,6 +91,8 @@ Page({
   opt: null,
   onLoad: function (options) {
      this.opt = options
+    console.log("===options===", options)
+     this.setData({setting:app.setting})
     // let navName = options.navName
     // if (navName) {
     //   wx.setNavigationBarTitle({

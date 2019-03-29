@@ -1,5 +1,5 @@
 
-<view class="container">
+<view class="container" style='margin-bottom:{{footerImgState?"320rpx":"0"}}'>
   <block wx:for="{{PaiXuPartials}}" wx:key="{{temp}}" >
     <!--组件化 -->
     <component-tag-nameNearShop  wx:if='{{item.partialType == "23"}}'  data="{{item}}"></component-tag-nameNearShop> <!-- 附近店铺-->
