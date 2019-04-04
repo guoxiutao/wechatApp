@@ -10,7 +10,8 @@
         <view class='search_input'>
           <view class='search_input_left'>
             <image class='input_img' src='http://image1.sansancloud.com/xianhua/2018_9/14/16/25/0_222.jpg?x-oss-process=style/preview_120'></image>
-            <input class='input' bindconfirm='getSearchProductName'   bindinput="searchProductValue" placeholder='搜索产品名' value='{{searchProductName}}'></input>
+            <!--   data-link="search_page.html"  bindtap='linkUrl'-->
+            <input class='input' bindconfirm='getSearchProductName' bindinput="searchProductValue" placeholder='搜索产品名' value='{{searchProductName}}'></input>
           </view>
           <view class='empty_button' bindtap='getSearchProductName'><text>x</text></view>
         </view>

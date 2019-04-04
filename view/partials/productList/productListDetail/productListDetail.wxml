@@ -14,13 +14,13 @@
             <text wx:if="{{result.itemSpecialSaleType==3}}">限购</text>
           </view>
           <view class='sale_item_value' wx:if="{{result.itemSpecialSaleType==1}}" style='color:{{defaultColor}}'>
-            满<text>{{result.itemSpecialSaleValue1}}</text>减<text>{{result.itemSpecialSaleValue2}}</text>
+            满<text>{{result.itemSpecialSaleValue1}}元</text>减<text>{{result.itemSpecialSaleValue2}}元</text>
           </view>
           <view class='sale_item_value' wx:if="{{result.itemSpecialSaleType==2}}" style='color:{{defaultColor}}'>
             买<text>{{result.itemSpecialSaleValue1}}</text>赠<text>{{result.itemSpecialSaleValue2}}</text>
           </view>
           <view class='sale_item_value' wx:if="{{result.itemSpecialSaleType==3}}" style='color:{{defaultColor}}'>
-            限购<text>{{result.itemSpecialSaleValue1}}</text>
+            限购<text>{{result.itemSpecialSaleValue1}}件</text>
           </view>
         </view>
         <scroll-view class='tags_content' scroll-x wx:else>

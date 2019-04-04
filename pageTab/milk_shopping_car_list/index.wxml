@@ -15,7 +15,7 @@
     <label class='chooseAll' bindtap='chooseAll'>
       <checkbox checked='{{allchecked}}' color='{{setting.platformSetting.defaultColor}}'>全选</checkbox>
     </label>
-    <text class='clear_all' data-shopId='{{cartshop.id}}' bindtap='delectAll'>清空</text>
+    <text class='clear_all' data-shopId='{{cartData[0].account.id}}' bindtap='delectAll'>清空</text>
   </view>
   <block wx:if="{{cartData}}">
   <checkbox-group bindchange="checkboxChange">
@@ -94,7 +94,7 @@
       <text class='cart_product_num'>{{countGood}}</text>
       <text class='all_price'>￥{{countPrice}}</text>
     </view>
-    <view class='save_price'>已省：<text>-¥25.00</text></view>
+    <!-- <view class='save_price'>已省：<text>-¥25.00</text></v203030iew> -->
   </view>
   <view class='cart_tab_btn' bindtap='createOrder_car'>
     <text class="cart_tab_right_text">结算</text>

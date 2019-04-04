@@ -8,24 +8,11 @@ Page({
 
     setting: null, // setting   
     productListData: [], // 商品数据 
+    sendData:null,
     sysWidth: 320,//图片大小
     searchProductName:"",
     /* 显示或影藏 */
-    showType: false,
-    show0: false,
-    show1: false,
-    show2: false,
-    // topName: {
-    //   SearchProductName: "",//头部搜索的
-    // },
     focusTypeItem: null,
-    bindProductTypeIndex: null,
-    ProductshowWay: 1, // ProductshowWay列表显示方法 
-    typeSearch: '', // typeSearch的字体 
-    s_price: {  // 查询的价格 
-      startPrice: "",
-      endPrice: ""
-    },
     productData: {},
     measurementJson: null,
     byNowParams: {
@@ -41,104 +28,13 @@ Page({
     showCount: false,
     bindway: "",
     reqSearch:false,
+    productTypeItem:[],
+    productTypeName:"",
   },
-  /* 点击分类 */
-  bindProductType: function (e) {
-    var index = e.currentTarget.dataset.index;
-    if (index == this.data.bindProductTypeIndex) {
-      this.data.showType = false;
-
-      this.setData({
-        showType: this.data.showType,
-        bindProductTypeIndex: null
-      })
-    }
-    else {
-      this.data.showType = true;
-      this.data.bindProductTypeIndex = index;
-      if (index == 0) {
-        this.data.show0 = true;
-        this.data.show1 = false;
-        this.data.show2 = false;
-      }
-      else if (index == 1) {
-        this.data.show0 = false;
-        this.data.show1 = true;
-        this.data.show2 = false;
-      }
-      else if (index == 2) {
-        this.data.show0 = false;
-        this.data.show1 = false;
-        this.data.show2 = true;
-      }
-
-      this.setData({
-        show0: this.data.show0,
-        show1: this.data.show1,
-        show2: this.data.show2,
-        showType: this.data.showType,
-        bindProductTypeIndex: this.data.bindProductTypeIndex
-      })
-
-    }
-
-  },
-
   /* 点击遮罩层 */
   closeZhezhao: function () {
     this.data.showType = false;
     this.setData({ showType: false, bindProductTypeIndex: null })
-  },
-
-  /* 点击分类大项 */
-  bindTypeItem: function (event) {
-    console.log(event.currentTarget.dataset.type)
-    for (let i = 0; i < this.data.setting.platformSetting.categories.length; i++) {
-      if (this.data.setting.platformSetting.categories[i].id == event.currentTarget.dataset.type.id) {
-        this.data.setting.platformSetting.categories[i].active = true
-      }
-      else {
-        this.data.setting.platformSetting.categories[i].active = false
-      }
-    }
-    this.setData({
-      setting: this.data.setting,
-    })
-
-    this.listPage.page = 1
-    this.params.page = 1
-
-    if (event.currentTarget.dataset.type.id == "all") {
-
-      this.params.categoryId = ''
-      this.getData(this.params, 2)
-      this.setData({ showType: false, bindProductTypeIndex: null })
-
-      var allItem = {
-        id: ""
-      }
-      this.setData({
-        focusTypeItem: allItem
-      })
-    }
-    else {
-
-      this.setData({
-        focusTypeItem: event.currentTarget.dataset.type,
-      })
-      var focus = event.currentTarget.dataset.type
-
-      if (focus.children.length == 0) {
-
-
-
-        this.params.categoryId = focus.id
-        this.getData(this.params, 2)
-        this.setData({ showType: false, bindProductTypeIndex: null })
-      }
-
-    }
-
   },
   ChangeParam: function (params) {
     var returnParam = ""
@@ -185,12 +81,13 @@ Page({
           dataArr = []
         }
         if (!data || data.length == 0) {
-          that.setData({ productListData: null })
+          that.setData({ productListData: null, sendData: { relateBean: [], jsonData: { count: 0 }}})
         } else {
           if (dataArr == null) { dataArr = [] }
           dataArr = dataArr.concat(data)
-          that.setData({ productListData: dataArr })
+          that.setData({ productListData: dataArr, sendData: { relateBean: dataArr, jsonData: { count: dataArr.length, showCard:1} }})
         }
+        console.log("datasendData", that.data.sendData)
         wx.hideLoading()
       },
       fail: function (res) {
@@ -211,190 +108,61 @@ Page({
   /* 全部参数 */
   params: {
     categoryId: "",
-    platformNo: "",
-    belongShop: "",
-    typeBelongShop: "",
     page: 1,
-    showType: "",
-    showColumn: "",
     productName: "",
-    startPrice: "",
-    endPrice: "",
     orderType: "",
-    saleTypeId: "",
-    promotionId: "",
-    shopProductType: "",
+    productTypeId: "",
+    itemSpecialSaleType:"0",
   },
-  /* 查找商品 */
-  getSearchProductName: function (e) {
-    var that = this
-    if (e.detail.value) {
-      that.params.productName = e.detail.value
+  productTypeItem:[
+    { id: 0, title: "热卖", upState: false, downState: false, orderType: { up: 101, down: 1 }},
+    { id: 1, title: "价格", upState: false, downState: false, orderType: { up: 104, down: 4 }},
+    { id: 2, title: "折扣", upState: false, downState: false, orderType: { up: 105, down: 5 }},
+    { id: 3, title: "活动", state:false},
+  ],
+  selectPromotionType: function (e) {
+    console.log("====selectPromotionType====", e)
+    let that = this;
+    let itemSpecialSaleType = e.currentTarget.dataset.itemspecialsaletype||0;
+    that.params.itemSpecialSaleType = itemSpecialSaleType
+    that.getData(that.params, 2);
+  },
+  selectSearchType:function(e){
+    console.log("====selectSearchType====", e)
+    let that=this;
+    let index = e.currentTarget.dataset.index||0
+    let id = e.currentTarget.dataset.id || 0;
+    let orderType = e.currentTarget.dataset.ordertype || {};
+    console.log("===orderType===", orderType)
+    for (let i=0;i<that.productTypeItem.length;i++){
+      if (that.productTypeItem[i].id!=3&&i!=index){
+        that.productTypeItem[i].upState = false;
+        that.productTypeItem[i].downState = false;
+      }
+    }
+    if (!that.productTypeItem[index].upState && !that.productTypeItem[index].downState && index != 3){
+      that.productTypeItem[index].upState=true;
+      that.params.orderType = orderType.up
+    } else if (that.productTypeItem[index].upState && !that.productTypeItem[index].downState && index != 3) {
+      that.productTypeItem[index].upState = false;
+      that.productTypeItem[index].downState = true;
+      that.params.orderType = orderType.down
+    } else if (index == 3) {
+      if (that.productTypeItem[index].state) {
+        that.productTypeItem[index].state = false;
+      } else {
+        that.productTypeItem[index].state = true;
+      }
     } else {
-      that.params.productName = ''
-      that.setData({ searchProductName: that.params.productName })
+      that.params.orderType = 0
+      that.productTypeItem[index].downState = false;
+      that.productTypeItem[index].upState = false;
     }
-    var customIndex = that.more_product_list_URL(that.params);
-    console.log(customIndex)
-    wx.showLoading({
-      title: 'loading'
-    })
-    wx.request({
-      url: customIndex.url,
-      header: app.header,
-      success: function (res) {
-        console.log(res.data)
-        wx.hideLoading()
-        if (!res.data.result || res.data.result.length == 0) {
-          that.setData({ productListData: null })
-        } else {
-          that.setData({ productListData: res.data.result })
-        }
-
-      },
-      fail: function () {
-        wx.hideLoading()
-        app.loadFail()
-      }
-    })
-  },
-
-  /* 分类查询 */
-  searchProduct: function (event) {
-    var that = this;
-    this.setData({ showType: false, bindProductTypeIndex: null })
-    console.log(event.currentTarget.dataset)
-    var focusKey = event.currentTarget.dataset;
-    console.log(this.params)
-    for (let i in focusKey) {
-      for (let j in this.params) {
-        if (i.toLowerCase() == j.toLowerCase()) { this.params[j] = focusKey[i] }
-      }
+    that.setData({ productTypeItem: that.productTypeItem})
+    if (index!= 3){
+      that.getData(that.params, 2);
     }
-    switch (this.params.orderType) {
-      case '0': {
-        this.setData({ typeSearch: '默认排序' }); break;
-      };
-      case '102': {
-        this.setData({ typeSearch: '价格升序' }); break;
-      };
-      case '2': {
-        this.setData({ typeSearch: '价格降序' }); break;
-      };
-      case '104': {
-        this.setData({ typeSearch: '上架日期升' }); break;
-      };
-      case '4': {
-        this.setData({ typeSearch: '上架日期降' }); break;
-      };
-      case '101': {
-        this.setData({ typeSearch: '销量升' }); break;
-      };
-      case '1': {
-        this.setData({ typeSearch: '销量降' }); break;
-      };
-    }
-
-    console.log(this.params)
-    this.params.page = 1
-    var customIndex = this.more_product_list_URL(this.params);
-    console.log(customIndex)
-    wx.showLoading({
-      title: 'loading'
-    })
-    that.listPage.page = 1
-    that.params.page = 1
-    wx.request({
-      url: customIndex.url,
-      header: app.header,
-      success: function (res) {
-
-        that.listPage.pageSize = res.data.pageSize
-        that.listPage.curPage = res.data.curPage
-        that.listPage.totalSize = res.data.totalSize
-
-        console.log(res.data)
-
-
-        wx.hideLoading()
-
-        if (!res.data.result || res.data.result.length == 0) {
-          that.setData({ productListData: null })
-        } else {
-          let dataArr = []
-          dataArr = dataArr.concat(res.data.result)
-          that.setData({ productListData: dataArr })
-        }
-
-        /* if (!res.data.result || res.data.result.length == 0) {
-          that.setData({ productListData: null })
-        } else {
-          that.setData({ productListData: res.data.result })
-        } */
-
-      },
-      fail: function () {
-        wx.hideLoading()
-        app.loadFail()
-      }
-    })
   },
-
-  more_product_list_URL: function (params) {
-    let resule = app.AddClientUrl("/more_product_list.html", params)
-    return resule;
-  },
-
-
-  /* 价格排序 */
-  getStartValue: function (e) {
-    this.data.s_price.startPrice = e.detail.value
-  },
-  getEndValue: function (e) {
-    this.data.s_price.endPrice = e.detail.value
-  },
-  searchProductbyPrice: function () {
-    var that = this;
-    this.setData({ showType: false, bindProductTypeIndex: null })
-
-    var focusKey = this.data.s_price
-
-    console.log(this.params)
-    for (let i in focusKey) {
-      for (let j in this.params) {
-        if (i.toLowerCase() == j.toLowerCase()) { this.params[j] = focusKey[i] }
-      }
-    }
-    console.log(this.params)
-
-    var customIndex = this.more_product_list_URL(this.params);
-    console.log(customIndex)
-    wx.request({
-      url: customIndex.url,
-      header: app.header,
-      success: function (res) {
-        console.log(res.data)
-        if (!res.data.result || res.data.result.length == 0) {
-          that.setData({ productListData: null })
-        } else {
-          that.setData({ productListData: res.data.result })
-        }
-        that.setData({ s_price: that.data.s_price })
-      }
-    })
-  },
-  /* 商品显示方法 */
-
-  bindProductshowWay: function () {
-    if (this.data.ProductshowWay == 1) {
-      this.setData({ ProductshowWay: 2 })
-    } else {
-      this.setData({ ProductshowWay: 1 })
-    }
-
-  },
-
-
   toProductDetail: function (event) {
     console.log("--------toProductDetail------")
     console.log(event.currentTarget.dataset.info)
@@ -421,11 +189,6 @@ Page({
     if (!!options.productTypeId) {
       options.categoryId = options.productTypeId
     }
-    if (!!options.forceSearch && options.forceSearch == 2) {
-      this.setData({ ProductshowWay: 2 })
-    } else {
-      this.setData({ ProductshowWay: 1 })
-    }
     for (let i in options) {
       for (let j in this.params) {
         if (i.toLowerCase() == j.toLowerCase()) { this.params[j] = options[i] }
@@ -433,11 +196,35 @@ Page({
     }
     console.log(this.params)
     this.getData(this.params, 2);
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: app.setting.platformSetting.defaultColor,
+    })
+    wx.setNavigationBarTitle({
+      title: "奶爸无忧·母婴商超",
+    })
     this.setData({
-      sysWidth: app.globalData.sysWidth,
       setting: app.setting,
-      reqSearch:false
+      defaultColor: app.setting.platformSetting.defaultColor,
+      secondColor: app.setting.platformSetting.secondColor,
+      reqSearch:false,
+      productTypeItem:this.productTypeItem,
     });
+    console.log("===app.setting,====", app.setting,)
+    this.setProductTypeName(options.categoryId)
+  },
+  setProductTypeName:function(id){
+    let that=this;
+    let categories = app.setting.platformSetting.categories
+    if(id==0||!id){
+      that.setData({ productTypeName: "全部" })
+    }else{
+      for (let i = 0; i < categories.length; i++) {
+        if (categories[i].id == id) {
+          that.setData({ productTypeName: categories[i].name })
+        }
+      }
+    }
   },
   closeZhezhao: function () {
     this.setData({ showCount: false })
@@ -477,6 +264,22 @@ Page({
     console.log("====productData=====", that.data.productData)
     console.log("====productInfo.id=====", productInfo.id)
     that.get_product_measure(productInfo.id)
+  },
+  subNum: function () {
+    if (this.data.measurementJson.id) {
+      this.setData({ minCount: this.data.measurementJson.minSaleCount })
+    } else {
+      this.setData({ minCount: 1 })
+    }
+    if (this.data.byNowParams.itemCount == this.data.minCount) {
+      return
+    }
+    this.data.byNowParams.itemCount--;
+    this.setData({ byNowParams: this.data.byNowParams })
+  },
+  addNum: function () {
+    this.data.byNowParams.itemCount++;
+    this.setData({ byNowParams: this.data.byNowParams })
   },
   addtocart: function () {
     console.log("===addtocart====")
@@ -630,6 +433,7 @@ Page({
         that.data.measurementJson.waitDataState = true
         that.setData({ measurementJson: that.data.measurementJson })
         that.data.byNowParams.itemCount = that.data.measurementJson.minSaleCount
+        that.setData({ minCount: that.data.byNowParams.itemCount })
         that.setData({ byNowParams: that.data.byNowParams })
       },
       fail: function (res) {
@@ -779,7 +583,9 @@ Page({
       var currPage = pages[pages.length - 1]; //当前页面
       console.log(currPage) //就可以看到data里mydata的值了
       console.log("搜索名称", that.data.searchValue)
+      that.params.productName = that.data.searchValue;
       that.setData({ searchProductName: that.data.searchValue })
+      that.getData(that.params,2);
     }
   },
 

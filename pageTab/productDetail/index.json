@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "产品详细",
+  "enablePullDownRefresh":true,
   "usingComponents": {
     "posters": "/view/partials/canvas/index",
     "time": "/view/partials/time/time",

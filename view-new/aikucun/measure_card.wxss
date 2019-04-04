@@ -240,4 +240,6 @@ justify-content:center;
 .font_14 {
   font-size:1.4em;
 }
-
+.noadd {
+  background:#eee;
+}

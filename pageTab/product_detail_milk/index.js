@@ -42,6 +42,8 @@ Page({
     clientNo:'',
     minCount:'1',
     sendIndexData:{},
+    showInfo:true,
+    loadingText:"上拉查看详情",
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -674,6 +676,15 @@ Page({
   onError:function(options){
     console.log("on error!!!");
   },
+  switchState:function(e){
+    console.log("====switchState====",e)
+    let type = e.currentTarget.dataset.type
+    if (type==1){
+      this.setData({ showInfo: true })
+    }else{
+      this.setData({ showInfo: false })
+    }
+  },
   onLoad: function (options) {
     console.log('--------product----------', options)
     let that = this;
@@ -716,10 +727,25 @@ Page({
    */
   onReady: function () {
     this.setData({ setting: app.setting })
-    
+    var that = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        console.log("===res.windowHeight===", res.windowHeight)
+        that.setData({
+          swiperHeight: (res.windowHeight - 37)
+        });
+      }
+    })
     
   },
-
+  onPageScroll:function(e){
+    console.log("==onPageScroll==",e)
+    // if (e.scrollTop - this.data.swiperHeight > 200 && e.scrollTop - this.data.swiperHeight < 220){
+    //   this.setData({ loadingText:'即将查看详情'})
+    // } else if(e.scrollTop - this.data.swiperHeight > 220){
+     
+    // }
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -745,14 +771,31 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+    console.log("========下拉========")
+    this.setData({ loadingText: '上拉查看详情' })
+    this.setData({ showInfo: true })
+    wx.pageScrollTo({
+      scrollTop: 0
+    })
+    wx.stopPullDownRefresh()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+    console.log("========上拉触底========")
+    let that=this;
+    setTimeout(function () { 
+      that.setData({ showInfo: false })
+      wx.pageScrollTo({
+        scrollTop: 0
+      })
+    }, 1000);
+    // this.setData({ showInfo: false })
+    // wx.pageScrollTo({
+    //   scrollTop: 0
+    // })
   },
  
   /**

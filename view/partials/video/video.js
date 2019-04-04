@@ -32,7 +32,7 @@ Component({
     var that = this;
     console.log('=====readyvideo====', that.data.data)
     that.setData({
-      autoplay: that.data.data.jsonData.autoPlay,
+      autoplay: that.data.data.jsonData.autoPlay == 0 ? "" :"autoplay",
       poster: that.data.data.jsonData.poster,
     })
     let url = that.data.data.jsonData.source;

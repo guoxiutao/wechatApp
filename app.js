@@ -504,9 +504,18 @@ App({
         else if (linkUrl.substr(0, 14) == 'product_detail') {
             let productId = linkUrl.replace(/[^0-9]/ig, "");
             console.log(linkUrl.substr(15, 6))
-            wx.navigateTo({
-              url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
-            })
+            // wx.navigateTo({
+            //   url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
+            // })
+          if (this.clientNo== 'xianhua'){
+              wx.navigateTo({
+                url: '/pageTab/product_detail_milk/index?id=' + productId + "&addShopId=236",
+              })
+            } else {
+              wx.navigateTo({
+                url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
+              })
+            }
             // if (linkUrl.substr(15, 6) == 'tunzai'){
             //   wx.navigateTo({
             //     url: '/pages/productDetail_tunzai/index?id=' + productId + "&addShopId=236",

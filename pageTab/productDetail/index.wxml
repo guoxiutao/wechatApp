@@ -194,7 +194,9 @@
      <component-customPage data="{{sendProductData}}"></component-customPage> 
     </view>
     <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
-    <view class='product_main_info' wx:if="{{productData.description.description!=''&&productData.description.description!='<p><br></p>'}}"><text>图文详情</text></view>
+    <view class='product_main_info' wx:if="{{productData.description.description!=''&&productData.description.description!='<p><br></p>'}}">
+      <text>图文详情</text>
+    </view>
     <view class="tab_detail_container" wx:if="{{productData.description.description!=''&&productData.description.description!='<p><br></p>'}}">
        <view class='wxParseHtmlContainer'> <template is="1" data="{{wxParseData:article.nodes}}"></template> </view>
     </view>

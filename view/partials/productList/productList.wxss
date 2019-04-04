@@ -1,6 +1,9 @@
 @import 'threeColumns/threeColumns.wxss';/* 引入三列的 */
 @import 'oneColumns/oneColumns.wxss';/* 引入一列的 */
 @import 'productListDetail/productListDetail.wxss';/* 引入详细列表跟新闻列表一样的样式 */
+@import 'pupuProductListOne/pupuProductListOne.wxss';/* 引入详细列表跟新闻列表一样的样式PUPU */
+@import 'pupuProductListTwo/index.wxss';/* 引入详细列表跟新闻列表一样的样式PUPU */
+@import 'pupuProductListSlide/index.wxss';/* 引入详细列表跟新闻列表一样的样式PUPU */
 @import 'productListSlide/productListSlide.wxss';/* 引入可以滑动的样式 */
 @import '../../../view-new/aikucun/measure_card.wxss';/*  detail_list_card  */ 
 @import"../../../wxParse/wxParse.wxss";/* 富文本 */

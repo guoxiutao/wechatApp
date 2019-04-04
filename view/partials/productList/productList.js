@@ -7,6 +7,7 @@ Component({
     data: {
       type: JSON,
       value: 'default value',
+      minCount: '1',
     }
   },
   data: {
@@ -87,6 +88,23 @@ Component({
       that.setData({ productData: that.data.productData})
       console.log("====productInfo.id=====", productInfo.id)
       that.get_product_measure(productInfo.id)
+    },
+
+    subNum: function () {
+      if (this.data.measurementJson.id) {
+        this.setData({ minCount: this.data.measurementJson.minSaleCount })
+      } else {
+        this.setData({ minCount: 1 })
+      }
+      if (this.data.byNowParams.itemCount == this.data.minCount) {
+        return
+      }
+      this.data.byNowParams.itemCount--;
+      this.setData({ byNowParams: this.data.byNowParams })
+    },
+    addNum: function () {
+      this.data.byNowParams.itemCount++;
+      this.setData({ byNowParams: this.data.byNowParams })
     },
     addtocart: function () {
       console.log("===addtocart====")
@@ -240,6 +258,7 @@ Component({
           that.data.measurementJson.waitDataState = true
           that.setData({ measurementJson: that.data.measurementJson })
           that.data.byNowParams.itemCount = that.data.measurementJson.minSaleCount
+          that.setData({ minCount: that.data.byNowParams.itemCount})
           that.setData({ byNowParams: that.data.byNowParams })
         },
         fail: function (res) {
