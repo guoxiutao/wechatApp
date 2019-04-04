@@ -507,7 +507,7 @@ App({
             // wx.navigateTo({
             //   url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
             // })
-          if (this.clientNo== 'xianhua'){
+          if (this.clientNo== 'naifen'){
               wx.navigateTo({
                 url: '/pageTab/product_detail_milk/index?id=' + productId + "&addShopId=236",
               })

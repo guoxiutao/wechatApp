@@ -24,12 +24,6 @@ Page({
   getSearchProductName: function (e) {
     console.log("===getSearchProductName===")
     let that = this;
-    // if (that.searchValue.length == 0) {
-    //   return;
-    // }
-    // if (that.data.search != '') {
-      
-    // }
     let searchData = that.data.searchStorage;
     console.log("===searchStorage-start==", searchData)
     if (searchData.length != 0) {
@@ -57,14 +51,15 @@ Page({
     }
     console.log("===searchStorage-end==", searchData)
     wx.setStorageSync('searchData', searchData);
-    let pages = getCurrentPages();//当前页面
-    let prevPage = pages[pages.length - 2];//上一页面
-    prevPage.setData({//直接给上移页面赋值
-      searchValue: that.searchValue,
-    });
-    wx.navigateBack(
-      { delta: 1, }
-    )
+    // let pages = getCurrentPages();//当前页面
+    // let prevPage = pages[pages.length - 2];//上一页面
+    // prevPage.setData({//直接给上移页面赋值
+    //   searchValue: that.searchValue,
+    // });
+    // wx.navigateBack(
+    //   { delta: 1, }
+    // )
+    that.tolinkUrl("milk_product_list.html?productName=" + that.searchValue)
   },
   saveSearchValue:function(e){
     console.log("===saveSearchValue===", e)
@@ -121,7 +116,7 @@ Page({
   },
   /* 组件事件集合 */
   tolinkUrl: function (e) {
-    let linkUrl = e.currentTarget.dataset.link
+    let linkUrl = e.currentTarget ? e.currentTarget.dataset.link : e
     app.linkEvent(linkUrl)
   },
   listPage: {

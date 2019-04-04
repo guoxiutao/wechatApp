@@ -33,7 +33,8 @@
   text-overflow: ellipsis;
   white-space:nowrap;
   overflow: hidden;
-  width: 80%
+  width: 80%;
+  text-align:center;
 }
 .pupu_product_list_two_item_unit{
   font-size: 24rpx;

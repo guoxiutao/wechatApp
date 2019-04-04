@@ -134,3 +134,36 @@
 .T_head text{
   margin-left: 10px;
 }
+/* pupu */
+.search_top{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.search_input{
+  background: #fff;
+  border-radius: 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 92%;
+  margin:20rpx;
+  padding:4rpx 20rpx;
+  box-sizing:border-box;
+}
+.search_input_text{
+  font-size: 28rpx;
+  width:90%;
+  text-align:center;
+}
+.search_input_icon{
+  width:34rpx;
+  height:34rpx;
+  padding:10rpx
+}
+.phcolor{
+  color: #999
+}

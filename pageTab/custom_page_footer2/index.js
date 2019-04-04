@@ -14,32 +14,16 @@ Page({
     sysWidth: 750,//图片大小
     partialsName:'',
     loginUser:null,
+    sendFooterData:null,
 
   },
 
-  setNavBar: function (){
-    console.warn("1111111111111")
-    if (app.setting.platformSetting.siteTitle == '') {
-      wx.setNavigationBarTitle({
-        title: '首页',
-      })
-    } else {
-      wx.setNavigationBarTitle({
-        title: app.setting.platformSetting.siteTitle,
-      })
-    }
-
-    if (app.setting.platformSetting.topColor =='') {
-      wx.setNavigationBarColor({
-        frontColor: '#ffffff',
-        backgroundColor: '#000000',
-      })
-    } else {
-      wx.setNavigationBarColor({
-        frontColor: '#ffffff',
-        backgroundColor: app.setting.platformSetting.topColor,
-      })
-    }
+  setNavBar: function () {
+    console.warn("1111111111111", app.setting.platformSetting)
+    wx.setNavigationBarColor({
+      frontColor: app.setting.platformSetting.topColor.toLowerCase(),
+      backgroundColor: app.setting.platformSetting.topBgColor,
+    })
   },
   getData: function () {
     console.log('---------------index - getsetting --------------')
@@ -63,13 +47,14 @@ Page({
     }else{
        this.setData({
           sysWidth: app.globalData.sysWidth
-        });
-       //this.getData()
-       //this.getParac()
-      this.setData({ partialsName:'footer2'})
-        if (!!app.setting) {
-          this.setNavBar()
-        }
+      });
+      let sendFooterData = JSON.stringify({ title: 'title', url: "footer2", params: { pageObjectId: options.id||"" } })
+      this.setData({ sendFooterData: sendFooterData })
+      // this.setData({ partialsName:'footer2'})
+      if (!!app.setting) {
+        console.log("=====setting=====")
+        this.setNavBar()
+      }
     }
     // 
 
@@ -95,5 +80,6 @@ Page({
   // },
   onPullDownRefresh: function () {
     // 下拉刷新的时候首先判断存不存在tab
+    wx.stopPullDownRefresh()
   },
 })

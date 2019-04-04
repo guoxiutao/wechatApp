@@ -1,6 +1,7 @@
 
 @import 'column_promotion_list/column_promotion_list.wxss';
 @import 'pupuPromotionList/index.wxss';
+@import 'pupuPromotionDetailList/index.wxss';
 .recommend_scroll_x_box {
   height: 242rpx;
   white-space: nowrap;

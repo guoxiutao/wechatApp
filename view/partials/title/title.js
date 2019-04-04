@@ -13,6 +13,12 @@ const app = getApp();
       // 这里是一些组件内部数据
       someData: { }
   },
+    ready: function () {
+      let that=this;
+      console.log("==========title=============", that.data.data)
+      that.setData({ setting: app.setting })
+      console.log("==========setting=============", that.data.setting.platformSetting.defaultColor)
+    },
     methods: {
       // 这里是一个自定义方法
    

@@ -2,7 +2,7 @@
 <template name="pupuProductListTwo">
 <block  wx:if="{{relateBean.length!=0}}">
   <view class='pupu_product_list_two'>
-    <view class='pupu_product_list_two_item' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{item.id}}'>
+    <view class='pupu_product_list_two_item' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{result.id}}'>
        <view class='pupu_product_list_two_item_img'>
          <image mode='aspectFill' class='pupu_product_list_two_item_url' src='{{result.imagePath}}'></image>
          <view class='pupu_product_list_two_item_tag' wx:if="{{result.tagArray[0]}}">{{result.tagArray[0]}}</view>

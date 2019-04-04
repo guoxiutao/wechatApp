@@ -576,17 +576,17 @@ Page({
    */
   onShow: function () {
     let that=this;
-    if (that.data.reqSearch) {
-      //搜索
-      console.log("从搜索页面返回")
-      var pages = getCurrentPages();
-      var currPage = pages[pages.length - 1]; //当前页面
-      console.log(currPage) //就可以看到data里mydata的值了
-      console.log("搜索名称", that.data.searchValue)
-      that.params.productName = that.data.searchValue;
-      that.setData({ searchProductName: that.data.searchValue })
-      that.getData(that.params,2);
-    }
+    // if (that.data.reqSearch) {
+    //   //搜索
+    //   console.log("从搜索页面返回")
+    //   var pages = getCurrentPages();
+    //   var currPage = pages[pages.length - 1]; //当前页面
+    //   console.log(currPage) //就可以看到data里mydata的值了
+    //   console.log("搜索名称", that.data.searchValue)
+    //   that.params.productName = that.data.searchValue;
+    //   that.setData({ searchProductName: that.data.searchValue })
+    //   that.getData(that.params,2);
+    // }
   },
 
   /**
