@@ -1,5 +1,5 @@
 .wrap{
-      height: 80rpx;
+      /* height: 80rpx; */
 }
 .fixed{
   position: fixed;

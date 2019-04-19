@@ -37,7 +37,7 @@
     <block wx:if='{{servantshowWay == 2}}' >
      <view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
         <block wx:if = "{{!! servantData}}">
-          <view class='servant_items2' data-info='{{result}}' bindtap='toservantDetail' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
+          <view class='servant_items2' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{servantDetail.id}}' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
             <view class="servant_head">
               <image class='servant_head_img' mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
               <view  class="servant_state">

@@ -1,0 +1,20 @@
+.simple_locate_address{
+  padding:20rpx 25rpx;
+  display: flex;
+  align-items: center;
+
+}
+.simple_locate_address_icon{
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 10rpx;
+}
+.simple_locate_address_right{
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 6rpx;
+}
+.simple_locate_address_text{
+  font-size: 28rpx;
+  font-weight: bold
+}

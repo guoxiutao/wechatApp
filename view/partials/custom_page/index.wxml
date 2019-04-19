@@ -39,6 +39,14 @@
     <component-tag-nameRichText wx:if='{{item.partialType =="1"}}' data="{{item}}" ></component-tag-nameRichText><!-- 1 富文本-->
 
     <component-tag-nameStores  wx:if='{{item.partialType =="22"}}' data="{{item}}" ></component-tag-nameStores><!-- 22 门店-->
+
+    <component-tag-organizesList  wx:if='{{item.partialType =="25"}}' data="{{item}}" ></component-tag-organizesList><!-- 25 组织列表-->
+
+    <component-tag-formCommitList  wx:if='{{item.partialType =="26"}}' data="{{item}}" ></component-tag-formCommitList><!-- 26 表单记录列表-->
+
+    <component-tag-spaceList  wx:if='{{item.partialType =="27"}}' data="{{item}}" ></component-tag-spaceList><!-- 27 空间列表-->
+    
+    <component-tag-locateAddress  wx:if='{{item.partialType =="28"}}' data="{{item}}" ></component-tag-locateAddress><!-- 28 地址定位-->
   
 
   </block>

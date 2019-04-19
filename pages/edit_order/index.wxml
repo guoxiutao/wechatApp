@@ -1,67 +1,58 @@
   <view class='container'>
   <form bindsubmit="submitOrder" report-submit>
-    <view class='distribution_mode' wx:if="{{showTopSelect}}">
-      <view class='delivery_door' bindtap='selectType' data-type="0" style='color:{{mendianZiti==0?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==0?"":"#eee"}}'>
-        <image class='delivery_door_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/49/33_894.jpg'></image>
-        <text class='delivery_door_text'>配送上门</text>
+    <view wx:if="{{setting.platformSetting.addressType!=2}}">
+      <view class='distribution_mode' wx:if="{{showTopSelect}}">
+        <view class='delivery_door' bindtap='selectType' data-type="0" style='color:{{mendianZiti==0?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==0?"":"#eee"}}'>
+          <image class='delivery_door_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/49/33_894.jpg'></image>
+          <text class='delivery_door_text'>配送上门</text>
+        </view>
+        <view class='ziti_type' bindtap='selectType' data-type="1" style='color:{{mendianZiti==1?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==1?"":"#eee"}}'>
+          <image class='ziti_type_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/51/38_685.jpg'></image>
+          <text class='ziti_type_text'>到店自提</text>
+        </view>
       </view>
-      <view class='ziti_type' bindtap='selectType' data-type="1" style='color:{{mendianZiti==1?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==1?"":"#eee"}}'>
-        <image class='ziti_type_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/51/38_685.jpg'></image>
-        <text class='ziti_type_text'>到店自提</text>
+      <view class='addrItems' bindtap='showOtherArr' wx:if="{{mendianZiti!=1}}"> 
+        <view class='addrItems_info'>
+          <image mode='aspectFit' src='/images/icons/addr.png'></image>
+          <block wx:if='{{orderData.addressId == 0}}'>
+            <view>
+              <text class='addrName'>点击添加地址</text>
+            </view> 
+          </block>
+          <block wx:else>
+            <view class=''> 
+              <text class='addrName'>收货人：{{orderData.buyerName}}  </text>
+              <text class='font2' style='margin-top:10rpx'>联系电话：{{orderData.buyerTelno}}</text>
+              <text class='font2'>收货地址：{{orderData.buyerProvince}} {{orderData.buyerCity}} {{orderData.buyerArea}} {{orderData.buyerAddress}}</text>
+            </view>
+          </block>
+          
+        </view> 
+        <image mode='aspectFill' src='/images/icons/right.png'></image>
       </view>
-    </view>
-    <view class='addrItems' bindtap='showOtherArr' wx:if="{{mendianZiti!=1}}"> 
-      <view class='addrItems_info'>
-        <image mode='aspectFit' src='/images/icons/addr.png'></image>
-        <block wx:if='{{orderData.addressId == 0}}'>
-          <view>
-            <text class='addrName'>点击添加地址</text>
-          </view> 
-        </block>
-        <block wx:else>
-          <view class=''> 
-            <text class='addrName'>收货人：{{orderData.buyerName}}  </text>
-            <text class='font2' style='margin-top:10rpx'>联系电话：{{orderData.buyerTelno}}</text>
-            <text class='font2'>收货地址：{{orderData.buyerProvince}} {{orderData.buyerCity}} {{orderData.buyerArea}} {{orderData.buyerAddress}}</text>
+      <!-- 自提 -->
+      <view class='addrItems' wx:else> 
+        <view class='addrItems_info'>
+          <image mode='aspectFit' src='/images/icons/addr.png'></image>
+          <view wx:if="{{belongMendian.name}}" catchtap='clickCatch' data-info="{{belongMendian}}"> 
+            <text class='addrName'>店铺名：{{belongMendian.name}}  </text>
+            <text class='font2' style='margin-top:10rpx' wx:if="{{belongMendian.address}}">门店地址：{{belongMendian.address}}</text>
+            <text class='font2' wx:else>{{belongMendian.province}}-{{belongMendian.city}}-{{belongMendian.province}}</text>
           </view>
-        </block>
-        
-      </view> 
-      <image mode='aspectFill' src='/images/icons/right.png'></image>
-    </view>
-    
-    <view class='addrItems' wx:else> 
-      <view class='addrItems_info'>
-        <image mode='aspectFit' src='/images/icons/addr.png'></image>
-        <view wx:if="{{belongMendian.name}}" catchtap='clickCatch' data-info="{{belongMendian}}"> 
-          <text class='addrName'>店铺名：{{belongMendian.name}}  </text>
-          <text class='font2' style='margin-top:10rpx' wx:if="{{belongMendian.address}}">门店地址：{{belongMendian.address}}</text>
-          <text class='font2' wx:else>{{belongMendian.province}}-{{belongMendian.city}}-{{belongMendian.province}}</text>
+          <view wx:else> 
+            <text class='addrName'>店铺名：{{belongMendian}}  </text>
+          </view>
+        </view> 
+        <view class='selectStore' catchtap='tolinkUrl' data-link="nearby_stores.html?order={{orderData.orderNo}}">
+          <image class='selectStoreIcon' mode='aspectFill' src='/images/icons/right.png'></image>
         </view>
-        <view wx:else> 
-          <text class='addrName'>店铺名：{{belongMendian}}  </text>
-        </view>
-      </view> 
-      <view class='selectStore' catchtap='tolinkUrl' data-link="nearby_stores.html?order={{orderData.orderNo}}">
-        <image class='selectStoreIcon' mode='aspectFill' src='/images/icons/right.png'></image>
+      </view>
+      <view class='buyInfo' wx:if="{{mendianZiti==1}}">
+        <text class='name'>提货人信息</text>
+        <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName||""}}' placeholder='请输入提货人'></input>
+        <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno||""}}' placeholder='请输入提货人手机号'></input>
       </view>
     </view>
-    <view class='buyInfo' wx:if="{{mendianZiti==1}}">
-      <text class='name'>提货人信息</text>
-      <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName||""}}' placeholder='请输入提货人'></input>
-      <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno||""}}' placeholder='请输入提货人手机号'></input>
-    </view>
-<!--上面是单纯不允许自提的情况下 -->
-
-    <!-- <view class='allowMendianZiti' wx:if="{{allowMendianZiti!='0'}}">
-      <view class="add-btn">
-        <icon wx:if="{{mendianZiti=='0'}}" bindtap="check" type="circle" color="orange" size="25"></icon> 
-        <icon wx:if="{{mendianZiti=='1'}}" bindtap="uncheck" type="success"></icon>
-      </view>          
-      <text>是否自提</text>
-    </view> -->
-
-
 <!-- 以下是订单部分 -->
     <view class='server_container'>
       <view>{{orderData.storageName}}</view>
@@ -137,11 +128,11 @@
         <input placeholder='给卖家留言' maxlength='200' value='{{orderData.buyerScript}}' bindinput='getBuyerScript'></input>
       </view> -->
     </view>
-
+<!-- 表单地址 -->
+    <form-detail id="orderForm" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userAddressCustomFormCommitId}}" wx:if="{{sendOptionData&&showAddressForm}}" bind:sendDataFun="getDataFun"></form-detail>
     <!-- 支付方式 -->
     <view class='payName'>支付方式</view>
     <radio-group class='radioGroup' bindchange="payWayChange">
-      
       <label class='{{checkedRadio == 0?"payChecked":"payWay"}}' data-index='0' bindtap='radioChance'
         wx:if='{{setting.platformSetting.zfWxzfEnable && setting.platformSetting.zfWxzfOn}}'><!--  -->
         <radio hidden='true' color="{{setting.platformSetting.defaultColor}}" checked='{{checkedRadio == 0}}' value='3'></radio>

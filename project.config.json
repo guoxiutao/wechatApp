@@ -8,9 +8,9 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.6.2",
+	"libVersion": "2.6.5",
 	"appid": "wx37b3f495891dd60c",
-	"projectname": "naifen",
+	"projectname": "xiaosanlun",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
@@ -85,7 +85,7 @@
 					"id": 7,
 					"name": "进入服务商页面",
 					"pathName": "pageTab/index/index",
-					"query": "APPLY_SERVER_CHANNEL_CODE=120",
+					"query": "ENTER_SHOP=540",
 					"scene": "1011"
 				},
 				{

@@ -101,7 +101,8 @@
       <text class='Input'>{{orderDetailData.buyerScript}}</text>
     </view> -->
   </view>
-
+<!-- 表单地址 -->
+<check-form-detail id="checkFormDetail" showTitle="false" showBtn="false" formCommitId="{{formCommitId}}" wx:if="{{formCommitId}}" bind:selectPsotion="selectPsotion"></check-form-detail>
   <view class='orderTime'>
     <text>订单生成时间: {{orderDetailData.addTime}}</text>
     <text>订单支付时间: {{orderDetailData.payTime}}</text>

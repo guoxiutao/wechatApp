@@ -4,7 +4,7 @@
      <view class='commonNewslist' >
         <view class='commonNewsItem' wx:for="{{relateBean}}" wx:key="{{index}}" wx:if="{{index<jsonData.count}}" data-id="{{item.id}}" bindtap='tolinkUrl'>
   <!--左边的图片  -->
-     <view wx:if='{{item.imagePath}}' class='ListDataItemImage'><image mode='aspectFill' src='{{item.imagePath}}?x-oss-process=style/preview'></image></view> 
+     <view wx:if='{{item.imagePath}}' class='ListDataItemImage'><image mode='aspectFit' src='{{item.imagePath}}?x-oss-process=style/preview'></image></view> 
      <!--右边的字  -->
        <view class='ListDataItemWord'> 
       <text class='lineheight_title font_1'>{{item.title}}</text>

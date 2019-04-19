@@ -6,11 +6,12 @@ Page({
    * 页面的初始数据
    */ 
   data: { 
-    orderData:{},
+    orderData:null,
     selectStore:null,
     reqStore: false,
     reqAddress: false,
     showTopSelect:false,
+    showAddressForm:false,
     orderNo:'',
     checkedRadio:0,
     agreementState:true,
@@ -24,7 +25,8 @@ Page({
     gotCouponListId:0,
     mendianZiti:-1,
     couponMoney:0,
-
+    sendOptionData:null,
+    userAddressCustomFormCommitId:'',
     setting: null,
     loginUser: null,
     
@@ -305,6 +307,7 @@ Page({
   getEditOrderDetail: function () {
     var that = this
     var getParams = {}
+    console.log("==setting==",that.data.setting)
     getParams.orderNo = that.data.orderNo
     getParams.gotCouponListId = that.orderMessage.gotCouponListId
     getParams.mendianZiti = that.data.mendianZiti
@@ -317,7 +320,14 @@ Page({
       header: app.header,
       success: function (res) {
         console.log("=====orde detail=======",res)
-
+        if (res.data.userAddressCustomFormId){
+          that.setData({ showAddressForm: true,sendOptionData: { customFormId: res.data.userAddressCustomFormId || 0 } })
+        }else{
+          that.setData({  sendOptionData: {} })
+        }
+        if (res.data.userAddressCustomFormCommitId){
+          that.setData({ userAddressCustomFormCommitId: res.data.userAddressCustomFormCommitId})
+        }
         that.setData({ getEditOrderDetailData: res.data, orderData: res.data})
         if (res.data.belongMendian){
           that.setData({ belongMendian: res.data.belongMendian })
@@ -355,9 +365,11 @@ Page({
     var that = this
     that.setData({ reqAddress: false })
     let miniNotifyFormId = e.detail.formId||'';
+    let addressType= that.data.setting.platformSetting.addressType
+    console.log("=====addressType=====", addressType)
     console.log(that.orderMessage)
     // 不允许自提的时候没写地址
-    if (!that.orderMessage.addressId &&that.data.allowMendianZiti == "0"){
+    if (!that.orderMessage.addressId && that.data.allowMendianZiti == "0" && addressType!=2){
         wx.showModal({
           title: '提示',
           content: '请添加收货地址',
@@ -375,7 +387,7 @@ Page({
       
     }else{
       // 如果允许自提但没打勾
-      if (that.data.allowMendianZiti != "0" && that.data.mendianZiti == "0" && !that.orderMessage.addressId){
+      if (that.data.allowMendianZiti != "0" && that.data.mendianZiti == "0" && !that.orderMessage.addressId && addressType != 2){
         wx.showModal({
           title: '提示',
           content: '请添加收货地址',
@@ -390,8 +402,7 @@ Page({
             }
           }
         })
-        }else{
-
+      }else{
         // 如果是订餐的话携带桌子ID
         // 查找缓存
         console.log("22222222222222")
@@ -406,8 +417,6 @@ Page({
         console.log("======mendianZiti=========", that.data.mendianZiti)
         that.orderMessage.mendianZiti = that.data.mendianZiti
         that.orderMessage.miniNotifyFormId = miniNotifyFormId
-        console.log("=========参数orderMessage===========", that.orderMessage)
-        console.log("=========参数orderMessage===========", !that.orderMessage.contactName && !that.orderMessage.contactTelno)
         if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno)){
           wx.showModal({
             title: '提示',
@@ -438,61 +447,73 @@ Page({
             return;
           }
         }
-        var customIndex = app.AddClientUrl("/submit_order.html", that.orderMessage, 'post')
+        //判断地址类型
+        if (that.data.setting.platformSetting.addressType == 2) {
+          that.orderMessage.addressId = 0
+        }
+        console.log("=========参数orderMessage===========", that.orderMessage)
+        if (!that.data.sendOptionData.customFormId){
+          that.toSubmitOrder(that.orderMessage)
+        }else{
+          that.selectComponent("#orderForm").formSubmit();
+        }
 
-        wx.showLoading({
-          title: 'loading',
-          mask: true
-        })
-        wx.request({
-          url: customIndex.url,
-          data: customIndex.params,
-          header: app.headerPost,
-          method: 'POST',
-          success: function (res) {
-            console.log('--------确认订单------- ')
-            console.log(res)
-            console.log(res.data)
-            if (res.data.errcode == '10001') {
-              app.loadLogin()
-            } else if (res.data.errcode == '-1') {
-              wx.hideLoading()
-              wx.showModal({
-                title: '警告',
-                content: res.data.errMsg,
-                success: function (res) {
-                  if (res.confirm) {
-                   
-                  } else if (res.cancel) {
-
-                  }
-                }
-              })
-              return;
-            } else {
-              app.payItem = res.data  /* 全局传过去吧... */
-              wx.hideLoading()
-              wx.redirectTo({
-                url: '/pages/submit_order_result/index',
-              })
-            }
-
-
-          },
-          fail: function (res) {
-            wx.hideLoading()
-            app.loadFail()
-          }
-        })
-
-}
-
-
-   
+      }
     }
   },
+  getDataFun: function (e) {
+    let that=this;
+    console.log("===getDataFun===", e)
+    that.orderMessage.userAddressCustomFormCommitId = e.detail.formId
+    that.toSubmitOrder(that.orderMessage)
+  },
+  toSubmitOrder:function(data){
+    var customIndex = app.AddClientUrl("/submit_order.html", data, 'post')
+    wx.showLoading({
+      title: 'loading',
+      mask: true
+    })
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        console.log('--------确认订单------- ')
+        console.log(res)
+        console.log(res.data)
+        if (res.data.errcode == '10001') {
+          app.loadLogin()
+        } else if (res.data.errcode == '-1') {
+          wx.hideLoading()
+          wx.showModal({
+            title: '警告',
+            content: res.data.errMsg,
+            success: function (res) {
+              if (res.confirm) {
 
-  
+              } else if (res.cancel) {
+
+              }
+            }
+          })
+          return;
+        } else {
+          app.payItem = res.data  /* 全局传过去吧... */
+          wx.hideLoading()
+          wx.redirectTo({
+            url: '/pages/submit_order_result/index',
+          })
+        }
+
+
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
+  },
   //增加 购买过程中——及时收获地址——可编辑的状态
   addressModifyInTime: function (e) {
     var addrId = e.currentTarget.dataset.id

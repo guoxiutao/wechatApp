@@ -6,6 +6,8 @@
   width: 100%;
   padding:30rpx;
   border-bottom:1rpx solid #f6f6f6;
+  box-sizing:border-box;
+  overflow: hidden;
 }
 .pupu_promotion_detail_name{
   font-size: 30rpx;

@@ -3,7 +3,7 @@
   <block wx:if='{{relateBean.length != 0}}'>
     <view class='product_items3' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}" wx:if="{{index<jsonData.count}}" data-id="{{result.id}}" bindtap='tolinkUrl'>
       <view class='product_items3_promotion_name' wx:if="{{result.tagArray[0]}}">{{result.tagArray[0]}}</view>
-      <image class='product_items3_img' mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
+      <image class='product_items3_img' mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview_120'></image>
       <view class='product_items3_view1'>
         <text class='product_name'>{{result.name}}</text>
         <text class='location_name' wx:if="{{result.longitude>0}}">{{result.location}}</text>

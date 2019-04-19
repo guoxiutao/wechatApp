@@ -1,5 +1,5 @@
 .SwiperContainer{
-   margin-top: -6rpx; 
+   /* margin-top: -6rpx;  */
   height: 9em;
   width: 100%;
   background: #fff;

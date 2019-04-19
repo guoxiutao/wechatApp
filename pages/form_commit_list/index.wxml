@@ -1,5 +1,6 @@
 <wxs src="../../public/publicFun.wxs" module="publicFun"></wxs>
-<view class='container' wx:if="{{!loading}}" style='padding-bottom:{{publishState&&customFormId?"100rpx":"0"}}'>
+<view class='container' wx:if="{{!loading}}">
+<!--  style='padding-bottom:{{publishState&&customFormId?"100rpx":"0"}}' -->
   <!-- 选择tab -->
   <view class='zhezhao' wx:if="{{showCount}}" bindtap='closeZhezhao'></view>
   <view class='select_top' wx:if="{{showTop}}">
@@ -122,6 +123,7 @@
     <block wx:else>
        <view class='none_list'>主人~暂无提交表单哦！</view>
     </block>
+    <view wx:if="{{publishState&&customFormId}}" style='height:100rpx;width:100%;background:#fff'></view>
   </view>
 </view>
 <view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId}}">

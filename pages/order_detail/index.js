@@ -9,7 +9,7 @@ Page({
 
     setting: null,
     loginUser: null,
-
+    formCommitId:null,
     orderNo:null,
     orderDetailData:null,
     showArr: false,
@@ -147,6 +147,9 @@ Page({
         console.log('-----------orderDetail--------')
         console.log(res.data)
         that.setData({ orderDetailData: res.data})
+        if (res.data.userAddressCustomFormCommitId){
+          that.setData({ formCommitId: res.data.userAddressCustomFormCommitId})
+        }
         wx.hideLoading()
       },
       fail: function (res) {

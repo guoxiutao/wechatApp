@@ -216,7 +216,7 @@
   justify-content: center;
   font-size: 24rpx;
   color: #888;
-  padding:20rpx;
+  padding:50rpx;
 }
 .replyTitle{
   width: 20%;

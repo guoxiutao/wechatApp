@@ -1,0 +1,8 @@
+<wxs src="../../../public/publicFun.wxs" module="publicFun"></wxs>
+<template name="simpleLocateAddress">
+   <view class='simple_locate_address' style='background:{{jsonData.bgColor}}'>
+     <image mode='aspectFill' class='simple_locate_address_icon' src='{{jsonData.icon||"http://image1.sansancloud.com/xianhua/2019_4/18/15/19/20_707.jpg?x-oss-process=style/preview_120"}}'></image>
+     <text class='simple_locate_address_text' style='color:{{jsonData.fontColor}}'>{{locationAddress}}</text>
+     <image class='simple_locate_address_right' mode='aspectFill' src='http://image1.sansancloud.com/xianhua/2019_4/18/16/46/26_395.jpg?x-oss-process=style/preview_120'></image>
+   </view>
+</template> 

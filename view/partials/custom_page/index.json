@@ -20,7 +20,11 @@
     "component-tag-nameStores": "../stores/stores",
     "component-tag-nametab": "../tab/index",
     "component-tag-mofang": "../mofang/index",
-    "component-tag-kefu": "../kefu/kefu"
+    "component-tag-kefu": "../kefu/kefu",
+    "component-tag-locateAddress": "../locateAddress/index",
+    "component-tag-spaceList": "../space_list/index",
+    "component-tag-organizesList": "../organizes_list/index",
+    "component-tag-formCommitList": "../form_commit_list/index"
   }
   
 }

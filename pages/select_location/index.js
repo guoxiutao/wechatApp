@@ -25,7 +25,7 @@ Page({
     address={
       longitude: that.data.address.longitude,
       latitude: that.data.address.latitude,
-      value: that.data.address.detailedAddress,
+      value: that.data.address.detailedAddress
     }
     let pages = getCurrentPages();//当前页面
     let prevPage = pages[pages.length - 2];//上一页面

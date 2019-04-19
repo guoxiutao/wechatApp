@@ -3,7 +3,6 @@ const Promise = require('/promise/promise.js');
 App({
      //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
      clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
-     //clientUrl: 'https://mini.tunzai.vip/chainalliance/',//106.14.213.48 mini.tunzai.vip
 
     /**
      *   切换项目的开关 ↓↓↓↓↓
@@ -12,7 +11,7 @@ App({
     preCallbackObj:{key:{callback:''}},
     clientName: '',
     more_scene: '', //扫码进入场景   用来分销
-    shareParam: null,//分享页面参数onloa
+    shareParam: null,//分享页面参数onload
     miniIndexPage: '',
     setting: { platformSetting: { defaultColor: "#FE3737", secondColor: "#FF996E"}},  // 全局设置
     loginUser: "", //登陆返回的个人信息

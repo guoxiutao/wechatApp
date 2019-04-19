@@ -103,7 +103,7 @@ Component({
       if (customFormId && customFormId != 0) {
         app.preCallbackObj = { 'processInstanceItem':{callback:function(obj){
           params.formCommitId = obj;
-          console.log("===========================process intance item  hello===="+obj);
+          console.log("==========process intance item  hello===="+obj);
           that.doAction(params)
         }}
         };

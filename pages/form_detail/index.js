@@ -21,6 +21,8 @@ Page({
     reqLocation:false,
     locationList:{},
     locationIndex:"",
+    sendOptionData:null,
+    sendPageDataState:false,
   },
   // 关闭海报
   getChilrenPoster(e) {
@@ -92,6 +94,12 @@ Page({
       that.setData({ reqLocation: false })
     }
     app.linkEvent(linkUrl)
+  },
+  selectPsotion: function (e) {
+    let that = this;
+    console.log("===selectPsotion===",e)
+    let locationIndex = e.detail.locationIndex
+    that.setData({ reqLocation: true, locationIndex: locationIndex })
   },
   // 返回首页
   toFormCommitList: function (){
@@ -366,6 +374,7 @@ Page({
   onLoad: function (options) {
     let that=this;
     console.log(options)
+    that.setData({ sendOptionData: options})
     that.data.gainActionEvent = options.actionEvent
     that.setData({ formId: options.customFormId})
     that.params.customFormId = options.customFormId;
@@ -466,7 +475,7 @@ Page({
               })
             }
           }
-          that.setData({ formData: that.data.formData })
+          that.setData({ formData: that.data.formData, sendPageDataState: true})
           console.log(that.data.formData)
         }
         wx.setNavigationBarTitle({
@@ -488,15 +497,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let that=this;
-    if (that.data.reqLocation){
-      let locationList={};
+    let that = this;
+    if (that.data.reqLocation) {
+      // that.setData({ sendPageDataState: false })
+      // that.setData({ sendPageDataState: true })
+      let locationList = {};
       console.log("从选择地点页面返回", that.data.selectAddress)
       var pages = getCurrentPages();
       var currPage = pages[pages.length - 1]; //当前页面
       console.log(currPage) //就可以看到data里mydata的值了
-      if (that.data.selectAddress){
+      if (that.data.selectAddress) {
         console.log("选择了地点")
+        console.log("locationIndex", that.data.locationIndex)
         locationList[that.data.locationIndex] = that.data.selectAddress
         that.data.locationList = Object.assign({}, that.data.locationList, locationList)
         that.setData({ locationList: that.data.locationList })
@@ -505,6 +517,7 @@ Page({
       }else{
         console.log("没选择地点")
       }
+      that.selectComponent("#selectAddress").selectAddress();
     }
   },
 

@@ -290,7 +290,7 @@ Page({
 
       setTimeout(function () {
         wx.reLaunch({
-          url: '/pages/near_shop_page/index?addShopId=' + ENTER_SHOP,
+          url: '/pageTab/near_shop_page/index?addShopId=' + ENTER_SHOP,
           success: function () {
           }
         })

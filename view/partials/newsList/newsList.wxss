@@ -81,5 +81,5 @@ font-size: 26rpx;
 }
 .ListDataItemImage image{
   width: 100%;
-  height: 100%;
+  height: 160rpx
 }

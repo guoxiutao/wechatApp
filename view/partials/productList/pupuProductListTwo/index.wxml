@@ -4,7 +4,7 @@
   <view class='pupu_product_list_two'>
     <view class='pupu_product_list_two_item' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{result.id}}'>
        <view class='pupu_product_list_two_item_img'>
-         <image mode='aspectFill' class='pupu_product_list_two_item_url' src='{{result.imagePath}}'></image>
+         <image mode='aspectFill' class='pupu_product_list_two_item_url' src='{{result.imagePath}}?x-oss-process=style/preview_120'></image>
          <view class='pupu_product_list_two_item_tag' wx:if="{{result.tagArray[0]}}">{{result.tagArray[0]}}</view>
        </view>
        <text class='pupu_product_list_two_item_name'>{{result.name}}</text>

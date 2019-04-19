@@ -11,139 +11,11 @@ Page({
     setting:null,
     renderData:null,
     PaiXuPartials:[], 
-    sysWidth: 750,//图片大小
     partialsName:'',
-    topName: {
-      SearchProductName: "",//头部搜索的
-    },
     loginUser:null,
-    countDownDay: "",
-    countDownHour: "",
-    countDownMinute: "",
-    countDownSecond: "",
-
-    // 测试时间组件用的
-    timeTime:"2019-07-13 14:55:12"
 
   },
 
-  // 子组件做出更改后更改相应的样式
-  exFun(v) {
-
-    console.log("56565555555555555555555555" + JSON.stringify(v))
-    console.log(this.data.PaiXuPartials)
-
-    this.data.listenerId = (v.currentTarget.id);
-
-    var data = this.data.PaiXuPartials;
-    var index = 0;
-    console.log(data.length)
-    var a = [];
-    for (var i = 0; i < data.length; i++) {
-      index = i;
-      console.log(data[index].partialType)
-      if (data[index].partialType == "13") {
-        a.push(data[index]);
-        console.log(a)
-        this.setData({
-          PaiXuPartials: a
-        })
-      }
-    }
-
-  },
-  /* 搜索 */
-  // searchProduct:function(e){
-  //   var product = e.detail.value
-  //   console.log(product)
-  //   var param ={}
-  //   param.productName = product
-  //   let postParam = app.jsonToStr(param)
-  //  // app.productParam = param
-  //   wx.navigateTo({
-  //     url: '/pages/search_product/index' + postParam
-  //   })
-  // },
-   
-  /* 查看更多 */
-  lookMoreProduct:function(e){
-    let url = e.currentTarget.dataset.link;
-    if(!url){
-      return
-    }
-    var urlData = app.getUrlParams(url)
-    console.log(urlData)
-    {
-      wx.navigateTo({
-        url: '/pages/' + urlData.url + '/index' + urlData.param,
-      })
-    }
-  },
-  //partials
-  // getPartials: function (){
-  //   var partials = this.data.renderData.partials;
-  //   console.log("=====partials=====", partials)
-  //   var PaiXuPartials = [];
-  //   //排序
-  //   if (partials && partials.length){
-  //   for (let i = 0; i < partials.length; i++){
-  //     // 产品标签的转化为数组start
-  //     if (partials[i].partialType == 15 && partials[i].relateBean && partials[i].relateBean.length != 0) {
-  //       for (let j = 0; j < partials[i].relateBean.length; j++) {
-  //         if (partials[i].relateBean[j].tags && partials[i].relateBean[j].tags != '') {
-  //           let tagArray = partials[i].relateBean[j].tags.slice(1, -1).split("][")
-  //           partials[i].relateBean[j].tagArray = tagArray;
-  //         }
-  //       }
-  //     }
-  //    // 产品标签的转化为数组end
-  //     if (typeof (partials[i].jsonData) == "string"){
-  //       partials[i].jsonData = JSON.parse(partials[i].jsonData)
-  //     }else{
-  //       continue;
-  //     }
-
-  //     console.log("=====partials=====", partials)
-  //     PaiXuPartials.push(partials[i]);
-  //   }}
-  //   this.setData({ PaiXuPartials: PaiXuPartials  })
-  //   console.log(this.data.PaiXuPartials)
-
-      
-        
-  // },
-  toPage: function(event) {
-    console.log(event.currentTarget.dataset)
-    wx.navigateTo({
-      url: '/pages/' + event.currentTarget.dataset.page+'/index'
-    })
-  },
-
-  toProductDetail: function (event) {
-    console.log("--------toProductDetail------")
-    console.log(event.currentTarget.dataset)
-    var detailurl = event.currentTarget.dataset.detailurl
-    var productId = detailurl.replace(/[^0-9]/ig, "");
-    console.log(productId)
-    wx.navigateTo({
-      url: '/pages/productDetail/index?id=' + productId + "&addShopId=236",
-    })
-  
-  },
-
-  onUnload:function(e){
-    
-  },
- 
-  getUserInfo: function(e) {
-    console.log("+++++e+++++",e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
- 
   setNavBar: function (){
     console.warn("1111111111111")
     if (app.setting.platformSetting.siteTitle == '') {
@@ -161,77 +33,6 @@ Page({
       backgroundColor: app.setting.platformSetting.topBgColor,
     })
   },
-  // getParac:function(){
-  //   var that = this
-  //   var customIndex = app.AddClientUrl("/custom_page_index.html",{},'get','1')
-  //   //拿custom_page
-  //   wx.request({
-  //     url: customIndex.url,
-  //     header: app.header,
-  //     success: function (res) {
-  //       console.log("====== res.data=========", res.data)
-  //       wx.setNavigationBarTitle({
-  //         title: res.data.channelTitle,
-  //       })
-  //       wx.hideLoading()
-  //       app.renderData = res.data
-  //       that.setData({ renderData: res.data })
-  //       if (res.data.partials.length == 0 ){
-  //         that.setData({ PaiXuPartials:null })
-  //       }else{
-  //         that.getPartials();
-  //       }
-  //     },
-  //     fail: function (res) {
-  //       console.log('------------2222222-----------')
-  //       console.log(res)
-  //       wx.hideLoading()
-
-  //       //app.loadFail()
-        
-  //       wx.showModal({
-  //         title: '提示',
-  //         content: '加载失败，点击【确定】重新加载' ,
-  //         success: function (res) {
-
-  //           if (res.confirm) {
-  //             that.getParac()
-  //           } else if (res.cancel) {
-  //             app.toIndex()
-  //           }
-  //         }
-  //       })
-  //     }
-  //   })
-  // },
-  getData: function () {
-    console.log('---------------index - getsetting --------------')
-    var that = this
-    if (!app.setting) {
-      console.log('-------------hasNoneSetting-----------')
-      app.getSetting(that)
-    } else {
-      console.log('-------------hasSetting-----------')
-      this.setData({ setting: app.setting })
-      console.log(this.data.setting)
-    }
-  },
-  buttom:function(){
-    // console.log("1111111111111")
-    app.wxLogin(1011)
-    // wx.chooseAddress({
-    //   success: function (res) {
-    //     console.log(res.userName)
-    //     console.log(res.postalCode)
-    //     console.log(res.provinceName)
-    //     console.log(res.cityName)
-    //     console.log(res.countyName)
-    //     console.log(res.detailInfo)
-    //     console.log(res.nationalCode)
-    //     console.log(res.telNumber)
-    //   }
-    // })
-  },
   /*onload*/
   onLoad: function (options) {
     // wx.hideTabBar({})
@@ -244,20 +45,12 @@ Page({
           sysWidth: app.globalData.sysWidth,
           setting: app.setting
         });
-       //this.getData()
-       //this.getParac()
       let partialsName = JSON.stringify({ url: "index" })
       this.setData({ partialsName: partialsName })
         if (!!app.setting) {
           this.setNavBar()
         }
     }
-    // 
-
-     
-    // }
-   
-  
   },
 
   onReady: function () { 
@@ -315,45 +108,60 @@ Page({
     return app.shareForFx2(app.miniIndexPage)
     
   },
+  setPageName:function(urlStr){
+    let url = urlStr||"";
+    let partialsName=""
+    if(url){
+      partialsName = JSON.stringify({ url: url })
+    }
+    this.setData({ partialsName: partialsName })
+    console.log("partialsName", this.data.partialsName)
+  },
   onPullDownRefresh: function () {
     // 下拉刷新的时候首先判断存不存在tab
     let that=this;
-    if (this.data.listenerId) {
-
-      console.log("hello:" + this.data.listenerId);
-      try {
+    that.setPageName()
+    wx.showToast({
+      title: '加载中...',
+      icon: 'none',
+      duration: 500,
+    })
+    setTimeout(function () {
+      that.setPageName('index')
+    }, 500);
+    // if (this.data.listenerId) {
+    //   console.log("hello:" + this.data.listenerId);
+    //   try {
    
-        this.selectComponent('#' + this.data.listenerId).refresh();
-      } catch (e) {
-        console.log("e", e)
-      }
-    }
-    console.log(this.data.PaiXuPartials)
+    //     this.selectComponent('#' + this.data.listenerId).refresh();
+    //   } catch (e) {
+    //     console.log("e", e)
+    //   }
+    // }
+    // console.log(this.data.PaiXuPartials)
 
-    var data = this.data.PaiXuPartials;
-    var index = 0;
-    console.log(data.length)
-    var a = [];
-    for (var i = 0; i < data.length; i++) {
-      index = i;
-      console.log(data[index].partialType)
-      if (data[index].partialType == "13") {
-        a.push(data[index]);
-        console.log(a)
-        this.setData({
-          PaiXuPartials: a
-        })
-      }
+    // var data = this.data.PaiXuPartials;
+    // var index = 0;
+    // console.log(data.length)
+    // var a = [];
+    // for (var i = 0; i < data.length; i++) {
+    //   index = i;
+    //   console.log(data[index].partialType)
+    //   if (data[index].partialType == "13") {
+    //     a.push(data[index]);
+    //     console.log(a)
+    //     this.setData({
+    //       PaiXuPartials: a
+    //     })
+    //   }
 
-    }
+    // }
 
-    if (this.data.PaiXuPartials.length == "0") {
-      setTimeout(function () {
-        that.onLoad();
-      }, 500);
-      //this.onLoad();
-      // wx.stopPullDownRefresh()
-    }
+    // if (this.data.PaiXuPartials.length == "0") {
+    //   setTimeout(function () {
+    //     that.onLoad();
+    //   }, 500);
+    // }
  
       wx.stopPullDownRefresh()
  
