@@ -9,7 +9,7 @@ Page({
   data: {
     Data: [],
     moneyAmount: 0,
-    mendian: null
+    servant: null
   },
   userRecharge: function () {
     this.setData({ reflesh: 1 })
@@ -53,7 +53,7 @@ Page({
       }
     })
   },
-  getMendianInfo: function () {
+  getServantInfo: function () {
     console.log('-------门店-1-------')
     let params = {}
     var customIndex = app.AddClientUrl("/super_shop_manager_get_manager_servant_info.html", params, 'post')
@@ -66,11 +66,15 @@ Page({
       success: function (res) {
         console.log(res.data)
         if (res.data.errcode == '0') {
-          let mendian = res.data.relateObj
-          mendian = that.dellMoney(mendian)
+          let servant = res.data.relateObj
+          if (servant.account && servant.account.account){
+            servant = that.dellMoney(servant)
+          }else{
+            
+          }
           //account 账户余额
           that.setData({
-            mendian: mendian
+            servant: servant
           })
         }
 
@@ -81,16 +85,16 @@ Page({
       }
     })
   },
-  dellMoney: function (mendian) {
-    mendian.account.account = app.toFix(mendian.account.account)
-    return mendian
+  dellMoney: function (servant) {
+    servant.account.account = app.toFix(servant.account.account)
+    return servant
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getData();
-    this.getMendianInfo()
+    this.getServantInfo()
   },
 
   /**
@@ -131,7 +135,7 @@ Page({
 
     this.listPage.page = 1
     this.getData();
-    this.getMendianInfo()
+    this.getServantInfo()
     wx.stopPullDownRefresh()
   },
 

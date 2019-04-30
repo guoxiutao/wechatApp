@@ -35,7 +35,7 @@
   height: 20rpx;
 }
 .select_tab_item_value{
-  position: fixed;
+  position: absolute;
   top: 84rpx;
   z-index: 11;
   left: 0;

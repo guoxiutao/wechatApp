@@ -110,7 +110,7 @@ page{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding:0 40rpx;
+  padding:0 30rpx;
 }
 .product_list_search_left{
   display: flex;
@@ -120,9 +120,13 @@ page{
 .product_list_search_jiantou{
   width: 15rpx;
   height: 30rpx;
-  margin-right: 20rpx;
+  margin-right: 12rpx;
 }
 .product_list_search_value{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width:180rpx;
   font-size: 30rpx;
   color: #fff;
 }
@@ -136,7 +140,7 @@ page{
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding:30rpx 20rpx;
+  padding:30rpx 16rpx;
   height:20rpx;
 }
 .product_type{

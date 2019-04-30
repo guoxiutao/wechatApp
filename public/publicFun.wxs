@@ -7,10 +7,14 @@ var filters = {
     console.log("===filters==", value)
     return Math.abs(value)
   },
+  toCeil: function (value) {
+    console.log("===filters==", value)
+    return Math.ceil(value)
+  },
   typeOf: function (value) {
     console.log("===filters==", typeof(value),value)
     return typeof(value)
   },
 }
-module.exports = { toFix: filters.toFix, toAbs: filters.toAbs, typeOf: filters.typeOf }
+module.exports = { toFix: filters.toFix, toAbs: filters.toAbs, typeOf: filters.typeOf, toCeil: filters.toCeil}
 module.exports.msg = "some msg";

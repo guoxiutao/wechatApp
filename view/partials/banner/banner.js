@@ -13,11 +13,16 @@ Component({
     // 这里是一些组件内部数据
     someData: {},
     sysWidth:"",
+    setting:{},
   },
   ready:function(){
-    this.setData({
-      sysWidth: app.globalData.sysWidth
+    let that=this;
+    that.setData({
+      sysWidth: app.globalData.sysWidth,
+      setting:app.setting
     });
+    console.log("=====banner--setting=====", that.data.setting)
+    console.log("=====banner--data=====", that.data.data)
   },
   methods: {
     // 这里是一个自定义方法

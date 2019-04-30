@@ -22,6 +22,8 @@ Component({
     loading:true,
     recommentReturn:false,
     address:null,
+    formDetailStyle:null,
+    commitJson:null,
     pageData:{
       totalPage: 1,
       totalSize: 1,
@@ -231,6 +233,27 @@ Component({
             that.getCommentData(that.data.allFormData.id, 1)
             let commitJson = JSON.parse(that.data.allFormData.commitJson);
             customForm.commitArr = [];
+            if (res.data.relateObj.customForm && res.data.relateObj.customForm.decorateDetailStyle){
+              let formDetailStyle = JSON.parse(res.data.relateObj.customForm.decorateDetailStyle);
+              let resultPointerData = formDetailStyle.resultPointerData
+              if (formDetailStyle.detailViewMagic.length!=0){
+                let formDetailStyleArray=formDetailStyle.detailViewMagic
+                for (let i = 0; i < formDetailStyleArray.length;i++){
+                  console.log("=======name======", formDetailStyleArray[i].propertieName,)
+                  if (formDetailStyleArray[i].propertieName){
+                    if (commitJson[formDetailStyleArray[i].propertieName].type == 11) {
+                      that.setData({
+                        banner: { androidTemplate: '', jsonData: { height: Math.abs((formDetailStyleArray[i].endPointY - formDetailStyleArray[i].startPointY + 1) * 750 / Number(formDetailStyle.width)), images: commitJson[formDetailStyleArray[i].propertieName].value } }
+                      })
+                    }
+                  }
+                }
+              }
+              that.setData({ formDetailStyle: formDetailStyle })
+              that.setData({ width: Number(that.data.formDetailStyle.width) || 0 })
+              that.setData({ height: Number(that.data.formDetailStyle.height) || 0 })
+            }
+            console.log("===formDetailStyle====", that.data.formDetailStyle, that.data.banner, that.data.width, that.data.height)
             for (let key in commitJson) {
               if (key == 'telno') {
                 customForm.telno = commitJson[key].value
@@ -240,6 +263,7 @@ Component({
               customForm.commitArr.push(commitJson[key])
             }
             console.log("===commitJson==", commitJson)
+            that.setData({ commitJson: commitJson })
             if (customForm.items.length > 0) {
               let upLoadImageList = {};
               for (let i = 0; i < customForm.items.length; i++) {

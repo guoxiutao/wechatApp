@@ -11,6 +11,14 @@
   background: #fff;
   overflow: hidden;
 }
+.typeName{
+  height:40rpx;
+  line-height:40rpx;
+  box-sizing:border-box;
+  width:100%;
+  text-align:center;
+  font-size:26rpx;
+}
 /*店铺顶部信息  */
 .shop_top{
   height: 180rpx;
@@ -59,7 +67,7 @@
 .leftScrollType{
   position: absolute;
   left: 0;
-  top: 0;
+  top: 100rpx;
   bottom: 0;
   width:25%;
   background: #f4f4f4;
@@ -89,7 +97,7 @@
   align-items: center;
   background: #ffffff;
   font-size: 28rpx;
-  padding: 15px 0;
+  padding: 24rpx 0;
 }
 .TypeItem_iamge{
   width: 4em;
@@ -134,7 +142,7 @@
   position: absolute;
   padding:20rpx;
   right: 0;
-  top: 0;
+  top: 100rpx;
   bottom: 0;
   width:70%;
   background: #fff;

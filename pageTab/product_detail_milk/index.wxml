@@ -74,9 +74,11 @@
     </view>
   </view>
   <view class='btn_tab'>
-    <view class='btn_tab_item'>
-      <image class='btn_tab_icon' src='http://image1.sansancloud.com/xianhua/2019_4/1/13/47/58_785.jpg?x-oss-process=style/preview_120'></image>
-      <text>收藏</text>
+    <view class='btn_tab_item' data-itemId="{{productData.productInfo.productId}}" catchtap='{{productData.productInfo.favorite==0?"addToFavourite":"removeFavourite"}}'>
+      <image wx:if="{{productData.productInfo.favorite==1}}" class='btn_tab_icon'  src='http://image1.sansancloud.com/xianhua/2019_4/1/13/47/58_785.jpg?x-oss-process=style/preview_120'></image>
+      <image wx:if="{{productData.productInfo.favorite==0}}" class='btn_tab_icon'  src='http://image1.sansancloud.com/xianhua/2019_4/1/13/52/1_278.jpg?x-oss-process=style/preview_120'></image>
+      <text wx:if="{{productData.productInfo.favorite==1}}">已收藏</text>
+      <text wx:if="{{productData.productInfo.favorite==0}}">收藏</text>
     </view>
     <view class='btn_tab_item' bindtap='showPoster'>
       <image class='btn_tab_icon' src='http://image1.sansancloud.com/xianhua/2019_4/1/13/47/58_484.jpg?x-oss-process=style/preview_120'></image>

@@ -33,6 +33,15 @@
             </view>
             <view class='borderRight'></view>
         </view>
+        <view class='servant_menu_item' data-link='process_list.html'   bindtap='tolinkUrl'>
+            <view class='imageContainer'>
+                <image src='http://image1.sansancloud.com/xianhua/2018_9/5/16/19/25_14.jpg?x-oss-process=style/preview_120'></image>
+            </view>
+            <view class='item_text'>
+                <text>流程列表</text>
+            </view>
+            <view class='borderRight'></view>
+        </view>
         <view class='servant_menu_item' data-link='servant_user.html?fxLevel=1'   bindtap='tolinkUrl'>
             <view class='imageContainer'>
                 <image src='http://image1.sansancloud.com/xianhua/2018_9/5/16/19/25_53.jpg?x-oss-process=style/preview_120'></image>

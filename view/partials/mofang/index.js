@@ -12,12 +12,14 @@ Component({
 
   },
   ready:function(){
-    console.log('=====ready====', this.data.data)
+    console.log('=====ready-MoFang====', this.data.data)
     this.setData({ items: this.data.data.jsonData.items || []})
-    this.setData({ width: this.data.data.jsonData.width||0})
-    this.setData({ height: this.data.data.jsonData.height || 0})
-    this.setData({ imagePadding: this.data.data.jsonData.imagePadding || 0})
-    console.log('=====items====', this.data.items)
+    this.setData({ width: Number(this.data.data.jsonData.width)||0})
+    this.setData({ height: Number(this.data.data.jsonData.height) || 0})
+    this.setData({ imagePadding: Number(this.data.data.jsonData.imagePadding) || 0})
+    console.log('=====MoFang-width====', this.data.width)
+    console.log('=====MoFang-height====', this.data.height)
+    console.log('=====MoFang-imagePadding====', this.data.imagePadding)
   },
   methods: {
     tolinkUrl: function (e) {

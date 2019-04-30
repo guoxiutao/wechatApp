@@ -8,14 +8,30 @@ Page({
    */
   data: {
     processList: [],
+    currentIndex: 0,
+    tabItem: [],
+  },
+  tabItem: [
+    { text: "派单中", state: 0, params: { instanceStatus: 0 } },
+    { text: "服务中", state: 1, params: { instanceStatus: 1 } },
+    { text: "已完成", state: 2, params: { instanceStatus: 2 } },
+    { text: "已取消", state: 3, params: { instanceStatus: 3 } }
+  ],
+  changeStateProcess: function (e) {
+    let that = this;
+    console.log("===changeStateProcess===", e)
+    let index = e.currentTarget.dataset.index
+    that.setData({ currentIndex: index })
+    that.getProcessList();
   },
   /* 获取数据 */
   getProcessList: function () {
     let that = this
     if (!app.checkIfLogin()) return;
     let getParams = {}
-    getParams.customprocessId = that.params.customprocessId
+    // getParams.customprocessId = that.params.customprocessId
     getParams.page = that.listPage.page;
+    getParams.instanceStatus = that.data.currentIndex;
     let customIndex = app.AddClientUrl("/wx_get_process_instance_list.html", getParams)
     wx.request({
       url: customIndex.url,
@@ -67,7 +83,8 @@ Page({
   params:{},
   onLoad: function (options) {
     console.log('===options===', options)
-    let that=this;
+    let that = this;
+    that.setData({ tabItem: that.tabItem })
     if (options && options.actionEvent){
       let params = JSON.parse(options.actionEvent)
       that.doAction(params)
@@ -79,6 +96,8 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    let that = this;
+    that.setData({ setting: app.setting, loginUser: app.loginUser })
   },
   /**
    * 生命周期函数--监听页面显示

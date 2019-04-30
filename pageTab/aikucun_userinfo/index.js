@@ -188,7 +188,7 @@ Page({
       },
       {
         iconPath: "http://image1.sansancloud.com/xianhua/2018_9/5/16/45/22_284.jpg",
-        linkUrl: "news_list.html?newsTypeId=5&pageNage=关于我们",
+        linkUrl: "custom_page_about_us?pageNage=关于我们",
         text: "关于我们",
         color: "#777777"
       },
@@ -217,7 +217,7 @@ Page({
   // },
   dellSData:function(){
     this.setData({
-      headData: this.headData,
+      // headData: this.headData,
       blankData: this.blankData,
       orderData: this.orderData,
       ListData: this.ListData,

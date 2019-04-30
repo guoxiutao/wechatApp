@@ -30,7 +30,7 @@
   height: 200rpx;
 }
 .pupu_product_list_three_item_name{
-  font-size: 30rpx;
+  font-size: 26rpx;
   font-weight: 500;
   margin-bottom: 10rpx;
   text-overflow: ellipsis;
@@ -61,8 +61,8 @@
   font-size: 24rpx;
 }
 .pupu_product_list_three_item_true_price{
-  font-size: 40rpx;
-  line-height:40rpx;
+  font-size: 38rpx;
+  line-height:38rpx;
 }
 .font_color{
   color: #a3a3a3;

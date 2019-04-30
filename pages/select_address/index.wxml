@@ -1,0 +1,14 @@
+<view class='container'>  
+  <!-- <view class='addrtop'><text>我的收获地址</text></view> -->
+  
+  <view class='addrItems' wx:for='{{addrData}}' wx:for-item='addr' wx:key="{{addr.id}}" catchtap='selectAddress' data-info="{{addr}}">
+    <view class='addrItems_left'>
+      <image class='addr_icon' mode='aspectFit'  src='/images/icons/addr.png' ></image>
+      <view class='addrItems_info'>
+        <text style='font-size:28rpx;font-weight: 500'>{{addr.province}} {{addr.city}} {{addr.area}} {{addr.address}}</text>
+        <text class='font2'>{{addr.contactName}} {{addr.telNo}}</text>
+      </view>
+    </view>
+    <image data-id='{{addr.id}}' catchtap='writeAddr' class='edit_icon' mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_4/25/16/12/2_533.jpg?x-oss-process=style/preview_120'></image>
+  </view>
+</view>

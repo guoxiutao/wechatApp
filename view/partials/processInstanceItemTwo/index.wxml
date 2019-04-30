@@ -9,7 +9,7 @@
       <text class='process_name'>{{processItem.belongProcessName}}</text>
     </view>
   </view>
-  <view class='process_description'>
+  <view class='process_description' bindtap='check_form_detail' data-id="{{processItem.customFormCommitId}}">
     <view class='user_group'>
       <view class='service'>
         <text class='service_name' style='font-weight:bold;font-size:30rpx;'>【云技师】</text>
@@ -19,9 +19,9 @@
       <view class='concat_line'></view>
       <view class='service_point' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
         <text wx:if="{{processItem.servantConfirmServantId!=0&&processItem.currentStageSequence<100}}">开始</text>
-        <text wx:if="{{processItem.servantConfirmServantId==0}}">等待</text>
+        <text wx:if="{{processItem.servantConfirmServantId==0&&processItem.currentStageSequence<9999}}">等待</text>
         服务
-        <text wx:if="{{processItem.currentStageSequence>=9999&&processItem.servantConfirmServantId!=0}}">结束</text>
+        <text wx:if="{{processItem.currentStageSequence>=9999}}">结束</text>
       </view>
       <view class='concat_line'></view>
       <view class='service' bindtap='check_form_detail' data-id="{{processItem.customFormCommitId}}">
@@ -32,24 +32,25 @@
     </view>
     <view class='process_stage_list'>
       <scroll-view scroll-x class='process_stage_scroll' scroll-into-view="process_{{processItem.currentStageSequence==9999&&processItem.payStatus==1?'0':processItem.currentStageSequence}}">
-        <view class='process_line' style='width:{{lineWidth}}rpx'></view>
+        <view class='process_line' style='width:{{lineWidth}}rpx;margin-left:-{{lineMarginLeft}}rpx'></view>
         <view class='process_stage' id="process_0">
           <view class='process_stage_icon_container'>
             <view style='color:#fff;background:{{setting.platformSetting.defaultColor}};border-color:{{setting.platformSetting.defaultColor}}' class='process_stage_icon'>
               <image mode='aspectFit' class='ongoing_img' src=''></image>
             </view>
           </view>
-          <text class='process_stage_name'>订单开始</text>
+          <text class='process_stage_name'>已下单</text>
         </view>
-        <!-- <view class='process_stage' id="process_01">
+        <view class='process_stage' id="process_01">
           <view class='process_stage_icon_container'>
-            <view style='color:#fff;background:{{setting.platformSetting.defaultColor}};border-color:{{setting.platformSetting.defaultColor}}' class='process_stage_icon'>
-              <image mode='aspectFit' class='ongoing_img' src=''></image>
+            <view style='color:#fff;background:{{processItem.belongServantId!=0||processItem.currentStageSequence==10000?setting.platformSetting.defaultColor:"#ccc"}}'  class='{{processItem.currentStageSequence==0&&processItem.belongServantId!=0?"process_stage_icon heightAndwidth":"process_stage_icon"}}'>
+              <image mode='aspectFit' class='ongoing_img' wx:if="{{processItem.currentStageSequence==0&&processItem.belongServantId!=0}}" src='http://image1.sansancloud.com/xianhua/2019_4/17/15/9/16_251.jpg?x-oss-process=style/preview_120'></image>
+              <image mode='aspectFit' class='ongoing_img' wx:else src=''></image>
             </view>
           </view>
           <text class='process_stage_name'>已派单</text>
         </view>
-        <view class='process_stage' id="process_02">
+        <!-- <view class='process_stage' id="process_02">
           <view class='process_stage_icon_container'>
             <view style='color:#fff;background:{{setting.platformSetting.defaultColor}};border-color:{{setting.platformSetting.defaultColor}}' class='process_stage_icon'>
               <image mode='aspectFit' class='ongoing_img' src=''></image>
@@ -69,7 +70,7 @@
           <text class='process_stage_name' wx:if="{{index+1!=processItem.currentStageSequence}}">{{stage.name}}</text>
           <text class='process_stage_name' wx:elif="{{index+1==processItem.currentStageSequence}}" style='color:{{setting.platformSetting.defaultColor}}'>{{stage.name}}</text>
         </view>
-        <view class='process_stage' id="process_9999">
+        <view class='process_stage' id="process_9999" wx:if="{{processItem.payedAmount!=0}}">
           <view class='process_stage_icon_container'>
             <view style='color:#fff;background:{{processItem.currentStageSequence>=9999&&processItem.payStatus!=1||processItem.currentStageSequence>=9999&&processItem.payStatus==1?setting.platformSetting.defaultColor:"#ccc"}}'  class='{{processItem.currentStageSequence>=9999&&processItem.payStatus!=1?"process_stage_icon heightAndwidth":"process_stage_icon"}}'>
               <image mode='aspectFit' class='ongoing_img' wx:if="{{processItem.currentStageSequence>=9999&&processItem.payStatus!=1}}" src='http://image1.sansancloud.com/xianhua/2019_4/17/15/9/16_251.jpg?x-oss-process=style/preview_120'></image>
@@ -82,15 +83,17 @@
         </view>
         <view class='process_stage'>
           <view class='process_stage_icon_container'>
-            <view style='color:#fff;background:{{processItem.currentStageSequence>=9999&&processItem.payStatus==1?setting.platformSetting.defaultColor:"#ccc"}}'class='process_stage_icon'>
+            <view style='color:#fff;background:red'class='process_stage_icon' wx:if="{{processItem.currentStageSequence>9999}}">
+              <image mode='aspectFit' class='ongoing_img' src=''></image>
+            </view>
+            <view wx:else style='color:#fff;background:{{processItem.currentStageSequence>=9999&&processItem.payStatus==1?setting.platformSetting.defaultColor:"#ccc"}}'class='process_stage_icon'>
               <image mode='aspectFit' class='ongoing_img' src=''></image>
             </view>
           </view>
-          <text class='process_stage_name' style='color:{{setting.platformSetting.defaultColor}};' wx:if="{{processItem.currentStageSequence==9999&&processItem.payStatus==1}}">平台回访</text>
-          <text class='process_stage_name' style='color:#fff;background:red;border-color:red;' wx:if="{{processItem.currentStageSequence==10000}}">异常结束</text>
+          <text class='process_stage_name' style='color:{{setting.platformSetting.defaultColor}};' wx:if="{{processItem.currentStageSequence==9999&&processItem.payStatus==1}}">完成</text>
+          <text class='process_stage_name' style='color:red;' wx:if="{{processItem.currentStageSequence==10000}}">异常结束</text>
           <text class='process_stage_name' style='color:#fff;background:#888;border-color:#888;' wx:if="{{processItem.currentStageSequence==10001}}">订单作废</text>
-          <text class='process_stage_name' style='border-color:#888;' wx:if="{{processItem.currentStageSequence<9999&&processItem.payStatus!=1}}">平台回访</text>
-          <text class='process_stage_name' style='border-color:#888;' wx:if="{{processItem.currentStageSequence>=9999&&processItem.payStatus!=1}}">平台回访</text>
+        <text class='process_stage_name' style='border-color:#888;' wx:if="{{processItem.currentStageSequence<9999&&processItem.payStatus!=1}}">完成</text>
         </view>
       </scroll-view>
     </view>
@@ -100,6 +103,9 @@
       <view class='check_record' bindtap="confirmProcessOrder" data-id="{{processItem.id}}" wx:if="{{processItem.currentStageSequence<=0&&loginUser.platformUser.managerServantId==processItem.belongServantId&&processItem.belongServantId!=0}}" style='border:2rpx solid {{setting.platformSetting.defaultColor}};'>
         <text style='color:{{setting.platformSetting.defaultColor}}'>确认接单</text>
       </view>
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{tagsArr}}" class='check_record' wx:if="{{processItem.currentStageSequence==0&&processItem.belongServantId==0}}" style='border:2rpx solid {{setting.platformSetting.defaultColor}};'>
+        <text style='color:{{setting.platformSetting.defaultColor}}'>取消订单</text>
+      </picker>
       <view class='check_record' style='border:2rpx solid {{setting.platformSetting.defaultColor}};' wx:for="{{processItem.platformUserActions}}" wx:for-item="action" wx:key='{{index}}' wx:if="{{processItem.platformUserActions}}" bindtap='doProcessAction' data-formId="{{action.customFormId}}" data-actionId="{{action.id}}" data-processInstanceId="{{processItem.id}}">
         <text style='color:{{setting.platformSetting.defaultColor}}'>{{action.name}}</text>
       </view>

@@ -1,7 +1,7 @@
 
 <view class='container'>
     <view class='tab'>
-      <view wx:for='{{tab}}' style='width:{{(100/(tab.length))}}%;' wx:key='{{index}}'  class='{{showTabIndex == index ? "activeTab":"noneUse"}}'  
+      <view wx:for='{{tab}}' style='width:{{(100/(tab.length))}}%;' wx:key='{{index}}' style='border-bottom:2px solid {{showTabIndex == index ? setting.platformSetting.defaultColor:"#fff"}}' class='{{showTabIndex == index ? "activeTab":"noneUse"}}'  
         data-id='{{index}}' bindtap='bindTab'>{{item.name}}</view>        
     </view>
 

@@ -15,10 +15,10 @@
     <label class='chooseAll' bindtap='chooseAll'>
       <checkbox checked='{{allchecked}}' color='{{setting.platformSetting.defaultColor}}'>全选</checkbox>
     </label>
-    <text class='clear_all' data-shopId='{{cartData[0].account.id}}' bindtap='delectAll'>清空</text>
+    <text class='clear_all' data-shopId='{{cartData[0].id}}' bindtap='delectAll'>清空</text>
   </view>
   <block wx:if="{{cartData}}">
-  <checkbox-group bindchange="checkboxChange">
+  <checkbox-group bindchange="checkboxChange" style="margin-bottom:100rpx;">
     <view class='order_product_list' wx:for='{{cartData}}' wx:for-item='cartshop' wx:key='{{cartshop.id}}'>
       <view class='order_product_item' wx:for='{{cartshop.carItems}}' wx:for-item='cart' wx:key='{{cart.id}}'>
         <view class='deleteItem' data-info='{{cart}}' catchtap='deleById'>

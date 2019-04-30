@@ -37,7 +37,11 @@ Page({
         console.log(res.data)
         if (res.data.errcode == '0') {
           let mendian = res.data.relateObj
-          mendian = that.dellMoney(mendian)
+          if (mendian.account && mendian.account.account) {
+            mendian = that.dellMoney(mendian)
+          } else {
+
+          }
           //account 账户余额
           that.setData({
             mendian: mendian,

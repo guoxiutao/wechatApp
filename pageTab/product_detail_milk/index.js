@@ -152,6 +152,11 @@ Page({
         if (res.data.errcode == '0'){
           productData.productInfo.favorite = 0
           that.setData({ productData: productData })
+          wx.showToast({
+            title: '已取消收藏！',
+            image: '/images/icons/tip.png',
+            duration: 1000
+          })
           console.log('000---'+that.data.productData.productInfo.favorite)
         }
       },
@@ -190,6 +195,11 @@ Page({
         if (res.data.errcode == '0') {
           productData.productInfo.favorite = 1
           that.setData({ productData: productData })
+          wx.showToast({
+            title: '已收藏！',
+            icon: 'success',
+            duration: 1000
+          })
           console.log('111---' + that.data.productData.productInfo.favorite)
         }
 

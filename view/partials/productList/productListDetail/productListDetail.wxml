@@ -25,8 +25,6 @@
         </view>
         <scroll-view class='tags_content' scroll-x wx:else>
           <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
-          <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
-          <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
         </scroll-view>
         <view class='product_price'>
           <!-- ￥{{result.price}}

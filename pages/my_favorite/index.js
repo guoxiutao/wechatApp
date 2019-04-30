@@ -6,7 +6,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    favouriteList: []
+    favouriteList: [],
+    productList: null,
+  },
+  tolinkUrl: function (event) {
+    console.log(event)
+    let info = event.currentTarget.dataset.info
+    let a = "product_detail.html?id=" + info.itemId 
+    app.linkEvent(a);
   },
   toProductDetail: function (event) {
     var info = event.currentTarget.dataset.info
@@ -38,9 +45,9 @@ Page({
         dataArr = dataArr.concat(res.data.result)
 
         if (!res.data.result || res.data.result.length == 0) {
-          that.setData({ favouriteList: null })
+          that.setData({ favouriteList: null, productList: { androidTemplate: "pupu_product_list_one", jsonData: { count: 0}, relateBean:[] } })
         } else {
-          that.setData({ favouriteList: dataArr })
+          that.setData({ favouriteList: dataArr, productList: { androidTemplate: "pupu_product_list_one", relateBean: dataArr, jsonData: { count: dataArr.length, showCard: 1}, relateBean: dataArr} })
         }
         
         wx.hideLoading()
@@ -62,7 +69,11 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.setData({
+      setting: app.setting,
+      defaultColor: app.setting.platformSetting.defaultColor,
+      secondColor: app.setting.platformSetting.secondColor,
+    });
   },
 
   /**

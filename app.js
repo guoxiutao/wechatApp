@@ -7,7 +7,7 @@ App({
     /**
      *   切换项目的开关 ↓↓↓↓↓
      */
-  clientNo: 'jianzhan',   //自定义的项目的名称。
+  clientNo: 'xiaosanlun',   //自定义的项目的名称。
     preCallbackObj:{key:{callback:''}},
     clientName: '',
     more_scene: '', //扫码进入场景   用来分销
@@ -34,7 +34,9 @@ App({
     headerPost: {
         'content-type': 'application/x-www-form-urlencoded'
     },
-
+    globalData: {
+      statusBarHeight: wx.getSystemInfoSync()['statusBarHeight']
+    },
     successOnlaunch: false,
    
     defaultMendianID: "",
@@ -54,7 +56,7 @@ App({
     },
     onShow: function (e) {
         let that=this
-        console.log('======app.show=====')
+      console.log('======app.show=====',that.globalData)
         console.log("=======eeeee======",e)
         if (e.scene == "1011" || e.scene == "1012" || e.scene == "1013" || e.scene == "1047") {
           this.appHide = true
@@ -154,9 +156,10 @@ App({
               })
             } else if (res.data.payStatus == 1 && res.data.processInstanceCount > 0) {//进入流程列表
               let processId = 0
-              wx.navigateTo({
-                url: '/pages/process_list/index?processId=' + processId,
-              })
+              that.linkEvent("process_list.html");
+              // wx.navigateTo({
+              //   url: '/pages/process_list/index?processId=' + processId,
+              // })
             } else if (res.data.payStatus == 1 && res.data.processInstanceCount == 0) {
               wx.redirectTo({
                 url: '/pages/order_list_tab/index',
@@ -446,7 +449,7 @@ App({
         }
         let urlData = this.getUrlParams(linkUrl)
         let If_Order_url = urlData.url.substr(0, 10)
-        console.log('-----toGridLinkUrl---------')
+      console.log('-----toGridLinkUrl---------')
         console.log('==urlData===',urlData)
         console.log('==jpg===', linkUrl.substr(-3, 3))
         console.log(If_Order_url)
@@ -487,6 +490,19 @@ App({
         //     url: '/pageTab/' + 'location_servant' + '/index' + urlData.param,
         //   })
         // }
+        else if (linkUrl.substr(0, 14) == 'search_product') {
+          console.log("this.clientNo",this.clientNo)
+          if(this.clientNo=='naifen'){
+            wx.navigateTo({
+              url: '/pages/' + 'milk_product_list' + '/index' + urlData.param,
+            })
+          }else{
+            wx.navigateTo({
+              url: '/pages/' + 'search_product' + '/index' + urlData.param,
+            })
+          }
+       
+        }
         else if (linkUrl.substr(0, 13) == 'order_pintuan') {
 
           wx.navigateTo({
@@ -544,8 +560,7 @@ App({
             name: paramObj.title,
             address: paramObj.description
           })
-        }
-        else {
+        }else {
          // promotion_products.html   form_detail.html?customFormId=12
           console.log("9999999999999999" + linkUrl.substr(0, 14))
           wx.navigateTo({
@@ -773,10 +788,16 @@ App({
     showAuthUserInfoButton:true,
     changeUserBelong: function (more_scene) {
       if (!more_scene) return;
+      let changeMendianOnly=0;
       if (!this.loginUser || !this.loginUser.platformUser|| this.loginUser.platformUser.parentId>0){
       //  console.log("parent id:"+this.loginUser.platformUser.parentId);
         console.log("未登录或 已经有推广用户了");
-        return;
+        if (this.setting.platformSetting && this.setting.platformSetting.scanChangeBelongMendian && this.loginUser.platformUser.managerMendianId>0){
+          changeMendianOnly=1;
+        }else{
+          return;
+        }
+        
       } else {
         console.log("修改用户推广人");
       }
@@ -791,6 +812,7 @@ App({
         }
         let param_post = {}
         param_post.parentPlatformUserId = parentPlatformUserId
+         param_post.changeMendianOnly = changeMendianOnly;
         var customIndex = that.AddClientUrl("/change_fx_user.html", param_post, 'post')
 
         wx.request({

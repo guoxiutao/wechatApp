@@ -11,6 +11,7 @@ Page({
    */
   data: {
     promotionData:null,
+    sendIndexData: "",
 ///
   },
   attendPromotion:function(e){
@@ -90,9 +91,14 @@ Page({
    */
   opt: null,
   onLoad: function (options) {
-     this.opt = options
+    let that=this;
+    that.opt = options
     console.log("===options===", options)
-     this.setData({setting:app.setting})
+    that.setData({setting:app.setting})
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "promotion_detail", params: { pageObjectId: options.promotionId } })
+    that.setData({ sendIndexData: sendIndexData })
+    let sendPromotionData = JSON.stringify({ title: 'noTitle', url: "promotion_detail_" + options.promotionId })
+    that.setData({ sendPromotionData: sendPromotionData })
     // let navName = options.navName
     // if (navName) {
     //   wx.setNavigationBarTitle({
@@ -103,7 +109,7 @@ Page({
     // let that = this
     // let richTextHtml = app.richTextHtml
     // WxParse.wxParse('article', 'html', richTextHtml, that, 10);
-    this.getData(options)
+    that.getData(options)
   },
 
   /**

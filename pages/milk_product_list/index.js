@@ -97,9 +97,15 @@ Page({
       }
     })
   },
-  linkUrl: function (e) {
+  tolinkUrl: function (e) {
     console.log("===e====", e)
-    let linkUrl = e.currentTarget.dataset.link;
+    let linkUrl
+    let id = e.currentTarget.dataset.id||"";
+    if(id){
+      linkUrl = "product_detail.html?productId=" + e.currentTarget.dataset.id; 
+    }else{
+      linkUrl = e.currentTarget.dataset.link;
+    }
     if (linkUrl =="search_page.html"){
       this.setData({ reqSearch:true})
     }
@@ -200,9 +206,9 @@ Page({
       frontColor: '#ffffff',
       backgroundColor: app.setting.platformSetting.defaultColor,
     })
-    wx.setNavigationBarTitle({
-      title: "奶爸无忧·母婴商超",
-    })
+    // wx.setNavigationBarTitle({
+    //   title: "奶爸无忧·母婴商超",
+    // })
     this.setData({
       setting: app.setting,
       defaultColor: app.setting.platformSetting.defaultColor,

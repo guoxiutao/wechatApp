@@ -104,6 +104,18 @@ Component({
               that.getPartials();
             }
           }else{
+            // wx.showModal({
+            //   title: '提示',
+            //   content: '该页面还未装修',
+            //   success: function (res) {
+
+            //     if (res.confirm) {
+                 
+            //     } else if (res.cancel) {
+                 
+            //     }
+            //   }
+            // })
             console.log('加载失败')
           }
         },

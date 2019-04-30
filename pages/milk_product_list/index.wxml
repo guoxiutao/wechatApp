@@ -1,4 +1,4 @@
- <!-- <import src="../../view-new/partials/product_search.wxml"/> -->
+ <import src="../../view-new/partials/product_search.wxml"/>
 
 <import src="../../view/partials/productList/pupuProductListOne/pupuProductListOne.wxml"/>
 
@@ -43,7 +43,7 @@
           <image class='product_promotion_icon' src='http://image1.sansancloud.com/xianhua/2019_4/3/11/47/37_600.jpg?x-oss-process=style/preview_120'></image>
         </view>
       </view> -->
-      <view class='product_search' data-link="search_page.html"  bindtap='linkUrl'>
+      <view class='product_search' data-link="search_page.html"  bindtap='tolinkUrl'>
         <image class='product_search_icon' src='http://image1.sansancloud.com/xianhua/2019_4/3/14/13/8_191.jpg?x-oss-process=style/preview_120'></image>
       </view>
     </view>

@@ -9,7 +9,7 @@
 
     </scroll-view> -->
     <scroll-view scroll-x class="{{firstDistance&&(firstDistance<=scroll-4)?'tab-h fixed':'tab-h'}}" id="tab-h" scroll-with-animation='true' style='background:{{data.jsonData.bgColor||"#fff"}}'>
-         <view  wx:for="{{data.jsonData.tabs}}" wx:for-item="type" wx:key="{{index}}" data-index="{{index}}" data-item="{{type}}" bindtap='swichNav' id="{{'tab_'+type.id}}" class='tab-item' style='font-size:{{currentTab==index?"32rpx":"28rpx"}};color:{{currentTab==index?data.jsonData.fontColor:""}};border-bottom:{{currentTab==index?"4rpx solid "+data.jsonData.fontColor:""}};'>{{type.title}}</view>
+         <view  wx:for="{{data.jsonData.tabs}}" wx:for-item="type" wx:key="{{index}}" data-index="{{index}}" data-item="{{type}}" bindtap='swichNav' id="{{'tab_'+type.id}}" class='tab-item' style='font-size:{{currentTab==index?"32rpx":"28rpx"}};color:{{currentTab==index?data.jsonData.fontHoverColor:data.jsonData.fontColor}};border-bottom:{{currentTab==index?"4rpx solid "+data.jsonData.fontHoverColor:data.jsonData.fontColor}};'>{{type.title}}</view>
        </scroll-view>
  
 </view>

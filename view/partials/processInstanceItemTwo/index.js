@@ -15,17 +15,61 @@ Component({
     processItem:{},
     paymentCodeUrl:"",
     paymentCodeState:false,
-    lineWidth:700,
+    lineWidth: 700,
+    lineMarginLeft: 50,
+    sentTagId:null,
+    tagsArr:[],
   },
 
   ready: function () {
     let that = this;
     console.log("====processInstanceItem====", that.data.data)
-    let processNum = that.data.data.process.stages.length+3
-    that.setData({ lineWidth: processNum*106})
-    that.setData({ processItem: that.data.data,setting: app.setting, loginUser: app.loginUser })
+    let processNum = 0
+    let setting = app.setting
+    if (that.data.data.payedAmount==0){
+      processNum = that.data.data.process.stages.length + 3
+    }else{
+      processNum = that.data.data.process.stages.length + 4
+    }
+    that.setData({ lineWidth: ((processNum - 2) * 140) + 2* 70 })
+    let lineMarginLeft = (((processNum - 2) * 140) + 2 * 70) / 2;
+    that.setData({ lineMarginLeft: lineMarginLeft})
+    let tags = setting.platformSetting.tagsMap['意见反馈']
+    let tagsArr=[];
+    for (let i = 0; i < tags.length;i++){
+      tagsArr.push(tags[i].tagName)
+    }
+    console.log(tagsArr)
+    that.setData({ 
+      processItem: that.data.data, 
+      setting: setting, 
+      loginUser: app.loginUser,
+      tagsArr: tagsArr,
+      })
   },
   methods: {
+    bindPickerChange:function(e){
+      console.log("====bindPickerChange=====",e)
+      let that=this;
+      let index = e.detail.value;
+      wx.showModal({
+        title: '提示',
+        content: '主人~您确定要取消该订单嘛?',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            let params={};
+            params.processStageActionId = -1
+            params.cancelRemark = that.data.tagsArr[index];
+            params.processInstanceId = that.data.processItem.id;
+
+            that.doAction(params)
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
     /* 组件事件集合 */
     tolinkUrl: function (data) {
       let linkUrl = data.currentTarget ? data.currentTarget.dataset.link : data;
@@ -101,7 +145,7 @@ Component({
       let customFormId = event.currentTarget.dataset.formid || 0;
       if (event) {
         params.processStageActionId = event.currentTarget.dataset.actionid;
-        params.processInstanceId = event.currentTarget.dataset.processinstanceid;
+        params.processInstanceId = event.currentTarget.dataset.processinstanceid||0;
       }
       if (customFormId && customFormId != 0) {
         app.preCallbackObj = { 'processInstanceItem':{callback:function(obj){

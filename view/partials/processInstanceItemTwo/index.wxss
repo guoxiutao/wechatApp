@@ -135,7 +135,7 @@
    justify-content: center;
    font-size: 22rpx;
    color: #888;
-   margin-right:50rpx;
+   width: 140rpx;
 }
 .process_stage:last-child{
    margin-right:0;
@@ -167,13 +167,12 @@
   height: 25rpx;
 }
 .process_line{
-  position: absolute;
+  position: relative;
   z-index: -1;
   top: 31rpx;
-  left: 50rpx;
   height: 2rpx;
   background: #ddd;
-  width: 120%;
+  left: 50%
 }
 .process_stage_dot{
   width: 4rpx;

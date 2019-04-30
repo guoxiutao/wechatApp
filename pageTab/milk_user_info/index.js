@@ -141,7 +141,7 @@ Page({
       },
       {
         iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_432.jpg?x-oss-process=style/preview_120",
-        linkUrl: "",
+        linkUrl: "my_favorite.html",
         text: "我的收藏",
       color: "#777777"
       },

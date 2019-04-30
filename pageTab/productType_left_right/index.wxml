@@ -1,6 +1,9 @@
  <!-- 外卖模式的点单 --> 
 
 <view class='waimaiContainer'>
+  <view>
+    <component-tag-title wx:if='{{title}}' data="{{title}}"></component-tag-title>  <!-- 4 标题 -->
+  </view>
   <!-- 左边的导航 -->  
   <!-- <view class='shop_top'>
     <view class='shop_top_left'><image class='shop_top_img' src='../../../images/icons/logo.jpg'></image></view>
@@ -14,11 +17,7 @@
   </view>  -->
   <scroll-view scroll-y class='leftScrollType'>
      <view wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-id="{{type.id}}" data-type="two" bindtap='getProductType' class='{{type.active?"activeTypeItem":"TypeItem"}}'>
-        <block wx:if='{{!!type.iconImage}}'>
-          <image class='TypeItem_iamge' mode='aspectFit' src='{{type.iconImage}}'></image>
-        </block>
-        <block wx:else></block>
-        <text>{{type.name}}</text>
+        <view class='typeName' style='border-left:{{type.active?"10rpx solid "+setting.platformSetting.defaultColor:""}};color:{{type.active?setting.platformSetting.defaultColor:""}}'>{{type.name}}</view>
         </view>
        
       <view class='bottomHeight'></view>
@@ -26,13 +25,13 @@
 
   <!-- 右边的商品列表 -->
   <scroll-view scroll-y bindscrolltolower='onReachBottom2' class='RightProductContainer' >
-    <image mode='aspectFit' src='{{currentItem.adverImg}}' style='height:200rpx;width:100%' wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
+    <image mode='aspectFit' catchtap='linkUrl' data-link='{{currentItem.adverLink}}' src='{{currentItem.adverImg}}' style='height:200rpx;width:100%' wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
     <view wx:if='{{productTypeTwo.length==0}}' class='none'>
       <image mode="widthFix" src='/images/icons/no-product.png'></image>
       <text>没有相关分类</text>
     </view>
     <view class='productTypeTwoList'>
-        <view class='productTypeTwoItem' wx:for="{{productTypeTwo}}" wx:key='{{index}}' wx:for-item="result" data-info='{{result}}' data-link="search_product.html?categoryId={{result.id}}" bindtap='linkUrl'>
+        <view class='productTypeTwoItem' wx:for="{{productTypeTwo}}" wx:key='{{index}}' wx:for-item="result" data-link="search_product.html?categoryId={{result.id}}" bindtap='linkUrl'>
           <image class='productTypeTwoItemImg' src='{{result.iconImage}}'></image>
           <text>{{result.name}}</text>
         </view>

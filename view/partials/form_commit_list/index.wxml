@@ -126,7 +126,7 @@
     <view wx:if="{{publishState&&customFormId}}" style='height:100rpx;width:100%;background:#fff'></view>
   </view>
 </view>
-<view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId}}">
+<view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId&&!componentState}}">
   <image class='publish_message_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/10/45/42_450.jpg?x-oss-process=style/preview_120'></image>
   <text class='publish_message_text'>发布信息</text>
 </view>

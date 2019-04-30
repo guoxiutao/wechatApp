@@ -198,6 +198,7 @@ Page({
   },
   /* 全部删除 */
   delectAll: function (e) {
+    console.log("====delectAll====",e)
     var that = this
     var listPro = {
       shopId: '',

@@ -1,21 +1,5 @@
 <import src="../../wxParse/wxParse.wxml"/><!-- 富文本  1-->
 
-<import src="../../view/partials/helpLine.wxml"/>  <!-- 2 辅助线 -->
-<import src="../../view/partials/help_blank.wxml"/><!-- 3 空白辅助-->
-
-<import src="../../view/partials/text_link.wxml"/>  <!-- 5 -->
-<import src="../../view/partials/image_link.wxml"/><!-- 6 --> 
-<import src="../../view/partials/banner.wxml"/><!-- 7 -->
-<import src="../../view/partials/gridlist.wxml"/><!-- 8 -->
-<import src="../../view/partials/detail_list.wxml"/><!-- 9 -->
-<import src="../../view/partials/footer_tab.wxml"/><!-- 11 -->
-<import src="../../view/partials/headSearch.wxml"/><!-- 12 -->
-<import src="../../view/partials/mofang.wxml"/> <!-- 14 -->
-
-<import src="../../view-new/partials/user_center_top_image.wxml"/><!-- user_center_top_image -->
-<import src="../../view-new/partials/user_center_order.wxml"/><!-- user_center_order -->
-<import src="../../view-new/partials/user_center_order2.wxml"/><!-- user_center_order -->
-
 <import src="../../view-new/partials/userinfo_header2.wxml"/><!-- user_center_order -->
 <import src="../../view-new/partials/userinfo_head3.wxml"/><!-- user_center_order -->
 <import src="../../view-new/partials/userinfo_order3.wxml"/><!-- user_center_order -->
@@ -27,7 +11,8 @@
 
 
 <view class="container">
-   <template is="userinfo_head3" data="{{...userInfo,...headData, loginUser:loginUser,...setting}}"></template> 
+<!-- ...headData -->
+   <template is="userinfo_head3" data="{{...userInfo,loginUser:loginUser,...setting}}"></template> 
    <template is="userinfo_mendian" data="{{...userInfo,...serverData, loginUser:loginUser}}"></template> 
    <template is="userinfo_servant" data="{{...userInfo,...servantData, loginUser:loginUser}}"></template> 
   <!-- <template is="3" data="{{...userInfo,...blankData, loginUser:loginUser}}"></template>  -->

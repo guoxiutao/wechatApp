@@ -86,7 +86,16 @@ Page({
     }
   },
   onShow: function () {
-    console.log('-----------------a---------------')
+    console.log('-----------------a---------------', this.data.selectAddress)
+    let that=this;
+    if (that.data.selectAddress){
+      let locateAddress = that.selectComponent("#container").selectAllComponents("#locateAddress"); 
+      if (locateAddress){
+        for (let i = 0; i < locateAddress.length; i++) {
+          try { locateAddress[i].changeSelectAddress(that.data.selectAddress); } catch (e) { }
+        }
+      }
+    }
     this.audioCtx = wx.createAudioContext('myAudio');
     let Time2 = util.formatTime(new Date())  //当前时间
     let OldTime = '2018-3-1 15:20:33'

@@ -16,6 +16,7 @@ Page({
       SearchProductName: "",//头部搜索的
     },
     canRefresh:true,
+    title:null,
   },
   //获取产品分类
   getProductType: function (e,typeText) {
@@ -108,7 +109,11 @@ Page({
    */
   onLoad: function (options) {
     console.log("===options=====", options)
-    this.setData({ setting: app.setting })
+    this.setData({ setting: app.setting, title: { androidTemplate: "pupu_product_search", jsonData: { title:"请输入关键词搜索"}}})
+    wx.setNavigationBarColor({
+      frontColor: app.setting.platformSetting.topColor.toLowerCase(),
+      backgroundColor: app.setting.platformSetting.topBgColor,
+    })
     var that = this;
     if (options.parentCategoryId) {
       that.setData({ positionTab: options.parentCategoryId })

@@ -86,8 +86,9 @@ Component({
       let productInfo = e.currentTarget.dataset.product;
       that.data.productData.productInfo = productInfo
       that.setData({ productData: that.data.productData})
-      console.log("====productInfo.id=====", productInfo.id)
-      that.get_product_measure(productInfo.id)
+      let productId = productInfo.productId || productInfo.id
+      console.log("====productInfo.id=====", productId)
+      that.get_product_measure(productId)
     },
 
     subNum: function () {
@@ -127,8 +128,10 @@ Component({
         params.cartesianId = this.data.measurementJson.id
       }
 
-      params.productId = this.data.productData.productInfo.id
-      params.shopId = this.data.productData.productInfo.belongShopId
+      let productId = this.data.productData.productInfo.productId || this.data.productData.productInfo.id
+      console.log("====productInfo.id=====", productId)
+      params.productId = productId
+      params.shopId = this.data.productData.productInfo.belongShopId || this.data.productData.productInfo.shopId
       params.count = this.data.byNowParams.itemCount
       params.type = 'add'
       console.log('===postParams=====', params)
@@ -288,8 +291,9 @@ Component({
             that.setData({ bindway: "cart" })
             that.setData({ showCount: true })
             let info = that.data.productData.productInfo;
+            console.log("====info==", info)
             that.data.byNowParams.productId = info.id
-            that.data.byNowParams.shopId = info.belongShopId
+            that.data.byNowParams.shopId = info.belongShopId || info.shopId
             that.data.byNowParams.orderType = 0
             that.setData({ byNowParams: that.data.byNowParams })
             console.log("==byNowParams===",that.data.byNowParams)
