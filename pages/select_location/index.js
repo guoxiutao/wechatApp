@@ -18,14 +18,17 @@ Page({
     mpCtx.moveToLocation();
     
   },
-  selectAddress: function () {
+  selectAddressFun: function () {
     let that = this;
     let address={};
     console.log("=====选择地点=====", that.data.address)
     address={
       longitude: that.data.address.longitude,
       latitude: that.data.address.latitude,
-      value: that.data.address.detailedAddress
+      value: that.data.address.detailedAddress,
+      province: that.data.address.province,
+      city: that.data.address.city,
+      street: that.data.address.street,
     }
     let pages = getCurrentPages();//当前页面
     let prevPage = pages[pages.length - 2];//上一页面
@@ -108,6 +111,9 @@ Page({
             detailedAddress: result.formatted_address,
             longitude: result.location.lng,
             latitude: result.location.lat,
+            province: result.addressComponent.province,
+            city: result.addressComponent.city,
+            street: result.addressComponent.street,
             };
           that.setData({ address: address})
         }else{

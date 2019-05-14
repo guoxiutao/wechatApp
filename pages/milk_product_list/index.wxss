@@ -126,7 +126,7 @@ page{
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  width:180rpx;
+  width:150rpx;
   font-size: 30rpx;
   color: #fff;
 }

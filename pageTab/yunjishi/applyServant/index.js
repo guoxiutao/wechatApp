@@ -42,6 +42,7 @@ Page({
     bankPhone:"",    //银行卡绑定的手机号
     bankNumber:"",    //银行卡号码
     bankUserName:"",  //开户人姓名
+    applyServantType:true,
   },
   removeImg: function (event) {
     let that = this;
@@ -125,13 +126,35 @@ Page({
       }
     })
   },
+  loginSuccess: function (user) {
+    console.log("pre apply mendian login success call back!", user);
+    this.checkState();
+  },
+  loginFailed: function (err) {
+    console.log("login failed!!");
+
+  },
+  checkState: function () {
+    console.log('======checkState.loginUser======', app.loginUser)
+    if (app.loginUser.platformUser.managerServantId) {
+      console.log("=========有归属服务员=========")
+      this.setData({ applyServantType: false })
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   
   onLoad: function (options) {
     console.log("options", options.code)
+    console.log('======app.loginUser======', app.loginUser)
     // 渠道邀请码
+    if (app.loginUser) {
+      this.checkState();
+    } else {
+      console.log('======111222333======')
+      app.addLoginListener(this);
+    }
     let inviteCode = options.code;
     let reqType = options.reqType;
     this.getLocates()

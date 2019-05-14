@@ -8,252 +8,117 @@ Page({
    */
   data: {
     setting: null,
-    Data: null,
-    //Reason: '',
-    /* 分数 */
-    scoll_1: 5, //商品符合度
-    scoll_2: 5, //服务态度
-    scoll_3: 5, //发货速度
-    getScore: 2, //评分
- 
-    checked: 2, //checkBox
+    currentIndex: 0, //checkBox
     sysWidth: 320,//图片大小
+    baseData:{},
+    commentContent:"",
   },
-  /* 添加商品评论图片 */
-  addCommitImage:function(e){
-    var that = this
-    let productId = e.currentTarget.dataset.productid
-    wx.chooseImage({
-      count: 6, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function (res) {
-        let tempFilePaths = res.tempFilePaths
-        that.addCommitImageToData(productId, tempFilePaths)
+  commentProcessData:{
+    processInstanceId:"",
+    commentContent:'',
+    pingfen:0,
+  },
+  pingfenDataList: [
+    { id: 1, state: 0, length: 1},
+    { id: 2, state: 0, length: 2},
+    { id: 3, state: 0, length: 3},
+    { id: 4, state: 0, length: 4},
+    { id: 5, state: 0, length: 5},
+  ],
+  selectPingFen:function(e){
+    console.log("=======selectPingFen==========",e)
+    let that=this;
+    let currentIndex = e.currentTarget ? e.currentTarget.dataset.index:e;
+    that.commentProcessData.pingfen = currentIndex;
+    for (let i = 0; i < that.pingfenDataList.length;i++){
+      if (i <currentIndex){
+        that.pingfenDataList[i].state = 1
+      }else{
+        that.pingfenDataList[i].state = 0
       }
+    }
+    that.setData({
+      currentIndex: currentIndex,
+      pingfenDataList:that.pingfenDataList
     })
   },
-  /* 把图片加到orderItem属性里面 */
-  addCommitImageToData: function (productId, tempFilePaths){
-    let DataItem = this.data.Data
-    for (let i = 0; i < DataItem.orderItems.length; i++){
-      if (DataItem.orderItems[i].itemId == productId){
-        DataItem.orderItems[i].commitImages = tempFilePaths
-      }
-    }
-    this.setData({ Data:DataItem })
+  getCommitContent:function(e){
+    console.log("======getCommitContent======",e)
+    let that=this
+    let value = e.detail.value;
+    that.commentProcessData.commentContent = value
   },
-  /* 把分数加到orderItem属性里面  */
-  addCommitScrollToData: function (productId, scroll){
-    let DataItem = this.data.Data
-    for (let i = 0; i < DataItem.orderItems.length; i++) {
-      if (DataItem.orderItems[i].itemId == productId) {
-        DataItem.orderItems[i].commitScroll = scroll
-      }
-    }
-    this.setData({ Data: DataItem })
-  },
-  /* 商品评分 */
-  productScroll:function(e){
-    let scoll = e.currentTarget.dataset.scroll
-    var result = app.getSpaceStr(scoll,'!')
-    this.addCommitScrollToData(result.str2, result.str1)
-  },
-
-  /* 选择分数  心形 */
-  //商品符合度
-  bindScoll_1: function (e) {
-    let scoll_1 = e.currentTarget.dataset.scroll
-    this.setData({ scoll_1: scoll_1 })
-  },
-  //服务态度
-  bindScoll_2: function (e) {
-    let scoll_2 = e.currentTarget.dataset.scroll
-    this.setData({ scoll_2: scoll_2 })
-  },
-  //发货速度
-  bindScoll_3: function (e) {
-    let scoll_3 = e.currentTarget.dataset.scroll
-    this.setData({ scoll_3: scoll_3 })
-  },
-
-  /* 选择评分 */
-  chooseScore: function (e) {
-    this.setData({ getScore: e.detail.value, checked: e.detail.value })
-  },
-
-  /* 拿到评价的内容 */
-  getCommitContent: function (e) {
-    let productId = e.currentTarget.dataset.productid
-    let commitContent = e.detail.value
-  
-    let DataItem = this.data.Data
-    for (let i = 0; i < DataItem.orderItems.length; i++) {
-      if (DataItem.orderItems[i].itemId == productId) {
-        DataItem.orderItems[i].commitContent = commitContent
-      }
-    }
-    this.setData({ Data: DataItem })
-  },
-/* 准备评价的数据    goods*/
-  readyCommit_product:function(){
-    let DataItem = this.data.Data
-    let readySentArr = []
-    for (let i = 0; i < DataItem.orderItems.length; i++) {
-      let readySent = {}
-      readySent.orderNo = DataItem.orderNo
-      readySent.productId = DataItem.orderItems[i].itemId
-      readySent.shopId = DataItem.orderItems[i].shopId 
-      readySent.commentContent=DataItem.orderItems[i].commitContent  //评论
-      readySent.pingfen = DataItem.orderItems[i].commitScroll  //评分
-      readySent.commentImages = DataItem.orderItems[i].commitImages  //图片
-      readySentArr.push(readySent)
-    }
-    return readySentArr
-  },
-  /* 商品评价 */
-  commitProduct:function(){
-    var that = this
-    let readySentArr = this.readyCommit_product()
-    let overCommit = 0
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
-    for (let i = 0; i < readySentArr.length;i++){
-      let customIndex = app.AddClientUrl("/comment_order.html", readySentArr[i], 'post')
-      wx.request({
-        url: customIndex.url,
-        data: customIndex.params,
-        header: app.headerPost,
-        method: 'POST',
+  commitUpComment: function () {
+    let that = this
+    console.log('-------提交评论-------', that.commentProcessData)
+    if (that.commentProcessData.pingfen == 0 || !that.commentProcessData.commentContent){
+      wx.showModal({
+        title: '提示',
+        content: '主人~评价内容或评分请填写完整!',
         success: function (res) {
-          console.log('---success----product----')
-          console.log(res.data)
-          overCommit++;
-          if (overCommit == readySentArr.length){
-            
-            that.commitShop()
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
           }
-        },
-        fail: function (res) {
-          console.log('---fail----product----')
-        },
-        complete:function(res){
-          wx.hideLoading()
         }
       })
+      return
     }
-    
-  },
-  /* 准备评价的数据    shop*/
-  readyCommit_shop: function () {
-    let DataItem = this.data.Data
-    let readySentArr = []
-    for (let i = 0; i < DataItem.orderItems.length; i++) {
-      let readySent = {}
-      readySent.productId = DataItem.orderItems[i].itemId
-      readySent.shopId = DataItem.orderItems[i].shopId
-      readySent.commentContent = DataItem.orderItems[i].commitContent  //评论
-      readySent.pingfen = DataItem.orderItems[i].commitScroll  //评分
-      readySent.commentImages = DataItem.orderItems[i].commitImages  //图片
-      readySentArr.push(readySent)
-    }
-    return readySentArr
-  },
-  /* 店家评价 */
-  commitShop:function(){
-    let scoll_1 = this.data.scoll_1
-    let scoll_2 = this.data.scoll_2
-    let scoll_3 = this.data.scoll_3
-    let Data = this.data.Data
-    var that = this
-    let PostData = {}
-
-
-    PostData.orderNo = Data.orderNo,
-    PostData.shopId = Data.belongShop
-    PostData.shangpinfuhedu = scoll_1
-    PostData.dianjiafuwutaidu = scoll_2
-    PostData.wuliufahuosudu = scoll_3
-    var customIndex = app.AddClientUrl("/comment_order.html", PostData, 'post')
+    let customIndex = app.AddClientUrl("/wx_comment_process_instance.html", that.commentProcessData, 'post')
     wx.request({
       url: customIndex.url,
       data: customIndex.params,
       header: app.headerPost,
       method: 'POST',
       success: function (res) {
-        console.log('---success----shop----')
-        wx.showToast({
-          title: '评价成功',
-          icon: 'success',
-          duration: 1000
-        })
-        setTimeout(function () {
-          wx.navigateBack()
-        }, 1000)
         console.log(res.data)
-      },
-      fail: function (res) {
-        console.log('---fail----shop----')
-        app.loadFail()
-      }
-    })
-  },
-  //参考淘宝的评价系统
-  /*
-    产品评价和店铺评价分开
-    产品评价带上评分和comment和productId
-    产品评价要便利出来，每个产品单独一个
-    店铺评价就不用了就底下的三行星就行
-   */
-  sureCommit: function () {
-    console.log('=========    bindCommit    ========')
-    //this.commitShop()
-    this.commitProduct()
-  },
-  //初始化分数
-  chushihuaScroll: function (Data){
-    let DataItem = Data
-    for (let i = 0; i < DataItem.orderItems.length; i++) {
-         DataItem.orderItems[i].commitContent = ''  //评论
-         DataItem.orderItems[i].commitScroll = 5  //评分
-         DataItem.orderItems[i].commitImages = []  //图片
-    }
-    this.setData({Data:DataItem})
-  },
-  //获取数据
-  getItem: function (e) {
-    var orderItemId = e
-
-    var that = this
-    var getParams = {}
-    getParams.orderNo = orderItemId
-    var customIndex = app.AddClientUrl("/get_order_detail.html", getParams)
-    wx.request({
-      url: customIndex.url,
-      header: app.header,
-      success: function (res) {
-        that.setData({
-          Data: res.data
-        })
-        that.chushihuaScroll(res.data)
-        console.log(res.data)
-
+        if (res.data.errcode == '0') {
+          wx.showToast({
+            title: '评论成功',
+            icon: 'success',
+            duration: 2000
+          })
+          setTimeout(function () { wx.navigateBack()  }, 2000);
+        }else{
+          wx.showToast({
+            title: res.data.errMsg,
+            image: '/images/icons/tip.png',
+            duration: 2000
+          })
+          setTimeout(function () { wx.navigateBack() }, 2000);
+        }
       },
       fail: function (res) {
         app.loadFail()
       }
     })
-
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("============pinglun========", options)
-    this.getItem(options.orderNo)
+    console.log("============options1========", options)
+    let that=this;
+    let baseData={
+      servantName: options.servantName||"",
+      servantIcon: options.servantIcon || "",
+    }
+    that.commentProcessData.processInstanceId = options.processInstanceId || ""
+    if (options.pingfen){
+      that.selectPingFen(options.pingfen)
+    }
+    if (options.commentContent){
+      that.setData({
+        commentContent: options.commentContent,
+      })
+    }
+    console.log("=======that.commentProcessData======", that.commentProcessData)
+    that.setData({
+      baseData: baseData,
+      pingfenDataList: that.pingfenDataList,
+      type: options.type||'',
+    })
   },
 
   /**

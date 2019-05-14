@@ -29,7 +29,7 @@
         </cover-view>
       </cover-view>
       <cover-view class='product_data' wx:if="{{address}}">
-        <cover-view class='product_info' catchtap='selectAddress'>
+        <cover-view class='product_info' catchtap='selectAddressFun'>
           <cover-view class='product_info_center'>
             <cover-view class='product_info_service_addr'>
               <cover-image class='product_info_service_addr_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/17/57/21_219.jpg'></cover-image>

@@ -1,9 +1,9 @@
  
-<view class='container'>
-    <view class='tongji_container' style='background:{{setting.platformSetting.defaultColor}}' data-link='tunzhu_account.html' bindtap='tolinkUrl'>      
-      <view class='tongji_mid font_24'>{{mendian.account.account}}</view>
-      <view class='tongji_top'>账户余额（￥）</view>
-    </view>
+<view class='container' wx:if="{{applyMendianType}}">
+  <view class='tongji_container' style='background:{{setting.platformSetting.defaultColor}}' data-link='tunzhu_account.html' bindtap='tolinkUrl'>      
+    <view class='tongji_mid font_24'>{{mendian.account.account}}</view>
+    <view class='tongji_top'>账户余额（￥）</view>
+  </view>
   <view class='tongjiContainer_form'>
       <view class='tongji_bottom'>
         <view data-link='mendian_zijin.html'   bindtap='tolinkUrl'  class='tongji_bottom_item'>
@@ -120,6 +120,8 @@
                   
     </view>
   </view>
-    
-  
+</view>
+<view class='noMendian' wx:else>
+  <image mode='aspectFit' class='img' src='http://image1.sansancloud.com/xianhua/2019_5/13/17/2/38_813.jpg?x-oss-process=style/preview_120'></image>
+  <text>主人~!您还没有申请入住过哦~</text>
 </view>

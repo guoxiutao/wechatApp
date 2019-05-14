@@ -6,7 +6,7 @@
       <image class='product_items3_img' mode="aspectFill" src='{{result.imagePath||result.itemIcon}}?x-oss-process=style/preview_200'></image>
       <view class='product_items3_view1'>
         <text class='product_name'>{{result.name||result.itemName}}</text>
-        <text class='location_name' wx:if="{{result.addTime}}">添加时间：{{result.addTime||result.addTime}}</text>
+        <text class='location_name' wx:if="{{result.addTime&&!result.name}}">添加时间：{{result.addTime||result.addTime}}</text>
         <text class='location_name' wx:if="{{result.longitude>0}}">{{result.location}}</text>
         <text class='location_name' wx:else>{{result.description}}</text>
         <view class='sale_item3' wx:if="{{result.itemSpecialSaleType&&result.itemSpecialSaleType!=0}}">
@@ -36,7 +36,6 @@
           <text class='price' wx:else>￥{{result.price||result.itemPrice}}</text>
           <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
           <text wx:if='{{result.maxPrice<=result.price&&result.tagPrice>result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
-          <!-- <component-price-group data="{{result}}"></component-price-group> -->
         </view>
       </view>
       <view class='to_car3' style='background:{{defaultColor}}' wx:if="{{jsonData.showCard==1}}" catchtap='readyAddCar' data-product="{{result}}">

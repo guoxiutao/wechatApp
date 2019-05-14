@@ -2,7 +2,7 @@
 <import src="firstFooter.wxml"/>  <!-- 正常的标题 -->
 
    <block>
-    <template is="firstFooter" data="{{...data,sysWidth}}"></template> 
+    <template is="firstFooter" data="{{...data,sysWidth,...setting}}"></template> 
   </block> 
 
 

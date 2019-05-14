@@ -19,25 +19,49 @@ Component({
     lineMarginLeft: 50,
     sentTagId:null,
     tagsArr:[],
+    telno:"",
+    showTelnoIcon:false,
   },
 
   ready: function () {
     let that = this;
     console.log("====processInstanceItem====", that.data.data)
+    if (that.data.data.productCustomFormCommit&&that.data.data.productCustomFormCommit.commitJson){
+      let formCommitData = JSON.parse(that.data.data.productCustomFormCommit.commitJson);
+      console.log("====formCommitData====", formCommitData)
+      for (let i in formCommitData){
+        console.log("formCommitItem", formCommitData[i],i)
+        if (formCommitData[i].type==14){
+          that.setData({ telno: formCommitData[i].value })
+        }
+      }
+      // if (formCommitData.phone){
+      //   that.setData({ telno: formCommitData.phone.value})
+      // }
+    }
+    if (app.loginUser.platformUser.managerServantId == that.data.data.belongServantId && that.data.data.belongServantId != 0 ){
+      that.setData({ showTelnoIcon: true })
+    }else{
+      that.setData({ showTelnoIcon: false })
+    }
+    
+    console.log("===telno====", that.data.telno)
     let processNum = 0
     let setting = app.setting
     if (that.data.data.payedAmount==0){
-      processNum = that.data.data.process.stages.length + 3
-    }else{
       processNum = that.data.data.process.stages.length + 4
+    }else{
+      processNum = that.data.data.process.stages.length + 5
     }
     that.setData({ lineWidth: ((processNum - 2) * 140) + 2* 70 })
     let lineMarginLeft = (((processNum - 2) * 140) + 2 * 70) / 2;
     that.setData({ lineMarginLeft: lineMarginLeft})
     let tags = setting.platformSetting.tagsMap['意见反馈']
     let tagsArr=[];
-    for (let i = 0; i < tags.length;i++){
-      tagsArr.push(tags[i].tagName)
+    if (tags&&tags.length!=0){
+      for (let i = 0; i < tags.length; i++) {
+        tagsArr.push(tags[i].tagName)
+      }
     }
     console.log(tagsArr)
     that.setData({ 
@@ -48,6 +72,36 @@ Component({
       })
   },
   methods: {
+    commentProcessOrder:function(e){
+      console.log("=======commentProcessOrder======",e)
+      let info = e.currentTarget.dataset.info
+      let servantName = info.belongServantName
+      let processInstanceId = info.id
+      let servantIcon = info.belongServantIcon || ""
+      let commentContent = info.commentContent || ""
+      let pingfen = info.pingfen || ""
+      let type = e.currentTarget.dataset.type || ""
+      let linkUrl;
+      if (!type){
+        linkUrl = "servant_process_comment.html?servantName=" + servantName + "&processInstanceId=" + processInstanceId + "&servantIcon=" + servantIcon
+      }else{
+        linkUrl = "servant_process_comment.html?servantName=" + servantName + "&type=" + type + "&servantIcon=" + servantIcon + "&commentContent=" + commentContent + "&pingfen=" + pingfen
+      }
+      app.linkEvent(linkUrl)
+    },
+    calling: function (e) {
+      console.log('====e===', e)
+      let phoneNumber = e.currentTarget.dataset.phonenumber
+      wx.makePhoneCall({
+        phoneNumber: phoneNumber, //此号码并非真实电话号码，仅用于测试
+        success: function () {
+          console.log("拨打电话成功！")
+        },
+        fail: function () {
+          console.log("拨打电话失败！")
+        }
+      })
+    },
     bindPickerChange:function(e){
       console.log("====bindPickerChange=====",e)
       let that=this;
@@ -79,26 +133,48 @@ Component({
     check_form_detail: function (data){
       let that=this;
       console.log("====data===", data)
-      let formId = data.currentTarget.dataset.id ? data.currentTarget.dataset.id:0;
+      let formId = data.currentTarget.dataset.id ? data.currentTarget.dataset.id : 0;
+      let orderNo = data.currentTarget.dataset.orderno ? data.currentTarget.dataset.orderno : 0;
+      let processSource = that.data.data.processSource
+      let text = processSource == 1 ?'查看订单详情':'查看用户提交的表单'
       wx.showActionSheet({
-        itemList: ['查看用户提交的表单'],
+        itemList: [text],
         success: function (res) {
           console.log(res.tapIndex)
-          if (!formId){
-            wx.showModal({
-              title: '提示',
-              content: '主人~该流程没有内容哦!',
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
+          if (processSource==0){
+            if (!formId) {
+              wx.showModal({
+                title: '提示',
+                content: '主人~该流程没有内容哦!',
+                success: function (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+                  }
                 }
-              }
-            })
-          } else {
-            let url = "check_form_detail.html?custom_form_commit_id=" + formId
-            that.tolinkUrl(url)
+              })
+            } else {
+              let url = "check_form_detail.html?custom_form_commit_id=" + formId
+              that.tolinkUrl(url)
+            }
+          }else{
+            if (!orderNo) {
+              wx.showModal({
+                title: '提示',
+                content: '主人~该流程没有生成订单哦!',
+                success: function (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+                  }
+                }
+              })
+            } else {
+              let url = "order_detail.html?orderNo=" + orderNo
+              that.tolinkUrl(url)
+            }
           }
         },
         fail: function (res) {

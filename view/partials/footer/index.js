@@ -16,7 +16,8 @@ Component({
   },
   ready:function(){
     this.setData({
-      sysWidth: app.globalData.sysWidth
+      sysWidth: app.globalData.sysWidth,
+      setting:app.setting
     });
   },
   methods: {

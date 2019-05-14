@@ -148,6 +148,20 @@
   margin-left:4rpx;
   letter-spacing:4rpx;
 }
+.cart_infoMeasure{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: #999;
+  font-size:24rpx;
+}
+.cart_infoMeasure_name{
+  color:#bbb;
+  font-size:24rpx;
+  margin-left:4rpx;
+  letter-spacing:4rpx;
+}
 .product_infomation_bottom{
   display: flex;
   flex-direction: row;
@@ -330,3 +344,22 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
    transform:translate(-50%, -50%) scale(1);
    -webkit-transform:translate(-50%, -50%) scale(1);
 }
+/* .cart_infoMeasure{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: #999;
+  font-size:24rpx;
+}
+.cart_infoMeasure_name{
+  margin-right:10rpx;
+  text-decoration:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display:block;
+
+}
+.cart_infoMeasure view{
+  margin-right: 10px;
+} */

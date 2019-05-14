@@ -100,7 +100,7 @@ Page({
       that.doAction(params)
     }
     that.params=options
-    that.getProcessList();
+    // that.getProcessList();
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -113,9 +113,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (this.data.reflesh == 1) {
-      this.onPullDownRefresh()
-    }
+    let that=this;
+    that.getProcessList();
+    // if (this.data.reflesh == 1) {
+    //   this.onPullDownRefresh()
+    // }
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -135,6 +137,7 @@ Page({
   onPullDownRefresh: function () {
     this.listPage.page = 1
     this.getProcessList();
+    app.get_session_userinfo()
     wx.stopPullDownRefresh()
   },
 

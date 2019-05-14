@@ -10,13 +10,10 @@ Page({
     inviteCode: "",//渠道邀请码
     phone: '',
     password: '',
-
     isShow: false,         //默认按钮1显示，按钮2不显示
     sec: "60"　,　　　　　　　//设定倒计时的秒数
     colorB:"#FF5146", //性别男
     colorG: "#333333", //性别女
-  
-
     isRegion: false,        
     region: ['广东省', '广州市', '海珠区'],
     customItem: '全部',
@@ -41,6 +38,7 @@ Page({
     bankPhone:"",    //银行卡绑定的手机号
     bankNumber:"",    //银行卡号码
     bankUserName:"",  //开户人姓名
+    applyMendianType:true,
   },
   removeImg: function (event) {
     let that = this;
@@ -124,11 +122,33 @@ Page({
       }
     })
   },
+  loginSuccess: function (user) {
+    console.log("pre apply mendian login success call back!", user);
+    this.checkState();
+  },
+  loginFailed: function (err) {
+    console.log("login failed!!");
+
+  },
+  checkState: function () {
+    console.log('======checkState.loginUser======', app.loginUser)
+    if (app.loginUser.platformUser.managerMendianId){
+      console.log("=========有管理店铺=========")
+      this.setData({ applyMendianType:false})
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log("options", options.code)
+    console.log('======app.loginUser======', app.loginUser)
+    if (app.loginUser) {
+      this.checkState();
+    } else {
+      console.log('======111222333======')
+      app.addLoginListener(this);
+    }
     // 渠道邀请码
     let inviteCode = options.code;
     this.setData({

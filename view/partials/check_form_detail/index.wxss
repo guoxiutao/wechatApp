@@ -264,6 +264,7 @@
   align-items: center;
   margin-bottom: 10rpx;
   position: relative;
+  box-sizing:border-box;
 }
 .interval{
   margin: 0 10rpx 0 4rpx;
@@ -497,4 +498,10 @@ white-space:nowrap;
   color: #999;
   font-size:24rpx;
   z-index: 2;
+}
+
+.mofang_item{
+  /* padding: 0 20rpx; */
+  box-sizing: border-box;
+  border-color: 
 }

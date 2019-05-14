@@ -16,6 +16,7 @@ Page({
     ifEid: false,
     addressType:0,
     reqType:"",
+    reqLocation:false,
   },
 
 
@@ -49,6 +50,31 @@ Page({
     this.needParam.defaultAddress = e.detail.value[0]
   },
 
+  tolinkUrl: function (e) {
+    if (!app.loginUser) {
+      wx.showModal({
+        title: '提示',
+        content: '主人~您还在登陆哦!稍等片刻',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    let that = this;
+    let linkUrl = e.currentTarget.dataset.link
+    if (linkUrl.indexOf("select_location.html") != -1) {
+      console.log("选择位置")
+      that.setData({ reqLocation: true })
+    } else {
+      that.setData({ reqLocation: false })
+    }
+    app.linkEvent(linkUrl)
+  },
   dellAddrSpace:function(e){
     let that=this;
     console.log('===dellAddrSpace===',e)
@@ -263,7 +289,26 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    let that=this;
+    if (that.data.reqLocation) {
+      let locationList = {};
+      console.log("从选择地点页面返回", that.data.selectAddress)
+      var pages = getCurrentPages();
+      var currPage = pages[pages.length - 1]; //当前页面
+      console.log(currPage) //就可以看到data里mydata的值了
+      if (that.data.selectAddress) {
+        console.log("选择了地点")
+        let longitude = that.data.selectAddress.longitude
+        let latitude = that.data.selectAddress.latitude;
+        that.getLoctionAddr(longitude, latitude)
+        that.needParam.longitude = longitude
+        that.needParam.latitude = latitude
+        that.setData({ needParam: that.needParam })
+        // that.selectAddressFun(that.data.selectAddress)
+      } else {
+        console.log("没选择地点")
+      }
+    }
   },
 
   /**

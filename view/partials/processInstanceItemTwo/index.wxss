@@ -80,10 +80,10 @@
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  width:40%;
+  width:44%;
 }
 .check_record{
-  height:50rpx;
+  /* height:50rpx; */
   border:2rpx solid #4bb3ff;
   border-radius:10rpx;
   margin:4rpx 10rpx;
@@ -94,7 +94,7 @@
   background:#fff;
   justify-content:center;
   color:#4bb3ff;
-  padding:0 10rpx;
+  padding:8rpx 16rpx;
 }
 .process_stage_list{
   display:flex;
@@ -172,7 +172,7 @@
   top: 31rpx;
   height: 2rpx;
   background: #ddd;
-  left: 50%
+  /* left: 50% */
 }
 .process_stage_dot{
   width: 4rpx;
@@ -232,7 +232,8 @@
 .concat_line{
   width: 76rpx;
   height: 2rpx;
-  background: #888
+  background: #888;
+  position: relative;
 }
 .concat_dot{
   width: 10rpx;
@@ -249,4 +250,11 @@
   border: 2rpx solid #4bb3ff;
   color: #888;
   margin:0 10rpx;
+}
+.telno_icon{
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  top: -60rpx;
+  left: 14rpx
 }

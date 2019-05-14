@@ -109,7 +109,7 @@ Page({
    */
   onLoad: function (options) {
     console.log("===options=====", options)
-    this.setData({ setting: app.setting, title: { androidTemplate: "pupu_product_search", jsonData: { title:"请输入关键词搜索"}}})
+    this.setData({ setting: app.setting, title: { androidTemplate: "pupu_product_search", jsonData: { bgColor: app.setting.platformSetting.topBgColor,title:"请输入关键词搜索"}}})
     wx.setNavigationBarColor({
       frontColor: app.setting.platformSetting.topColor.toLowerCase(),
       backgroundColor: app.setting.platformSetting.topBgColor,

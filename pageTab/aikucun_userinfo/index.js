@@ -5,7 +5,6 @@ var detailList = require('../../view/js/detail_list.js');
 var WxParse = require('../../wxParse/wxParse.js');
 Page({
   data: {
-    /* seeting */ 
     setting: null,
     userData: null,
     PaiXuPartials: null,
@@ -97,10 +96,6 @@ Page({
       url: '/pages/login_wx/index',
     })
   },
-  // headData:{
-  //   // imageUrl:'http://image.aikucun.xyz/aikucun/2018_4/2/11/48/3_10.jpg'
-  // },
-  
   blankData:{
     color: "rgb(244,244,244)",
     height: 12
@@ -209,12 +204,6 @@ Page({
     text: "我是服务人员",
     color: "#777777"
   },
-  // applyFacilitatorData:{
-  //   iconPath: "http://image.aikucun.xyz/aikucun/2018_4/2/12/4/20_993.jpg?imageMogr2/thumbnail/120x/interlace/0 ",
-  //   linkUrl: "apply_facilitator.html",
-  //   text: "申请服务商",
-  //   color: "#777777"
-  // },
   dellSData:function(){
     this.setData({
       // headData: this.headData,
@@ -256,11 +245,6 @@ Page({
         }
       },
       fail: function (res) {
-
-       // unsendedCount //待发货
-       // unreceivedCount //待收货
-       // unpayedCount //逮住款
-
         console.log(res.data)
       },
       complete: function (res) {

@@ -118,11 +118,12 @@ Page({
     productName: "",
     orderType: "",
     productTypeId: "",
-    itemSpecialSaleType:"0",
+    itemSpecialSaleType: "0",
+    promotionId: "",
   },
   productTypeItem:[
     { id: 0, title: "热卖", upState: false, downState: false, orderType: { up: 101, down: 1 }},
-    { id: 1, title: "价格", upState: false, downState: false, orderType: { up: 104, down: 4 }},
+    { id: 1, title: "价格", upState: false, downState: false, orderType: { up: 102, down: 2 }},
     { id: 2, title: "折扣", upState: false, downState: false, orderType: { up: 105, down: 5 }},
     { id: 3, title: "活动", state:false},
   ],
@@ -165,7 +166,8 @@ Page({
       that.productTypeItem[index].upState = false;
     }
     that.setData({ productTypeItem: that.productTypeItem})
-    if (index!= 3){
+    if (index != 3) {
+      that.params.page = 1
       that.getData(that.params, 2);
     }
   },

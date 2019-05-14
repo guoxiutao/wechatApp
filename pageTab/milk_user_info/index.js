@@ -154,12 +154,12 @@ Page({
       {
         iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_429.jpg?x-oss-process=style/preview_120",
         linkUrl: "",
-        text: "在线客户",
+        text: "在线客服",
         color: "#777777"
       },
       {
         iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_420.jpg?x-oss-process=style/preview_120",
-        linkUrl: "news_list.html?newsTypeId=5&pageNage=常见问题",
+        linkUrl: "custom_page_my_newlist?pageNage=常见问题",
         text: "常见问题",
         color: "#777777"
       }

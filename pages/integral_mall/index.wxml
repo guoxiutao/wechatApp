@@ -31,7 +31,7 @@
          <text class='mr20'>库存:{{jiFenGoods.count}}</text>
        </view>
        
-    <view class='exchange' style='background-color: {{defaultColor}};' bindtap='buyGoods' data-id='{{index}}'><text style='color: {{secondColor}};'>兑换</text></view>
+    <view class='exchange' style='background-color: {{defaultColor}};' bindtap='buyGoods' data-id='{{index}}'><text style='color:#fff;'>兑换</text></view>
        
  
       </view>

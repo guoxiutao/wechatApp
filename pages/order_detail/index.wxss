@@ -17,6 +17,7 @@
   margin: 0.4em 0;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   color: #888;
   background: #fff;
@@ -127,10 +128,24 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px dashed rgb(240,240,240);
   background: #fff;
   padding: 1em;
   margin-bottom: 0.4em;
+}
+.navigation{
+  display: flex;
+  align-items: center;
+  font-size: 22rpx;
+  border: 1rpx solid #333;
+  border-radius: 10rpx;
+  padding: 6rpx 10rpx;
+}
+.addrItemsLeft{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .addrItems2 image{
   width: 1.4em;

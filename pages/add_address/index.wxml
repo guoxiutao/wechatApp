@@ -29,19 +29,14 @@
     <view class='InputName'>身份证号</view>
     <input class='InputContent' bindinput='getCardNo'  value='{{needParam.idCardNo}}' placeholder='请输入身份证号'></input>
   </label>
-  <label class='inputContainer'>
-    <view class='InputName'>详细地址</view>
-    <input class='InputContent'  maxlength='50' value='{{needParam.detail}}' bindblur='getAddr' placeholder='请输入详细地址'></input>
+  <label class='inputContainer' style='justify-content: space-between'>
+    <view class='inputContainerLeft'>
+      <text class='InputName'>详细地址</text>
+      <input class='InputContent'  maxlength='50' value='{{needParam.detail}}' bindblur='getAddr' placeholder='请输入详细地址'></input>
+    </view>
+    <image catchtap="tolinkUrl" data-link="select_location.html" class='inputRightIcon' src='http://image1.sansancloud.com/xianhua/2019_4/3/18/3/24_160.jpg?x-oss-process=style/preview_120'></image>
   </label>
 
-  <!-- <label class='inputContainer'>
-    <view class='InputName'>经度</view>
-    <view class='InputContent'>{{needParam.longitude}}</view>
-  </label>
-  <label class='inputContainer'>
-    <view class='InputName'>纬度</view>
-    <view class='InputContent'>{{needParam.latitude}}</view>
-  </label> -->
   <checkbox-group bindchange="defaultAddressChange">
   <label class='inputContainer'>
     <view class='InputName'>设为默认地址</view>

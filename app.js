@@ -7,7 +7,7 @@ App({
     /**
      *   切换项目的开关 ↓↓↓↓↓
      */
-  clientNo: 'xiaosanlun',   //自定义的项目的名称。
+  clientNo: 'xianhua',   //自定义的项目的名称。
     preCallbackObj:{key:{callback:''}},
     clientName: '',
     more_scene: '', //扫码进入场景   用来分销
@@ -50,7 +50,7 @@ App({
       console.log('hide', this.shareSubPage)
       console.log(e)
     },
-    addinkoginListener:function(listener){
+  addLoginListener:function(listener){
       console.log('addLoginListener', listener)
       this.loginSuccessListeners.push(listener);
     },

@@ -407,24 +407,29 @@ Page({
     let that=this;
     let productInfo = that.data.productData.productInfo
     let params = Object.assign({}, params, that.byNowParams, that.pintuanParams)
-    if (productInfo.preOrderCustomFormId) {
-      let url;
-      if (that.byNowParams.cartesianId){
-        url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId + '&params=' + JSON.stringify(params);
-      }else{
-        url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId;
-      }
-      wx.navigateTo({
-        url: url,
-      })
-      return
-    } else {
-      wx.showLoading({
-        title: 'loading',
-        mask: true
-      })
-      app.createOrder(that.byNowParams, that.pintuanParams)
-    }
+    wx.showLoading({
+      title: 'loading',
+      mask: true
+    })
+    app.createOrder(that.byNowParams, that.pintuanParams)
+    // if (productInfo.preOrderCustomFormId) {
+    //   let url;
+    //   if (that.byNowParams.cartesianId){
+    //     url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId + '&params=' + JSON.stringify(params);
+    //   }else{
+    //     url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId;
+    //   }
+    //   wx.navigateTo({
+    //     url: url,
+    //   })
+    //   return
+    // } else {
+    //   wx.showLoading({
+    //     title: 'loading',
+    //     mask: true
+    //   })
+    //   app.createOrder(that.byNowParams, that.pintuanParams)
+    // }
     // var customIndex = app.AddClientUrl("/buy_now.html", params, 'post')
     // wx.request({
     //   url: customIndex.url,

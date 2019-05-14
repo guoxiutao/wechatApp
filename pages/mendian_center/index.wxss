@@ -131,3 +131,17 @@
 .mendian_menu_item form button::after{
   border:none;
 }
+.noMendian{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  height:500rpx;
+  color:#888;
+}
+.img{
+  margin-bottom: 20rpx;
+  width: 300rpx;
+  height: 300rpx;
+}

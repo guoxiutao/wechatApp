@@ -7,24 +7,27 @@
          <image mode='aspectFill' class='pupu_product_list_two_item_url' src='{{result.imagePath}}?x-oss-process=style/preview_200'></image>
          <view class='pupu_product_list_two_item_tag' wx:if="{{result.tagArray[0]}}">{{result.tagArray[0]}}</view>
        </view>
-       <text class='pupu_product_list_two_item_name'>{{result.name}}</text>
-       <text class='pupu_product_list_two_item_unit'>{{result.unitShow}}</text>
-       <view class='sale_item3' wx:if="{{result.itemSpecialSaleType!=0}}">
-          <view class='sale_item3_title' style='background:{{defaultColor}}'>
-            <text wx:if="{{result.itemSpecialSaleType==1}}">满减</text>
-            <text wx:if="{{result.itemSpecialSaleType==2}}">买赠</text>
-            <text wx:if="{{result.itemSpecialSaleType==3}}">限购</text>
+       <view class='product_detail'>
+          <text class='pupu_product_list_two_item_name'>{{result.name}}</text>
+          <text class='pupu_product_list_two_item_unit'>{{result.unitShow}}</text>
+          <view class='sale_item3' wx:if="{{result.itemSpecialSaleType!=0}}">
+            <view class='sale_item3_title' style='background:{{defaultColor}}'>
+              <text wx:if="{{result.itemSpecialSaleType==1}}">满减</text>
+              <text wx:if="{{result.itemSpecialSaleType==2}}">买赠</text>
+              <text wx:if="{{result.itemSpecialSaleType==3}}">限购</text>
+            </view>
+            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==1}}" style='color:{{defaultColor}}'>
+              满<text>{{result.itemSpecialSaleValue1}}元</text>减<text>{{result.itemSpecialSaleValue2}}元</text>
+            </view>
+            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==2}}" style='color:{{defaultColor}}'>
+              买<text>{{result.itemSpecialSaleValue1}}</text>赠<text>{{result.itemSpecialSaleValue2}}</text>
+            </view>
+            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==3}}" style='color:{{defaultColor}}'>
+              限购<text>{{result.itemSpecialSaleValue1}}件</text>
+            </view>
           </view>
-          <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==1}}" style='color:{{defaultColor}}'>
-            满<text>{{result.itemSpecialSaleValue1}}元</text>减<text>{{result.itemSpecialSaleValue2}}元</text>
-          </view>
-          <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==2}}" style='color:{{defaultColor}}'>
-            买<text>{{result.itemSpecialSaleValue1}}</text>赠<text>{{result.itemSpecialSaleValue2}}</text>
-          </view>
-          <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==3}}" style='color:{{defaultColor}}'>
-            限购<text>{{result.itemSpecialSaleValue1}}件</text>
-          </view>
-        </view>
+          <!-- <view wx:else style='height:32rpx;'></view> -->
+       </view>
         <view class='pupu_product_list_two_item_bottom'>
           <view class='pupu_product_list_two_item_price'>
             ￥<text class='pupu_product_list_two_item_true_price'>{{result.price}}</text>

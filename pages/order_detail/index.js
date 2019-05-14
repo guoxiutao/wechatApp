@@ -18,12 +18,12 @@ Page({
   },
   clickCatch: function (e) {
     console.log(e.currentTarget.dataset.info)
-    var info = e.currentTarget.dataset.info;
+    let info = e.currentTarget.dataset.info;
     console.log(info)
-    let latitude = info.latitude;
-    let longitude = info.longitude;
-    let name = info.name;
-    let address = info.address;
+    let latitude = info.latitude || info.buyerLatitude;
+    let longitude = info.longitude || info.buyerLongitude;
+    let name = info.name || info.belongShopName;
+    let address = info.address || (info.buyerProvince + info.buyerCity + info.buyerArea + info.buyerAddress);
     // 判断金纬度是否为空
     if (latitude == "" || longitude == "") {
       console.log("判断金纬度是否为空");

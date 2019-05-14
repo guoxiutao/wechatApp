@@ -16,8 +16,8 @@
     </view>
   </view>  -->
   <scroll-view scroll-y class='leftScrollType'>
-     <view wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-id="{{type.id}}" data-type="two" bindtap='getProductType' class='{{type.active?"activeTypeItem":"TypeItem"}}'>
-        <view class='typeName' style='border-left:{{type.active?"10rpx solid "+setting.platformSetting.defaultColor:""}};color:{{type.active?setting.platformSetting.defaultColor:""}}'>{{type.name}}</view>
+     <view wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-id="{{type.id}}" data-type="two" bindtap='getProductType' class='{{type.active?"activeTypeItem":"TypeItem"}}' style='border-bottom:{{type.active?"2rpx solid "+setting.platformSetting.defaultColor:""}};color:{{type.active?setting.platformSetting.defaultColor:""}}'>
+        <view class='typeName'>{{type.name}}</view>
         </view>
        
       <view class='bottomHeight'></view>

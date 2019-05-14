@@ -34,33 +34,6 @@
     <view class="typeSearch_view_height"></view> -->
   </view>
 
-<!-- 分类 -->
-  <!-- <cover-view class='typeSearch_item_container' wx:if="{{showType && show0}}" >
-
-     <cover-view class='typeSearch_item_left_container'>
-        <cover-view wx:for="{{setting.platformSetting.categories}}"
-          wx:for-item="type" wx:key="{{index}}" data-type="{{type}}"
-          bindtap='bindTypeItem' class='{{type.active?"active":""}}' style='color:{{type.colorAtive}}'>
-          <cover-view class='line' style='opacity:{{type.active&&index!=0? "1":"0"}}'></cover-view>
-          <cover-view style='margin-left:48rpx;;font-size:28rpx' class='{{type.active?"active":""}}'>{{type.name}}</cover-view>
-          <cover-view class='line' style='opacity:{{type.active? "1":"0"}}'></cover-view>
-        </cover-view>
-     </cover-view>
-     <cover-view class='typeSearch_item_right_container'>
-        <cover-view data-categoryId="{{focusTypeItem.id}}" bindtap='searchProduct'>
-          <cover-view style='margin-left:48rpx;font-size:28rpx'>全部</cover-view>
-          <cover-view class='line'></cover-view>
-        </cover-view>
-        <cover-view wx:for="{{focusTypeItem.children}}" wx:for-item="child" wx:key="{{index}}" data-categoryId="{{child.id}}" bindtap='searchProduct'>
-          <cover-view style='margin-left:48rpx;;font-size:28rpx'>
-            {{child.name}}
-          </cover-view>
-          <cover-view class='line'></cover-view>
-        </cover-view>
-     </cover-view>
-  </cover-view>
-  <view class='zhezhao' wx:if="{{showType}}" bindtap='closeZhezhao'></view> -->
-
 
     <block wx:if='{{ProductshowWay == 2}}' >
      <view class='product_page_container2' style='height:{{ProductshowWay==1? "100%":""}}'>

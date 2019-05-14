@@ -7,13 +7,99 @@ Page({
     loginUser: null,
     addrData:null,
     selectAddressData:{},
+    reqLocation:false,
   },  
-  selectAddress:function(e){
+  getLocationAddress: function () {//获取当前地址
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        console.log("=====getLocationAddress====", res)
+        let latitude = res.latitude
+        let longitude = res.longitude
+        console.log(longitude + "..............." + latitude)
+        // 获取附近店铺数据
+        let pageParam = {
+          "longitude": longitude,
+          "latitude": latitude,
+        }
+        console.log(pageParam)
+        that.getLoctionAddr(pageParam)
+      }
+    })
+  },
+  getLoctionAddr: function (pageParam) {//根据当前经纬度获取当前详细地址
+    var that = this
+    var param = {}
+    param.longitude = pageParam.longitude
+    param.latitude = pageParam.latitude
+    var customIndex = app.AddClientUrl("/get_location_detail.html", param, 'get')
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("=====getLoctionAddr====", res.data)
+        let data = res.data.result
+        let params = {
+          longitude: pageParam.longitude,
+          latitude: pageParam.latitude,
+          province: data.addressComponent.province,
+          city: data.addressComponent.city,
+          street: data.addressComponent.street,
+          value: data.formatted_address,
+        }
+        console.log("====params=====", params)
+        that.setLoctionAddr(params);
+        that.setData({ selectAddressData: params })
+        that.getNearMenDian(params)
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
+  },
+  selectAddressFun:function(e){//选择已存在的用户地址
     console.log("======e=======",e);
     let that=this;
-    let addressInfo = e.currentTarget.dataset.info;
+    let addressInfo;
+    if (e.currentTarget) {
+      addressInfo = e.currentTarget.dataset.info;
+    }else{
+      addressInfo = e
+    }
     that.setData({ selectAddressData: addressInfo})
     that.getNearMenDian(addressInfo)
+    let params = {
+      longitude: addressInfo.longitude,
+      latitude: addressInfo.latitude,
+    }
+    if (addressInfo.province){
+      params = Object.assign({}, params, {
+        province: addressInfo.province,
+        city: addressInfo.city,
+        street: addressInfo.street || addressInfo.area,
+      })
+   }
+    console.log("====params=====", params)
+    that.setLoctionAddr(params)
+  },
+  setLoctionAddr: function (pageParam) {//设置地址
+    let that = this
+    let customIndex = app.AddClientUrl("/setLocation.html", pageParam, 'get')
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("=====setLoctionAddr====", res.data)
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
   },
   //  附近门店取第一个
   getNearMenDian: function (addressInfo) {
@@ -25,8 +111,6 @@ Page({
       latitude: latitude
 
     }
-    // longitude 经度        
-    // 获取门店的样式
     let menDianYangShi = app.AddClientUrl("/find_mendians.html", menDian, 'get')
     wx.request({
       url: menDianYangShi.url,
@@ -58,7 +142,6 @@ Page({
       }
     })
   },
-
   // 设置门店（当门店信息都有的时候，将门店id传到服务器。）
   setUpMenDian: function (menDianID) {
     let that=this;
@@ -83,7 +166,7 @@ Page({
           })
         }
         else {
-          console.log("设置成功")
+          console.log("设置成功", that.data.selectAddressData)
           let pages = getCurrentPages();//当前页面
           let prevPage = pages[pages.length - 2];//上一页面
           prevPage.setData({//直接给上移页面赋值
@@ -109,7 +192,31 @@ Page({
       url: '../add_address/index?addrId=' + addrId,
     })
   },
- 
+  tolinkUrl: function (e) {
+    if (!app.loginUser) {
+      wx.showModal({
+        title: '提示',
+        content: '主人~您还在登陆哦!稍等片刻',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    let that = this;
+    let linkUrl = e.currentTarget.dataset.link
+    if (linkUrl.indexOf("select_location.html") != -1) {
+      console.log("选择位置")
+      that.setData({ reqLocation: true})
+    } else {
+      that.setData({ reqLocation: false })
+    }
+    app.linkEvent(linkUrl)
+  },
   getAddr: function () {
     if (!app.checkIfLogin()) {
       return
@@ -162,7 +269,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getAddr()
+    let that=this;
+    that.getAddr()
+    if (that.data.reqLocation) {
+      let locationList = {};
+      console.log("从选择地点页面返回", that.data.selectAddress)
+      var pages = getCurrentPages();
+      var currPage = pages[pages.length - 1]; //当前页面
+      console.log(currPage) //就可以看到data里mydata的值了
+      if (that.data.selectAddress) {
+        console.log("选择了地点")
+        that.selectAddressFun(that.data.selectAddress)
+      } else {
+        console.log("没选择地点")
+      }
+    }
   },
 
   /**

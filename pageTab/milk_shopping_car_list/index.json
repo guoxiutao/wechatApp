@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "backgroundColor": "#cccccc",
     "usingComponents": {
-        "posters": "../../view/partials/canvas/index"
+        "posters": "../../view/partials/canvas/index",
+        "component-customPage": "/view/partials/custom_page/index"
     }
 }

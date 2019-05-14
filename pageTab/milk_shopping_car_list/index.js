@@ -35,7 +35,8 @@ Page({
     focusIndex: 0,
     showKefu: false,
     hasMore: false,
-    delBtnWidth:120
+    delBtnWidth: 120,
+    sendIndexData: {},
   },
 
 
@@ -536,36 +537,41 @@ Page({
         console.log('------error-------')
         console.log("加载的数据",res.data)
         if (res.data.errcode == '10001') {
+          that.data.cartData = null
           that.setData({
-            cartData: null
+            cartData: that.data.cartData
           })
           app.loadLogin()
         } else if (res.data.result.errcode == '-1') {
+          that.data.cartData = null
           that.setData({
-            cartData: null
+            cartData: that.data.cartData
           })
           app.echoErr(res.data.result.errMsg)
         } else {
           if (!res.data.result || res.data.result.length == 0) {
+            that.data.cartData = null
             that.setData({
-              cartData: null
+              cartData: that.data.cartData
             })
           } else if (res.data.result.errcode) {
+            that.data.cartData = null
             that.setData({
-              cartData: null
+              cartData: that.data.cartData
             })
             app.echoErr(res.data.result.errMsg)
           } else {
             console.log("======success====")
+            that.data.cartData = res.data.result;
             that.setData({
-              cartData: res.data.result,
+              cartData: that.data.cartData,
               allchecked: false,
               checkedList: false
             })
             console.log("======successcartData====", that.data.cartData)
           }
           that.showPrice()
-
+          that.chooseAll()
         }
 
         //wx.hideLoading()
@@ -604,6 +610,7 @@ Page({
     
   },
   chooseAll: function (e) {
+    console.log("this.data.cartData", this.data.cartData);
     if (!this.data.cartData) {
       return
     }
@@ -727,7 +734,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "shoppingcard", params: { } })
+    this.setData({ sendIndexData: sendIndexData })
     this.setData({
       sysWidth: app.globalData.sysWidth,
       loginUser: app.loginUser,
@@ -736,7 +744,6 @@ Page({
     this.getCart()
     this.getHotProduct();
     this.getQrCode();
-
   },
 
   /**
@@ -861,9 +868,9 @@ Page({
     // 商品数目过多会导致setData的失败，setData有最大数目所以加载8页
     if (that.params.totalSize > that.params.curPage * that.params.pageSize && that.params.page<8) {
       that.params.page++
-      that.getHotProduct()
+      // that.getHotProduct()
       // 组件内的事件
-      this.selectComponent('#productLists').getHotProduct( that.params.page)
+      // this.selectComponent('#productLists').getHotProduct( that.params.page)
      
     }
 

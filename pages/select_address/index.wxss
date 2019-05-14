@@ -2,14 +2,47 @@
 
 .container{
   background: #fff;
-  margin-bottom: 4em;
-  font-size: 0.8em;
-  border-top:6px solid #f2f2f2;
+}
+.selectList{
+  display: flex;
+  flex-direction:column;
+}
+.selectItem{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 30rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+.selectItem:last-child{
+  border-bottom: none
+}
+.selectItemLeft{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.selectItemLeftIcon{
+  margin-right: 16rpx;
+  width: 35rpx;
+  height: 35rpx;
+}
+.selectItemText{
+  font-size: 26rpx;
+  color: #222;
+}
+.selectItemRightIcon{
+  width: 16rpx;
+  height: 30rpx;
 }
 /* 头部的线 */
 .addrtop{
-  padding: 0.4em;
+  padding: 16rpx;
   font-size: 26rpx;
+  color: #999;
+  border-top:6px solid #f2f2f2;
 }
  
 /* item */
@@ -84,6 +117,7 @@
 
 .addnewAddr{
   position: fixed;
+  font-size: 26rpx;
   bottom: 0;
   width: 100%;
   display: flex;

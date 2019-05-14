@@ -8,12 +8,12 @@
   </view>
 </view> -->
 <!-- 品牌详情 -->
-  <!-- <view class='promotionBanrdInfo'>
+  <view class='promotionBanrdInfo' wx:if="{{promotionInfo.mainBrandBean.brandIcon}}">
     <image class='promotionBanrdLogo' src="{{promotionInfo.mainBrandBean.brandIcon}}?x-oss-process=style/preview"></image>
     <text class='promotionBanrdName'>{{promotionInfo.mainBrandBean.brandName}}</text>
     <text class='promotionBanrdDescribe'>{{promotionInfo.mainBrandBean.brandDescription}}</text>
-  </view> -->
-  <view class='promotionBanrdInfo'>
+  </view>
+  <view class='promotionBanrdInfo' wx:else>
     <image class='promotionBanrdLogo' src="{{setting.logo}}?x-oss-process=style/preview"></image>
     <text class='promotionBanrdName'>{{promotionInfo.name}}</text>
     <text class='promotionBanrdDescribe'>{{promotionInfo.description}}</text>

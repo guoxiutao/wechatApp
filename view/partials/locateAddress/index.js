@@ -43,7 +43,12 @@ Component({
     changeSelectAddress: function (data) {
       let that=this;
       console.log("====changeSelectAddress====", data)
-      let locationAddress = data.province + data.city + data.area + data.address
+      let locationAddress
+      if (data.value) {
+        locationAddress = data.value
+      } else {
+        locationAddress = data.province + data.city + data.area + data.address
+      }
       that.setData({ locationAddress: locationAddress })
     },
     setLoctionAddr: function (pageParam) {
@@ -59,6 +64,78 @@ Component({
         fail: function (res) {
           wx.hideLoading()
           app.loadFail()
+        }
+      })
+    },
+    //  附近门店取第一个
+    getNearMenDian: function (addressInfo) {
+      let that = this;
+      let latitude = addressInfo.latitude
+      let longitude = addressInfo.longitude
+      let menDian = {
+        longitude: longitude,
+        latitude: latitude
+
+      }
+      // longitude 经度        
+      // 获取门店的样式
+      let menDianYangShi = app.AddClientUrl("/find_mendians.html", menDian, 'get')
+      wx.request({
+        url: menDianYangShi.url,
+        data: menDianYangShi.params,
+        header: app.headerPost,
+        method: 'GET',
+        success: function (res) {
+          console.log("===附近门店取第一个", res.data)
+          if (res.data.errcode == "-1") {
+            wx.showToast({
+              title: res.data.errMessage,
+              image: '/images/icons/tip.png',
+              duration: 2000
+            })
+          }
+          else {
+            let firstMendian = res.data.relateObj.result;
+            if (firstMendian.length != 0 && firstMendian[0].id) {
+              // 当数据都存在，然后就开始设置门店
+              that.setUpMenDian(firstMendian[0].id);
+            } else {
+              wx.showToast({
+                title: "您附近没有相关门店哦!",
+                image: '/images/icons/tip.png',
+                duration: 2000
+              })
+            }
+          }
+        }
+      })
+    },
+    // 设置门店（当门店信息都有的时候，将门店id传到服务器。）
+    setUpMenDian: function (menDianID) {
+      let that = this;
+      let id = menDianID
+      let menDianParameter = {
+        mendianId: id
+      }
+
+      let menDianYangShi = app.AddClientUrl("/location_mendian.html", menDianParameter, 'get')
+      wx.request({
+        url: menDianYangShi.url,
+        data: menDianYangShi.params,
+        header: app.headerPost,
+        method: 'GET',
+        success: function (res) {
+          console.log('=====setUpMenDian====', res)
+          if (res.data.errcode == "-1") {
+            wx.showToast({
+              title: res.data.errMessage,
+              image: '/images/icons/tip.png',
+              duration: 2000
+            })
+          }
+          else {
+            console.log("设置成功")
+          }
         }
       })
     },
@@ -84,10 +161,11 @@ Component({
           }
           console.log(pageParam)
           that.getLoctionAddr(pageParam)
+          that.getNearMenDian(pageParam);
         }
       })
     },
-    // 获取附近店铺数据
+    // 获取地理数据
     getLoctionAddr: function (pageParam) {
       var that = this
       var param = {}

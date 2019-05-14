@@ -59,3 +59,15 @@
   border:none;
   color:#fff;
 }
+.inputContainerLeft{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%
+}
+.inputRightIcon{
+  width: 16rpx;
+  height: 30rpx;
+  padding: 20rpx;
+  margin-right: 10rpx;
+}

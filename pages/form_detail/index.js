@@ -23,6 +23,7 @@ Page({
     locationIndex:"",
     sendOptionData:null,
     sendPageDataState:false,
+    sendFormData:null,
   },
   // 关闭海报
   getChilrenPoster(e) {
@@ -372,9 +373,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let that=this;
+    let that = this;
     console.log(options)
-    that.setData({ sendOptionData: options})
+    that.setData({ sendOptionData: options })
+    let sendFormData = JSON.stringify({ title: 'noTitle', url: "form_" + options.customFormId })
+    that.setData({ sendFormData: sendFormData })
     that.data.gainActionEvent = options.actionEvent
     that.setData({ formId: options.customFormId})
     that.params.customFormId = options.customFormId;

@@ -189,13 +189,7 @@ Component({
       if (that.data.img_l){
         context.drawImage(that.data.img_l, 16, 16, clientWidth * 0.65, clientWidth * 0.25)
       }
-      // if (that.data.imgInfo.w === that.data.imgInfo.h) {
-      //   context.drawImage(that.data.img_l, 16, 16, clientWidth * 0.65, clientWidth * 0.65)
-      // } else if (that.data.imgInfo.w > that.data.imgInfo.h) {
-      //   context.drawImage(that.data.img_l, (that.data.imgInfo.w - clientWidth * 0.65) / 2, 0, that.data.imgInfo.h, that.data.imgInfo.h, 16, 16, clientWidth * 0.65, clientWidth * 0.65)
-      // } else if (that.data.imgInfo.w < that.data.imgInfo.h) {
-      //   context.drawImage(that.data.img_l, 0, (that.data.imgInfo.h - clientWidth * 0.65) / 2, that.data.imgInfo.w, that.data.imgInfo.w, 16, 16, clientWidth * 0.65, clientWidth * 0.65)
-      // }
+     
       context.setTextAlign('center')    // 文字居中
       context.setFillStyle('#000000')  // 文字颜色：黑色
       context.setFontSize(12)         // 文字字号：22px

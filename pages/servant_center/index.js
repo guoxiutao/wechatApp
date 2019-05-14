@@ -15,7 +15,8 @@ Page({
             totalEarningAmount: 0.00,
             totalTixianAmount: 0.00,
             waitCompleteOrderDistributeAmount: 0.00
-        }
+        },
+        applyServantType: true,
     },
     /* 组件事件集合 */
     tolinkUrl: function (e) {
@@ -126,18 +127,40 @@ Page({
         wx.navigateTo({
             url: '/pages/apply_for_facilitator/apply_for_facilitator?formId=' + e.detail.formId
         })
-    },
+  },
+  loginSuccess: function (user) {
+    console.log("pre apply mendian login success call back!", user);
+    this.checkState();
+  },
+  loginFailed: function (err) {
+    console.log("login failed!!");
+
+  },
+  checkState: function () {
+    console.log('======checkState.loginUser======', app.loginUser)
+    if (!app.loginUser.platformUser.managerServantId) {
+      console.log("=========没有归属服务员=========")
+      this.setData({ applyServantType: false })
+      return
+    }
+  },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
-        this.setData({
-            setting: app.setting,
-            loginUser: app.loginUser
-        })
-        this.setNavColor()
-        this.getservantInfo()
+      console.log('======app.loginUser======', app.loginUser)
+      if (app.loginUser) {
+        this.checkState();
+      } else {
+        console.log('======111222333======')
+        app.addLoginListener(this);
+      }
+      this.setData({
+          setting: app.setting,
+          loginUser: app.loginUser
+      })
+      this.setNavColor()
+      this.getservantInfo()
     },
 
     /**

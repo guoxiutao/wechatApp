@@ -7,7 +7,7 @@
  
 
 
-<view class='container'> 
+<view class='container' style="margin-bottom:100rpx;"> 
   <view class='shopping_car_title'>
     <text class='shopping_car_value' style='color:#00beff'>购物车</text>
   </view>
@@ -18,7 +18,7 @@
     <text class='clear_all' data-shopId='{{cartData[0].id}}' bindtap='delectAll'>清空</text>
   </view>
   <block wx:if="{{cartData}}">
-  <checkbox-group bindchange="checkboxChange" style="margin-bottom:100rpx;">
+  <checkbox-group bindchange="checkboxChange">
     <view class='order_product_list' wx:for='{{cartData}}' wx:for-item='cartshop' wx:key='{{cartshop.id}}'>
       <view class='order_product_item' wx:for='{{cartshop.carItems}}' wx:for-item='cart' wx:key='{{cart.id}}'>
         <view class='deleteItem' data-info='{{cart}}' catchtap='deleById'>
@@ -52,8 +52,16 @@
           <view class='product_infomation'>
             <view class='product_infomation_top'>
               <text class='product_name'>{{cart.item.name}}</text>
-              <text class='unit'>{{cart.unitShow||"900g/罐"}}</text>
+              <!-- <text class='unit'>{{cart.unitShow||"罐"}}</text> -->
+              <view  class='cart_infoMeasure'>
+                <text wx:for='{{cart.measureCartensian.measurements}}' wx:for-item='mesure' wx:key='{{index}}' class='cart_infoMeasure_name'>{{mesure.measureName}}</text>
+                <text class='cart_infoMeasure_name' wx:if="{{cart.unitShow}}">/{{cart.unitShow}}</text>
+              </view>
+              <!-- <text  class='unit'>/{{cart.unitShow||"罐"}}</text> -->
             </view>
+            <!-- <view class='cart_infoMeasure'>
+                <view wx:for='{{cart.measureCartensian.measurements}}' wx:for-item='mesure' wx:key='{{index}}' class='cart_infoMeasure_name'>{{mesure.measureName}}</view>
+              </view> -->
             <view class='product_infomation_bottom'>
               <view class='product_infomation_left'>
                 <view class='price'>￥<text class='font_size'>{{cart.item.price}}</text></view>
@@ -86,6 +94,8 @@
       </view>
     </view>
   </block>
+  
+  <component-customPage data="{{sendIndexData}}"></component-customPage> 
 </view>
 <view class='cart_tab'>
   <view class='cart_tab_info'>

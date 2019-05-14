@@ -176,7 +176,7 @@ Component({
       var oldData = this.data;
       if (oldData.data.relateBean.promotionStatus == 1) {
         wx.navigateTo({
-          url: '../../pages/new_promotion_products/index?promotionId=' + e.currentTarget.dataset.id,
+          url: '../../pageTab/tunzai/teMai/index?promotionId=' + e.currentTarget.dataset.id,
         })
       }
 

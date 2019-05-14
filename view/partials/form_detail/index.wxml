@@ -15,6 +15,14 @@
           </view>
           <input name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
         </view>
+        <!-- 数字 -->
+        <view class='inputString common' wx:if='{{items.type==1}}'>
+          <view class='inputName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{items.title}}</text>
+          </view>
+          <input type="number" name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
+        </view>
         <!-- 间隔 -->
         <view class='inputString' wx:if='{{items.type==9999}}'>
           <view class='interval' style='height:{{items.splitStyle.height}}px;background:{{items.splitStyle.backgroundColor}}' wx:if="{{!items.splitStyle.banner}}">

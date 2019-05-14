@@ -1,151 +1,36 @@
+
 <view class='container'>
-
-  <!-- 商品部分 -->
-  <view class='commitProduct_container'>
-    <view class='commitProduct_item' wx:for='{{Data.orderItems}}' wx:for-item='good' wx:key='{{good.itemId}}'>
-      <view class='commitProduct_item_info'>
-        <view class='commitProduct_item_info_commit'>
-          <view class='commitProduct_item_info_icon'>
-            <image  src='{{good.itemIcon}}'></image>
-          </view>
-          <view class='commitProduct_item_info_commitcontent'>
-              <textarea placeholder='请写下宝贝的评价吧' 
-              data-productId='{{good.itemId}}' bindinput='getCommitContent' ></textarea>
-          </view>
-        </view>
-        <view class='commitProduct_item_info_commit_images'> 
-            <block wx:for='{{good.ImageList}}' wx:for-item='image' wx:key='{{index}}'>
-              <image mode='scaleToFill' src='{{image}}'
-                style='width:{{(sysWidth/4) - 15 }}px;height:{{(sysWidth/4) - 15}}px'></image>
-            </block>
-            <view class='crameContainer' bindtap='addCommitImage'
-             style='width:{{(sysWidth/4) - 15 }}px;height:{{(sysWidth/4) - 15}}px'>
-              <image class='crame' src='/images/icons/crame.png' mode='widthFix'
-             ></image>
-            </view>
-        </view>
-
+<!-- 技师基本信息 -->
+  <view class='commentServantInfo'>
+    <view class='commentServantInfoleft'>
+      <image class='commentServantIcon' src='{{baseData.servantIcon}}'></image>
+      <text class='commentServantName'>{{baseData.servantName}}</text>
+    </view>
+  </view>
+  <!-- 评价内容 -->
+  <view class='commentData'>
+    <!-- 分数评价 -->
+    <view class='commentPingFen'>
+      <view class='commentPingFenRich' wx:if="{{currentIndex!=0}}">
+        <text wx:if="{{currentIndex==1}}" class='commentPingFenText'>"很差"</text>
+        <text wx:if="{{currentIndex==2}}" class='commentPingFenText'>"一般"</text>
+        <text wx:if="{{currentIndex==3}}" class='commentPingFenText'>"满意"</text>
+        <text wx:if="{{currentIndex==4}}" class='commentPingFenText'>"非常满意"</text>
+        <text wx:if="{{currentIndex==5}}" class='commentPingFenText'>"无可挑剔"</text>
       </view>
-      <!-- 评分模块 -->
-      <view class='scollViews2'>
-        <view class='name'>商品评分</view>
-        <view class='star_container'>
-          <view class='star' data-scroll='1!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='2!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='3!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='4!{{good.itemId}}' bindtap='productScroll' >
-            <block wx:if='{{good.commitScroll > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='5!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
+      <view class='commentPingFenList'>
+        <view class='commentPingFenItem' wx:for="{{pingfenDataList}}" wx:for-item="pingfenItem" wx:key="{{index}}" data-index="{{pingfenItem.id}}" catchtap='{{commentContent?"":"selectPingFen"}}'>
+          <image class='commentPingFenItemIcon' wx:if="{{pingfenItem.state==1}}" src='http://image1.sansancloud.com/xianhua/2019_4/30/16/3/48_461.jpg?x-oss-process=style/preview_120'></image>
+          <image class='commentPingFenItemIcon' wx:if="{{pingfenItem.state==0}}" src='http://image1.sansancloud.com/xianhua/2019_4/30/16/1/5_453.jpg?x-oss-process=style/preview_120'></image>
         </view>
       </view>
     </view>
+    <!--内容评价  -->
+    <view class='commentContent'>
+      <textarea disabled="{{commentContent?'disabled':''}}" class='commentContentInput' value="{{commentContent}}" placeholder='亲~请写下您对该技师的评价吧~！' bindinput='getCommitContent' ></textarea>
+    </view>
   </view>
-
-  <!-- 店铺部分 -->
-<block wx:if='{{Data}}'>
-  <view class='commitShop_container'>
-    <view class='commitShop_container_name'>店铺评分</view>
-     <view class='scollViews'>
-        <view class='name'>商品符合度</view>
-        <view class='star_container'>
-          <view class='star' data-scroll='1' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='2' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='3' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='4' bindtap='bindScoll_1' >
-            <block wx:if='{{scoll_1 > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='5' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-        </view>
-      </view>
-
-       <view class='scollViews'>
-        <view class='name'>服务态度</view>
-        <view class='star_container'>
-          <view class='star' data-scroll='1' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='2' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='3' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='4' bindtap='bindScoll_2' >
-            <block wx:if='{{scoll_2 > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='5' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-        </view>
-      </view>
-
-      <view class='scollViews'>
-        <view class='name'>发货速度</view>
-        <view class='star_container'>
-          <view class='star' data-scroll='1' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='2' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='3' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='4' bindtap='bindScoll_3' >
-            <block wx:if='{{scoll_3 > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-          <view class='star' data-scroll='5' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
-          </view>
-        </view>
-      </view>
-  </view>
-</block>
 </view>
-
-<!-- 底部评价按钮 -->
-
-<view class='bottomButn_container'>
-  <view class='bottomButn_container_height'></view>
-  <view class='bottomButn'>
-    <button  style='background:{{setting.platformSetting.defaultColor}}'
-        bindtap='sureCommit'>评价</button>
-  </view>
+<view wx:if="{{!type}}" class='commitComment' catchtap='commitUpComment' style='background:{{setting.platformSetting.defaultColor}};color:#fff'>
+  <text>提交</text>
 </view>
