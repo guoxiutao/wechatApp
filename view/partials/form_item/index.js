@@ -8,15 +8,26 @@ Component({
       type: Object,
       value: 'default value',
     },
+    formListStyle: {
+      type: Object,
+      value: 'default value',
+    },
   },
   data: {
     setting: null, // setting   
     formCommitItem:{},
+    width:'',
+    height:'',
   },
   ready: function () {
     let that = this;
-    console.log("====form-item=====", that.data.data);
+    console.log("====form-item-formCommitItem======", that.data.data);
+    console.log("====form-item-formListStyle=====", that.data.formListStyle);
     that.setData({ formCommitItem: that.data.data})
+    that.setData({ width: Number(that.data.formListStyle.width) || 0 })
+    that.setData({ height: Number(that.data.formListStyle.height) || 0 })
+    console.log("====form-item-width=====", that.data.width);
+    console.log("====form-item-height=====", that.data.height);
   },
   methods: {
     calling: function (e) {
