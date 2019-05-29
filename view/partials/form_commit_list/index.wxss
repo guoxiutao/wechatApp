@@ -7,6 +7,7 @@
   width:100%;
   background:#fff;
   z-index:11;
+  top: 0
 }
 .select_tab{
   width: 100%;
@@ -86,6 +87,7 @@
   margin-left: 60rpx;
   height: 60rpx;
   display: inline-block;
+  font-size: 28rpx
 }
   .tab-item:first-child{
   margin-left: 0rpx;
@@ -95,12 +97,12 @@
 .switch_tab{
   padding: 0 20rpx;
 }
-/* .mt_80{
+.mt_80{
   margin-top: 80rpx;
 }
 .mt_150{
   margin-top: 150rpx;
-} */
+}
 .form_commit_list{
   display: flex;
   flex-direction: column;
@@ -430,3 +432,28 @@
   width: 60rpx;
   height: 60rpx;
 } */
+.titleStyle{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.tags_item{
+  border: 2rpx solid #eee;
+  padding: 2rpx 12rpx;
+  font-size: 22rpx;
+  color: #888;
+  margin-right: 10rpx;
+  border-radius: 10rpx;
+  white-space:nowrap;
+  box-sizing: content-box;
+  display:inline-block;
+}
+.tags_content{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x:hidden;
+  width:100%;
+  height:40rpx;
+  white-space: nowrap
+}

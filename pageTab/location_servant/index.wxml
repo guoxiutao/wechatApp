@@ -29,19 +29,6 @@
                 <text class='location_name'>{{result.province}}</text>
                 <text class='location_name'>{{result.city}}</text>
               </view>
-              <!-- <text class='location_name' wx:else>{{result.description}}</text> -->
-              <!-- <scroll-view class='tags_content' scroll-x>
-                <text class='tags_item' wx:if="{{result.tagArray}}" wx:for='{{result.tagArray}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
-              </scroll-view> -->
-              <!-- <view class='servant_status'>
-                <view class='servant_status_block'>
-                  <image class='servant_status_icon' src='{{result.statusIcon}}'></image>
-                </view>
-                <text class='servant_status_text online_bg' wx:if="{{result.status==1}}">在线</text>
-                <text class='servant_status_text offline_bg' wx:if="{{result.status==2}}">离线</text>
-                <text class='servant_status_text busy_bg' wx:if="{{result.status==3}}">忙碌</text>
-                <text class='servant_status_text online_bg' wx:else>在线</text>
-              </view> -->
             </view>
           </view>
         </block>
@@ -54,9 +41,6 @@
       </view>
     </block>
 </view>
-<!-- <view class='applyServant' style='background:{{setting.platformSetting.defaultColor}}' bindtap='toApplyServant' data-link="back_item_list.html">
-  <text>申请技师</text>
-</view> -->
 <view class='bottom_tap'>
     <view class='applyForm' style='background:{{setting.platformSetting.defaultColor}}' data-link='form_detail.html?customFormId={{options.customFormId||21}}' bindtap='tolinkUrl'>
       <image src='http://image1.sansancloud.com/yunjishi/2018_12/4/11/46/22_437.jpg' class='location_img'></image>

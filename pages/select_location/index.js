@@ -9,6 +9,7 @@ Page({
     sysWidth: 320,//图片大小
     localPoint: { longitude: '0', latitude:'0'},
     address:"",
+    addressList:[],
   },
   toIndex(){
     app.toIndex()
@@ -18,17 +19,77 @@ Page({
     mpCtx.moveToLocation();
     
   },
-  selectAddressFun: function () {
+  getSearchProductName:function(e){
+    let that=this;
+    console.log("=====getSearchProductName=====", e);
+    console.log("=====getSearchProductName----value=====", e.detail.value);
+    let name = e.detail.value || ''
+    let param={
+      name: name,
+    }
+    param  = Object.assign({}, param, that.data.localPoint)
+    that.getSearchLoctionAddr(param)
+  },
+  getSearchLoctionAddr: function (param) {
+    let that = this
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+    })
+    let customIndex = app.AddClientUrl("/search_location_by_name.html", param, 'get')
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("==getLoctionAddr==", res.data)
+        if (res.data.status == 0) {
+          wx.hideLoading()
+          let result = res.data.results;
+          let arr=[]
+          for (let i = 0; i < result.length;i++){
+            let address={}
+            address = {
+              simpleAddress: result[i].name,
+              detailedAddress: result[i].address,
+              longitude: result[i].location.lng,
+              latitude: result[i].location.lat,
+              province: result[i].province,
+              city: result[i].city,
+              street: result[i].address,
+            };
+            arr.splice(arr.length, 1, address)
+          }
+          that.setData({ addressList: arr })
+          console.log("==addressList==", that.data.addressList)
+        } else {
+          wx.showToast({
+            title: '加载失败...',
+            icon: 'none',
+          })
+        }
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败...',
+          icon: 'none',
+        })
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
+  },
+  selectAddressFun: function (e) {
     let that = this;
     let address={};
-    console.log("=====选择地点=====", that.data.address)
+    console.log("=====选择地点=====", e)
+    let item = e.currentTarget.dataset.item;
     address={
-      longitude: that.data.address.longitude,
-      latitude: that.data.address.latitude,
-      value: that.data.address.detailedAddress,
-      province: that.data.address.province,
-      city: that.data.address.city,
-      street: that.data.address.street,
+      longitude: item.longitude,
+      latitude: item.latitude,
+      value: item.detailedAddress,
+      province: item.province,
+      city: item.city,
+      street: item.street,
     }
     let pages = getCurrentPages();//当前页面
     let prevPage = pages[pages.length - 2];//上一页面
@@ -115,7 +176,10 @@ Page({
             city: result.addressComponent.city,
             street: result.addressComponent.street,
             };
-          that.setData({ address: address})
+          let addressList=[];
+          addressList.splice(0, 1, address)
+          console.log("====addressList====", addressList)
+          that.setData({ address: address, addressList: addressList})
         }else{
           wx.showToast({
             title: '加载失败...',

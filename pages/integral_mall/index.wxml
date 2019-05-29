@@ -20,7 +20,7 @@
    <block  wx:if="{{jiFenGoods.length!=0}}">
   
     <view class='detail_list_mode1' style='background:  #eeeeee;'>
-      <view class="mode1_items"   wx:for="{{jiFenGoods}}" wx:for-item="jiFenGoods" wx:key="{{index}}"  
+      <view class="mode1_items" data-info="{{jiFenGoods}}" bindtap='tolinkUrl' wx:for="{{jiFenGoods}}" wx:for-item="jiFenGoods" wx:key="{{index}}" 
         style='border-right: 10px solid #eeeeee;'> 
         
         <image  mode='aspectFill'  src="{{jiFenGoods.icon}}"></image>
@@ -31,7 +31,7 @@
          <text class='mr20'>库存:{{jiFenGoods.count}}</text>
        </view>
        
-    <view class='exchange' style='background-color: {{defaultColor}};' bindtap='buyGoods' data-id='{{index}}'><text style='color:#fff;'>兑换</text></view>
+    <view class='exchange' style='background-color: {{defaultColor}};' catchtap='buyGoods' data-id='{{index}}'><text style='color:#fff;'>兑换</text></view>
        
  
       </view>

@@ -370,6 +370,63 @@ Page({
       }
     })
   },
+  /* 完成订单 */
+  finishedOrder: function (e) {
+    var orderNo = e.currentTarget.dataset.orderno
+    var index = e.currentTarget.dataset.index
+    let tab = this.data.tab
+    let focusTab = tab[index]
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '确认完成该订单？',
+      success: function (res) {
+        if (res.confirm) {
+          let param_post = {}
+          param_post.orderNo = orderNo
+          var customIndex = app.AddClientUrl("/order_finished.html", param_post, 'post')
+          wx.request({
+            url: customIndex.url,
+            data: customIndex.params,
+            header: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'Cookie': app.cookie
+            },
+            method: 'POST',
+            success: function (res) {
+
+              if (res.data.errcode == '0') {
+                console.log(res.data)
+                wx.showToast({
+                  title: '操作成功',
+                  icon: 'success',
+                  duration: 1000
+                })
+
+                setTimeout(function () {
+                  focusTab.params.page = 1
+                  that.getOrderList(focusTab, index, 1)
+                }, 1000)
+
+              }
+              else {
+                wx.showToast({
+                  title: res.data.errMsg,
+                  image: '/images/icons/tip.png',
+                  duration: 1000
+                })
+              }
+            },
+            fail: function (res) {
+              app.loadFail()
+            }
+          })
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
   /* 订单评价 */
   pingjiaOrder: function (e) {
     var orderNo = e.currentTarget.dataset.orderno

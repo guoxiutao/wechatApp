@@ -42,6 +42,7 @@ Page({
     clientNo:'',
     minCount:'1',
     sendIndexData:{},
+    buyType: 'normal'
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -596,7 +597,7 @@ Page({
     })
     console.log('==param===', param)
     let postParam = {}
-    postParam.productId = param.id
+    postParam.productId = param.id || param.productId
     postParam.addShopId = param.addShopId
     let customIndex = app.AddClientUrl("/product_detail.html", postParam)
     wx.request({
@@ -604,6 +605,14 @@ Page({
       header: app.header,
       success: function (res) {
         console.log(res)
+        if (res.data.productInfo.errcode==-1){
+          wx.showToast({
+            title: res.data.productInfo.relateObj,
+            image: '/images/icons/tip.png',
+            duration: 1000
+          })
+          return
+        }
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
         res.data.productInfo.promotion = Number(res.data.productInfo.promotion)
@@ -684,18 +693,18 @@ Page({
     let that = this;
     that.setData({
       sysWidth: app.globalData.sysWidth,
-      proId: options.id,
+      proId: options.id || options.productId,
       shopId: options.addShopId,
       clientNo: app.clientNo,
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail", params: { pageObjectId: options.id} })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail", params: { pageObjectId: options.id || options.productId} })
     that.setData({ sendIndexData: sendIndexData })
-    let sendProductData = JSON.stringify({ title: 'noTitle', url: "product_detail_" + options.id })
+    let sendProductData = JSON.stringify({ title: 'noTitle', url: "product_detail_" + options.id || options.productId })
     that.setData({ sendProductData: sendProductData })
     console.log("商品id和店铺id",options)
-    that.dataFOr_getData.id = options.id
+    that.dataFOr_getData.id = options.id || options.productId
     that.dataFOr_getData.addShopId = options.addShopId
     that.setData({ dataFOr_getData:that.dataFOr_getData})
     that.getData(options)

@@ -8,7 +8,7 @@ color: transparent;
 }
 page{
   background: #f1f1f1;
-  height: 100%;
+  /* height: 100%; */
 }
  /* typesearch */
 .typeSearchContainer{
@@ -130,7 +130,7 @@ page{
   left: 0;
   top: 0;
   bottom: 0;
-  height: 100%;
+  /* height: 100%; */
   right: 50%;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -204,6 +204,7 @@ page{
   flex-direction: column;
   position: relative;
   margin-top:90rpx;
+  overflow:hidden;
 }
 .play{
   position: absolute;
@@ -283,10 +284,9 @@ border-bottom: 2rpx solid #FE5722;
 }
 .mapItem{
   position: relative;
-  z-index: 1;
 }
 .bottom_tap{
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   height: 120rpx;
@@ -347,6 +347,17 @@ border-bottom: 2rpx solid #FE5722;
     bottom:150rpx;
     z-index: 2;
   } 
+  .product_data1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20rpx;
+    box-sizing: border-box;
+    /* position:fixed; */
+    bottom:150rpx;
+    z-index: 2;
+  } 
   .product_info{
     display: flex;
     flex-direction: row;
@@ -373,6 +384,10 @@ border-bottom: 2rpx solid #FE5722;
     width: 100%;
     color: #ccc;
     margin-top:6rpx;
+    background: #fff;
+    border-bottom:1rpx solid #eee;
+    padding-bottom:20rpx
+
   }
   .product_info_name{
     font-weight: bold;

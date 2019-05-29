@@ -43,6 +43,7 @@ Component({
     },
     gainActionEvent: {},
     region: {},
+    checkboxList: {},
     formId:0,
     reqLocation:false,
     locationList:{},
@@ -52,6 +53,7 @@ Component({
     multiIndex:{},//选择级联位置
     currentMultiData:{},
     haveFormData:null,
+    showCheckBoxState:[],
   },
   ready: function () {
     let that = this;
@@ -170,22 +172,53 @@ Component({
         let dataAndTime = {};
         let selectPicker = {};
         for (let i = 0; i < formData.items.length; i++) {
-          if (formData.items[i].listValues && formData.items[i].type == 2) {
+          if (formData.items[i].listValues && (formData.items[i].type == 2 || formData.items[i].type == 4)) {
             formData.items[i].listValues = formData.items[i].listValues.split(",")
+            let name = "picker_";
+            if (formData.items[i].type == 4){
+              name ='checkbox_'
+            }
             if (jsonData&&jsonData[formData.items[i].name]){
-              selectPicker["picker_" + i] = jsonData[formData.items[i].name].value
+              selectPicker[name + i] = jsonData[formData.items[i].name].value
             }else{
               if (formData.items[i].defaultValue) {
                 console.log("下拉框有值")
-                selectPicker["picker_" + i] = formData.items[i].defaultValue
+                selectPicker[name + i] = formData.items[i].defaultValue
               } else {
                 console.log("下拉框没值")
-                selectPicker["picker_" + i] = ""
+                selectPicker[name + i] = ""
               }
             }
             that.setData({
               selectPicker: selectPicker
             })
+            if (formData.items[i].type == 4){
+              let checkboxList=selectPicker['checkbox_' + i];
+              let listValues =formData.items[i].listValues;
+              let showCheckBoxState=[]
+              for (let j = 0; j < listValues.length; j++) {
+                console.log("====listValues=====", listValues[j])
+                let count = 0;
+                for (let k = 0; k < checkboxList.length; k++) {
+                  console.log("====checkbox=====", checkboxList[k])
+                  if (listValues[j] != checkboxList[k]) {
+                    console.log("======", listValues[j], checkboxList[k])
+                    count++
+                  } else {
+                    console.log("!======", listValues[j], checkboxList[k])
+                  }
+                }
+                if (count != checkboxList.length) {
+                  console.log("===count===", count)
+                  showCheckBoxState.splice(j, 1, true)
+                } else {
+                  console.log("!count======", count)
+                  showCheckBoxState.splice(j, 1, false)
+                }
+              }
+              that.setData({ showCheckBoxState: showCheckBoxState})
+            }
+            console.log("=======selectPicker======", selectPicker)
           } else if (formData.items[i].listValues && formData.items[i].type == 13) {
             formData.items[i].listValues = JSON.parse(formData.items[i].listValues)
             that.setData({ currentMultiData: formData.items })
@@ -308,6 +341,17 @@ Component({
     selectAddress:function(){
       let that=this;
       this.setData({ locationList: that.data.locationList2})
+    },
+    checkboxChange:function(e){
+      console.log('checkbox发生change事件，携带value值为：', e)
+      let index = e.target.dataset.index
+      let that = this;
+      let selectPicker = that.data.selectPicker;
+      selectPicker['checkbox_' + index] = e.detail.value
+      this.setData({
+        selectPicker: selectPicker
+      })
+      console.log("=====selectPicker=====", selectPicker)
     },
   // 关闭海报
   getChilrenPoster(e) {
@@ -464,7 +508,7 @@ Component({
     }else{
       for (let i = 0; i < that.data.formData.items.length; i++) {
         let name = that.data.formData.items[i].name;
-        if ((that.data.formData.items[i].type == 0 || that.data.formData.items[i].type == 9)&& (!that.data.inputValue[name] && that.data.inputValue[name]!=='')){
+        if ((that.data.formData.items[i].type == 0 || that.data.formData.items[i].type == 9 || that.data.formData.items[i].type == 1)&& (!that.data.inputValue[name] && that.data.inputValue[name]!=='')){
           that.data.inputValue[name] = that.data.formData.items[i].defaultValue||"";
         }
       }
@@ -476,6 +520,7 @@ Component({
     let dataAndTime = {};
     let selectPicker = {};
     let region = {}
+    let checkboxList = {}
     let multistageData = {}
     for (let i = 0; i<that.data.formData.items.length;i++){
       if (that.data.formData.items[i].type == 7||that.data.formData.items[i].type ==11){
@@ -484,9 +529,11 @@ Component({
         region[that.data.formData.items[i].name] = that.data.region['address_' + i] !='请选择您的地址'?that.data.region['address_' + i] : ""
       } else if (that.data.formData.items[i].type == 5||that.data.formData.items[i].type == 6) {
         dataAndTime[that.data.formData.items[i].name] = that.data.dataAndTime[that.data.formData.items[i].name] || ""
-      }  else if (that.data.formData.items[i].type == 2) {
+      } else if (that.data.formData.items[i].type == 2) {
         selectPicker[that.data.formData.items[i].name] = that.data.selectPicker['picker_' + i] || ""
-      } else if (that.data.formData.items[i].type == 12) {
+      } else if (that.data.formData.items[i].type == 4) {
+        checkboxList[that.data.formData.items[i].name] = that.data.selectPicker['checkbox_' + i] || ""
+      }else if (that.data.formData.items[i].type == 12) {
         positionObj[that.data.formData.items[i].name] = that.data.locationList['position_' + i] || ""
       } else if (that.data.formData.items[i].type == 13) {
         console.log("that.data.formData.items[i].name", that.data.formData.items[i].name)
@@ -506,7 +553,7 @@ Component({
 
       }
     }
-    value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker,multistageData)
+    value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker, multistageData, checkboxList)
     console.log('===value2=====', value, that.data.formData)
     let itemData = that.data.formData.items
     // return

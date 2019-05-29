@@ -18,11 +18,16 @@ Component({
     shops:[],
     journey:[],//公里数
     locationAddress:"加载当前地址中...",
+    clientNo:'',
   },
   ready:function(){
     let that=this;
+    this.setData({
+      setting: app.setting,
+      clientNo: app.clientNo
+    })
     console.log("================locationAddress============",that.data.data)
-    this.getLocationAddress();
+    that.getLocationAddress();
     if (app.setting.platformSetting.defaultColor && app.setting.platformSetting.defaultColor !=""){
       console.log("=========app.setting.platformSetting.defaultColor ==========", app.setting.platformSetting.defaultColor )
       // 有默认色
@@ -147,6 +152,7 @@ Component({
     },
     getLocationAddress:function(){
       let that=this;
+      console.log("==========getLocationAddress=========")
       wx.getLocation({
         type: 'wgs84',
         success: function (res) {

@@ -8,9 +8,9 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.6.6",
-	"appid": "wx532860c6c8e4014b",
-	"projectname": "fjweier",
+	"libVersion": "2.7.0",
+	"appid": "wxe6d9bd40c2575f5b",
+	"projectname": "maimai",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

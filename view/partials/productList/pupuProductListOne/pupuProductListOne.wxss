@@ -11,7 +11,6 @@ display:none ;
   text-align: center;
   display: flex;
   flex-direction: column;
-
 }
 
 .noproduct image{
@@ -183,7 +182,7 @@ margin-left: 0rpx;
 .product_price{
   margin-left: -6rpx;
   font-size: 38rpx;
-  color: #ff0000;
+  color: #ff826e;
   display: flex;
   flex-direction: row;
   align-items: flex-end;

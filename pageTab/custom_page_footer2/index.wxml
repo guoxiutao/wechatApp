@@ -1,7 +1,4 @@
 
-<import src="../../wxParse/wxParse.wxml"/><!-- 1 富文本 -->
-<import src="../../view/partials/mofang.wxml"/>  <!-- 2 辅助线 -->
-
 <view wx:if='{{PaiXuPartials}}' class="container">
   <block>
     <component-tag-customPage data="{{sendFooterData}}"></component-tag-customPage> <!-- 首页组件-->
@@ -15,10 +12,3 @@
    <text>网络异常，请刷新本页</text>
    <button></button>
 </view>
-
-<!-- 
-根据后台数据，动态渲染页面
-首先制作组件，
-然后根据后台传来的particul去找组件然后渲染到小程序页面上，
-
- -->

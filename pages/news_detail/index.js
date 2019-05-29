@@ -69,7 +69,7 @@ Page({
     console.log('options',options)
     let sendIndexData = JSON.stringify({ title: 'noTitle', url: "news", params: { pageObjectId:options.id || options.newsId} })
     that.setData({ sendIndexData: sendIndexData })
-    let sendNewsData = JSON.stringify({ title: 'noTitle', url: "news_detail_" + options.id || options.newsId })
+    let sendNewsData = JSON.stringify({ title: 'noTitle', url: "news_detail_" + (options.id || options.newsId) })
     that.setData({ sendNewsData: sendNewsData })
     that.getData(options)
   },

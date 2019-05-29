@@ -15,8 +15,8 @@
     <view class='wxParseData'>
       <template is="1"   data="{{wxParseData:article.nodes}}"></template> 
     </view>
-    <component-customPage data="{{sendNewsData}}"></component-customPage> 
 </view>
+<component-customPage data="{{sendNewsData}}" wx:if="{{sendNewsData}}"></component-customPage> 
 <!-- 首页组件-公共新闻详情装饰-->
 <component-customPage data="{{sendIndexData}}"></component-customPage> 
 <view class='bottomBar'>

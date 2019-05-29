@@ -22,8 +22,18 @@
   color: #888;
   background: #fff;
   border-radius: 0.2em;
-  padding:0.8em;
+  padding:20rpx 30rpx;
 
+}
+.server_container_left{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.storageIcon{
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 10rpx;
 }
 /* 订单生成时间 */
 .orderTime2{

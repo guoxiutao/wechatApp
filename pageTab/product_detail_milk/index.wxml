@@ -121,7 +121,7 @@
    <image mode='aspectFit' src='/images/icons/home2.png'></image>
    <text style='font-size:22rpx;color:#aaa'>首页</text>
   </view> 
-  <view class='left_bottom' bindtap='toCart' wx:if="{{!productData.productInfo.preOrderCustomFormId}}">
+  <view class='left_bottom' bindtap='toCart' data-link="milk_shopping_car_pages.html" wx:if="{{!productData.productInfo.preOrderCustomFormId}}">
     <view class='cartNumber' style='background:{{color}}'>{{countGood}}</view>
     <image mode='widthFix' src='/images/icons/cartddd.png'></image>
     <text style='font-size:22rpx;color:#aaa'>购物车</text>

@@ -112,9 +112,11 @@
                         <view></view>
                         <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='arriverOrder'>确认收货</text>
                       </view>
-                      <!-- <view wx:if='{{list.easyStatus == 5}}' class='butn_container2'>
-                          <text data-orderNo='{{list.orderNo}}' bindtap='pingjiaOrder'>评价</text>
-                      </view> -->
+                      <view wx:if='{{list.easyStatus == 5}}' class='butn_container2'>
+                          <view></view>
+                          <!-- <text data-orderNo='{{list.orderNo}}' bindtap='pingjiaOrder'>评价</text> -->
+                          <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='finishedOrder'>完成订单</text>
+                      </view>
 
                     </view>
                      <view wx:if='{{tab.state.listEnd}}' class='dixian'> 我是有底线的 ~</view> 

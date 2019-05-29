@@ -3,6 +3,22 @@
     <view class='tongji_container' style='background:{{setting.platformSetting.defaultColor}}' data-link='servant_account.html' bindtap='tolinkUrl'>      
       <view class='tongji_mid font_24'>{{servant.account.account}}</view>
       <view class='tongji_top'>账户余额（￥）</view>
+      <view class='servantStatus' catchtap='showStatusListFun'>
+        <text class='servantStatusShap' style='background:{{servantStatusShapColor}}'></text>
+        <text>{{servantStatusText}}</text>
+        <view class="servantStatusIconList">
+          <image class='servantStatusIcon' src='http://image1.sansancloud.com/xianhua/2019_5/14/17/37/53_841.jpg?x-oss-process=style/preview'></image>
+          <!-- <image class='servantStatusIcon' src='http://image1.sansancloud.com/xianhua/2019_5/14/17/18/29_580.jpg?x-oss-process=style/preview'></image> -->
+        </view>
+        <view class='servantStatusList' animation="{{animation}}" >
+          <view class='servantStatusItem' catchtap='changeServantStatus' data-type="1">
+            <text class='servantStatusShap' style='background:#2dbe53;margin-left:0'></text><text>上线</text>
+          </view>
+          <view class='servantStatusItem' catchtap='changeServantStatus' data-type="2">
+            <text class='servantStatusShap' style='background:#999;margin-left:0'></text><text>下线</text>
+          </view>
+        </view>
+      </view>
     </view>
   <view class='tongjiContainer_form'>
       <view class='tongji_bottom'>

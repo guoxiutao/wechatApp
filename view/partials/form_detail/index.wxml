@@ -43,6 +43,19 @@
             </view>
           </picker >
         </view>
+        <!-- 复选框 -->
+        <view class='selectType common' wx:if='{{items.type==4}}' style='align-items:flex-start;padding:10px;flex-direction:column;'>
+          <view class='selectName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{items.title}}</text>
+          </view>
+          <checkbox-group bindchange="checkboxChange" data-index="{{index}}"  data-value="{{items.listValues}}" style="margin:10rpx 20rpx" class="checkboxList">
+            <label class="checkbox" wx:for="{{items.listValues}}">
+              <checkbox color="{{setting.platformSetting.defaultColor}}" value="{{item}}" checked="{{showCheckBoxState[index]}}" />
+              {{item}}
+            </label>
+          </checkbox-group>
+        </view>
         <!-- 日期 -->
         <view class='inputString common' wx:if='{{items.type==5}}'>
           <view class='inputName'>
@@ -157,6 +170,14 @@
               <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
             </view>
           </picker >
+        </view>
+         <!-- 电话 -->
+        <view class='inputString common' wx:if='{{items.type==14}}'>
+          <view class='inputName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{items.title}}</text>
+          </view>
+          <input type="number" name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
         </view>
         <!--  -->
         </view>

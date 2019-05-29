@@ -36,9 +36,12 @@ Component({
     let that=this;
     console.log("======formCommitId=====", that.data.formCommitId)
     console.log("======showBtn=====", that.data.showBtn)
-    that.setData({ setting: app.setting })
-    that.setData({ loginUser: app.loginUser })
-    // that.data.formCommitId = that.data.formCommitId
+    that.setData({
+      setting: app.setting,
+      loginUser: app.loginUser,
+      color: app.setting.platformSetting.defaultColor,
+      secondColor: app.setting.platformSetting.secondColor
+    });
     that.getDetail()
   },
   methods: {
@@ -196,6 +199,104 @@ Component({
         }
       })
     },
+    payToCheckForm:function(e){
+      console.log("========payToCheckForm=========",e)
+      let that = this
+      wx.showLoading({
+        title: 'loading'
+      })
+      let formCommitId = e.currentTarget.dataset.commitid
+      let wxChatPayParam = {
+        formCommitId: formCommitId,
+        payType: 3
+      }
+      console.log(wxChatPayParam)
+      let customIndex = app.AddClientUrl("/create_form_commit_limit_order.html", wxChatPayParam, 'post')
+      wx.request({
+        url: customIndex.url,
+        data: customIndex.params,
+        header: app.headerPost,
+        method: 'POST',
+        success: function (res) {
+          console.log(res.data)
+          let data = res.data.relateObj
+          //这里拿到订单数据
+          //下面应该吊起支付
+          let orderNo = data.orderNo
+          if (!data || !data.payType) {
+            console.log('--------失败-------')
+          }
+          if (data.payType == 3) {
+            that.payByWechat(orderNo)
+          }
+        },
+        fail: function () {
+
+        },
+        complete: function () {
+        }
+
+      })
+    },
+    payByWechat: function (orderNo) {
+      var that = this
+      let loginUser = app.loginUser
+      console.log(loginUser)
+      let wxChatPayParam = {
+        openid: '',
+        orderNo: '',
+        app: 3
+      }
+      wxChatPayParam.openid = loginUser.platformUser.miniOpenId
+      wxChatPayParam.orderNo = orderNo
+      console.log(wxChatPayParam)
+      let customIndex = app.AddClientUrl("/unifined_order.html", wxChatPayParam, 'post')
+      wx.request({
+        url: customIndex.url,
+        data: customIndex.params,
+        header: app.headerPost,
+        method: 'POST',
+        success: function (res) {
+          console.log(res.data)
+          let PayStr = res.data
+          PayStr = '{' + PayStr + '}'
+          let wechatPayStr = JSON.parse(PayStr)
+          console.log(wechatPayStr)
+          wx.requestPayment({
+            'timeStamp': wechatPayStr.timeStamp,
+            'nonceStr': wechatPayStr.nonceStr,
+            'package': wechatPayStr.package,
+            'signType': wechatPayStr.signType,
+            'paySign': wechatPayStr.paySign,
+            'success': function (res) {
+              wx.hideLoading()
+              console.log('------成功--------')
+              console.log(res)
+              wx.showToast({
+                title: '支付成功',
+                icon: 'success',
+                duration: 2000
+              })
+              that.getDetail()
+            },
+            'fail': function (res) {
+              console.log('------fail--------')
+              console.log(res)
+              wx.showToast({
+                title: '支付失败',
+                image: '/images/icons/tip.png',
+                duration: 2000
+              })
+            },
+            'complete': function () {
+              console.log('------complete--------')
+              console.log(res)
+              // app.navigateBack(2000)
+            }
+          })
+        }
+      })
+    },
     // 定位
     clickCatch: function (e) {
       console.log("===定位====",e)
@@ -255,11 +356,9 @@ Component({
             }
             console.log("===formDetailStyle====", that.data.formDetailStyle, that.data.banner, that.data.width, that.data.height)
             for (let key in commitJson) {
-              if (key == 'telno') {
+              if (commitJson[key].type == 14) {
                 customForm.telno = commitJson[key].value
-              } else if (key == 'address'){
-                that.setData({ address: commitJson[key].value })
-              }
+              } 
               customForm.commitArr.push(commitJson[key])
             }
             console.log("===commitJson==", commitJson)

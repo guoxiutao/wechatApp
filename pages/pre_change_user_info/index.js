@@ -7,7 +7,16 @@ Page({
     loginUser:null,
     butn_show_loading:false,
     hasNoScope:false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    sendOptionData: null,
+    showAddressForm: false,
+    userInfoFormCommitId:'',
+  },
+  userInfo: {
+    telno: '',
+    headimg: '',
+    nickname: '',
+    userTip: ''
   },
   imageUrl:"", 
   bindgetuserinfo(e){
@@ -107,25 +116,33 @@ Page({
       }
     })
   },
-  
+  getDataFun: function (e) {
+    let that = this;
+    console.log("===getDataFun===", e, e.detail.formId)
+    that.userInfo.userInfoFormCommitId = e.detail.formId
+    that.toChangeUserInfo(that.userInfo)
+  },
+  sexChange:function(e){
+    console.log("=====sexChange=====",e)
+  },
   /* 提交 */
   //提交成功，重新登陆
   changeUserInfo: function (e) {
+    let that=this;
     console.log(e.detail)
     var reLoginData = {
       username: "",
       passworld:"" 
     }
     this.setData({ butn_show_loading:true })
-    var loginUser = this.data.loginUser
-    reLoginData.username = loginUser.name
-    reLoginData.password = loginUser.passworld
-    var userInfo = e.detail.value
-
+    // var loginUser = this.data.loginUser
+    // reLoginData.username = loginUser.name
+    // reLoginData.password = loginUser.passworld
+    this.userInfo = e.detail.value
     //检测手机号
    // var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(19[0-9]{1})|(16[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
     
-    let phoneNo = userInfo.telno
+    let phoneNo = this.userInfo.telno
     if (!phoneNo||phoneNo.length!=11) {
       wx.showToast({
         title: "号码格式错误",
@@ -135,10 +152,16 @@ Page({
       this.setData({ butn_show_loading: false })
       return;
     } 
-
-    userInfo.headimg = this.imageUrl
-    var that = this
-    var customIndex = app.AddClientUrl("/change_user_info.html", userInfo,'post')
+    this.userInfo.headimg = this.imageUrl
+    if (!app.setting.platformSetting.userInfoCustomFormId){
+      that.toChangeUserInfo(this.userInfo)
+    }else{
+      that.selectComponent("#userForm").formSubmit();
+    }
+  },
+  toChangeUserInfo: function(userInfo){
+    let that=this;
+    var customIndex = app.AddClientUrl("/change_user_info.html", userInfo, 'post')
     wx.request({
       url: customIndex.url,
       data: customIndex.params,
@@ -146,25 +169,23 @@ Page({
       method: 'POST',
       success: function (res) {
         console.log(res.data)
-        if (res.data.errcode == '0'){
+        if (res.data.errcode == '0') {
           wx.showToast({
             title: '修改成功',
             icon: 'success',
             duration: 2000
           })
         }
-       // that.loginOut()
         that.loginIn()
       },
       fail: function (res) {
         app.loadFail()
       },
-      complete:function(){
+      complete: function () {
         that.setData({ butn_show_loading: false })
       }
     })
   },
-  
  /* 退出登录 */
 
   loginOut: function () {
@@ -273,10 +294,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    let that=this;
+    console.log("=========app.setting===========", app.setting)
     this.setData({
       loginUser: app.loginUser,
-      hasNoScope: app.hasNoScope
+      hasNoScope: app.hasNoScope,
+      setting: app.setting 
     })
     if (this.data.canIUse){
       app.userInfoReadyCallback = res => {
@@ -287,8 +310,19 @@ Page({
         })
       }
     }
-    
-    this.setData({ setting: app.setting })
+    if (app.setting.platformSetting.userInfoCustomFormId) {
+      console.log("有设置用户表单", app.setting.platformSetting.userInfoCustomFormId)
+      that.setData({ showAddressForm: true, sendOptionData: { customFormId: app.setting.platformSetting.userInfoCustomFormId } })
+    } else {
+      that.setData({ sendOptionData: {} })
+    }
+    if (app.loginUser.platformUser.userInfoFormCommitId) {
+      console.log("有提交的内容")
+      that.setData({ userInfoFormCommitId: app.loginUser.platformUser.userInfoFormCommitId})
+    }else{
+      console.log("没有提交的内容")
+      // that.setData({ userInfoFormCommitId: 2244 })
+    }
   },
 
   /**

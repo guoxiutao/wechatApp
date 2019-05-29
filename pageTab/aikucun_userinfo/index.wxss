@@ -1,11 +1,5 @@
-
-
-
 @import "../../wxParse/wxParse.wxss";/* 富文本1 */
-
 @import '../../view/css/text_link.wxss';/* 5 */
-
-
 @import '../../view/css/gridlist.wxss';/* 8 */
 @import '../../view/css/image_link.wxss';/*6 */ 
 

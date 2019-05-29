@@ -242,12 +242,14 @@ Page({
     }
    
   },
-  toCart:function(){
-    console.warn("cart")
+  toCart:function(e){
+    console.warn("cart",e)
+    let url = e.currentTarget.dataset.link
+    app.linkEvent(url)
     // let url ="shopping_car_list_new.html"
-    wx.navigateTo({
-      url: '/pages/shopping_car_list_new/index'
-    })
+    // wx.navigateTo({
+    //   url: '/pages/shopping_car_list_new/index'
+    // })
     // app.linkEvent(url)
   },
   /* 找到购物车里面的内容 */

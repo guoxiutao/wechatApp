@@ -19,6 +19,7 @@ Page({
     showCount:false,
     formType:[],
     showTop:false,
+    sendOptionData:null,
   },
   showMore:function(e){
     console.log("==showMore===",e)
@@ -346,20 +347,20 @@ Page({
     let that=this;
     that.initSetting();
     console.log('===options===', options)
-    if (options.customFormId){
-      console.log("提交按钮后返回的页面")
-      that.setData({ showTop:false})
-      // that.setData({ customFormId: options.customFormId })
-      this.listPage.page = 1
-      this.listPage.customFormId = options.customFormId
-      that.getData();
-    } else {
-      console.log("点击类型返回的页面")
-      that.setData({ showTop: true })
-      let groupName = options.groupName ? options.groupName : "";
-      that.getFormType(groupName, that.getData);
-      that.params = options;
-    }
+    that.setData({ sendOptionData: options})
+    // if (options.customFormId){
+    //   console.log("提交按钮后返回的页面")
+    //   that.setData({ showTop:false})
+    //   this.listPage.page = 1
+    //   this.listPage.customFormId = options.customFormId
+    //   that.getData();
+    // } else {
+    //   console.log("点击类型返回的页面")
+    //   that.setData({ showTop: true })
+    //   let groupName = options.groupName ? options.groupName : "";
+    //   that.getFormType(groupName, that.getData);
+    //   that.params = options;
+    // }
   },
   initSetting() {
     this.setData({ setting: app.setting })
@@ -397,10 +398,13 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.data.Data = []
-
-    this.listPage.page = 1
-    this.getData();
+    let that=this;
+    that.data.Data = []
+    let sendOptionData = that.data.sendOptionData
+    console.log("========onPullDownRefresh============", that.data.selectResultsObj)
+    that.listPage.page = 1
+    that.setData({ sendOptionData: null })
+    that.setData({ sendOptionData: sendOptionData })
     wx.stopPullDownRefresh()
   },
 

@@ -416,7 +416,7 @@ Page({
           let dataAndTime = {};
           let selectPicker = {};
           for (let i = 0; i < that.data.formData.items.length; i++) {
-            if (that.data.formData.items[i].listValues && that.data.formData.items[i].type == 2) {
+            if (that.data.formData.items[i].listValues && (that.data.formData.items[i].type == 2 || that.data.formData.items[i].type == 4)) {
               that.data.formData.items[i].listValues=that.data.formData.items[i].listValues.split(",")
               if (that.data.formData.items[i].defaultValue) {
                 console.log("下拉框有值")

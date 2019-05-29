@@ -1,7 +1,6 @@
 <wxs src="../../public/publicFun.wxs" module="publicFun"></wxs>
-<view class='container' wx:if="{{!loading}}">
-<!--  style='padding-bottom:{{publishState&&customFormId?"100rpx":"0"}}' -->
-  <!-- 选择tab -->
+<form-commit_list  showBtn="ture" data="{{sendOptionData}}" wx:if='{{sendOptionData}}'></form-commit_list>
+<!-- <view class='container' wx:if="{{!loading}}">
   <view class='zhezhao' wx:if="{{showCount}}" bindtap='closeZhezhao'></view>
   <view class='select_top' wx:if="{{showTop}}">
     <view class='switch_tab'>
@@ -63,7 +62,6 @@
             <text class='user_base_info_name'>{{formCommitItemInfo.commitPlatformUserName}}</text>
             <view class='user_base_info_type'>
               <text class='user_base_info_type_name' style='background:{{setting.platformSetting.defaultColor}}'>{{formCommitItemInfo.belongFormName}}</text>
-              <!-- <text class='user_base_info_type_num'>闽E98K56</text> -->
             </view>
           </view>
         </view>
@@ -72,7 +70,6 @@
         </view>
       </view>
       <view class='center_part'>
-      <!--  wx:for-index="key" -->
         <view class='center_part_item' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-index="idx" wx:for-item="itemData"  wx:if="{{itemData.type!=11&&itemData.type!=7&&idx<=formCommitItemInfo.showNum}}">
           <text class='center_part_item_title' wx:if="{{itemData.type!=9}}">{{itemData.title}}</text>
           <text class='interval' wx:if="{{itemData.type!=9}}">:</text>
@@ -94,13 +91,11 @@
         </view>
         <view class='addr_time'>
           <view class='addr_con'>
-            <!-- <image class='addr_con_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_480.jpg'></image>
-            <text class='addr_con_text'>厦门湖里区</text> -->
           </view>
           <text class='time_con'>{{formCommitItemInfo.commitDate}}</text>
         </view>
       </view>
-      <!-- <view class='bottom_part'>
+      <view class='bottom_part'>
         <view class='bottom_part_item'>
           <image class='bottom_part_item_icon to_view' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
           <text class=''>1314</text>
@@ -117,7 +112,7 @@
           <image class='bottom_part_item_icon to_heart' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_500.jpg?x-oss-process=style/preview_120'></image>
           <text class=''>520</text>
         </view>
-      </view> -->
+      </view>
     </view>
     </block>
     <block wx:else>
@@ -129,7 +124,4 @@
 <view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId}}">
   <image class='publish_message_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/10/45/42_450.jpg?x-oss-process=style/preview_120'></image>
   <text class='publish_message_text'>发布信息</text>
-</view>
-<!-- <view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId}}">
-  <image class='publish_message_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/22/30_315.jpg?x-oss-process=style/preview_120'></image>
 </view> -->

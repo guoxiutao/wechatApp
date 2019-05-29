@@ -23,7 +23,50 @@ Page({
     showCount: false,
     bindway: "",
   },
-
+  /* 删除收藏 */
+  removeFavourite: function (e) {
+    let that = this
+    wx.showLoading({
+      title: 'loading'
+    })
+    let postData = {
+      itemId: '',
+      favoriteType: '1'
+    }
+    postData.itemId = e.currentTarget.dataset.itemid
+    console.log("===postData===", postData)
+    let customIndex = app.AddClientUrl("/remove_favorite.html", postData, 'post')
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        console.log(res.data)
+        if (res.data.errcode == '0') {
+          console.log("that.data.productList", that.data.productList)
+          for (let i = 0; i < that.data.productList.length;i++){
+            if (postData.itemId == that.data.productList[i].productId){
+              console.log("====i====", i, that.data.productList[i])
+              that.data.productList.splice(i,1)
+              that.setData({ productList: that.data.productList})
+            }
+          };
+          wx.showToast({
+            title: '已取消收藏！',
+            image: '/images/icons/tip.png',
+            duration: 1000
+          })
+        }
+      },
+      fail: function (res) {
+        app.loadFail()
+      },
+      complete: function (res) {
+        wx.hideLoading()
+      }
+    })
+  },
   tolinkUrl: function (e) {
     console.log(e.currentTarget.dataset.id)
     // product_detail.html?productId= 9219;

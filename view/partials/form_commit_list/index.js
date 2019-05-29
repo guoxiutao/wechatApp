@@ -39,6 +39,9 @@ Component({
     },
     componentState:false,
     limitState:0,
+    customFormData: {},
+    formListStyle: null,
+    commitJson: null,
   },
   ready: function () {
     let that = this;
@@ -53,9 +56,10 @@ Component({
       console.log("提交按钮后返回的页面")
       that.setData({ showTop: false })
       // that.setData({ customFormId: options.customFormId })
-      this.data.listPage.page = 1
-      this.data.listPage.customFormId = options.customFormId
+      that.data.listPage.page = 1
+      that.data.listPage.customFormId = options.customFormId
       that.getData();
+      that.getFormDetail()
     } else {
       console.log("点击类型返回的页面")
       that.setData({ showTop: true })
@@ -269,15 +273,26 @@ Component({
               dataArr[i].commitArr=[];
               if (dataArr[i].commitJson){
                 let obj = JSON.parse(dataArr[i].commitJson)
+                dataArr[i].commitJson = obj
                 for (let key in obj){
                   if (key == 'telno') {
                     dataArr[i].telno = obj[key].value||""
+                  }
+                  if (obj[key].type == 4) {
+                    
                   }
                   dataArr[i].commitArr.push(obj[key])
                 }
               }
             }
             that.setData({ formCommitList: dataArr })
+            console.log("===formCommitList====", that.data.formCommitList)
+
+
+            
+            
+
+
             wx.hideLoading();
             that.setData({ loading: false })
           }else{
@@ -310,6 +325,34 @@ Component({
           console.log(res)
           if(res.data.errcode==0){
             let data = res.data.relateObj;
+            that.setData({ customFormData: data })
+
+
+
+
+            if (data && data.decorateListStyle) {
+              let formListStyle = JSON.parse(data.decorateListStyle);
+              let resultPointerData = formListStyle.resultPointerData
+              if (formListStyle.detailViewMagic.length != 0) {
+                let formListStyleArray = formListStyle.detailViewMagic
+                for (let i = 0; i < formListStyleArray.length; i++) {
+                  console.log("=======name======", formListStyleArray[i].propertieName)
+                  if (formListStyleArray[i].propertieName) {
+                    
+                  }
+                }
+              }
+              that.setData({ formListStyle: formListStyle })
+              that.setData({ width: Number(that.data.formListStyle.width) || 0 })
+              that.setData({ height: Number(that.data.formListStyle.height) || 0 })
+            }
+            console.log("===formListStyle====", that.data.formListStyle, that.data.banner, that.data.width, that.data.height)
+
+
+
+
+
+
             if (res.data.relateObj.formType==2){
               that.setData({ publishState:true})
             }

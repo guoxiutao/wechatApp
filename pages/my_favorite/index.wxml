@@ -35,10 +35,13 @@
         <!-- <component-price-group data="{{result}}"></component-price-group> -->
       </view>
     </view>
-    <view class='to_car3' style='background:{{defaultColor}}' catchtap='readyAddCar' data-product="{{result}}">
-      <image  wx:if="{{result.promotion==0}}" class='to_car3_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/10/45/42_450.jpg?x-oss-process=style/preview_120'></image>
-      <text style='font-size:24rpx;padding:0rpx 10rpx;' wx:if="{{result.promotion!=0}}">立即抢购</text>
-      <text class='to_car3_text' wx:else>选购</text>
+    <view class='to_car3' catchtap='readyAddCar' data-product="{{result.productId||result.id}}">
+      <text class='button' style='font-size:24rpx;background:#ff826e;margin-right:20rpx' catchtap="removeFavourite"  data-itemId="{{result.productId}}">取消收藏</text>
+      <text class='button' style='font-size:24rpx;background:{{defaultColor}}' wx:if="{{result.promotion!=0}}">立即抢购</text>
+      <view class='to_car3_text' style='background:{{defaultColor}};font-size:24rpx;' wx:else> 
+        <image class='to_car3_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/10/45/42_450.jpg?x-oss-process=style/preview_120'></image>
+        <text>选购</text>
+      </view>
     </view>
   </view>
 </block>

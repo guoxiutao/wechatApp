@@ -7,9 +7,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'xianhua',   //自定义的项目的名称。
+  clientNo: 'xianhua',   //自定义的项目的名称。chooseMeasurechoosechooseMeasure
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
+  version:'3.5.1',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -474,42 +475,20 @@ App({
         url: '/pages/' + 'order_list_tab' + '/index' + urlData.param,
       })
     }
-    //else if (If_Order_url == 'fx_center') {
-
-    //   wx.navigateTo({
-    //     url: '/pageTab/' + 'fx_center' + '/index' + urlData.param,
-    //   })
-    // } else if (If_Order_url == 'process_list') {
-
-    //   wx.navigateTo({
-    //     url: '/pageTab/' + 'process_list' + '/index' + urlData.param,
-    //   })
-    // } else if (If_Order_url == 'location_servant') {
-
-    //   wx.navigateTo({
-    //     url: '/pageTab/' + 'location_servant' + '/index' + urlData.param,
-    //   })
-    // }
     else if (linkUrl.substr(0, 14) == 'search_product') {
       console.log("this.clientNo", this.clientNo)
       wx.navigateTo({
         url: '/pages/' + 'milk_product_list' + '/index' + urlData.param,
       })
-      // if(this.clientNo=='naifen'){
-      //   wx.navigateTo({
-      //     url: '/pages/' + 'milk_product_list' + '/index' + urlData.param,
-      //   })
-      // }else{
-      //   wx.navigateTo({
-      //     url: '/pages/' + 'search_product' + '/index' + urlData.param,
-      //   })
-      // }
-
     }
     else if (linkUrl.substr(0, 18) == 'promotion_products') {
-
       wx.navigateTo({
         url: '/pageTab/tunzai/teMai/index' + urlData.param,
+      })
+    }
+    else if (linkUrl.substr(0, 23) == 'milk_shopping_car_pages') {
+      wx.navigateTo({
+        url: '/pagesTwo/milk_shopping_car_list/index' + urlData.param,
       })
     }
     else if (linkUrl.substr(0, 9) == 'goto_mini') {
@@ -551,7 +530,7 @@ App({
         })
       } else {
         wx.navigateTo({
-          url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
+          url: '/pageTab/productDetail/index' + urlData.param + "&addShopId=236",
         })
       }
       // if (linkUrl.substr(15, 6) == 'tunzai'){
@@ -594,15 +573,21 @@ App({
           wx.navigateTo({
             url: "/pages/" + urlData.url + "/index" + urlData.param,
             fail: function () {
-              console.log("跳转tab页")
-              wx.switchTab({
-                url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+              console.log("pages里不存在该页面,跳转pagesTwo目录下的页面")
+              wx.navigateTo({
+                url: "/pagesTwo/" + urlData.url + "/index" + urlData.param,
                 fail: function () {
-                  console.log("跳转tunzai定制页")
-                  wx.navigateTo({
-                    url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
+                  console.log("跳转tab页")
+                  wx.switchTab({
+                    url: "/pageTab/" + urlData.url + "/index" + urlData.param,
                     fail: function () {
-                      console.log("没有定义" + urlData.url + "页面")
+                      console.log("跳转tunzai定制页")
+                      wx.navigateTo({
+                        url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
+                        fail: function () {
+                          console.log("没有定义" + urlData.url + "页面")
+                        }
+                      })
                     }
                   })
                 }

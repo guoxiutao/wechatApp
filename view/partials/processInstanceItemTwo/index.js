@@ -282,10 +282,13 @@ Component({
       let that = this;
       let params = {};
       let processInstanceId;
-      if (event && event.currentTarget.dataset.id) {
+      let confirmStatus;
+      if (event && event.currentTarget) {
         processInstanceId = event.currentTarget.dataset.id
+        confirmStatus = event.currentTarget.dataset.confirmstatus
       }
       params.processInstanceId = processInstanceId || 0;
+      params.confirmStatus = confirmStatus || 1;
       let customIndex = app.AddClientUrl("/wx_confirm_process_instance_servant.html", params)
       wx.showModal({
         title: '提示',

@@ -7,7 +7,7 @@
   <scroll-view class="recommend_scroll_x_box" scroll-x="true">
     <block wx:for="{{relateBean}}" wx:key="index">
       <view class="recommend_hot_box" style='background-color:{{color}};'  bindtap='tolinkUrl' data-id='{{item.id}}'>
-      <view class='CouponsImg'>   <image  mode='aspectFill'  src="{{item.imagePath}}?x-oss-process=style/preview_120"></image> </view>
+      <view class='CouponsImg'>   <image  mode='aspectFill'  src="{{item.imagePath}}?x-oss-process=style/preview"></image> </view>
       <view class='chooseName1'>{{item.name}}</view>
              <!--价格和购物车图片  -->
        <view class='productListSlidePrice'>

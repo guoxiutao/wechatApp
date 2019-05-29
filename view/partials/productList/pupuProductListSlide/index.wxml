@@ -4,12 +4,16 @@
   <scroll-view class='pupu_product_list_three' scroll-x="true">
     <view class='pupu_product_list_three_item' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{result.id}}'>
        <view class='pupu_product_list_three_item_img'>
-         <image mode='aspectFill' class='pupu_product_list_three_item_url' src='{{result.imagePath}}?x-oss-process=style/preview_200'></image>
+         <image mode='aspectFill' class='pupu_product_list_three_item_url' src='{{result.imagePath}}?x-oss-process=style/preview'></image>
          <view class='pupu_product_list_three_item_tag' wx:if="{{result.tagArray[0]}}">{{result.tagArray[0]}}</view>
        </view>
        <text class='pupu_product_list_three_item_name'>{{result.name}}</text>
         <view class='pupu_product_list_three_item_bottom'>
-          <view class='pupu_product_list_three_item_price'>
+          <view class='pupu_product_list_three_item_price' wx:if="{{result.promotion}}">
+            ￥<text class='pupu_product_list_three_item_true_price'>{{result.promotionPrice}}</text>
+            <view class='font_color'>/<text class='pupu_product_list_three_item_tagprice'>￥{{result.tagPrice}}</text></view>
+          </view>
+          <view class='pupu_product_list_three_item_price' wx:else>
             ￥<text class='pupu_product_list_three_item_true_price'>{{result.price}}</text>
             <view class='font_color'>/<text class='pupu_product_list_three_item_tagprice'>￥{{result.tagPrice}}</text></view>
           </view>

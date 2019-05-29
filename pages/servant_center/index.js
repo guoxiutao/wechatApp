@@ -17,6 +17,71 @@ Page({
             waitCompleteOrderDistributeAmount: 0.00
         },
         applyServantType: true,
+        servantStatusShapColor:"#2dbe53",
+        servantStatusText: "在线",
+        showStatusList:false,
+    },
+    changeServantStatus:function(e){
+      console.log("==============changeServantStatus===============",e)
+      let status = e.currentTarget.dataset.type
+      let params = { status: status}
+      var customIndex = app.AddClientUrl("/wx_set_servant_status.html", params, 'post')
+      var that = this
+      wx.showLoading({
+        title: 'loading'
+      })
+      wx.request({
+        url: customIndex.url,
+        data: customIndex.params,
+        header: app.headerPost,
+        method: 'POST',
+        success: function (res) {
+          wx.hideLoading()
+          console.log("=============success=============",res.data)
+          that.showStatusListFun()
+          if (res.data.errcode == '0') {
+            let servant = res.data.relateObj
+            that.setServantStatus(servant)
+          } else {
+            wx.showModal({
+              title: '失败了',
+              content: '请求失败了，请下拉刷新！',
+            })
+
+          }
+        }
+      })
+    },
+  setServantStatus: function (servant){
+    let that=this;
+    if (servant.status == 2) {
+      that.setData({ servantStatusShapColor: "#999", servantStatusText: "下线" })
+    } else if (servant.status == 3) {
+      that.setData({ servantStatusShapColor: "#ed5254", servantStatusText: "繁忙" })
+    } else if (servant.status == 4) {
+      that.setData({ servantStatusShapColor: "#ed5254", servantStatusText: "禁用" })
+    } else if (servant.status == 0) {
+      that.setData({ servantStatusShapColor: "#666", servantStatusText: "未审核" })
+    } else if (servant.status == 1) {
+      that.setData({ servantStatusShapColor: "#2dbe53", servantStatusText: "在线" })
+    } else {
+
+    }
+    },
+    showStatusListFun: function () {
+      console.log("=====showStatusListFun=====")
+      let animation = wx.createAnimation({
+        duration: 300,
+        timingFunction: 'ease-out',
+      })
+      if (this.data.showStatusList) {
+        animation.height(0).step();
+        this.setData({ showStatusList: false })
+      } else {
+        animation.height(56).step();
+        this.setData({ showStatusList: true })
+      }
+      this.setData({ animation: animation.export() })
     },
     /* 组件事件集合 */
     tolinkUrl: function (e) {
@@ -28,8 +93,8 @@ Page({
     },
 
     getservantInfo: function () {
-        console.log('-------门店-1-------')
-        let params = {}
+      console.log('-------门店-1-------')
+      let params = {}
       var customIndex = app.AddClientUrl("/super_shop_manager_get_manager_servant_info.html", params, 'post')
         var that = this
         wx.showLoading({
@@ -45,6 +110,7 @@ Page({
                 console.log(res.data)
                 if (res.data.errcode == '0') {
                     let servant = res.data.relateObj
+                    that.setServantStatus(servant)
                     servant = that.dellMoney(servant)
                     //account 账户余额
                     that.setData({

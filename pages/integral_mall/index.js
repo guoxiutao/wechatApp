@@ -17,6 +17,16 @@ Page({
       curpage: 1   //当前页
 
   },
+  tolinkUrl: function (e) {
+    console.log(e.currentTarget.dataset.info)
+    let info = e.currentTarget.dataset.info
+    let jifenId = info.id
+    let productId = info.productId
+    let jifenNum = info.needJifen
+    let jifenCount = info.count
+    var a = "jifen_product_detail.html?type=jifen&productId=" + productId + '&jifenNum=' + jifenNum + '&jifenId=' + jifenId + '&jifenCount=' + jifenCount;
+    app.linkEvent(a);
+  },
   // 测试跳去积分
   click: function () {
     wx.navigateTo({

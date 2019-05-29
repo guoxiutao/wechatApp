@@ -31,9 +31,13 @@
       </view>
       <view class='pupu_promotion_item_info'>
         <text class='pupu_promotion_item_name'>{{item.name}}</text>
-        <view class='pupu_promotion_item_price'>
+        <view class='pupu_promotion_item_price' wx:if="{{item.promotion}}">
+          ￥<text class='pupu_promotion_item_true_price'>{{item.promotionPrice}}</text>
+          <view class='font_color' wx:if="{{item.tagPrice>item.price&&item.tagPrice>item.promotionPrice}}">/<text class='pupu_promotion_item_tagprice'>￥{{item.tagPrice}}</text></view>
+        </view>
+        <view class='pupu_promotion_item_price' wx:else>
           ￥<text class='pupu_promotion_item_true_price'>{{item.price}}</text>
-          <view class='font_color'>/<text class='pupu_promotion_item_tagprice'>￥{{item.tagPrice}}</text></view>
+          <view class='font_color' wx:if="{{item.tagPrice>item.price}}">/<text class='pupu_promotion_item_tagprice'>￥{{item.tagPrice}}</text></view>
         </view>
         <text class='pupu_promotion_item_unit'>{{item.unitShow}}</text>
         <text class='pupu_promotion_item_cart' style='background:{{setting.secondColor}}' wx:if="{{relateBean.promotionStatus==0}}">收藏</text>

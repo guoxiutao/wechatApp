@@ -6,7 +6,6 @@ Page({
    * 页面的初始数据 
    */
   data: {
-
     setting: null,
     loginUser: null,
     formCommitId:null,

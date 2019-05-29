@@ -43,23 +43,6 @@
       </view>
     </view>
   </view>
-  <!--<view class='shop_top' style='background:{{setting.platformSetting.defaultColor}};'>
-     <view class='shop_top_left'>
-      <block wx:if="{{shopInfo.shopLogo!=''}}">
-         <image class='shop_top_img' src='{{shopInfo.shopLogo}}'></image>
-       </block>
-      <block wx:else>
-         <image class='shop_top_img' src='{{setting.platformSetting.logo}}'></image>
-      </block>
-    </view>
-    <view class='shop_top_right'>
-      <view class='shop_top_name'><text>{{shopInfo.shopName}}</text></view>
-      <view class='shop_top_decribe'>
-        <text class='decribe_dada'>达达专送-46分钟</text>
-        <text class='decribe_base'>| 基础运费4元</text>
-      </view>
-    </view>
-  </view> -->
   <!-- 首页组件-私有产品详情装饰-->
 <component-customPage data="{{sendShopData}}" wx:if="{{componentState||componentIndexState}}"></component-customPage> 
   <view class='product_info' wx:else>
@@ -79,21 +62,6 @@
             <view class='countNumTag countNumInLeft'>{{type.hasInCartCount}}</view>
           </block>
           </view>
-        
-        <!-- <view class='ToOrderView_container'>
-          <block wx:if='{{pushItem.length > 0}}'>
-            <view class='ToOrderView ToOrderView1' data-link='order_list_0.html?easyStatusName=全部订单&easyStatus=0' bindtap='toOrderPage' style='background:{{setting.platformSetting.defaultColor}};'>
-              <image mode='aspectFill' src='/images/icons/order_waimai.png'></image>
-              <text>订单</text>
-            </view>
-          </block>
-          <block wx:else>
-          <view class='ToOrderView ToOrderView2' data-link='order_list_0.html?easyStatusName=全部订单&easyStatus=0' bindtap='toOrderPage' style='background:{{setting.platformSetting.defaultColor}};'>
-            <image mode='aspectFill' src='/images/icons/order_waimai.png'></image>
-            <text>订单</text>
-          </view>
-        </block>
-        </view> -->
         <view class='ToOrderView_container'>
           <block wx:if='{{pushItem.length > 0}}'>
             <view class='ToOrderView ToOrderView1' bindtap='toMy' style='background:{{setting.platformSetting.defaultColor}};'>

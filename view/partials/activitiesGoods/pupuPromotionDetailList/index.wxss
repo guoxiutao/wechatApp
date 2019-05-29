@@ -241,6 +241,7 @@ pupu_promotion_detail_item_tagprice{
   font-size: 38rpx;
   height:38rpx;
   line-height:38rpx;
+  color: #ff826e;
 }
 .to_car3{
   position: absolute;

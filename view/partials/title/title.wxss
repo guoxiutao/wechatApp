@@ -150,8 +150,8 @@
   align-items: center;
   justify-content: space-between;
   width: 92%;
-  margin:20rpx;
-  padding:6rpx 20rpx;
+  margin:10rpx 20rpx;
+  padding:0 20rpx;
   box-sizing:border-box;
 }
 .search_input_text{

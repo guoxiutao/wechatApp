@@ -64,7 +64,7 @@ Component({
       var that = this;
       let url
       let jsonData;
-      let params={};
+      let params = { version: app.version};
       try {
         jsonData = JSON.parse(that.data.data);
         url = jsonData.url

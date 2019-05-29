@@ -21,14 +21,14 @@ Component({
   },
   
   ready: function (options) {
-  var that=this;
-  var oldData = this.data;
-  console.log("====oldData====", oldData)
-  that.setData({ setting: app.setting.platformSetting})
-  console.log("=======setting====", that.data.setting)
-// oldData.countDownMinute = '1fffffffffffffffffffffffffffffffffffffff11';
-  // console.log("hel11lo", JSON.stringify(oldData)); 
-  // console.log("hel11lo", oldData.data.relateBean.endDate); 
+    var that=this;
+    var oldData = this.data;
+    console.log("====oldData====", oldData)
+    that.setData({ setting: app.setting.platformSetting})
+    console.log("=======setting====", that.data.setting)
+    // oldData.countDownMinute = '1fffffffffffffffffffffffffffffffffffffff11';
+    // console.log("hel11lo", JSON.stringify(oldData)); 
+    // console.log("hel11lo", oldData.data.relateBean.endDate); 
     if (oldData.data.relateBean.promotionStatus == 1) {
 
 

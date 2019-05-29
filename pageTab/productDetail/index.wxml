@@ -224,7 +224,7 @@
     <text style='font-size:22rpx;color:#aaa'>购物车</text>
   </view>
   <block wx:if='{{!pintuanState}}'>
-    <view class='right_bottom addto font_08' data-way='cart' bindtap='readyPay2' style=' border: 2rpx solid {{scolor}};color:{{color}}' wx:if="{{!productData.productInfo.preOrderCustomFormId}}" >加入购物车</view>
+    <view class='right_bottom addto font_08' data-way='cart' bindtap='readyPay2' style=' border: 2rpx solid {{color}};color:{{color}}' wx:if="{{!productData.productInfo.preOrderCustomFormId}}" >加入购物车</view>
     <!-- <view wx:else class='right_bottom'></view> -->
     <view class='{{productData.productInfo.preOrderCustomFormId?"w_540":""}} right_bottom bynow font_08' data-way='buy' bindtap='readyPay2' style='background-image:linear-gradient(to right,{{secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
       <!-- <text wx:if="{{productData.productInfo.preOrderCustomFormId}}">立即下单</text> -->

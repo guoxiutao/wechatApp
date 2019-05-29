@@ -25,7 +25,7 @@
 
   <!-- 右边的商品列表 -->
   <scroll-view scroll-y bindscrolltolower='onReachBottom2' class='RightProductContainer' >
-    <image mode='aspectFit' catchtap='linkUrl' data-link='{{currentItem.adverLink}}' src='{{currentItem.adverImg}}' style='height:200rpx;width:100%' wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
+    <image mode='widthFix' catchtap='linkUrl' data-link='{{currentItem.adverLink}}' src='{{currentItem.adverImg}}' style='height:200rpx;width:100%' wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
     <view wx:if='{{productTypeTwo.length==0}}' class='none'>
       <image mode="widthFix" src='/images/icons/no-product.png'></image>
       <text>没有相关分类</text>

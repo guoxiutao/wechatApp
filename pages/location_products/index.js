@@ -345,9 +345,8 @@ Page({
     }else{
       id = info.id
     }
-    wx.navigateTo({
-      url: '../productDetail/index?id=' + id + "&addShopId=" + belongShopId,
-    })
+    let url = 'product_detail.html?id=' + id
+    app.linkEvent(url)
   },
   toProductDetailMap: function (id) {
     console.log("--------toProductDetailMap------")

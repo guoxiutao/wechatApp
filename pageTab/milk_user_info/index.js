@@ -154,6 +154,7 @@ Page({
       {
         iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_429.jpg?x-oss-process=style/preview_120",
         linkUrl: "",
+        id:"1",
         text: "在线客服",
         color: "#777777"
       },

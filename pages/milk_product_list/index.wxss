@@ -406,6 +406,7 @@ margin-left: 0rpx;
   font-size: 38rpx;
   height:38rpx;
   line-height:38rpx;
+  color: #ff826e
 }
 .to_car{
   position: absolute;

@@ -50,7 +50,6 @@
       <text class='fx_data_value' style='color:{{setting.platformSetting.defaultColor}}'>￥{{fxDetail.groupCurMonthAmount||0}}</text>
       <text class='fx_data_title'>团队这个月业绩</text>
     </view>
-    
     <view class='fx_data_item'>
       <text class='fx_data_value' style='color:{{setting.platformSetting.defaultColor}}'>￥{{fxDetail.groupDirectChildren||0}}</text>
       <text class='fx_data_title'>团队上个月业绩</text>
@@ -115,12 +114,6 @@
         <text class='fx_recommend_item_text'>推广计划书</text>
       </view>
     </view>
-    <!-- <view class='fx_recommend_item' data-link='fx_qrcode.html?type=gzh'  bindtap='tolinkUrl'>
-      <view class='fx_recommend_info'>
-        <image class='fx_recommend_item_icon' src='http://image1.sansancloud.com/xianhua/2019_1/18/17/19/11_249.jpg'></image>
-        <text class='fx_recommend_item_text'>公众号推送二维码</text>
-      </view>
-    </view> -->
     <view class='fx_recommend_item' data-link='user_bank_info_setting.html' bindtap='tolinkUrl' >
       <view class='fx_recommend_info'>
         <image class='fx_recommend_item_icon' src='http://image1.sansancloud.com/xianhua/2019_1/17/14/41/34_623.jpg'></image>

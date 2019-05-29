@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 0;
   range: 0;
-  height: 320rpx;
+  /* height: 320rpx; */
   width: 100%;
   z-index: 10
 }

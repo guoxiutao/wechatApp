@@ -1,7 +1,7 @@
 <view class="container">
   <view class='user_top'>
     <block wx:if="{{loginUser}}">
-      <image class='user_head_img' bindtap='loginOut' src='{{loginUser.platformUser.headimgurl}}'></image>
+      <image class='user_head_img' bindtap='loginOut' src='{{loginUser.platformUser.headimgurl}}?x-oss-process=style/preview_120'></image>
       <text class="user_title">用户名称</text>
       <text class='user_name' bindtap='loginOut'>{{loginUser.platformUser.nickname}}</text>
     </block>
@@ -16,14 +16,14 @@
   </view>
   <view class='user_menu'>
     <view class='user_menu_item'  wx:for="{{ListData.cells}}" wx:for-item="cells" wx:key="{{index}}" data-link='{{cells.linkUrl}}' bindtap='tolinkUrl'>
-      <view class="user_menu_item_link" wx:if="{{cells.text!='在线客户'}}">
+      <view class="user_menu_item_link" wx:if="{{!cells.id}}">
         <view class='user_menu_item_left'>
           <image class='user_menu_item_icon' src='{{cells.iconPath}}'></image>
           <text class='user_menu_item_name'>{{cells.text}}</text>
         </view>
         <image class='user_menu_item_more' src='http://image1.sansancloud.com/xianhua/2019_3/27/15/44/8_298.jpg?x-oss-process=style/preview_120'></image>
       </view>
-      <button open-type="contact" plain='true' hover-class="none" style='border:none' class="user_menu_item_link kefu" wx:if="{{cells.text=='在线客户'}}">
+      <button open-type="contact" plain='true' hover-class="none" style='border:none' class="user_menu_item_link kefu" wx:if="{{cells.id==1}}">
         <view class='user_menu_item_left'>
           <image class='user_menu_item_icon' src='{{cells.iconPath}}'></image>
           <text class='user_menu_item_name'>{{cells.text}}</text>

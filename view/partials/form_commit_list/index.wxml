@@ -21,115 +21,82 @@
       </scroll-view>
     </view>
   </view>
-  <view style='{{!showTop?"margin-top":""}}:{{!showTop?"0px":""}}' class='{{selectTab.length!=0?"form_commit_list mt_150":"form_commit_list mt_80"}}'>
+  <view style='{{!showTop||componentState?"margin-top:":""}}{{!showTop||componentState?"0px":""}}' class='{{selectTab.length!=0?"form_commit_list mt_150":"form_commit_list mt_80"}}'>
     <block wx:if="{{formCommitList.length!=0}}">
-    <view class='form_commit_item' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{formCommitItem.belongFormType!=2&&(limitState!=0?index<data.jsonData.count:'ture')}}" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}">
-      <view class='form_title'>
-        <view class='form_title_left'>
-          <image class='user_icon' src='{{formCommitItem.commitPlatformUserIcon}}'></image>
-          <text class='user_name'>{{formCommitItem.commitPlatformUserName}}</text>
-        </view>
-        <view class='form_title_right'>
-          <text class='form_type'>[表单]</text>
-          <text class='form_name'>{{formCommitItem.belongFormName}}</text>
-        </view>
-      </view>
-      <view class='form_description'>
-        <image class='form_state_icon' wx:if="{{formCommitItem.recordStatus==1}}" src='http://image1.sansancloud.com/xianhua/2018_11/14/21/20/50_605.jpg?x-oss-process=style/preview_120'></image>
-        <image class='form_state_icon' wx:if="{{formCommitItem.recordStatus==0}}" src='http://image1.sansancloud.com/xianhua/2018_11/14/21/24/17_402.jpg?x-oss-process=style/preview_120'></image>
-        <text style='color:#4bb3ff' wx:if="{{formCommitItem.recordStatus==1}}">表单有效</text>
-        <text style='color:#888' wx:if="{{formCommitItem.recordStatus==0}}">表单未审核...</text>
-      </view>
-      <view class='reply' wx:if="{{formCommitItem.reply}}">
-        <text class='replyTitle'>平台回复：</text>
-        <text class='form_description_text'>{{formCommitItem.reply}}</text>
-      </view>
-      <view class='form_commit_bottom'>
-        <view class='form_commit_bottom_left'>
-          <view class='check_record' bindtap="toFormRewardList" data-id="{{formCommitItem.id}}" wx:if="{{formCommitItem.rewardType!=0}}"><text>奖励记录</text></view>
-        </view>
-        <view class='form_commit_bottom_right'>
-          <image class='form_commit_icon' src='http://image1.sansancloud.com/xianhua/2018_11/14/19/58/37_380.jpg?x-oss-process=style/preview_120'></image>
-          <text class='form_commit_time'>{{formCommitItem.commitDate}}</text>
-          <image bindtap='checkFormDetail' data-id="{{formCommitItem.id}}" class='form_commit_dot'src='http://image1.sansancloud.com/xianhua/2018_11/14/21/7/48_739.jpg?x-oss-process=style/preview_120'></image>
-        </view>
-      </view>
-    </view>
-    <view class='form_commit_item_info' wx:for="{{formCommitList}}" wx:for-item="formCommitItemInfo" data-belongFormType="{{formCommitItemInfo.belongFormType}}" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItemInfo.id}}"  wx:if="{{formCommitItemInfo.belongFormType==2&&(limitState!=0?index<data.jsonData.count:'ture')}}">
-      <view class='top_part'>
-        <view class='top_part_left'>
-          <image class='top_part_left_img' src='{{formCommitItemInfo.commitPlatformUserIcon}}'></image>
-          <view class='user_base_info'>
-            <text class='user_base_info_name'>{{formCommitItemInfo.commitPlatformUserName}}</text>
-            <view class='user_base_info_type'>
-              <text class='user_base_info_type_name' style='background:{{setting.platformSetting.defaultColor}}'>{{formCommitItemInfo.belongFormName}}</text>
-              <!-- <text class='user_base_info_type_num'>闽E98K56</text> -->
-            </view>
+      <!-- 无列表装修样式 -->
+      <block wx:if="{{!formListStyle.detailViewMagic||formListStyle.detailViewMagic.length==0}}">
+        <!-- 表单子项样式组件 -->
+        <form-item style="width:100%" wx:if='{{formCommitList}}' data="{{formCommitItem}}" wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{limitState!=0?index<data.jsonData.count:'ture'}}" wx:key='{{index}}' data-belongformtype='{{formCommitItem.belongFormType}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}"></form-item> 
+      </block>
+      <!-- 列表装修样式 -->
+      <block wx:else>
+        <view class='form_commit_item' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{limitState!=0?index<data.jsonData.count:'ture'}}" wx:key='{{index}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}" data-belongformtype='{{formCommitItem.belongFormType}}'>
+          <view class='mofang_templete' style='height:{{publicFun.toNum(710/width*height)*(publicFun.toNum(formListStyle.aspectRatio))+10}}rpx;position:relative;width:100%;' >
+            <view class='mofang_item' wx:for='{{formListStyle.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*710/width}}rpx;top:{{publicFun.toNum(item.startPointY*710/width)*(publicFun.toNum(formListStyle.aspectRatio))}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*710/width)}}rpx;height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)*publicFun.toNum(formListStyle.aspectRatio)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
+              <view class='lunbotu' wx:if="{{formCommitItem.commitJson[item.propertieName].type==11}}">
+                <component-tag-banner wx:if='{{banner}}' data="{{banner}}"></component-tag-banner>  <!-- 4 标题 -->
+              </view>
+              <!-- 左右布局 height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)+1}}rpx;-->
+              <view class='form_detail_center_item' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)*publicFun.toNum(formListStyle.aspectRatio)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:center;justify-content:{{item.align}};border-top-width:{{item.borderTop}}rpx;border-bottom-width:{{item.borderBottom}}rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx {{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx;box-sizing:border-box;" wx:if="{{(formCommitItem.commitJson[item.propertieName].type!=7&&formCommitItem.commitJson[item.propertieName].type!=11)&&(item.placeType==0||item.placeType==3)}}">
+                <view class="titleStyle">
+                  <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+                  <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type!=9&&item.propertiesType==0}}">{{item.propertieTitle}}</text>
+                </view>
+                <view class='center_part_item_title' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:center;justify-content:{{item.align}}" wx:if="{{item.propertiesType==1}}">
+                  <image wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)-30}}rpx;width:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)-30}}rpx;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+                  <text style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};padding-bottom:{{item.borderBottom!=0?"8rpx":""}};padding-top:{{item.borderTop!=0?"8rpx":""}};'>{{item.propertieTitle}}</text>
+                </view>
+                <view class='center_part_item_title' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:center;justify-content:{{item.align}}" wx:if="{{item.propertiesType==2}}">
+                  <image wx:if="{{item.backgroundImage}}" mode='aspectFit' style='height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*710/width)}}rpx' src='{{item.backgroundImage}}'></image>
+                </view>
+                <view class='center_part_item_value' style='width:{{formCommitItem.commitJson[item.propertieName].type==4?"100%":""}};font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type!=12}}">
+                  <scroll-view class='tags_content' scroll-x  wx:if="{{formCommitItem.commitJson[item.propertieName].type==4}}">
+                    <text class='tags_item' wx:if="{{formCommitItem.commitJson[item.propertieName].value}}" wx:for='{{formCommitItem.commitJson[item.propertieName].value}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
+                  </scroll-view>
+                  <text wx:else>{{formCommitItem.commitJson[item.propertieName].value}}</text>
+                </view>
+                <view class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type==12}}">{{formCommitItem.commitJson[item.propertieName].value.value}}</view>
+                <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type==12}}" catchtap='clickCatch' data-item="{{formCommitItem.commitJson[item.propertieName].value}}">
+                  <text>去导航</text>
+                </view>
+              </view>
+              <!--上下布局  height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)+1}}rpx;-->
+              <view class='form_detail_center_item' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/width)*publicFun.toNum(formListStyle.aspectRatio)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==1?'column':'column-reverse'}};align-items:{{item.align}};justify-content:center;border-top-width:0rpx;border-bottom-width:0rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx {{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx;box-sizing:border-box;" wx:if="{{(formCommitItem.commitJson[item.propertieName].type!=7&&formCommitItem.commitJson[item.propertieName].type!=11)&&(item.placeType==1||item.placeType==2)}}">
+                <view class="titleStyle">
+                  <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+                  <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type!=9&&item.propertiesType==0}}">{{item.propertieTitle}}</text>
+                </view>
+                <view class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}}' wx:if="{{item.propertiesType==1}}">
+                  <image mode='aspectFit' style='' src='{{item.propertieIcon}}'></image>
+                  <text>{{item.propertieTitle}}</text>
+                </view>
+                <view class='center_part_item_title' wx:if="{{item.propertiesType==2}}">
+                  <image mode='aspectFit' style='width:100%' src='{{item.backgroundImage}}'></image>
+                </view>
+                <view class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type!=12}}">
+                  <scroll-view class='tags_content' scroll-x  wx:if="{{formCommitItem.commitJson[item.propertieName].type==4}}">
+                    <text class='tags_item' wx:if="{{formCommitItem.commitJson[item.propertieName].value}}" wx:for='{{formCommitItem.commitJson[item.propertieName].value}}' wx:for-item="tags" wx:key='{{index}}'>{{tags}}</text>
+                  </scroll-view>
+                  <text wx:else>{{formCommitItem.commitJson[item.propertieName].value}}</text>
+                </view>
+                <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type==12}}">{{formCommitItem.commitJson[item.propertieName].value.value}}</text>
+                <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{formCommitItem.commitJson[item.propertieName].type==12}}" catchtap='clickCatch' data-item="{{formCommitItem.commitJson[item.propertieName].value}}">
+                  <text>去导航</text>
+                </view>
+              </view>
+              <image mode='aspectFill' src='{{formCommitItem.commitJson[item.propertieName].value}}' data-link='{{formCommitItem.commitJson[item.propertieName].value}}' bindtap='tolinkUrl' style='border-radius: {{item.borderRadius}}px;width:100%;height:100%;padding:{{imagePadding}}rpx;box-sizing:border-box' wx:if="{{formCommitItem.commitJson[item.propertieName].type==7}}"></image>     
+            </view> 
           </view>
-        </view>
-        <view class='top_part_right'>
-           <image class='telno_img' data-phonenumber="{{formCommitItemInfo.telno}}" catchtap='calling' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_426.jpg?x-oss-process=style/preview_120'></image>
-        </view>
-      </view>
-      <view class='center_part'>
-      <!--  wx:for-index="key" -->
-        <view class='center_part_item' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-index="idx" wx:for-item="itemData"  wx:if="{{itemData.type!=11&&itemData.type!=7&&idx<=formCommitItemInfo.showNum}}">
-          <text class='center_part_item_title' wx:if="{{itemData.type!=9}}">{{itemData.title}}</text>
-          <text class='interval' wx:if="{{itemData.type!=9}}">:</text>
-          <text class='center_part_item_value' wx:if="{{itemData.type!=12}}">{{itemData.value}}</text>
-          <text class='center_part_item_value' wx:if="{{itemData.type==12}}">{{itemData.value.value}}</text>
-          <view class='more' wx:if="{{formCommitItemInfo.commitArr.length>3&&idx==formCommitItemInfo.showNum-1&&formCommitItemInfo.showMoreState}}">
-            <image class='showMore' data-index="{{index}}" data-type="hidden"  catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_412.jpg?x-oss-process=style/preview_120'></image>
-          </view>
-          <view class='more' wx:if="{{formCommitItemInfo.commitArr.length>3&&idx==formCommitItemInfo.showNum&&!formCommitItemInfo.showMoreState}}">
-            <image class='showMore' data-index="{{index}}" data-length="{{formCommitItemInfo.commitArr.length}}" data-type="show" catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_428.jpg?x-oss-process=style/preview_120' ></image>
-          </view>
-        </view>
-        <view class='show_img' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==7&&itemData.value}}">
-          <image class='show_img_item' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:for-item="img" wx:if="{{publicFun.typeOf(itemData.value)!='string'}}"></image>
-          <image class='show_img_item' mode='aspectFill' src='{{itemData.value}}' wx:if="{{publicFun.typeOf(itemData.value)=='string'}}"></image>
-        </view>
-        <view class='show_img' wx:for="{{formCommitItemInfo.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==11&&itemData.value}}">
-          <image class='show_img_item' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:for-item="img"></image>
-        </view>
-        <view class='addr_time'>
-          <view class='addr_con'>
-            <!-- <image class='addr_con_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_480.jpg'></image>
-            <text class='addr_con_text'>厦门湖里区</text> -->
-          </view>
-          <text class='time_con'>{{formCommitItemInfo.commitDate}}</text>
-        </view>
-      </view>
-      <!-- <view class='bottom_part'>
-        <view class='bottom_part_item'>
-          <image class='bottom_part_item_icon to_view' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
-          <text class=''>1314</text>
-        </view>
-        <view class='bottom_part_item'>
-          <image class='bottom_part_item_icon to_share' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_486.jpg?x-oss-process=style/preview_120'></image>
-          <text class=''>1314</text>
-        </view>
-        <view class='bottom_part_item'>
-          <image class='bottom_part_item_icon to_comments' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120'></image>
-          <text class=''>520</text>
-        </view>
-        <view class='bottom_part_item'>
-          <image class='bottom_part_item_icon to_heart' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_500.jpg?x-oss-process=style/preview_120'></image>
-          <text class=''>520</text>
-        </view>
-      </view> -->
-    </view>
+        </view>  
+      </block>
     </block>
     <block wx:else>
        <view class='none_list'>主人~暂无提交表单哦！</view>
     </block>
-    <view wx:if="{{publishState&&customFormId}}" style='height:100rpx;width:100%;background:#fff'></view>
+    <view wx:if="{{publishState&&customFormId&&!componentState}}" style='height:100rpx;width:100%;background:#fff'></view>
   </view>
 </view>
 <view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId&&!componentState}}">
   <image class='publish_message_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/10/45/42_450.jpg?x-oss-process=style/preview_120'></image>
   <text class='publish_message_text'>发布信息</text>
 </view>
-<!-- <view class='publish_message_btn' catchtap='tolinkUrl' data-link="form_detail.html?customFormId={{customFormId}}" style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{publishState&&customFormId}}">
-  <image class='publish_message_icon' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/22/30_315.jpg?x-oss-process=style/preview_120'></image>
-</view> -->

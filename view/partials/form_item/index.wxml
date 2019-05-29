@@ -1,0 +1,12 @@
+
+<import src="form_item_one/index.wxml"/>  <!-- 正常的活动列表 -->
+<import src="form_item_two/index.wxml"/>  <!-- 正常的活动列表 -->
+
+   <block wx:if='{{formCommitItem.belongFormType != 2}}'>
+  <template is="form_item_one"  data="{{formCommitItem,setting}}"></template> 
+
+  </block> 
+   <block wx:if='{{formCommitItem.belongFormType == 2}}'>
+  <template is="form_item_two"  data="{{formCommitItem,setting}}"></template> 
+
+  </block> 

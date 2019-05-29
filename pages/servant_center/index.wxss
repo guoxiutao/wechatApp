@@ -13,11 +13,67 @@
   height: 9rem;
   padding:1em 0;
   color: #fff;
+  position: relative;
   /* background:#ffc73e; */
   /* background-size: 100% 100%;
   background-image: url(http://image1.sansancloud.com/aikucun/2018_03/15/10/17/16_175.jpg?x-oss-process=style/preview_120); */
 }
-
+.servantStatus{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 10rpx;
+  left: 50rpx;
+  font-size:24rpx;
+  border: 2rpx solid #fff;
+  border-radius: 20rpx;
+  padding:4rpx 0;
+  width:130rpx;
+  /* background: #fff;
+  color: #888; */
+}
+.servantStatusShap{
+  margin:0 10rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 20rpx;
+}
+.servantStatusIconList{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.servantStatusIcon{
+  width:20rpx;
+  height:20rpx;
+  margin:0 10rpx;
+}
+.servantStatusList{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 39rpx;
+  left: 10rpx;
+  width:110rpx;
+  align-items:center;
+  background:#fff;
+  color:#999;
+  border-bottom-left-radius:10rpx;
+  border-bottom-right-radius:10rpx;
+  height: 0;
+  overflow: hidden;
+}
+.servantStatusItem{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding:10rpx 0;
+}
+.servantStatusItem:last-child{
+  padding-bottom: 0
+}
 .tongji_mid{
   margin-top: 0.2em;
   margin-bottom: 0.2em;
@@ -26,7 +82,6 @@
   margin-top:-3em;
   z-index:2;
 }
-
 .tongji_bottom{
   margin: 1em;
   padding: 1em;

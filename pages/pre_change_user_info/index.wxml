@@ -10,7 +10,7 @@
 
       <view class='input_item_container'>
         <view class='input_item_container_title'>昵称</view>
-        <input placeholder="用户昵称" maxlength='10' name='nickname' value='{{loginUser.nickName}}'></input>
+        <input placeholder="用户昵称" maxlength='20' name='nickname' value='{{loginUser.nickName}}'></input>
       </view>
       
       <view class='input_item_container'>
@@ -34,6 +34,8 @@
         </radio-group>
       </view>
     </view>
+<!-- 用户表单 -->
+    <form-detail id="userForm" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" wx:if="{{sendOptionData&&showAddressForm}}" bind:sendDataFun="getDataFun"></form-detail>
     <button loading='{{butn_show_loading}}' class='signIn' formType="submit" style='color:#fff;background:{{setting.platformSetting.defaultColor}}'>保存用户资料</button>
      <!-- <button class='signIn'  bindtap='bindgetuserinfo' 
     style='color:{{setting.platformSetting.defaultColor}};background:#fff;border:1px solid {{setting.platformSetting.defaultColor}}'>同步微信资料</button>  -->
