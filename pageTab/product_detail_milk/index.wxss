@@ -237,6 +237,7 @@ font-size: 0.8em;
   padding: 36rpx 0;
   color: #a3a3a3;
   justify-content: center;
+  position: relative;
 }
 .btn_tab_icon{
   width: 34rpx;
@@ -378,4 +379,44 @@ button {
 } 
 .wxParseHtmlContainer {
   margin: 0
+}
+.showList{
+  position: absolute;
+  top: 0;
+  right: -150rpx;
+  font-size: 26rpx;
+  background: #eee;
+  width:180rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding:6rpx;
+  border-radius: 10rpx;
+  z-index: 2
+}
+.showItem{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  font-size: 24rpx;
+  color: #8a8a8a;
+  width: 100%;
+  padding:10rpx;
+  border-bottom:1rpx solid #999;
+  border-radius:0;
+}
+.sharaPosterIcon{
+   width: 40rpx;
+   height: 40rpx; 
+   margin-right: 14rpx
+}
+.btn{
+  border: 1px solid transparent;  
+  outline: none;  
+  background:#eee;
+  line-height: 1;
+}
+.showItem:last-child{
+  border:none;
 }

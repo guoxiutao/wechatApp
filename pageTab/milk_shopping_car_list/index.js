@@ -213,6 +213,9 @@ Page({
         } else if (res.cancel) {}
       }
     })
+    try {
+      app.carChangeNotify("clear");
+    } catch (e) { }
   },
   /* 删除选中 */
   delectChecked: function () {
@@ -255,6 +258,9 @@ Page({
         console.log(res.data)
         wx.hideLoading()
         that.getCart()
+        try {
+          app.carChangeNotify('reload');
+        } catch (e) { }
       },
       fail: function (res) {
         wx.hideLoading()
@@ -512,8 +518,10 @@ Page({
         } else if (res.data.errcode == '-1') {
           app.echoErr(res.data.errMsg)
         }
-        that.getCart()
-
+        that.getCart("init")
+        try {
+          app.carChangeNotify('reload');
+        } catch (e) { }
       },
       fail: function (res) {
         wx.hideLoading()
@@ -667,11 +675,28 @@ Page({
     for (let i = 0; i < pushItem.length; i++) {
       countGood += parseInt(pushItem[i].count)
       console.log("====pushItem=====", pushItem[i])
-      if (pushItem[i].item.promotion){
-        countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
+      let promotionPrice = 0;
+      let carItemPrice = 0;
+      let specialSaleTypePrice = 0;
+      if (pushItem[i].item.itemSpecialSaleType == 1) {
+        specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
+      } 
+      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+        promotionPrice = pushItem[i].item.promotionPrice
       } else {
-        countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+        carItemPrice = pushItem[i].carItemPrice
       }
+      console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
+      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+        countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
+      } else {
+        countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
+      }
+      // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0){
+      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
+      // } else {
+      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+      // }
     }
     countPrice = countPrice.toFixed(2)
     this.setData({
@@ -771,7 +796,7 @@ Page({
       maskLoad: false
     })
     if (this.openShow) {
-      this.getCart()
+      this.getCart('init')
     }
     this.openShow = true
   },
@@ -794,7 +819,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.getCart()
+    this.getCart("init")
     this.getHotProduct()
     this.setData({
       hasMore: false
@@ -1164,6 +1189,7 @@ Page({
               hasMore: true
             })
           }
+
         } else {
           wx.showToast({
             title: res.data.errMsg,

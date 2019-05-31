@@ -5,7 +5,7 @@
 <view class='form_commit_item'>
   <view class='form_title'>
     <view class='form_title_left'>
-      <image class='user_icon' src='{{formCommitItem.commitPlatformUserIcon}}'></image>
+      <image class='user_icon' src='{{formCommitItem.commitPlatformUserIcon}}?x-oss-process=style/preview_120'></image>
       <text class='user_name'>{{formCommitItem.commitPlatformUserName}}</text>
     </view>
     <view class='form_title_right'>

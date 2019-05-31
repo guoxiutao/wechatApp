@@ -534,3 +534,7 @@
   width: 30rpx;
   height: 30rpx;
 }
+.tagPrice{
+  text-decoration:line-through;
+  color: #ccc
+}

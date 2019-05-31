@@ -42,11 +42,19 @@ Component({
     customFormData: {},
     formListStyle: null,
     commitJson: null,
+    reqUrl: "/wx_find_decorate_custom_form_commits.html",
+    controlLimitState:false,
   },
   ready: function () {
     let that = this;
     console.log("====form-commit-list-data=====", that.data.data);
     let options = that.data.data;
+    if (options.reqUrl){
+      that.setData({ reqUrl: options.reqUrl })
+    }
+    if (options.controlLimit) {
+      that.setData({ controlLimitState: true })
+    }
     if (that.data.data.jsonData && that.data.data.jsonData.count) {
       that.setData({ limitState: that.data.data.jsonData.count, componentState:true})
     }
@@ -58,7 +66,7 @@ Component({
       // that.setData({ customFormId: options.customFormId })
       that.data.listPage.page = 1
       that.data.listPage.customFormId = options.customFormId
-      that.getData();
+      that.getData(this.data.selectResultsObj);
       that.getFormDetail()
     } else {
       console.log("点击类型返回的页面")
@@ -188,7 +196,7 @@ Component({
               console.log("====that.data.listPage=====", that.data.listPage)
               that.getFormDetail();
               that.setData({ customFormId: that.data.formType[0].id })
-              that.getData()
+              that.getData(that.data.selectResultsObj)
             }
           } else {
             that.setData({ formType: null })
@@ -230,12 +238,12 @@ Component({
       this.data.listPage.page = 1
       this.data.listPage.customFormId = onId
       this.setData({ customFormId: onId })
-      this.getData()
+      this.getData(this.data.selectResultsObj,'upload')
       this.getFormDetail()
     },
     /* 获取数据 */
-    getData: function (selectData) {
-      let that=this;
+    getData: function (selectData,state) {
+      let that = this;
       if (!app.checkIfLogin()) {
         return
       }
@@ -247,13 +255,13 @@ Component({
       console.log("that.data.listPage", that.data.listPage)
       let getParams = {};
       getParams = that.data.listPage
-      if (selectData) {
+      if (JSON.stringify(selectData)!='{}') {
         console.log("============selectData===============")
         let jsonData = JSON.stringify(selectData);
         getParams = Object.assign({}, getParams, { search: jsonData})
       }
       console.log("getParams", getParams)
-      let customIndex = app.AddClientUrl("/wx_find_decorate_custom_form_commits.html", getParams)
+      let customIndex = app.AddClientUrl(that.data.reqUrl, getParams)
       wx.request({
         url: customIndex.url,
         header: app.header,
@@ -263,16 +271,25 @@ Component({
             that.data.listPage.pageSize = res.data.relateObj.pageSize
             that.data.listPage.totalSize = res.data.relateObj.totalSize
             let dataArr = that.data.formCommitList
+            if (that.data.listPage.page == 1) {
+              that.setData({ formCommitList: null })
+            }
             if ((!res.data.relateObj.result || res.data.relateObj.result.length == 0) || that.data.listPage.page==1) {
               dataArr=[];
             } 
             dataArr = dataArr.concat(res.data.relateObj.result)
+            console.log("=========dataArr=========", dataArr)
+            let obj;
             for (let i = 0; i < dataArr.length; i++) {
               dataArr[i].showMoreState =false;
               dataArr[i].showNum = 2;
               dataArr[i].commitArr=[];
               if (dataArr[i].commitJson){
-                let obj = JSON.parse(dataArr[i].commitJson)
+                if (typeof (dataArr[i].commitJson)=='object'){
+                  obj = dataArr[i].commitJson
+                }else{
+                  obj = JSON.parse(dataArr[i].commitJson)
+                }
                 dataArr[i].commitJson = obj
                 for (let key in obj){
                   if (key == 'telno') {
@@ -285,10 +302,19 @@ Component({
                 }
               }
             }
+            // for (let i = 0; i < dataArr.length;i++){
+            //   dataArr[i] = JSON.stringify(dataArr[i])
+            // }
             that.setData({ formCommitList: dataArr })
-            console.log("===formCommitList====", that.data.formCommitList)
-
-
+            console.log("===formCommitList====", that.data.formCommitList,)
+            // if (state == 'upload') {
+            //   for (let i=0;i<dataArr.length;i++){
+            //     that.selectComponent("#formItem").initData("测试");
+            //   }
+            //   console.log("===更新组件formItem的数据====")
+            // }else{
+            //   console.log("===初次渲染formItem的数据====")
+            // }
             
             
 
@@ -314,6 +340,7 @@ Component({
     },
     getFormDetail:function(){
       let that=this;
+      let formListStyle;
       let formDetailData = app.AddClientUrl("/wx_get_custom_form.html", { customFormId: that.data.listPage.customFormId || "" }, 'get')
       console.log('==formDetailData===', formDetailData)
       wx.request({
@@ -326,12 +353,9 @@ Component({
           if(res.data.errcode==0){
             let data = res.data.relateObj;
             that.setData({ customFormData: data })
-
-
-
-
             if (data && data.decorateListStyle) {
-              let formListStyle = JSON.parse(data.decorateListStyle);
+              console.log("有装修列表")
+              formListStyle = JSON.parse(data.decorateListStyle);
               let resultPointerData = formListStyle.resultPointerData
               if (formListStyle.detailViewMagic.length != 0) {
                 let formListStyleArray = formListStyle.detailViewMagic
@@ -341,17 +365,18 @@ Component({
                     
                   }
                 }
-              }
+              } 
+              that.setData({ formListStyle: null })
               that.setData({ formListStyle: formListStyle })
               that.setData({ width: Number(that.data.formListStyle.width) || 0 })
               that.setData({ height: Number(that.data.formListStyle.height) || 0 })
+            } else {
+              that.setData({ formListStyle: null })
+              console.log("没有装修列表")
+              that.setData({ width: 0})
+              that.setData({ height: 0 })
             }
             console.log("===formListStyle====", that.data.formListStyle, that.data.banner, that.data.width, that.data.height)
-
-
-
-
-
 
             if (res.data.relateObj.formType==2){
               that.setData({ publishState:true})
@@ -440,42 +465,13 @@ Component({
       this.setData({ setting: app.setting })
     },
     /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-      if (this.data.reflesh == 1) {
-        this.onPullDownRefresh()
-      }
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function () {
       this.data.Data = []
 
       this.data.listPage.page = 1
-      this.getData();
+      this.getData(this.data.selectResultsObj);
       wx.stopPullDownRefresh()
     },
 
@@ -485,11 +481,11 @@ Component({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-      console.log('===onReachBottom====')
+      console.log('组件===onReachBottom====')
       let that = this
       if (that.data.listPage.totalSize > that.data.listPage.page * that.data.listPage.pageSize) {
         that.data.listPage.page++
-        this.getData();
+        that.getData(that.data.selectResultsObj,'upload');
       }
     },
   }

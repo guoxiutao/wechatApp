@@ -8,9 +8,9 @@
 
 
 <view class='container' style="margin-bottom:100rpx;"> 
-  <view class='shopping_car_title'>
+  <!-- <view class='shopping_car_title'>
     <text class='shopping_car_value' style='color:#00beff'>购物车</text>
-  </view>
+  </view> -->
   <view class='choose_state' wx:if="{{cartData}}">
     <label class='chooseAll' bindtap='chooseAll'>
       <checkbox checked='{{allchecked}}' color='{{setting.platformSetting.defaultColor}}'>全选</checkbox>
@@ -63,7 +63,7 @@
                 <view wx:for='{{cart.measureCartensian.measurements}}' wx:for-item='mesure' wx:key='{{index}}' class='cart_infoMeasure_name'>{{mesure.measureName}}</view>
               </view> -->
             <view class='product_infomation_bottom'>
-              <view class='product_infomation_left' wx:if="{{cart.item.promotion}}">
+              <view class='product_infomation_left' wx:if="{{cart.item.promotion&&cart.item.promotion!=0}}">
                 <view class='price'>￥<text class='font_size'>{{cart.item.promotionPrice}}</text></view>
                 <text class='tag_price'>/￥{{cart.item.tagPrice}}</text>
               </view>

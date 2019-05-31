@@ -154,10 +154,7 @@ Page({
     })
   },
   sureChange: function (e) {
-    // let index = e.currentTarget.dataset.index;
     let cartData = this.data.cartData
-    // let focusCart = cartData[0].carItems[index]
-    // focusCart.showEditView = false
     console.log(this.CartParamWaitPost)
     this.postParams(this.CartParamWaitPost)
     this.setData({
@@ -670,11 +667,28 @@ Page({
     for (let i = 0; i < pushItem.length; i++) {
       countGood += parseInt(pushItem[i].count)
       console.log("====pushItem=====", pushItem[i])
-      if (pushItem[i].item.promotion) {
-        countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
-      } else {
-        countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+      let promotionPrice = 0;
+      let carItemPrice = 0;
+      let specialSaleTypePrice = 0;
+      if (pushItem[i].item.itemSpecialSaleType == 1) {
+        specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
       }
+      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+        promotionPrice = pushItem[i].item.promotionPrice
+      } else {
+        carItemPrice = pushItem[i].carItemPrice
+      }
+      console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
+      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+        countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
+      } else {
+        countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
+      }
+      // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0){
+      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
+      // } else {
+      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+      // }
     }
     countPrice = countPrice.toFixed(2)
     this.setData({
@@ -774,7 +788,7 @@ Page({
       maskLoad: false
     })
     if (this.openShow) {
-      this.getCart()
+      this.getCart('init')
     }
     this.openShow = true
   },
@@ -797,7 +811,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.getCart()
+    this.getCart("init")
     this.getHotProduct()
     this.setData({
       hasMore: false
@@ -1229,43 +1243,6 @@ Page({
       focusData: null
     })
   },
-
-
-  /* 
-     规格操作
-  */
-  MeasureParams: [],
-  //提交规格产品
-  // submitMeasure: function (id) {
-  //   var that = this
-  //   let focusProduct = this.data.focusData
-  //   let measurementJson = this.data.measurementJson
-  //   let data = {}
-  //   data.cartesianId = measurementJson.id
-  //   data.productId = focusProduct.id
-  //   data.shopId = focusProduct.belongShopId
-  //   data.count = 1
-  //   data.type = 'add'
-
-  //   var customIndex = app.AddClientUrl("/change_shopping_car_item.html", data, 'post')
-  //   wx.request({
-  //     url: customIndex.url,
-  //     data: customIndex.params,
-  //     header: app.headerPost,
-  //     method: 'POST',
-  //     success: function (res) {
-  //       console.log('--------add----------')
-  //       console.log(res.data)
-
-  //     },
-  //     fail: function (res) {
-  //       app.loadFail()
-  //     },
-  //     complete: function () {
-  //       wx.hideLoading()
-  //     }
-  //   })
-  // },
   //获取规格价格参数
   get_measure_cartesion: function () {
     this.setData({ measurementJson: { waitDataState: false } })

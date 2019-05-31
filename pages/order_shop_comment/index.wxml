@@ -2,26 +2,22 @@
 
   <!-- 商品部分 -->
   <view class='commitProduct_container'>
-    <view class='commitProduct_item' wx:for='{{Data.orderItems}}' wx:for-item='good' wx:key='{{good.itemId}}'>
+    <view class='commitProduct_item'>
       <view class='commitProduct_item_info'>
         <view class='commitProduct_item_info_commit'>
-          <view class='commitProduct_item_info_icon'>
-            <image  src='{{good.itemIcon}}'></image>
-          </view>
+          <!-- <view class='commitProduct_item_info_icon'>
+            <image mode='aspectFit' src='{{Data.itemIcon}}'></image>
+          </view> -->
           <view class='commitProduct_item_info_commitcontent'>
-              <textarea placeholder='请写下宝贝的评价吧' 
-              data-productId='{{good.itemId}}' bindinput='getCommitContent' ></textarea>
+              <textarea placeholder='请写下宝贝的评价吧'  bindinput='getCommitContent' ></textarea>
           </view>
         </view>
         <view class='commitProduct_item_info_commit_images'> 
-            <block wx:for='{{good.ImageList}}' wx:for-item='image' wx:key='{{index}}'>
-              <image mode='scaleToFill' src='{{image}}'
-                style='width:{{(sysWidth/4) - 15 }}px;height:{{(sysWidth/4) - 15}}px'></image>
+            <block wx:for='{{commentOrder.commentImages}}' wx:for-item='image' wx:key='{{index}}'>
+              <image mode='scaleToFill' src='{{image}}' style='width:190rpx;height:190rpx'></image>
             </block>
-            <view class='crameContainer' bindtap='addCommitImage'
-             style='width:{{(sysWidth/4) - 15 }}px;height:{{(sysWidth/4) - 15}}px'>
-              <image class='crame' src='/images/icons/crame.png' mode='widthFix'
-             ></image>
+            <view class='crameContainer' catchtap='addCommitImage' style='width:190rpx;height:190rpx'>
+              <image class='crame' src='/images/icons/crame.png' mode='widthFix'></image>
             </view>
         </view>
 
@@ -30,25 +26,25 @@
       <view class='scollViews2'>
         <view class='name'>商品评分</view>
         <view class='star_container'>
-          <view class='star' data-scroll='1!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+          <view class='star' data-scroll='1' bindtap='productScroll'>
+            <block wx:if='{{commentOrder.pingfen > 0}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
-          <view class='star' data-scroll='2!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+          <view class='star' data-scroll='2' bindtap='productScroll'>
+            <block wx:if='{{commentOrder.pingfen > 1}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
-          <view class='star' data-scroll='3!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+          <view class='star' data-scroll='3' bindtap='productScroll'>
+            <block wx:if='{{commentOrder.pingfen > 2}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
-          <view class='star' data-scroll='4!{{good.itemId}}' bindtap='productScroll' >
-            <block wx:if='{{good.commitScroll > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+          <view class='star' data-scroll='4' bindtap='productScroll' >
+            <block wx:if='{{commentOrder.pingfen > 3}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
-          <view class='star' data-scroll='5!{{good.itemId}}' bindtap='productScroll'>
-            <block wx:if='{{good.commitScroll > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+          <view class='star' data-scroll='5' bindtap='productScroll'>
+            <block wx:if='{{commentOrder.pingfen > 4}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
         </view>
       </view>
@@ -63,50 +59,76 @@
         <view class='name'>商品符合度</view>
         <view class='star_container'>
           <view class='star' data-scroll='1' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.shangpinfuhedu > 0}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='2' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.shangpinfuhedu > 1}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='3' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.shangpinfuhedu > 2}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='4' bindtap='bindScoll_1' >
-            <block wx:if='{{scoll_1 > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.shangpinfuhedu > 3}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='5' bindtap='bindScoll_1'>
-            <block wx:if='{{scoll_1 > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.shangpinfuhedu > 4}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
         </view>
       </view>
 
        <view class='scollViews'>
-        <view class='name'>服务态度</view>
+        <view class='name'>店家服务态度</view>
         <view class='star_container'>
           <view class='star' data-scroll='1' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.dianjiafuwutaidu > 0}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='2' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.dianjiafuwutaidu > 1}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='3' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.dianjiafuwutaidu > 2}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='4' bindtap='bindScoll_2' >
-            <block wx:if='{{scoll_2 > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.dianjiafuwutaidu > 3}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='5' bindtap='bindScoll_2'>
-            <block wx:if='{{scoll_2 > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.dianjiafuwutaidu > 4}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
+          </view>
+        </view>
+      </view>
+
+      <view class='scollViews'>
+        <view class='name'>配送员服务态度</view>
+        <view class='star_container'>
+          <view class='star' data-scroll='1' bindtap='bindScoll_4'>
+            <block wx:if='{{commentOrder.peisongyuanfuwutaidu > 0}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
+          </view>
+          <view class='star' data-scroll='2' bindtap='bindScoll_4'>
+            <block wx:if='{{commentOrder.peisongyuanfuwutaidu > 1}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
+          </view>
+          <view class='star' data-scroll='3' bindtap='bindScoll_4'>
+            <block wx:if='{{commentOrder.peisongyuanfuwutaidu > 2}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
+          </view>
+          <view class='star' data-scroll='4' bindtap='bindScoll_4' >
+            <block wx:if='{{commentOrder.peisongyuanfuwutaidu > 3}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
+          </view>
+          <view class='star' data-scroll='5' bindtap='bindScoll_4'>
+            <block wx:if='{{commentOrder.peisongyuanfuwutaidu > 4}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
         </view>
       </view>
@@ -115,24 +137,24 @@
         <view class='name'>发货速度</view>
         <view class='star_container'>
           <view class='star' data-scroll='1' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 0}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.wuliufahuosudu > 0}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='2' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 1}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.wuliufahuosudu > 1}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='3' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 2}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.wuliufahuosudu > 2}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='4' bindtap='bindScoll_3' >
-            <block wx:if='{{scoll_3 > 3}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.wuliufahuosudu > 3}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
           <view class='star' data-scroll='5' bindtap='bindScoll_3'>
-            <block wx:if='{{scoll_3 > 4}}'><image src='/images/icons/xin2.png'></image></block>
-            <block wx:else><image src='/images/icons/xin1.png'></image></block>
+            <block wx:if='{{commentOrder.wuliufahuosudu > 4}}'><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_803.jpg?x-oss-process=style/preview_120'></image></block>
+            <block wx:else><image src='http://image1.sansancloud.com/naifen/2019_5/31/17/7/11_828.jpg?x-oss-process=style/preview_120'></image></block>
           </view>
         </view>
       </view>
@@ -146,6 +168,6 @@
   <view class='bottomButn_container_height'></view>
   <view class='bottomButn'>
     <button  style='background:{{setting.platformSetting.defaultColor}}'
-        bindtap='sureCommit'>评价</button>
+        bindtap='commitProduct'>评价</button>
   </view>
 </view>

@@ -30,6 +30,7 @@ Page({
     reqSearch:false,
     productTypeItem:[],
     productTypeName:"",
+    sendIndexData:null
   },
   /* 点击遮罩层 */
   closeZhezhao: function () {
@@ -191,19 +192,22 @@ Page({
    */
   onLoad: function (options) {
     console.log("===options===", options)
+    let that=this;
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "product_list", params: { } })
+    that.setData({ sendIndexData: sendIndexData })
     if (options.productName){
-      this.setData({ searchProductName: options.productName})
+      that.setData({ searchProductName: options.productName})
     }
     if (!!options.productTypeId) {
       options.categoryId = options.productTypeId
     }
     for (let i in options) {
-      for (let j in this.params) {
-        if (i.toLowerCase() == j.toLowerCase()) { this.params[j] = options[i] }
+      for (let j in that.params) {
+        if (i.toLowerCase() == j.toLowerCase()) { that.params[j] = options[i] }
       }
     }
-    console.log(this.params)
-    this.getData(this.params, 2);
+    console.log(that.params)
+    that.getData(that.params, 2);
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
       backgroundColor: app.setting.platformSetting.defaultColor,
@@ -362,7 +366,9 @@ Page({
             })
           }
         }
-
+        try {
+          app.carChangeNotify(res.data);
+        } catch (e) { }
 
 
       },

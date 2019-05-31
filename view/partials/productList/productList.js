@@ -182,7 +182,9 @@ Component({
               })
             }
           }
-
+          try {
+            app.carChangeNotify(res.data);
+          } catch (e) { }
 
 
         },

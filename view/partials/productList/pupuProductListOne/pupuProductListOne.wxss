@@ -251,4 +251,5 @@ margin-left: 0rpx;
 .sale_item3_value{
   padding:2rpx 10rpx;
   background: #f5f5f5;
+  color: #ff5959
 }

@@ -41,7 +41,7 @@
 
   <!-- 右边的商品列表 -->
   <scroll-view scroll-y bindscrolltolower='onReachBottom2' class='RightProductContainer' >
-    <image mode='aspectFit' src='{{currentItem.adverImg}}' style='height:200rpx;' wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
+    <image mode='widthFix' src='{{currentItem.adverImg}}' style='width:100%;'  wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
     <view wx:if='{{!productData}}' class='nonePro'>
       <image mode="widthFix" src='/images/icons/no-product.png'></image>
       <text>没有相关商品</text>
@@ -63,7 +63,7 @@
               <text class='price' wx:if="{{result.promotion>0}}">￥{{result.promotionPrice}}</text>
               <text class='price' wx:else>￥{{result.price}}</text>
               <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
-              <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
+              <text wx:if='{{result.unitShow}}' style='color:#bbb;font-size:20rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{result.unitShow}}</text>
               <text wx:if='{{result.maxPrice<=result.price&&result.tagPrice>result.price}}' class="tag_price">￥{{result.tagPrice}}</text>
             </view>
             <view class='productInfo_Nums'>

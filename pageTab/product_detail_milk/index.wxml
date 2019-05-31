@@ -67,8 +67,11 @@
       <view class='product_unit'><text>{{productData.productInfo.unitShow||"900g/罐"}}</text></view>
       <view class='product_price_info'>
         <text>￥</text>
-        <text class='product_price'>{{productData.productInfo.price}}</text>
-        <view class='product_tag_price'><text>/</text><text class='value'>￥{{productData.productInfo.tagPrice}}</text></view>
+        <text class='product_price' wx:if="{{productData.productInfo.promotionBean}}">{{productData.productInfo.promotionPrice}}</text>
+        <text class='product_price' wx:else>{{productData.productInfo.price}}</text>
+        <view class='product_tag_price' wx:if='{{productData.productInfo.tagPrice>productData.productInfo.price}}'>
+          <text>/</text><text class='value'>￥{{productData.productInfo.tagPrice}}</text>
+        </view>
       </view>
       <view class='product_brand'><text>{{productData.productInfo.brandName||"美国原装"}}</text></view>
     </view>
@@ -80,9 +83,19 @@
       <text wx:if="{{productData.productInfo.favorite==1}}">已收藏</text>
       <text wx:if="{{productData.productInfo.favorite==0}}">收藏</text>
     </view>
-    <view class='btn_tab_item' bindtap='showPoster'>
+    <view class='btn_tab_item' bindtap='showWay'>
       <image class='btn_tab_icon' src='http://image1.sansancloud.com/xianhua/2019_4/1/13/47/58_484.jpg?x-oss-process=style/preview_120'></image>
       <text>推荐</text>
+      <view class='showList' wx:if="{{showWayState}}">
+        <button class='showItem btn' catchtap='showPoster'>
+          <image class='sharaPosterIcon' src='http://image1.sansancloud.com/sansancloud/2018_9/10/10/4/26_910.jpg?x-oss-process=style/preview_120'></image>
+          <text>生成海报</text>
+        </button>
+        <button class='showItem btn' open-type='share'>
+          <image class='sharaPosterIcon' src='http://image1.sansancloud.com/sansancloud/2018_9/10/10/16/1_467.jpg?x-oss-process=style/preview_120'></image>
+          <text>分享页面</text>
+        </button>
+      </view>
     </view>
   </view>
   <view class='interval'></view>
@@ -90,10 +103,6 @@
   <view style='margin-top:20rpx;'>
     <component-customPage data="{{sendProductData}}"></component-customPage> 
   </view>
-    <!-- <view class='price_explain'>
-      <text class='price_explain_title'>价格说明</text>
-      <view class='price_explain_content'>店铺中展示的中间未划横线价格为该店铺的销售价，该价格是交易成交价，是您最终决定是否购买商品的依据。店铺展示的中间划横线价格(显示如¥1000)为参考价，采集自品牌专柜标价、商品吊牌价或由品牌供应商提供的正品零售价由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价可能会与您购物时展示的不一致。该价格仅供您参考。</view>
-    </view> -->
 
   <!-- 首页组件-公共产品详情装饰-->
   <component-customPage data="{{sendIndexData}}"></component-customPage> 

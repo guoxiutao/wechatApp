@@ -24,7 +24,9 @@
   <view style='{{!showTop||componentState?"margin-top:":""}}{{!showTop||componentState?"0px":""}}' class='{{selectTab.length!=0?"form_commit_list mt_150":"form_commit_list mt_80"}}'>
     <block wx:if="{{formCommitList.length!=0}}">
       <!-- 表单子项样式组件 -->
-      <form-item style="width:100%" wx:if='{{formCommitList&&formListStyle}}' formListStyle="{{formListStyle}}" data="{{formCommitItem}}" wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{limitState!=0?index<data.jsonData.count:'ture'}}" wx:key='{{index}}' data-belongformtype='{{formCommitItem.belongFormType}}' bindtap='checkFormDetail' data-id="{{formCommitItem.id}}"></form-item> 
+      <block>
+        <form-item wx:if='{{formCommitList&&formListStyle}}' wx:for="{{formCommitList}}" wx:for-item="formCommitItem" wx:if="{{limitState!=0?index<data.jsonData.count:'ture'}}" wx:key='{{index}}' id="formItem" style="width:100%" controlLimitState="{{controlLimitState}}" formListStyle="{{formListStyle}}" data="{{formCommitItem}}" ></form-item>
+      </block> 
     </block>
     <block wx:else>
        <view class='none_list'>主人~暂无提交表单哦！</view>

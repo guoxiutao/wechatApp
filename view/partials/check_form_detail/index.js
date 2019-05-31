@@ -91,19 +91,19 @@ Component({
       wx.navigateBack()
     },
     // 定位
-    clickCatch: function (e) {
-      let latitude = 26.074790;
-      let longitude = 119.272080;
-      let name = "福州至诚学院";
-      let address = "福州至诚学院";
-      wx.openLocation({
-        latitude: latitude,
-        longitude: longitude,
-        scale: 12,
-        name: name,
-        address: address
-      })
-    },
+    // clickCatch: function (e) {
+    //   let latitude = 26.074790;
+    //   let longitude = 119.272080;
+    //   let name = "福州至诚学院";
+    //   let address = "福州至诚学院";
+    //   wx.openLocation({
+    //     latitude: latitude,
+    //     longitude: longitude,
+    //     scale: 12,
+    //     name: name,
+    //     address: address
+    //   })
+    // },
     calling: function (e) {
       console.log('====e===', e)
       let phoneNumber = e.currentTarget.dataset.phonenumber

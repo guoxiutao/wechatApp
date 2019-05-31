@@ -27,7 +27,7 @@
            <text style='color:{{setting.platformSetting.defaultColor}}'>{{orderDetailData.easyStatusStr}}</text> 
         </block>
   </view>
-  <view class='orderKuaidi' wx:if='{{orderDetailData.orderStatus > 3 && orderDetailData.orderStatus < 7 }}'>
+  <view class='orderKuaidi' wx:if='{{orderDetailData.orderStatus > 3 && orderDetailData.orderStatus < 7&&orderDetailData.processInstanceId==0 }}'>
       <view> 
          <text>快递名：</text> 
          <text style='color:{{setting.platformSetting.defaultColor}}' >{{orderDetailData.kuaidiName}}</text> 
@@ -55,7 +55,7 @@
             <text class='font2'>{{orderDetailData.buyerProvince}} {{orderDetailData.buyerCity}} {{orderDetailData.buyerArea}} {{orderDetailData.buyerAddress}}</text>
           </view>
         </view>
-        <view class='navigation' style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}' catchtap='clickCatch' data-info="{{orderDetailData}}"><text>去导航</text></view>
+        <view class='navigation'  wx:if="{{orderDetailData.buyerLatitude!=0&&orderDetailData.buyerLongitude!=0}}" style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}' catchtap='clickCatch' data-info="{{orderDetailData}}"><text>去导航</text></view>
     </view>
   </view>
   <view wx:else>
@@ -81,7 +81,7 @@
        <image class='storageIcon' src='http://image1.sansancloud.com/xianhua/2019_5/15/13/43/23_814.jpg?x-oss-process=style/preview'></image>
        <text>{{orderDetailData.storageName}}</text>
        </view>
-     <view class='navigation' style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'><text>去导航</text></view>
+     <view class='navigation' wx:if="{{orderDetailData.belongMendian.latitude!=0&&orderDetailData.belongMendian.longitude!=0}}" style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'><text>去导航</text></view>
   </view>
   <view class='cartContainer'>                        
     <view class='cartShopName'>

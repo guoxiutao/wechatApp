@@ -114,8 +114,10 @@
                       </view>
                       <view wx:if='{{list.easyStatus == 5}}' class='butn_container2'>
                           <view></view>
-                          <!-- <text data-orderNo='{{list.orderNo}}' bindtap='pingjiaOrder'>评价</text> -->
-                          <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='finishedOrder'>完成订单</text>
+                          <view class='butn_group'>
+                            <text data-orderNo='{{list.orderNo}}' class='butn_item' bindtap='pingjiaOrder' wx:if="{{list.isComment==0}}">评价</text>
+                            <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='finishedOrder'>完成订单</text>
+                          </view>
                       </view>
 
                     </view>

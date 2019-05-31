@@ -7,10 +7,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'xianhua',   //自定义的项目的名称。chooseMeasurechoosechooseMeasure
+  clientNo: 'jianzhan',   //自定义的项目的名称。chooseMeasurechoosechooseMeasure
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.1',
+  version:'3.5.3',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -23,6 +23,7 @@ App({
   //addr:null,
   kefuCount: 0,
   loginSuccessListeners: [],
+  carChangeNotifys:[],
   payItem: null, //下单的时候传过去的
   userSign: null, //账号密码
   EditAddr: null,//传值的
@@ -54,6 +55,22 @@ App({
   addLoginListener: function (listener) {
     console.log('addLoginListener', listener)
     this.loginSuccessListeners.push(listener);
+  },
+  addCarChangeNotify:function(listener){
+    this.carChangeNotifys.push(listener);
+  },
+  carChangeNotify:function(data){
+    console.log('000000000000', data);
+    if (this.carChangeNotifys && this.carChangeNotifys.length > 0) {
+      console.log('000000000000', this.carChangeNotifys)
+      for (let t = 0; t < this.carChangeNotifys.length; t++) {
+        try {
+          this.carChangeNotifys[t].carChangeNotify(data);
+        } catch (e) {
+          console.log(res);
+        }
+      }
+    }
   },
   onShow: function (e) {
     let that = this

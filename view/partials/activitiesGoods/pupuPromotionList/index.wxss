@@ -129,7 +129,7 @@
   display: flex;
   align-items: center;
 }
-pupu_promotion_item_tagprice{
+.pupu_promotion_item_tagprice{
   text-decoration:line-through;
 }
 .pupu_promotion_item_unit{

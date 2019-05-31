@@ -5,16 +5,6 @@
     <component-tag-title wx:if='{{title}}' data="{{title}}"></component-tag-title>  <!-- 4 标题 -->
   </view>
   <!-- 左边的导航 -->  
-  <!-- <view class='shop_top'>
-    <view class='shop_top_left'><image class='shop_top_img' src='../../../images/icons/logo.jpg'></image></view>
-    <view class='shop_top_right'>
-      <view class='shop_top_name'><text>野鲜超市-泰禾店</text></view>
-      <view class='shop_top_decribe'>
-        <text class='decribe_dada'>达达专送-46分钟</text>
-        <text class='decribe_base'>| 基础运费4元</text>
-      </view>
-    </view>
-  </view>  -->
   <scroll-view scroll-y class='leftScrollType'>
      <view wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-id="{{type.id}}" data-type="two" bindtap='getProductType' class='{{type.active?"activeTypeItem":"TypeItem"}}' style='border-bottom:{{type.active?"2rpx solid "+setting.platformSetting.defaultColor:""}};color:{{type.active?setting.platformSetting.defaultColor:""}}'>
         <view class='typeName'>{{type.name}}</view>
@@ -38,10 +28,11 @@
     </view>
     <view class='bottomHeight'></view>
   </scroll-view>
-
+  <!-- 首页组件-公共产品分类装饰-->
+  <component-customPage data="{{sendIndexData}}" wx:if='{{sendIndexData}}'></component-customPage>
 
 </view>
-
+<!-- 
   <block wx:if='{{pushItem.length > 0}}'>
   <view class='bottomCartContainer' style='background:{{setting.platformSetting.defaultColor}}'>
     <view class='cartInfo' bindtap='showZheshao'>
@@ -53,9 +44,9 @@
     </view>
     <view class='sureButn' bindtap='linkUrl' data-link="shopping_car_list_new.html">去结算</view>
   </view>
-  </block>
+  </block> -->
 
-<view wx:if='{{pushItem.length > 0}}' class='waimai_cart_container_forTap'> 
+<!-- <view wx:if='{{pushItem.length > 0}}' class='waimai_cart_container_forTap'> 
     <view class='Tap_cart' >
       <block wx:if='{{!showType}}'><view class='Tap_cart_v1' style='background:{{setting.platformSetting.defaultColor}}' bindtap='showZheshao'>^</view></block>
       <block wx:else><view class='Tap_cart_v2' bindtap='showZheshao'>v</view> </block>
@@ -82,4 +73,4 @@
         </view>
     </view>
   </scroll-view>
-</view>
+</view> -->

@@ -33,18 +33,18 @@
           <text class='location_name' wx:if="{{result.longitude>0}}">{{result.location}}</text>
           <text class='location_name' wx:else>{{result.description}}</text>
           <view class='sale_item3' wx:if="{{result.itemSpecialSaleType!=0}}">
-            <view class='sale_item3_title' style='background:{{defaultColor}}'>
+            <view class='sale_item3_title'>
               <text wx:if="{{result.itemSpecialSaleType==1}}">满减</text>
               <text wx:if="{{result.itemSpecialSaleType==2}}">买赠</text>
               <text wx:if="{{result.itemSpecialSaleType==3}}">限购</text>
             </view>
-            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==1}}" style='color:{{defaultColor}}'>
+            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==1}}">
               满<text>{{result.itemSpecialSaleValue1}}元</text>减<text>{{result.itemSpecialSaleValue2}}元</text>
             </view>
-            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==2}}" style='color:{{defaultColor}}'>
+            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==2}}">
               买<text>{{result.itemSpecialSaleValue1}}</text>赠<text>{{result.itemSpecialSaleValue2}}</text>
             </view>
-            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==3}}" style='color:{{defaultColor}}'>
+            <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==3}}">
               限购<text>{{result.itemSpecialSaleValue1}}件</text>
             </view>
           </view>

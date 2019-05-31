@@ -47,6 +47,8 @@
     <component-tag-spaceList  wx:if='{{item.partialType =="27"}}' data="{{item}}" ></component-tag-spaceList><!-- 27 空间列表-->
     
     <component-tag-locateAddress id="locateAddress" wx:if='{{item.partialType =="28"}}' data="{{item}}" ></component-tag-locateAddress><!-- 28 地址定位-->
+
+    <component-tag-shoppingCar wx:if='{{item.partialType =="29"}}' data="{{item}}" ></component-tag-shoppingCar><!-- 29 购物车组件-->
   
 
   </block>

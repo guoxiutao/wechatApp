@@ -43,13 +43,21 @@ Page({
     minCount:'1',
     sendIndexData:{},
     showInfo:true,
+    showWayState:false,
     loadingText:"上拉查看详情",
   },
   /*轮播图下标*/
   swiperChange: function (e) {
     this.setData({ swiperIndex: e.detail.current + 1 })
   },
-
+  showWay:function(){
+    let that=this;
+    if (that.data.showWayState){
+      this.setData({ showWayState: false })
+    }else{
+      this.setData({ showWayState: true })
+    }
+  },
   // 关闭海报
   getChilrenPoster(e) {
     let that = this;
@@ -76,6 +84,7 @@ Page({
     this.getQrCode();
     that.setData({
       posterState: true,
+      showWayState: false 
     })
   },
   toIndex: function () {
@@ -548,6 +557,10 @@ Page({
             })
           }
         }
+        try {
+          app.carChangeNotify(res.data);
+        } catch (e) { }
+
       },
       fail: function (res) {
         wx.hideLoading()
@@ -817,6 +830,12 @@ Page({
   onShareAppMessage: function (res) {
     console.log(res)
     let that = this
+    that.shareAppMessage(res)
+  },
+  shareAppMessage: function (res){
+    console.log(res)
+    let that = this
+    that.setData({ showWayState: false })
     let params = that.dataFOr_getData;
     let productItem = that.data.productData.productInfo;
     if (!productItem.brandName || productItem.brandName == "") {
@@ -826,7 +845,6 @@ Page({
     console.log('params:', params, that.data.productData)
     return app.shareForFx2('productDetail', shareName, params)
   },
-
 
   /* 
      规格操作

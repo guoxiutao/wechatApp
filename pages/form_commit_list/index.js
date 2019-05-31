@@ -402,10 +402,13 @@ Page({
     that.data.Data = []
     let sendOptionData = that.data.sendOptionData
     console.log("========onPullDownRefresh============", that.data.selectResultsObj)
-    that.listPage.page = 1
-    that.setData({ sendOptionData: null })
-    that.setData({ sendOptionData: sendOptionData })
-    wx.stopPullDownRefresh()
+    that.selectComponent("#formCommitList").onPullDownRefresh();
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
+    // that.listPage.page = 1
+    // that.setData({ sendOptionData: null })
+    // that.setData({ sendOptionData: sendOptionData })
+    // wx.stopPullDownRefresh()
   },
 
 
@@ -420,11 +423,12 @@ Page({
    */
   onReachBottom: function () {
     console.log('===onReachBottom====')
-    var that = this
-    if (that.listPage.totalSize > that.listPage.page * that.listPage.pageSize) {
-      that.listPage.page++
-      this.getData();
-    }
+    let that = this
+    that.selectComponent("#formCommitList").onReachBottom();
+    // if (that.listPage.totalSize > that.listPage.page * that.listPage.pageSize) {
+    //   that.listPage.page++
+    //   this.getData();
+    // }
   },
 
 })

@@ -1,5 +1,5 @@
 <wxs src="../../public/publicFun.wxs" module="publicFun"></wxs>
-<form-commit_list  showBtn="ture" data="{{sendOptionData}}" wx:if='{{sendOptionData}}'></form-commit_list>
+<form-commit_list id="formCommitList"  showBtn="ture" data="{{sendOptionData}}" wx:if='{{sendOptionData}}'></form-commit_list>
 <!-- <view class='container' wx:if="{{!loading}}">
   <view class='zhezhao' wx:if="{{showCount}}" bindtap='closeZhezhao'></view>
   <view class='select_top' wx:if="{{showTop}}">

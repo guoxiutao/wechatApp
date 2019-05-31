@@ -184,6 +184,8 @@
 .tag_price{
   color:#bbb;
   font-size:24rpx;
+  text-decoration:line-through;
+
 }
 .product_num_handle{
   display: flex;

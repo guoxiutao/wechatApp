@@ -73,40 +73,42 @@ Page({
         var tempFilePaths = res.tempFilePaths[0]
         let imageParam = {}
         imageParam.imageUrl = tempFilePaths
-        var customIndex = app.AddClientUrl("/imageToBase64A.html",  imageParam ,'post')
-        /*wx.request({
-          url: customIndex.url,
-          data: customIndex.params,
-          header: app.headerPost,
-          method: 'POST',
-          success: function (res) {
-            console.log(res.data)
+        // var customIndex = app.AddClientUrl("/imageToBase64A.html",  imageParam ,'post')
+        // wx.request({
+        //   url: customIndex.url,
+        //   data: customIndex.params,
+        //   header: app.headerPost,
+        //   method: 'POST',
+        //   success: function (res) {
+        //     console.log(res.data)
            
-          },
-          fail: function (res) {
-            app.loadFail()
-          },
-          complete: function () {
+        //   },
+        //   fail: function (res) {
+        //     app.loadFail()
+        //   },
+        //   complete: function () {
             
-          }
-        })*/
-        /*
+        //   }
+        // })
+        var customIndex = app.AddClientUrl("/file_uploading.html", imageParam, 'POST')
         wx.uploadFile({
-          url: '127.0.0.1:3000/chainalliance/imageToBase64A.html', //仅为示例，非真实的接口地址
+          url: customIndex.url,
           filePath: tempFilePaths,
           name: 'file',
-          formData: {
-            'user': 'test'
-          },
+          formData: customIndex.params,
+          // formData: {
+          //   'user': 'test'
+          // },
           success: function (res) {
-            var data = res.data
-            console.log(res)
+            var data = JSON.parse(res.data)
+            console.log(data)
+            that.imageUrl = data.relateObj.imageUrl
             //do something
           },
           fail:function(res){
             console.log(res)
           },
-        })*/
+        })
         console.log(tempFilePaths)
         //console.log(that.data.loginUser)
         that.data.loginUser.userIcon = tempFilePaths
@@ -335,7 +337,7 @@ Page({
     }
     console.log(".............")
     console.log(this.data.loginUser)
-    this.imageUrl = this.data.loginUser.platformUser.headimgurl
+    this.imageUrl = this.data.loginUser.userIcon
   },
 
   /**

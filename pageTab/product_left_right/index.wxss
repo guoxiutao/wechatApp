@@ -141,10 +141,12 @@
   flex-direction: column;
   font-size: small;
   overflow: scroll;
+  padding:0 10rpx;
+  box-sizing:border-box;
 }
 
 .productItem{
-  padding: 10px;
+  padding: 10px 6rpx;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -210,13 +212,13 @@
   justify-content:space-between;
 }
 .price{
-  font-size: 32rpx !important;
+  font-size: 26rpx !important;
   /* margin-right: 10rpx */
 }
 .tag_price{
   text-decoration:line-through;
   color: #999;
-  font-size: 24rpx
+  font-size: 22rpx
 }
 .price_group{
   display: flex;

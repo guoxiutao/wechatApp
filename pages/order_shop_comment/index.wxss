@@ -28,17 +28,19 @@
   height: 6em;
 }
 .commitProduct_item_info_icon{
-  width: 5em;
-  height: 5em;
+  width: 190rpx;
+  height: 190rpx;
 }
 .commitProduct_item_info_icon image{
   width: 100%;
   height: 100%;
   border: 1px solid #ccc;
   padding: 5px;
+  box-sizing:border-box;
+
 }
 .commitProduct_item_info_commitcontent{
-  width: 75%;
+  width: 100%;
   height: 70%;
 }
 .commitProduct_item_info_commitcontent textarea{
@@ -47,6 +49,7 @@
   border-radius: 5px;
   width:auto;
   margin-bottom: 1em;
+  border:1rpx solid #ccc;
 }
 
 /* 上传图片 */

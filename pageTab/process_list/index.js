@@ -21,6 +21,7 @@ Page({
     let that=this;
     console.log("===changeStateProcess===",e)
     let index = e.currentTarget.dataset.index
+    that.listPage.page = 1
     that.setData({ currentIndex:index})
     that.getProcessList();
   },

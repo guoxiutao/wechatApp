@@ -432,7 +432,7 @@ Page({
     var orderNo = e.currentTarget.dataset.orderno
     this.setData({ reflesh: true })
     wx.navigateTo({
-      url: '/pages/order_shop_comment/index?orderNo=' + orderNo,
+      url: '/pages/order_shop_comment/index?orderNo=' + orderNo ,
     })
   },
   /* 订单到货 */

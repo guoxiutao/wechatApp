@@ -21,10 +21,10 @@ Page({
     console.log(info)
     let latitude = info.latitude || info.buyerLatitude;
     let longitude = info.longitude || info.buyerLongitude;
-    let name = info.name || info.belongShopName;
+    let name = info.name || info.buyerName || info.belongShopName;
     let address = info.address || (info.buyerProvince + info.buyerCity + info.buyerArea + info.buyerAddress);
     // 判断金纬度是否为空
-    if (latitude == "" || longitude == "") {
+    if (latitude == 0 || longitude == 0) {
       console.log("判断金纬度是否为空");
       wx.showModal({
         title: '提示',

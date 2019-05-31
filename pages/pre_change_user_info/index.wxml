@@ -1,7 +1,7 @@
  <view class='container'> 
   <form class='info_Form' bindsubmit="changeUserInfo">
     <view class='info_image_container'>
-      <image src='{{loginUser.platformUser.headimgurl}}' mode='aspectFill' ></image><!--  bindtap='changeImage' -->
+      <image src='{{loginUser.userIcon}}' mode='aspectFill' bindtap='changeImage'></image><!--  bindtap='changeImage' -->
     </view>
     
 

@@ -97,6 +97,9 @@
     </view>
   </block>
 </view>
+
+  <!-- 首页组件-公共产品分类装饰-->
+  <component-customPage data="{{sendIndexData}}" wx:if='{{sendIndexData}}'></component-customPage>
   
 <template is="measure_card2" data="{{setting:setting,showCount,minCount,focusData:productData.productInfo,measures:productData.measures,byNowParams:byNowParams,measurementJson:measurementJson,type:bindway}}"></template> 
 </view>

@@ -66,10 +66,16 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-size: 26rpx;
+  color: #999;
+  position: relative;
 }
-.telno_img{
-  width: 50rpx;
-  height: 50rpx;
+.more_icon{
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 10rpx;
+  padding:20rpx;
+
 }
 /* center */
 .center_part{
@@ -176,4 +182,120 @@
   width: 34rpx;
   height: 34rpx;
   margin-right: 10rpx;
+}
+/*功能块  */
+.function_block{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-top: 1rpx solid #eee;
+  padding: 20rpx 30rpx;
+}
+.fun_list{
+  width:136rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top:10rpx;
+  left: -160rpx;
+  background: #eee;
+  padding:10rpx 16rpx;
+  border-radius: 10rpx;
+  z-index: 2
+}
+.fun_item{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  font-size: 24rpx;
+  color: #8a8a8a;
+  width: 100%;
+  padding:10rpx;
+}
+.fun_item_icon{
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 18rpx;
+}
+.form_reward_status{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #fff;
+}
+.form_reward_status_item{
+  padding:2rpx 10rpx;
+  margin-left:10rpx;
+  border-radius:6rpx;
+}
+.zhezhao {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:#000;
+  opacity:0.6;
+  z-index:99;
+}
+.reply_popup{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 600rpx;
+  height: 460rpx;
+  margin-top: -400rpx;
+  margin-left: -300rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.reply_popup_title{
+  border-bottom: 1rpx solid #ccc;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+  color: #999;
+  box-sizing:border-box;
+  width: 100%
+}
+.reply_text{
+  border: 1rpx solid #ddd;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin: 20rpx;
+  box-sizing: border-box;
+  font-size: 24rpx
+}
+.reply_popup_fun{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-top: 10rpx
+}
+.reply_popup_fun_btn{
+  width: 50%;
+  border-right: 1rpx solid#eee;
+  font-size: 26rpx;
+  color: #999;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.reply_block{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border-top: 1rpx solid #eee;
+  padding: 20rpx 30rpx;
+  color: #999;
+  font-size: 26rpx;
 }

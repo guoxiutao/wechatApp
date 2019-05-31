@@ -77,7 +77,11 @@
           <view class='item_infomation_nums'> 
             <text class='flexCenter'>x {{orderItem.itemCount}}</text>
           </view>
-          <view class='item_infomation_money'  style='color:{{setting.platformSetting.defaultColor}}'>单价:￥ {{orderItem.itemPrice}}</view>
+          <view class='item_infomation_money'  style='color:{{setting.platformSetting.defaultColor}}'>
+             单价:￥<text wx:if="{{orderItem.productItem.promotion&&orderItem.productItem.promotion!=0}}">{{orderItem.productItem.promotionPrice}}</text>
+             <text wx:else> {{orderItem.productItem.price}}</text>
+             <text class='tagPrice' wx:if='{{orderItem.productItem.tagPrice>orderItem.productItem.price}}'>/￥{{orderItem.productItem.tagPrice}}</text>
+          </view>
           <view class='salesStrategyList'wx:if="{{orderItem.saleStrategyNo}}">
             <view class='salesStrategyItem' style='border:1rpx solid {{setting.platformSetting.defaultColor}}'>
               <text style='color:{{setting.platformSetting.defaultColor}}'>{{orderItem.saleStrategyName}}</text>

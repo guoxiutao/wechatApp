@@ -9,7 +9,8 @@ Page({
     setting: null, // setting   
     productTypeTwo: [], // 商品数据 
     productType:[],
-    currentItem:{},
+    currentItem: {},
+    sendIndexData: null,
     sysWidth: 320,//图片大小
     tab:'',
     topName: {
@@ -109,12 +110,14 @@ Page({
    */
   onLoad: function (options) {
     console.log("===options=====", options)
-    this.setData({ setting: app.setting, title: { androidTemplate: "pupu_product_search", jsonData: { bgColor: app.setting.platformSetting.topBgColor,title:"请输入关键词搜索"}}})
+    let that=this;
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "product_type_list", params: { } })
+    that.setData({ sendIndexData: sendIndexData })
+    that.setData({ setting: app.setting, title: { androidTemplate: "pupu_product_search", jsonData: { bgColor: app.setting.platformSetting.topBgColor,title:"请输入关键词搜索"}}})
     wx.setNavigationBarColor({
       frontColor: app.setting.platformSetting.topColor.toLowerCase(),
       backgroundColor: app.setting.platformSetting.topBgColor,
     })
-    var that = this;
     if (options.parentCategoryId) {
       that.setData({ positionTab: options.parentCategoryId })
       options.categoryId = options.parentCategoryId

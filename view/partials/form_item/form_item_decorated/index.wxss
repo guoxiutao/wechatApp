@@ -24,3 +24,9 @@
   height:40rpx;
   white-space: nowrap
 }
+.to_navigation{
+  border-radius:20rpx;
+  font-size:26rpx;
+  padding:6rpx 20rpx;
+  margin-left:10rpx;
+}

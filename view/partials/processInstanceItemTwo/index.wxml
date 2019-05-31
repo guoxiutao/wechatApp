@@ -77,8 +77,8 @@
         </view>
         <view class='process_stage'>
           <view class='process_stage_icon_container'>
-            <view style='color:#fff;background:{{processItem.currentStageSequence>=9999&&processItem.payStatus==1?setting.platformSetting.defaultColor:"#ccc"}}'  class='{{processItem.currentStageSequence>=9999&&processItem.payStatus==1?"process_stage_icon heightAndwidth":"process_stage_icon"}}'>
-              <image mode='aspectFit' class='ongoing_img' wx:if="{{processItem.currentStageSequence>=9999&&processItem.payStatus==1}}" src='http://image1.sansancloud.com/xianhua/2019_4/17/15/9/16_251.jpg?x-oss-process=style/preview_120'></image>
+            <view style='color:#fff;background:{{processItem.currentStageSequence>=9999&&processItem.payStatus==1?setting.platformSetting.defaultColor:"#ccc"}}'  class='{{processItem.currentStageSequence>=9999&&processItem.payStatus==1&&processItem.commentedId==0?"process_stage_icon heightAndwidth":"process_stage_icon"}}'>
+              <image mode='aspectFit' class='ongoing_img' wx:if="{{processItem.currentStageSequence>=9999&&processItem.payStatus==1&&processItem.commentedId==0}}" src='http://image1.sansancloud.com/xianhua/2019_4/17/15/9/16_251.jpg?x-oss-process=style/preview_120'></image>
               <image mode='aspectFit' class='ongoing_img' wx:else src=''></image>
             </view>
           </view>
@@ -97,7 +97,7 @@
               <image mode='aspectFit' class='ongoing_img' src=''></image>
             </view>
           </view>
-          <text class='process_stage_name' wx:if="{{processItem.commentedId==0}}">待评价</text>
+          <text class='process_stage_name' wx:if="{{processItem.commentedId==0&&processItem.currentStageSequence==9999}}">待评价</text>
           <text class='process_stage_name' wx:if="{{processItem.commentedId==0&&processItem.currentStageSequence>9999}}">不得评价</text>
           <text class='process_stage_name' style='color:{{setting.platformSetting.defaultColor}};' wx:if="{{processItem.commentedId!=0&&processItem.currentStageSequence==9999}}">已评价</text>
         </view>
