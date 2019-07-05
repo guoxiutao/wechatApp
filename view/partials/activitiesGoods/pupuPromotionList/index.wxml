@@ -3,7 +3,7 @@
 <template name="pupuPromotionList">
 
 <block >
-  <view class='pupu_promotion_top'>
+  <view class='pupu_promotion_top' wx:if="{{relateBean.promotionStatus!=2}}">
     <text class='pupu_promotion_name'>{{relateBean.name}}</text>
     <view class='pupu_promotion_right'>
       <view class='pupu_promotion_time'>

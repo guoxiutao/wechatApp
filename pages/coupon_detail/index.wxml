@@ -23,7 +23,7 @@
           <text class='coupon_detail_count_num' wx:if='{{couponDetail.count!=0}}'>剩余{{couponDetail.count-couponDetail.gotCount}}张</text>
           <text class='coupon_detail_count_num' wx:else>无限量</text>
         </view>
-        <view class='coupon_detail_botton'>
+        <view class='coupon_detail_botton' wx:if="{{showBtn}}">
         <!--   -->
           <view class='coupon_detail_botton_now' bindtap='selectFun' style='background:{{color}};border:2rpx solid {{color}}'>
             <text wx:if='{{!couponState&&couponEnableState}}'>立即领取</text>

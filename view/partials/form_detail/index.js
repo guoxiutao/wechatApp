@@ -64,9 +64,9 @@ Component({
     console.log("==locationList==", that.data.locationList)
     console.log("===selectAddress=====", that.data.selectAddress)
     let options = that.data.data
-    that.data.gainActionEvent = options.actionEvent
+    that.data.gainActionEvent = options.actionEvent||0
     that.setData({ formId: options.customFormId })
-    if (that.data.showBtn=='ture'){
+    if (that.data.showBtn =='true'){
       that.setData({ showformSubmitBtn:true})
     } else {
       that.setData({ showformSubmitBtn: false })
@@ -508,7 +508,7 @@ Component({
     }else{
       for (let i = 0; i < that.data.formData.items.length; i++) {
         let name = that.data.formData.items[i].name;
-        if ((that.data.formData.items[i].type == 0 || that.data.formData.items[i].type == 9 || that.data.formData.items[i].type == 1)&& (!that.data.inputValue[name] && that.data.inputValue[name]!=='')){
+        if ((that.data.formData.items[i].type == 0 || that.data.formData.items[i].type == 9 || that.data.formData.items[i].type == 1 || that.data.formData.items[i].type == 14)&& (!that.data.inputValue[name] && that.data.inputValue[name]!=='')){
           that.data.inputValue[name] = that.data.formData.items[i].defaultValue||"";
         }
       }
@@ -559,25 +559,21 @@ Component({
     // return
     console.log('===itemData====', itemData)
     for (let i = 0; i < itemData.length;i++){
-      for (let j in value) {
-        if(itemData[i].name == j){
-          newObj[itemData[i].name] = { value: value[j] || "", title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
-        }
-        if (itemData[i].name == j && itemData[i].mustInput == 1 && (!value[j] || value[j].length==0)){
-          wx.showModal({
-            title: '提示',
-            content: '请填写完整',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
+      newObj[itemData[i].name] = { value: value[itemData[i].name] || "", title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
+      if (itemData[i].mustInput == 1 && (!value[itemData[i].name] || value[itemData[i].name].length == 0)) {
+        wx.showModal({
+          title: '提示',
+          content: '请填写完整',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
             }
-          })
-          return
-        } 
-      }
+          }
+        })
+        return
+      } 
     }
     console.log("==newObj====", newObj)
     params.formJson = JSON.stringify(newObj);

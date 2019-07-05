@@ -177,7 +177,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <input type="number" name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
+          <input  name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
         </view>
         <!--  -->
         </view>

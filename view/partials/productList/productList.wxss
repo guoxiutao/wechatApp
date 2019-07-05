@@ -5,6 +5,8 @@
 @import 'pupuProductListTwo/index.wxss';/* 引入详细列表跟新闻列表一样的样式PUPU */
 @import 'pupuProductListSlide/index.wxss';/* 引入详细列表跟新闻列表一样的样式PUPU */
 @import 'productListSlide/productListSlide.wxss';/* 引入可以滑动的样式 */
+@import 'ticketOneColumnSlide/index.wxss';/* 引入可以滑动的样式 */
+@import 'ticketOneColumn/index.wxss';/* 引入可以滑动的样式 */
 @import '../../../view-new/aikucun/measure_card.wxss';/*  detail_list_card  */ 
 @import"../../../wxParse/wxParse.wxss";/* 富文本 */
 

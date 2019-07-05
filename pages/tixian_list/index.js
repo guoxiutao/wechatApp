@@ -7,7 +7,8 @@ Page({
      */
     data: {
         Data: [],
-        moneyAmount: 0
+        moneyAmount: 0,
+        properties: {},
     },
     userRecharge: function () {
         this.setData({
@@ -103,7 +104,8 @@ Page({
      */
     onReady: function () {
         this.setData({
-            setting: app.setting
+            setting: app.setting,
+            properties: app.properties
         })
     },
 

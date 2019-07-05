@@ -137,6 +137,7 @@ Page({
     })
     setTimeout(function () {
       that.setPageName('index')
+      app.footerCount=0
     }, 500);
     // if (this.data.listenerId) {
     //   console.log("hello:" + this.data.listenerId);

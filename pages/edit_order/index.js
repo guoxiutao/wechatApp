@@ -29,7 +29,7 @@ Page({
     userAddressCustomFormCommitId:'',
     setting: null,
     loginUser: null,
-    
+    properties:{},
     //otherArr
     showArr:false,
     addrArr:null,
@@ -320,10 +320,10 @@ Page({
       header: app.header,
       success: function (res) {
         console.log("=====orde detail=======",res)
-        if (res.data.userAddressCustomFormId){
+        if (res.data.userAddressCustomFormId && that.data.setting.platformSetting.addressType == 2){
           that.setData({ showAddressForm: true,sendOptionData: { customFormId: res.data.userAddressCustomFormId || 0 } })
         }else{
-          that.setData({  sendOptionData: {} })
+          that.setData({  sendOptionData: null })
         }
         if (res.data.userAddressCustomFormCommitId){
           that.setData({ userAddressCustomFormCommitId: res.data.userAddressCustomFormCommitId})
@@ -369,7 +369,7 @@ Page({
     console.log("=====addressType=====", addressType)
     console.log(that.orderMessage)
     // 不允许自提的时候没写地址
-    if (!that.orderMessage.addressId && that.data.allowMendianZiti == "0" && addressType!=2){
+    if (!that.orderMessage.addressId && that.data.allowMendianZiti == "0" && addressType != 2 && that.data.orderData.orderType != 17){
         wx.showModal({
           title: '提示',
           content: '请添加收货地址',
@@ -387,7 +387,7 @@ Page({
       
     }else{
       // 如果允许自提但没打勾
-      if (that.data.allowMendianZiti != "0" && that.data.mendianZiti == "0" && !that.orderMessage.addressId && addressType != 2){
+      if (that.data.allowMendianZiti != "0" && that.data.mendianZiti == "0" && !that.orderMessage.addressId && addressType != 2 && that.data.orderData.orderType != 17){
         wx.showModal({
           title: '提示',
           content: '请添加收货地址',
@@ -417,7 +417,7 @@ Page({
         console.log("======mendianZiti=========", that.data.mendianZiti)
         that.orderMessage.mendianZiti = that.data.mendianZiti
         that.orderMessage.miniNotifyFormId = miniNotifyFormId
-        if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno)){
+        if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno) && that.data.setting.platformSetting.addressType != 2 && that.data.orderData.orderType != 17){
           wx.showModal({
             title: '提示',
             content: '请完善提货人信息！',
@@ -448,13 +448,15 @@ Page({
           }
         }
         //判断地址类型
-        if (that.data.setting.platformSetting.addressType == 2) {
+        if (that.data.setting.platformSetting.addressType == 2 || that.data.orderData.orderType==17) {
           that.orderMessage.addressId = 0
         }
-        console.log("=========参数orderMessage===========", that.orderMessage)
-        if (!that.data.sendOptionData.customFormId){
+        console.log("=========参数orderMessage===========", that.orderMessage, that.data.sendOptionData)
+        if (!that.data.sendOptionData){
+          console.log("=====没有表单=====")
           that.toSubmitOrder(that.orderMessage)
-        }else{
+        } else {
+          console.log("=====有表单=====")
           that.selectComponent("#orderForm").formSubmit();
         }
 
@@ -646,6 +648,7 @@ Page({
     var that = this
     console.log("========app.setting======", app.setting)
     console.log("========option======", option)
+    console.log("========properties======", app.properties)
     // 查找缓存(先暂时把id当成桌号，后台暂时没有配置桌号，后面再去改)
     try {
       var tableID = wx.getStorageSync('tableID')
@@ -658,8 +661,7 @@ Page({
      
     }
     console.log("=========tableID===========", tableID)
-    that.setData({ setting: app.setting })
-    that.setData({ loginUser: app.loginUser })
+    that.setData({ setting: app.setting, loginUser: app.loginUser, properties: app.properties})
     console.log("==================option===================", option.orderNo)
     let orderData = option.orderNo
   //  获取订单号

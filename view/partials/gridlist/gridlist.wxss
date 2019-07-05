@@ -1,4 +1,5 @@
 @import 'second_navigation_with_shadow/second_navigation_with_shadow.wxss';/* 引入带有阴影的 */
+@import 'vertical_column_navigation/index.wxss';/* 引入带有阴影的 */
 
 
 

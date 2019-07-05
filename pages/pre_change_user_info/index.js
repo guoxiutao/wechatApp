@@ -122,7 +122,8 @@ Page({
     let that = this;
     console.log("===getDataFun===", e, e.detail.formId)
     that.userInfo.userInfoFormCommitId = e.detail.formId
-    that.toChangeUserInfo(that.userInfo)
+    let params = { userInfoFormCommitId: e.detail.formId, headimg: this.imageUrl }
+    that.toChangeUserInfo(params)
   },
   sexChange:function(e){
     console.log("=====sexChange=====",e)
@@ -137,25 +138,19 @@ Page({
       passworld:"" 
     }
     this.setData({ butn_show_loading:true })
-    // var loginUser = this.data.loginUser
-    // reLoginData.username = loginUser.name
-    // reLoginData.password = loginUser.passworld
     this.userInfo = e.detail.value
-    //检测手机号
-   // var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(19[0-9]{1})|(16[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
-    
     let phoneNo = this.userInfo.telno
-    if (!phoneNo||phoneNo.length!=11) {
-      wx.showToast({
-        title: "号码格式错误",
-        image: '/images/icons/tip.png',
-        duration: 2000
-      })
-      this.setData({ butn_show_loading: false })
-      return;
-    } 
     this.userInfo.headimg = this.imageUrl
     if (!app.setting.platformSetting.userInfoCustomFormId){
+      if (!phoneNo || phoneNo.length != 11) {
+        wx.showToast({
+          title: "号码格式错误",
+          image: '/images/icons/tip.png',
+          duration: 2000
+        })
+        this.setData({ butn_show_loading: false })
+        return;
+      } 
       that.toChangeUserInfo(this.userInfo)
     }else{
       that.selectComponent("#userForm").formSubmit();

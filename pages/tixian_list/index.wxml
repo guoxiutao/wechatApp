@@ -1,7 +1,7 @@
 <view class='container'>
   <!--账户余额信息start  -->
   <view class='account_balance_info'>
-    <text class='balance_text'>账户余额</text>
+    <text class='balance_text'>账户{{properties.alias_yue||'余额'}}</text>
     <text class='account_num'>￥{{moneyAmount}}</text>
     <view class='tixian_btn' style="background:linear-gradient(116deg,{{setting.platformSetting.secondColor||'#fff'}} 0%,{{setting.platformSetting.defaultColor||'#ff0000'}} 100%);" catchtap='userRecharge'>
       <text>提现</text>

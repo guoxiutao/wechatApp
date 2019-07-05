@@ -1,6 +1,7 @@
  <import src="../../view-new/partials/product_search.wxml"/>
 
 <import src="../../view/partials/productList/pupuProductListOne/pupuProductListOne.wxml"/>
+<import src="../../view/partials/productList/ticketOneColumn/index.wxml"/>
 
 <import src="../../view-new/aikucun/measure_card2.wxml"/>
 <view class="container"> 
@@ -66,7 +67,7 @@
 <!-- 列表 -->
 <view class='{{!productTypeItem[3].state?"product_page_container2":"product_page_container2 mt_156"}}'>
   <block wx:if = "{{!! productListData}}">
-    <template is="pupuProductListOne"  data="{{...sendData,defaultColor,secondColor}}"></template> 
+    <template is="{{showListType=='common'?'pupuProductListOne':'ticketOneColumn'}}"  data="{{...sendData,defaultColor,secondColor}}" wx:if="{{showListType}}"></template> 
     <!-- <view class='product_items2' data-info='{{result}}' data-link="product_detail.html?id={{result.id}}"  bindtap='linkUrl' wx:for="{{productListData}}" wx:for-item="result" wx:key="{{result.id}}">
       <image mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
       <view class='product_items2_view1'>

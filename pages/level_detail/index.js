@@ -10,6 +10,7 @@ Page({
   data: {
     memberState:false,
     rechargeState:false,
+    properties:{},
   },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
@@ -72,7 +73,7 @@ Page({
   onLoad: function (options) {
     let that = this;
     console.log('options', options)
-    that.setData({ loginUser: app.loginUser, platformSetting: app.setting.platformSetting})
+    that.setData({ loginUser: app.loginUser, platformSetting: app.setting.platformSetting, properties: app.properties})
     console.log('loginUser', app.loginUser)
     that.getMembersListData(options.id||0)
   },

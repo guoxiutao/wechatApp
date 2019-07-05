@@ -25,7 +25,11 @@
     "component-tag-spaceList": "../space_list/index",
     "component-tag-organizesList": "../organizes_list/index",
     "component-tag-formCommitList": "../form_commit_list/index",
-    "component-tag-shoppingCar": "../shopping_car/index"
+    "component-tag-shoppingCar": "../shopping_car/index",
+    "component-tag-jifenList": "../jifen_list/index",
+    "component-footer": "../footer/index",
+    "component-popup-page": "../popupPage/index",
+    "component-form-detail": "../form_detail/index"
   }
   
 }

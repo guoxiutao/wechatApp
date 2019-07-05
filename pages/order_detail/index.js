@@ -14,6 +14,7 @@ Page({
     showArr: false,
     addrArr: null,
     hasAddnewAddr: false,
+    ewmCode:"",
   },
   clickCatch: function (e) {
     console.log(e.currentTarget.dataset.info)
@@ -129,7 +130,54 @@ Page({
       url: '/pages/add_address/index',
     })
   },
-  
+  getVerificationCode: function (orderNo) {
+    var that = this
+    let params = { verifyScanType: 2, code: orderNo||0};
+    var customIndex = app.AddClientUrl("/wx_get_scan_verify_parameter.html", params)
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("getVerificationCode", res.data)
+        if (res.data.errcode == 0) {
+          that.getEwmCode(res.data.relateObj)
+        } else {
+          wx.showModal({
+            title: '错误',
+            content: res.data.errMsg,
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.navigateBack({
+                  delta: 1
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
+            }
+          })
+        }
+      },
+      complete: function (res) {
+
+      }
+    })
+  },
+
+  getEwmCode: function (data) {
+    let that = this;
+    let userId = "";
+    if (app.loginUser && app.loginUser.platformUser) {
+      userId = 'MINI_PLATFORM_USER_ID_' + app.loginUser.platformUser.id
+    }
+    // + "%26verifyScanType%3d" + that.onloadOpt.verifyScanType + "%26sign%3d" + data.sign + "%26seq%3d" + data.seq + "%26scene%3d" + userId 
+    let getUrl = app.AddClientUrl("/super_shop_manager_get_mini_code.html");
+    that.setData({ ewmCode: getUrl.url + '&path=pageTab%2findex%2findex%3fVERIFICATION_CODE%3d' + data.verifyScanCode + "%26verifyScanType%3d" + data.verifyScanType + "%26sign%3d" + data.sign })
+    console.log("ewmCode", that.data.ewmCode)
+  },
   getOrderDetail:function(id){
     let that = this
     let getParams = {}
@@ -146,6 +194,12 @@ Page({
         console.log('-----------orderDetail--------')
         console.log(res.data)
         that.setData({ orderDetailData: res.data})
+        if (res.data.mendianZiti==1){
+          that.getVerificationCode(res.data.orderNo)
+        }
+        if (res.data.processInstanceId){
+          that.getProcessList(res.data.processInstanceId)
+        }
         if (res.data.userAddressCustomFormCommitId){
           that.setData({ formCommitId: res.data.userAddressCustomFormCommitId})
         }
@@ -154,6 +208,69 @@ Page({
       fail: function (res) {
         wx.hideLoading()
         app.loadFail()
+      }
+    })
+  },
+// 地图
+  regionchange(e) {
+    console.log('===regionchange===', e)
+    if (e.type == 'end') {
+      if (e.causedBy == 'scale') {
+        console.log('====scale====')
+      } else if (e.causedBy == 'drag') {
+        console.log('====drag====');
+        this.getCenterPoint(this.getData);
+      } else {
+        console.log('====all====');
+        this.getCenterPoint(this.getData);
+      }
+    }
+  },
+  getCenterPoint(callback) {
+    let that = this;
+    var mapCtx = wx.createMapContext('map')
+    mapCtx.getCenterLocation({
+      success: function (res) {
+        console.log('res', res)
+        that.getLoctionAddr(res.longitude, res.latitude)
+        that.params.latitude = res.latitude;
+        that.params.longitude = res.longitude;
+        that.setData({
+          params: that.params,
+        })
+        if (callback) {
+          callback(that.params, 2)
+        }
+      }
+    }) //获取当前地图的中心经纬度
+  },
+  /* 获取数据 */
+  getProcessList: function (id) {
+    let that = this
+    if (!app.checkIfLogin()) return;
+    let getParams = {}
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+    })
+    getParams.instanceStatus=1
+    getParams.processId = id
+    let customIndex = app.AddClientUrl("/wx_get_process_instance_list.html", getParams)
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log('====getProcessList-res===', res)
+        let data = res.data;
+        if (typeof (res.data) == 'string') {
+          data = JSON.parse(res.data)
+        }
+        if (data.errcode == 0) {
+          
+        }
+      },
+      complete: function (res) {
+
       }
     })
   },

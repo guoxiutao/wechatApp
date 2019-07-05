@@ -86,7 +86,7 @@
 .carItemsInfo{
   display:flex;
   flex-direction:row;
-  overflow:hidden;
+  /* overflow:hidden; */
   align-items:center;
   justify-content:flex-start;
   padding:0 20rpx;
@@ -133,6 +133,7 @@
 .item_infomation{
   display: flex;
   flex-direction: column;
+  position: relative;
   justify-content: space-between;
   padding-left:10px;
   min-height:160rpx;
@@ -202,8 +203,8 @@
   justify-content: flex-end;
   align-items: center;
   position: absolute;
-  right: 20rpx;
-  bottom: 20rpx;
+  right: 0rpx;
+  bottom: 0rpx;
 }
 .item_infomation_nums_cart_not_add > .x_butn{
   margin-right: 0.2em;

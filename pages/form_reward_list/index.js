@@ -9,7 +9,8 @@ Page({
   data: {
     formRewardList: [],
     moneyAmount: 0,
-    mendian: null
+    mendian: null,
+    properties:{},
   },
   /* 获取数据 */
   getData: function () {
@@ -58,7 +59,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({ setting: app.setting })
+    this.setData({ setting: app.setting ,properties: app.properties})
   },
 
   /**

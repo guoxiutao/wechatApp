@@ -18,18 +18,18 @@ Page({
     countGood: 0,
     pushItem: [],
     checkedItem: [],
-    minCount:'1',
+    minCount: '1',
     maskLoad: false, //按钮loading
 
     showHongDong: false, //活动购买的时候
     /* 热销数据 */
     products: null,
-    hotProduct:[],
+    hotProduct: [],
     //规格信息
     showCount: false,
     focusData: null,
     measurementJson: null,
-    minCount:'1',
+    minCount: '1',
     byNowParams: {}, //购买的参数
     bindType: 'addto', //加入购物车or直接下单
     focusIndex: 0,
@@ -51,7 +51,7 @@ Page({
   },
 
   touchM: function (e) {
-    console.log('===touchM===',e)
+    console.log('===touchM===', e)
     if (e.touches.length == 1) {
       //手指移动时水平方向位置
       var moveX = e.touches[0].clientX;
@@ -61,7 +61,7 @@ Page({
       var txtStyle = "";
       if (disX == 0 || disX < 0) {//如果移动距离小于等于0，文本层位置不变
         txtStyle = "left:0rpx";
-      } else if(disX > 0){//移动距离大于0，文本层left值等于手指移动距离
+      } else if (disX > 0) {//移动距离大于0，文本层left值等于手指移动距离
         txtStyle = "left:-" + disX + "rpx";
         if (disX >= delBtnWidth) {
           //控制手指移动距离最大值为删除按钮的宽度
@@ -184,8 +184,7 @@ Page({
       content: '删除该商品',
       success: function (res) {
         if (res.confirm) {
-          that.delectCart(listPro);
-
+          that.delectCart(listPro, 'some');
         } else if (res.cancel) {
           return
         }
@@ -196,7 +195,7 @@ Page({
   },
   /* 全部删除 */
   delectAll: function (e) {
-    console.log("====delectAll====",e)
+    console.log("====delectAll====", e)
     var that = this
     var listPro = {
       shopId: '',
@@ -209,19 +208,27 @@ Page({
       content: '全部删除',
       success: function (res) {
         if (res.confirm) {
-          that.delectCart(listPro);
-        } else if (res.cancel) {}
+          that.delectCart(listPro, 'all');
+          // app.carChangeNotify("clear");
+        } else if (res.cancel) { }
       }
     })
+    try {
+    } catch (e) { }
   },
   /* 删除选中 */
   delectChecked: function () {
     var that = this
-    var pushItem = this.data.pushItem
+    var pushItem = this.data.pushItem;
+    let allDelect = 'some';
     var listPro = {
       shopId: '',
       selectedIds: '',
       type: 'selected'
+    }
+    console.log("", istPro.shopId)
+    if (pushItem.length == that.data.cartData.length) {
+      allDelect = 'all'
     }
     if (pushItem.length == 0) {
       return
@@ -235,14 +242,14 @@ Page({
       content: '确认删除',
       success: function (res) {
         if (res.confirm) {
-          that.delectCart(listPro);
-        } else if (res.cancel) {}
+          that.delectCart(listPro, allDelect);
+        } else if (res.cancel) { }
       }
     })
 
   },
   //删除购物车的调用函数
-  delectCart: function (params) {
+  delectCart: function (params, type) {
     var that = this
     var customIndex = app.AddClientUrl("/delete_shopping_car_list_item.html", params, 'post')
     wx.request({
@@ -254,7 +261,23 @@ Page({
         console.log('-----------delect----------')
         console.log(res.data)
         wx.hideLoading()
-        that.getCart()
+        if (type == 'all') {
+          that.getCart()
+        } else {
+          that.getCart('init')
+        }
+        // that.setData({
+        //   pushItem:[],
+        //   countGood: 0,
+        //   countPrice: 0
+        // })
+        try {
+          if (type == 'all') {
+            app.carChangeNotify('clear');
+          } else {
+            app.carChangeNotify('reload');
+          }
+        } catch (e) { }
       },
       fail: function (res) {
         wx.hideLoading()
@@ -386,7 +409,7 @@ Page({
       success: function (res) {
         console.log(res)
         if (res.data && res.data.orderNo) {
-    
+
           wx.navigateTo({
             url: '/pages/edit_order/index?orderNo=' + res.data.orderNo,
           })
@@ -425,12 +448,12 @@ Page({
   },
   /* 加入購物車 */
   subCarNum: function (e) {
-    console.log('=====e=====',e)
+    console.log('=====e=====', e)
     let that = this
     let index = e.currentTarget.dataset.id
     let focusCartItem = this.data.cartData[0].carItems[index]
-    if (e.currentTarget.dataset.count==1){
-      
+    if (e.currentTarget.dataset.count == 1) {
+
       return
     }
     let params = {
@@ -512,8 +535,10 @@ Page({
         } else if (res.data.errcode == '-1') {
           app.echoErr(res.data.errMsg)
         }
-        that.getCart()
-
+        that.getCart("init")
+        try {
+          app.carChangeNotify('reload');
+        } catch (e) { }
       },
       fail: function (res) {
         wx.hideLoading()
@@ -524,7 +549,7 @@ Page({
   /* 加载购物车内容 */
 
   getCart: function (type) {
-    console.log('==========')
+    console.log('==========', type)
     var customIndex = app.AddClientUrl("/get_shopping_car_list_item.html")
     var that = this
     wx.request({
@@ -532,7 +557,7 @@ Page({
       header: app.header,
       success: function (res) {
         console.log('------error-------')
-        console.log("加载的数据",res.data)
+        console.log("加载的数据", res.data)
         if (res.data.errcode == '10001') {
           that.data.cartData = null
           that.setData({
@@ -568,7 +593,7 @@ Page({
             console.log("======successcartData====", that.data.cartData)
           }
           that.showPrice()
-          if (type=='init'){
+          if (type == 'init' || (type && type.detail)) {
             that.chooseAll()
           }
         }
@@ -605,8 +630,8 @@ Page({
     })
     this.showPrice()
   },
-  computeProNum:function(){
-    
+  computeProNum: function () {
+
   },
   chooseAll: function (e) {
     console.log("this.data.cartData", this.data.cartData);
@@ -643,62 +668,69 @@ Page({
   },
 
   showPrice: function () {
-    if (!this.data.cartData) {
-      this.setData({
-        countGood: 0,
-        countPrice: 0
-      })
-      return
-    }
-    var checkedItem = this.data.checkedItem
-    var cartDataItem = this.data.cartData[0].carItems
-
-    var pushItem = []
-    var countGood = 0
-    var countPrice = 0
-
-    for (let i = 0; i < cartDataItem.length; i++) {
-      for (let j = 0; j < checkedItem.length; j++) {
-        if (cartDataItem[i].id == checkedItem[j]) {
-          pushItem.push(cartDataItem[i])
-        }
-      }
-    }
-    for (let i = 0; i < pushItem.length; i++) {
-      countGood += parseInt(pushItem[i].count)
-      console.log("====pushItem=====", pushItem[i])
-      let promotionPrice = 0;
-      let carItemPrice = 0;
-      let specialSaleTypePrice = 0;
-      if (pushItem[i].item.itemSpecialSaleType == 1) {
-        specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
-      }
-      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
-        promotionPrice = pushItem[i].item.promotionPrice
-      } else {
-        carItemPrice = pushItem[i].carItemPrice
-      }
-      console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
-      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
-        countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
-      } else {
-        countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
-      }
-      // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0){
-      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
-      // } else {
-      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
-      // }
-    }
-    countPrice = countPrice.toFixed(2)
+    let resultData = app.showPrice(this.data.cartData, this.data.checkedItem);
+    console.log("===========resultData==========", resultData)
     this.setData({
-      pushItem: pushItem,
-      countGood: countGood,
-      countPrice: countPrice
+      pushItem: resultData.pushItem || [],
+      countGood: resultData.countGood,
+      countPrice: resultData.countPrice
     })
-    console.log(pushItem, 'pushItem__')
-    console.log(countGood, 'countGood__')
-    console.log(countPrice, "countPrice__")
+    // if (!this.data.cartData) {
+    //   this.setData({
+    //     countGood: 0,
+    //     countPrice: 0
+    //   })
+    //   return
+    // }
+    // var checkedItem = this.data.checkedItem
+    // var cartDataItem = this.data.cartData[0].carItems
+
+    // var pushItem = []
+    // var countGood = 0
+    // var countPrice = 0
+
+    // for (let i = 0; i < cartDataItem.length; i++) {
+    //   for (let j = 0; j < checkedItem.length; j++) {
+    //     if (cartDataItem[i].id == checkedItem[j]) {
+    //       pushItem.push(cartDataItem[i])
+    //     }
+    //   }
+    // }
+    // for (let i = 0; i < pushItem.length; i++) {
+    //   countGood += parseInt(pushItem[i].count)
+    //   console.log("====pushItem=====", pushItem[i])
+    //   let promotionPrice = 0;
+    //   let carItemPrice = 0;
+    //   let specialSaleTypePrice = 0;
+    //   if (pushItem[i].item.itemSpecialSaleType == 1) {
+    //     specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
+    //   } 
+    //   if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+    //     promotionPrice = pushItem[i].item.promotionPrice
+    //   } else {
+    //     carItemPrice = pushItem[i].carItemPrice
+    //   }
+    //   console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
+    //   if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+    //     countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
+    //   } else {
+    //     countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
+    //   }
+    //   // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0){
+    //   //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
+    //   // } else {
+    //   //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+    //   // }
+    // }
+    // countPrice = countPrice.toFixed(2)
+    // this.setData({
+    //   pushItem: pushItem,
+    //   countGood: countGood,
+    //   countPrice: countPrice
+    // })
+    // console.log(pushItem, 'pushItem__')
+    // console.log(countGood, 'countGood__')
+    // console.log(countPrice, "countPrice__")
   },
   /* 全部参数 */
   params: {
@@ -709,7 +741,7 @@ Page({
     totalSize: 0,
     curpage: 1
   },
-// 获取热销数据
+  // 获取热销数据
   getHotProduct: function () {
     let param = {
       page: this.params.page
@@ -720,11 +752,11 @@ Page({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
-     
+
         that.params.pageSize = res.data.pageSize
         that.params.curPage = res.data.curPage
         that.params.totalSize = res.data.totalSize
-        
+
         if (that.data.hotProduct && that.data.hotProduct.length != "0") {
           let products = that.data.hotProduct
           products = products.concat(res.data.result)
@@ -741,9 +773,9 @@ Page({
         console.log("主页面获取热销数据总", that.data.hotProduct)
 
 
-       
 
-   
+
+
       },
       fail: function (res) {
         console.log("fail")
@@ -755,7 +787,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "shoppingcard", params: { } })
+    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "shoppingcard", params: {} })
     this.setData({ sendIndexData: sendIndexData })
     this.setData({
       sysWidth: app.globalData.sysWidth,
@@ -850,7 +882,7 @@ Page({
   /* 分享 */
   onShareAppMessage: function (res) {
     if (res.from == "button") {
-  console.log(res)
+      console.log(res)
       // 商品id
       let id = res.target.dataset.id
       let products = this.data.hotProduct
@@ -866,7 +898,7 @@ Page({
         }
       }
       let focusData = products[index]
-    
+
       let imageUrl = focusData.imagePath
       let shareName = '活动价：￥' + focusData.price + '(原价：￥' + focusData.tagPrice + ')' + focusData.brandName + focusData.name
       let shareParams = {}
@@ -875,7 +907,7 @@ Page({
 
       shareParams.id = id
       console.log("shareParams", shareParams)
-      
+
       return app.shareForFx2('promotion_products', shareName, shareParams, imageUrl)
     } else {
 
@@ -887,12 +919,12 @@ Page({
   onReachBottom: function () {
     var that = this
     // 商品数目过多会导致setData的失败，setData有最大数目所以加载8页
-    if (that.params.totalSize > that.params.curPage * that.params.pageSize && that.params.page<8) {
+    if (that.params.totalSize > that.params.curPage * that.params.pageSize && that.params.page < 8) {
       that.params.page++
       // that.getHotProduct()
       // 组件内的事件
       // this.selectComponent('#productLists').getHotProduct( that.params.page)
-     
+
     }
 
     this.setData({
@@ -950,7 +982,7 @@ Page({
     let products = this.data.products
     let focusData = products
 
-  
+
     let showShare = this.data.showShare
 
     if (oldIndex == index) {
@@ -985,7 +1017,7 @@ Page({
     let products = this.data.hotProduct
     console.log("hotProduct", this.data.hotProduct)
     let focusData = products
-  
+
     if (focusData[index].showShare == false) {
       return
     }
@@ -1181,6 +1213,7 @@ Page({
               hasMore: true
             })
           }
+
         } else {
           wx.showToast({
             title: res.data.errMsg,
@@ -1288,7 +1321,7 @@ Page({
         console.log("fail")
         app.loadFail()
       },
-      complete: function () {},
+      complete: function () { },
     })
   },
   /* 初始化 选规格 */
@@ -1337,16 +1370,16 @@ Page({
     }
     this.get_measure_cartesion()
   },
-// 跳转到详情页
+  // 跳转到详情页
   tolinkUrl: function (e) {
     console.log(e)
     var a = "product_detail.html?productId=" + e.currentTarget.dataset.id;
     app.linkEvent(a);
   },
-// 跳转到首页
+  // 跳转到首页
   toIndex: function () {
     app.toIndex()
-  }, 
+  },
   // 展示海报
   showPosters(e) {
     console.log("showPostersEEEE", e.detail.e.currentTarget.dataset.id)
@@ -1357,7 +1390,7 @@ Page({
       posterState: true,
 
     })
-    
+
 
   },
   // 关闭海报
@@ -1397,5 +1430,5 @@ Page({
 
   }
 
- 
+
 })

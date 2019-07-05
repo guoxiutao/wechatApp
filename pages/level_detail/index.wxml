@@ -1,7 +1,7 @@
 <view class='container'>
   <!-- <view class='level_detail_title' wx:if="{{!memberState}}">
     <text class="levelName">{{myMembers.levelName}}</text>
-    <view><text class="levelName">余额：</text><text class='balance'>{{loginUser.platformUser.account}}</text></view>
+    <view><text class="levelName">{{properties.alias_yue||'余额'}}：</text><text class='balance'>{{loginUser.platformUser.account}}</text></view>
   </view> -->
   <view class='my_level_detail'>
     <view class='my_level_card' wx:if="{{myMembers.cardBanner&&myMembers.cardBanner!='undefined'}}" style='background-image:url({{myMembers.cardBanner}})'></view>
@@ -18,9 +18,9 @@
       <view class='my_level_limit_time'><text wx:if="{{loginUser.platformUser.platformUserCode}}">{{loginUser.platformUser.platformUserCode}}</text></view>
     </view>
     <view class='extra_info'>
-      <view class='extra_info_item' wx:if="{{memberState}}" >
+      <view class='extra_info_item' wx:if="{{memberState}}" catchtap='tolinkUrl' data-link="user_account_events.html">
       <!-- catchtap='tolinkUrl' data-link="mendian_zijin.html" -->
-        <text class='extra_info_title'>余额</text>
+        <text class='extra_info_title'>{{properties.alias_yue||'余额'}}</text>
         <text class='extra_info_value' style='color:{{platformSetting.defaultColor}}'>￥{{loginUser.platformUser.account}}</text>
       </view>
       <view class='extra_info_item' wx:else>

@@ -1,6 +1,6 @@
    <!-- <import src="../../view-new/aikucun/aikucun_hot_product.wxml"/>    -->
 
-  <import src="productList/productList.wxml"/>  
+  <!-- <import src="productList/productList.wxml"/>   -->
 
 
 <import src="../../view-new/aikucun/measure_card.wxml"/>
@@ -71,8 +71,18 @@
           <view class='item_infomation_nums_cart_not_add'> 
             <text class='x_butn'>x</text>
             <text class='flexCenter font1'>{{cart.count}}</text>
+            <!-- <view class='dellCart_butn_container_1'>
+              <image src='/images/icons/add2.png' class='{{cart.count == 1? "cantAdd":""}}' 
+                  data-id='{{index}}' data-cantadd='{{cart.count == 1}}' data-count='{{cart.count}}' catchtap='subCarNum'></image>
+              <text class='flexCenter font1'>{{cart.count}}</text>
+              <image src='/images/icons/add.png' class='{{cart.count == cart.stock ? "cantAdd":""}}' 
+                  data-id='{{index}}' data-cantadd='{{cart.count == cart.stock}}' data-count='{{cart.count}}' catchtap='addCarNum' ></image>
+            </view> -->
           </view>
-          <view  class='item_infomation_money'>￥ {{cart.carItemPrice}}</view>
+          <view  class='item_infomation_money'>
+          ￥ {{cart.carItemPrice}}
+          <text wx:if='{{cart.unitShow}}' style='color:#bbb;font-size:20rpx;margin-left:4rpx;letter-spacing:4rpx;'>/{{cart.unitShow}}</text>
+          </view>
         </view>
 
 
@@ -94,15 +104,7 @@
 </block>
 </view>
   <view class='hotProductContainer' bindtap='closeCardShare'>
-    <template is="aikucun_title2" data="{{...setting,sysWidth,loginUser:loginUser,title:'爆款推荐'}}"></template> 
-     <!-- <template is="aikucun_hot_product" data="{{...setting,sysWidth,loginUser:loginUser,products:products,listEnd}}"></template>   -->
-<!--新的  -->
-      <!-- <template is="aikucun_hot_product" data="{{...setting,sysWidth,loginUser:loginUser,products:products,listEnd,hotProduct}}"></template>   -->
-      
-         <productList  data="{{hotProduct}}" id="productLists"  bind:action='bindBuy' bind:showPosters='showPosters'             ></productList>
-      
-
-
+    <component-tag-customPage data="shoppingcard"></component-tag-customPage> <!-- 首页组件-->
     <template is="measure_card" data="{{setting:setting,showCount,focusData:focusData,byNowParams:byNowParams,measurementJson:measurementJson,showShare}}"></template> 
     
     <template is="kefu" data="{{loginUser:loginUser,showKefu}}"></template> 

@@ -187,6 +187,10 @@
   align-items: center;
   justify-content: space-between;
   margin-top:20rpx;
+  font-size:20rpx;
+}
+.saveData button{
+  font-size:30rpx;
 }
 .picker{
   width: 400rpx;

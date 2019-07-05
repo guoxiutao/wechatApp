@@ -11,7 +11,44 @@ Component({
   },
   data: {
     // 这里是一些组件内部数据
-    someData: {}
+    someData: {},
+    listData: {
+      cells: [
+        {
+          iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_117.jpg?x-oss-process=style/preview_120",
+          linkUrl: "address.html",
+          text: "收货地址",
+          color: "#777777"
+        },
+        {
+          iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_432.jpg?x-oss-process=style/preview_120",
+          linkUrl: "my_favorite.html",
+          text: "我的收藏",
+          color: "#777777"
+        },
+        {
+          iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_434.jpg?x-oss-process=style/preview_120",
+          linkUrl: "my_coupons.html",
+          text: "优惠券",
+          color: "#777777"
+        },
+        {
+          iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_429.jpg?x-oss-process=style/preview_120",
+          linkUrl: "",
+          id: "1",
+          text: "在线客服",
+          color: "#777777"
+        },
+        {
+          iconPath: "http://image1.sansancloud.com/xianhua/2019_3/27/15/37/19_420.jpg?x-oss-process=style/preview_120",
+          linkUrl: "custom_page_my_newlist?pageNage=常见问题",
+          text: "常见问题",
+          color: "#777777"
+        }
+      ],
+      column: 3,
+      showType: 0
+    },
   },
   ready: function () {
     let that = this;

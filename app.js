@@ -1,25 +1,26 @@
 import { dellUrl } from "/public/requestUrl.js";
 const Promise = require('/promise/promise.js');
 App({
-  //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
+ //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
   clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
 
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'jianzhan',   //自定义的项目的名称。chooseMeasurechoosechooseMeasure
+  clientNo: 'xianhua',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.3',
+  version:'3.5.14',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
-  setting: { platformSetting: { defaultColor: "#FE3737", secondColor: "#FF996E" } },  // 全局设置
+  setting: { platformSetting: { defaultColor: "#fff", secondColor: "#fff" } },  // 全局设置
   loginUser: "", //登陆返回的个人信息
   cookie: null,
   shopOpen: null, // 店铺营业时间-开关
   mapProIconArray: {},
   cart_offline: {},
+  properties:{},
   //addr:null,
   kefuCount: 0,
   loginSuccessListeners: [],
@@ -28,6 +29,7 @@ App({
   userSign: null, //账号密码
   EditAddr: null,//传值的
   richTextHtml: '',
+  footerCount:0,
   productParam: null,//传值的
   //  customPageJson:null,//page的动态组件json
   header: {
@@ -133,9 +135,13 @@ App({
   //第一次登录加载的函数
   loadFirstEnter: function (more_scene) {
     console.log('第一次登录加载的函数');
+    let that=this;
     // this.linkEvent("https://mini.sansancloud.com/chainalliance/sansancloud/bindWxGz.html?platformUserId=71076")
-    this.wxLogin(more_scene)
-    this.getSetting()
+    // setTimeout(function () {
+    //   that.wxLogin(more_scene)
+    // },6000)
+    that.wxLogin(more_scene)
+    that.getSetting()
   },
   loadScene: function (inputPlatformNo) {
     this.clientNo = inputPlatformNo
@@ -465,6 +471,7 @@ App({
     if (!linkUrl) {
       return
     }
+    this.footerCount=0;
     let urlData = this.getUrlParams(linkUrl)
     let If_Order_url = urlData.url.substr(0, 10)
     console.log('-----toGridLinkUrl---------')
@@ -1053,6 +1060,7 @@ App({
 
           if (res.data.platformSetting) {
             that.clientName = res.data.platformSetting.platformName
+            that.properties = res.data.platformSetting.properties
             if (res.data.platformSetting.categories) {//产品类别
               let categories = res.data.platformSetting.categories
               let allType = {}
@@ -1360,6 +1368,81 @@ App({
     s = Math.round(s * 10000) / 10000.0;
     console.log("====getDistance===", s)
     return s;
+  },
+  showPrice: function (cartData, checkedItem) {
+    console.log("=====app-showPrice======", cartData, checkedItem)
+    let objData = {}
+    if (!cartData) {
+      // this.setData({
+      //   countGood: 0,
+      //   countPrice: 0
+      // })
+      objData = {
+        countGood: 0,
+        countPrice: 0,
+      }
+      return objData
+    }
+    var cartDataItem = cartData[0].carItems
+    var checkedItem = checkedItem
+
+    var pushItem = []
+    var countGood = 0
+    var countPrice = 0
+    for (let i = 0; i < cartDataItem.length; i++) {
+      if (checkedItem){
+        for (let j = 0; j < checkedItem.length; j++) {
+          if (cartDataItem[i].id == checkedItem[j]) {
+            pushItem.push(cartDataItem[i])
+          }
+        }
+      }else{
+        pushItem.push(cartDataItem[i])
+      }
+    }
+    // for (let i = 0; i < cartDataItem.length; i++) {
+    //   pushItem.push(cartDataItem[i])
+    // }
+    for (let i = 0; i < pushItem.length; i++) {
+      countGood += parseInt(pushItem[i].count)
+      console.log("====pushItem=====", pushItem[i])
+      let promotionPrice = 0;
+      let carItemPrice = 0;
+      let specialSaleTypePrice = 0;
+      if (pushItem[i].item.itemSpecialSaleType == 1) {
+        if (parseInt(pushItem[i].count) * pushItem[i].carItemPrice >= Number(pushItem[i].item.itemSpecialSaleValue1)) {
+          specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
+        }
+      }
+      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+        promotionPrice = pushItem[i].item.promotionPrice
+      } else {
+        carItemPrice = pushItem[i].carItemPrice
+      }
+      console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
+      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+        countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
+      } else {
+        countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
+      }
+      // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0) {
+      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
+      // } else {
+      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+      // }
+    }
+    countPrice = Number(countPrice.toFixed(2))
+    objData={
+      pushItem: pushItem,
+      countGood: countGood,
+      countPrice: countPrice,
+    }
+    return objData
+    // this.setData({
+    //   pushItem: pushItem,
+    //   countGood: countGood,
+    //   countPrice: countPrice
+    // })
   },
   calling: function (phoneNumber) {
     console.log('====e===', phoneNumber)

@@ -1,6 +1,6 @@
   <view class='container'>
   <form bindsubmit="submitOrder" report-submit>
-    <view wx:if="{{setting.platformSetting.addressType!=2}}">
+    <view wx:if="{{setting.platformSetting.addressType!=2&&orderData.orderType!=17}}">
       <view class='distribution_mode' wx:if="{{showTopSelect}}">
         <view class='delivery_door' bindtap='selectType' data-type="0" style='color:{{mendianZiti==0?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==0?"":"#eee"}}'>
           <image class='delivery_door_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/49/33_894.jpg'></image>
@@ -47,7 +47,7 @@
           <image class='selectStoreIcon' mode='aspectFill' src='/images/icons/right.png'></image>
         </view>
       </view>
-      <view class='buyInfo' wx:if="{{mendianZiti==1}}">
+      <view class='buyInfo' wx:if="{{mendianZiti==1&&!sendOptionData&&!showAddressForm}}">
         <text class='name'>提货人信息</text>
         <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName||""}}' placeholder='请输入提货人'></input>
         <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno||""}}' placeholder='请输入提货人手机号'></input>
@@ -55,18 +55,21 @@
     </view>
 <!-- 以下是订单部分 -->
     <view class='server_container'>
-      <view>{{orderData.storageName}}</view>
+      <view wx:if="{{orderData.orderType!=17}}">{{orderData.storageName}}</view>
+      <view wx:else>{{orderData.belongShopName}}</view>
     </view>
  
     <view class='cartContainer'> 
       <view class='cartShopName'>
         <view class='font1' class='cart_star'>
-          <text>{{orderData.belongShopName}}</text>
+          <text wx:if="{{orderData.orderType!=17}}">{{orderData.belongShopName}}</text>
+          <text wx:else>{{orderData.venuesCells[0].venues.name}}（{{orderData.venuesDate}}）</text>
           <view class='marginleft' wx:if='{{orderData.promotionName}}'>{{orderData.promotionName}}</view> 
         </view>
         <text class='color'  style='color:{{setting.platformSetting.defaultColor}}'>合计:￥ {{orderData.goodsAmount  - couponMoney}}</text>
       </view>
-      <view class='cartItems' wx:for='{{orderData.orderItems}}' 
+      <!-- 产品 -->
+      <view class='cartItems' wx:if="{{orderData.orderType!=17}}" wx:for='{{orderData.orderItems||orderData.venuesCells}}' 
         wx:for-item='orderItem' wx:key='{{orderItem.itemId}}'>
         <view class='itemCheckbox'>
           <image mode='aspectFill' src='{{orderItem.itemIcon}}?x-oss-process=style/preview'></image>
@@ -79,14 +82,22 @@
           </view>
           <view class='item_infomation_money'  style='color:{{setting.platformSetting.defaultColor}}'>
              单价:￥<text wx:if="{{orderItem.productItem.promotion&&orderItem.productItem.promotion!=0}}">{{orderItem.productItem.promotionPrice}}</text>
-             <text wx:else> {{orderItem.productItem.price}}</text>
-             <text class='tagPrice' wx:if='{{orderItem.productItem.tagPrice>orderItem.productItem.price}}'>/￥{{orderItem.productItem.tagPrice}}</text>
+             <text wx:else> {{orderItem.itemPrice}}</text>
+             <text class='tagPrice' wx:if='{{orderItem.itemTagPrice>orderItem.itemPrice}}'>/￥{{orderItem.itemTagPrice}}</text>
           </view>
           <view class='salesStrategyList'wx:if="{{orderItem.saleStrategyNo}}">
             <view class='salesStrategyItem' style='border:1rpx solid {{setting.platformSetting.defaultColor}}'>
               <text style='color:{{setting.platformSetting.defaultColor}}'>{{orderItem.saleStrategyName}}</text>
             </view>
           </view>
+        </view>
+      </view>
+      <!-- 场馆 -->
+      <view class='venues_cell_list' wx:if="{{orderData.orderType==17}}">
+        <view class='venues_cell_item' style='background:{{setting.platformSetting.defaultColor}}' wx:for='{{orderData.venuesCells[0].cells}}'  wx:for-item='venuesCellItem' wx:key='{{venuesCellItem.startTimeSeconds}}'>
+           <text class='venues_cell_item_time'>{{venuesCellItem.startTimeStr}}-{{venuesCellItem.endTimeStr}}</text>
+           <text class='venues_cell_item_price'>￥{{venuesCellItem.cellPrice}}</text>
+           <text class='circular'></text>
         </view>
       </view>
       <view class='butn_container'>
@@ -146,7 +157,7 @@
       <label  class='{{checkedRadio == 1?"payChecked":"payWay"}}' data-index='1' bindtap='radioChance'
         wx:if='{{setting.platformSetting.zfYezfEnable && setting.platformSetting.zfYezfOn}}'><!--  -->
         <radio hidden='true' color="{{setting.platformSetting.defaultColor}}" checked='{{checkedRadio == 1}}' value='2'></radio>
-        <text>余额支付</text>
+        <text>{{properties.alias_yue||'余额'}}支付</text>
       </label>
     </radio-group>
 

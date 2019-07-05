@@ -48,7 +48,7 @@
           <view class='data_bottom_items' data-link='servant_account.html' bindtap='tolinkUrl'>
             <view class='data_bottom_img_text'>
                 <image src='../../../images/myImg/money_collect2.png' style='width:27rpx;height:20rpx;margin-right:10rpx'></image>
-                <text class='data_bottom_text'>账户余额</text>
+                <text class='data_bottom_text'>账户{{properties.alias_yue||'余额'}}</text>
             </view>
             <text class='data_bottom_num'>¥{{myData.account.account||0}}</text>
          </view>
@@ -86,7 +86,7 @@
           <view class='data_bottom_items' data-link='tunzhu_account.html' bindtap='tolinkUrl' style='flex:0 0 44%'>
             <view class='data_bottom_img_text'>
                 <image src='../../../images/myImg/money_collect2.png' style='width:27rpx;height:20rpx;margin-right:10rpx'></image>
-                <text class='data_bottom_text'>余额</text>
+                <text class='data_bottom_text'>{{properties.alias_yue||'余额'}}</text>
             </view>
             <text class='data_bottom_num'>¥{{myData.account.account}}</text>
          </view>

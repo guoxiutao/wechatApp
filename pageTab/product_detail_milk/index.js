@@ -45,6 +45,7 @@ Page({
     showInfo:true,
     showWayState:false,
     loadingText:"上拉查看详情",
+    bottomState:true,
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -705,9 +706,9 @@ Page({
     console.log("====switchState====",e)
     let type = e.currentTarget.dataset.type
     if (type==1){
-      this.setData({ showInfo: true })
+      this.setData({ showInfo: true, bottomState: true})
     }else{
-      this.setData({ showInfo: false })
+      this.setData({ showInfo: false, bottomState: false })
     }
   },
   onLoad: function (options) {
@@ -798,7 +799,7 @@ Page({
   onPullDownRefresh: function () {
     console.log("========下拉========")
     this.setData({ loadingText: '上拉查看详情' })
-    this.setData({ showInfo: true })
+    this.setData({ showInfo: true, bottomState: true })
     wx.pageScrollTo({
       scrollTop: 0
     })
@@ -809,14 +810,17 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("========上拉触底========")
-    let that=this;
-    setTimeout(function () { 
-      that.setData({ showInfo: false })
-      wx.pageScrollTo({
-        scrollTop: 0
-      })
-    }, 1000);
+    let that = this;
+    console.log("========上拉触底========", that.data.bottomState)
+    let bottomState = that.data.bottomState
+    if (bottomState){
+      setTimeout(function () {
+        that.setData({ showInfo: false, bottomState: false})
+        wx.pageScrollTo({
+          scrollTop: 0
+        })
+      }, 1000);
+    }
     // this.setData({ showInfo: false })
     // wx.pageScrollTo({
     //   scrollTop: 0
@@ -1010,8 +1014,6 @@ Page({
     if (app.loginUser && app.loginUser.platformUser) {
       userId = 'MINI_PLATFORM_USER_ID_' + app.loginUser.platformUser.id
     }
-   // console.log("app.loginUser.platformUser", app.loginUser.platformUser.id)
-    // path=pageTab%2findex%2findex%3fAPPLY_SERVER_CHANNEL_CODE%3d'
     let postParam = {}
     postParam.SHARE_PRODUCT_DETAIL_PAGE = this.data.proId;
     postParam.scene = userId

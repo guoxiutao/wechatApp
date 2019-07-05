@@ -4,6 +4,7 @@
 @import '../../view/css/type_search.wxss';/* 12 */
 @import '../../view-new/aikucun/measure_card.wxss';/*  detail_list_card  */ 
 @import '../../view/partials/productList/pupuProductListOne/pupuProductListOne.wxss';
+@import '../../view/partials/productList/ticketOneColumn/index.wxss';
 page{
   background: #f1f1f1;
 }

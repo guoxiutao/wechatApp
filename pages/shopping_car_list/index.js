@@ -193,7 +193,9 @@ Page({
   /* 购物车操作  */
 
   createOrder_car: function () {
+    console.log('=====ss------')
     if (!app.checkShopOpenTime()) {
+      console.log('=====kong------')
       return
     }
     if (this.data.maskLoad) {
@@ -201,6 +203,7 @@ Page({
       return
     }
 
+    console.log('=====tt------')
 
     var listPro = {
       shopId: '',
@@ -209,6 +212,11 @@ Page({
 
     var pushItem = this.data.pushItem
     if (pushItem.length == 0) {
+      wx.showToast({
+        title: '请选择下单商品',
+        image: '/images/icons/tip.png',
+        duration: 2000
+      })
       return
     }
     for (let i = 0; i < pushItem.length; i++) {
@@ -277,6 +285,7 @@ Page({
     this.checkedActive = e.detail.value
   },
   chooseActive: function (e) {
+    console.log('----kong----')
     if (this.checkedActive == -1) {
       return
     }
@@ -373,6 +382,7 @@ Page({
     type: 'change',
   },
   addCarNum: function (e) {
+    console.log(e)
     let that = this
     let index = e.currentTarget.dataset.id
     let count = e.currentTarget.dataset.count
@@ -387,7 +397,7 @@ Page({
     let focusCartItem = cartData[0].carItems[index]
     focusCartItem.count2 = ++count
     this.CartParamWaitPost.count = count
-
+    cartData[0].carItems[index].count = count
     that.setData({
       cartData: cartData
     })
@@ -935,13 +945,23 @@ Page({
       })
     }
   },
-
+  selectFun: function (data) {
+    let that = this
+    console.log('===selectFun====', data)
+    let typeData = data.detail.sendData.type;
+    let reqdata = data.detail.sendData.data;
+    if (typeData == 'addCat') {
+      that.bindBuy(reqdata)
+    } else if (typeData == 'getProData') {
+      that.resProData(reqdata)
+    }
+  },
   //点击加入购物车或立即下单
 
   bindBuy: function (e) {
     console.log(e)
-    let index = e.detail.e.target.dataset.index;
-    let bindBuy = e.detail.e.target.dataset.bindbuy;
+    let index = e.index;
+    let bindBuy = e.bindbuy;
 
     let products = this.data.hotProduct
     let focusData = products[index]

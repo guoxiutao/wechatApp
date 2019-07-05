@@ -114,9 +114,9 @@
       </view>
     </view>
     <!-- 首页组件-私有产品详情装饰-->
-    <view style='margin-top:20rpx;'>
+    <!-- <view style='margin-top:20rpx;'>
      <component-customPage data="{{sendProductData}}" wx:if="{{sendProductData}}"></component-customPage> 
-    </view>
+    </view> -->
     <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
     <view class='product_main_info' wx:if="{{productData.description.description!=''&&productData.description.description!='<p><br></p>'}}">
       <text>图文详情</text>
@@ -131,7 +131,7 @@
     </view> -->
 
  <!-- 首页组件-公共产品详情装饰-->
- <component-customPage data="{{sendIndexData}}"></component-customPage> 
+ <!-- <component-customPage data="{{sendIndexData}}"></component-customPage>  -->
 </view>
 
 

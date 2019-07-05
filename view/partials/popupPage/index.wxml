@@ -1,0 +1,9 @@
+
+<view class="container">
+  <block>
+    <!--组件化 -->
+    <component-form-detail  data="{{item}}"></component-form-detail> <!-- 附近店铺-->
+    
+  </block>
+
+</view>

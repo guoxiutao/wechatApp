@@ -1,6 +1,5 @@
 <wxs src="../../../public/publicFun.wxs" module="publicFun"></wxs>
 <view class='container' wx:if="{{!loading}}">
-<!--  style='padding-bottom:{{publishState&&customFormId?"100rpx":"0"}}' -->
   <!-- 选择tab -->
   <view class='zhezhao' wx:if="{{showCount}}" bindtap='closeZhezhao'></view>
   <view class='select_top' wx:if="{{showTop}}" style='position:{{componentState?"":"fixed"}}'>

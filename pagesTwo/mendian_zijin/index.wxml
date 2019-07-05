@@ -1,7 +1,7 @@
 <view class='container'>
 
   <view class='moneyContainer'  >
-    <text>账户余额：</text>
+    <text>账户{{properties.alias_yue||'余额'}}：</text>
     <text style='color:{{setting.platformSetting.defaultColor}};font-size:2em;'>￥{{moneyAmount}}</text>
   </view>
   <view class='product_page_container2'>

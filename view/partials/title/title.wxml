@@ -24,6 +24,9 @@
        <!-- template里面包含template的时候外部传的参数需要去掉最外面的文件夹 -->
    
   </block>
+  <block wx:if='{{data.androidTemplate == "title_gzh"}}'>
+    <official-account></official-account>
+  </block>
 
   <!-- <view>{{data.id}}</view> -->
 <slot></slot>

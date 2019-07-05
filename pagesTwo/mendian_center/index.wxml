@@ -2,7 +2,7 @@
 <view class='container' wx:if="{{applyMendianType}}">
   <view class='tongji_container' style='background:{{setting.platformSetting.defaultColor}}' data-link='tunzhu_account.html' bindtap='tolinkUrl'>      
     <view class='tongji_mid font_24'>{{mendian.account.account}}</view>
-    <view class='tongji_top'>账户余额（￥）</view>
+    <view class='tongji_top'>账户{{properties.alias_yue||'余额'}}(￥)</view>
   </view>
   <view class='tongjiContainer_form'>
       <view class='tongji_bottom'>
@@ -50,14 +50,14 @@
             </view>
             <view class='borderRight'></view>
         </view>
-        <view class='mendian_menu_item' data-link='mendian_user.html?fxLevel=1'   bindtap='tolinkUrl'>
+        <!-- <view class='mendian_menu_item' data-link='mendian_user.html?fxLevel=1'   bindtap='tolinkUrl'>
             <view class='imageContainer'>
                 <image src='http://image1.sansancloud.com/xianhua/2018_9/5/16/19/25_53.jpg?x-oss-process=style/preview_120'></image>
             </view>
             <view class='item_text'>
                 <text>我的客户</text>
             </view>
-        </view>
+        </view> -->
         
         <!-- <view class='mendian_menu_item' data-link='mendian_back_item.html'   bindtap='tolinkUrl'>
             <view class='imageContainer'>

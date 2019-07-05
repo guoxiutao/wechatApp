@@ -33,13 +33,17 @@ Page({
         console.log("进入蓝湖")
         setTimeout(function () {
         wx.reLaunch({
-          url: '/pageTab/tunzai/index/index'
+          url: '/pageTab/tunzai/index/index',
         })},200);
         return;
       }else{
         setTimeout(function () {
         wx.reLaunch({
-          url: '/pageTab/' + app.miniIndexPage + '/index'
+          url: '/pageTab/' + app.miniIndexPage + '/index',
+          fail: function () {
+            console.log("==app.miniIndexPage==", app.miniIndexPage)
+            app.linkEvent(app.miniIndexPage+'.html')
+           }
           })
         }, 200);
         return;
@@ -290,7 +294,7 @@ Page({
 
       setTimeout(function () {
         wx.reLaunch({
-          url: '/pageTab/near_shop_page/index?addShopId=' + ENTER_SHOP,
+          url: '/pagesTwo/near_shop_page/index?addShopId=' + ENTER_SHOP,
           success: function () {
           }
         })

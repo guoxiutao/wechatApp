@@ -10,7 +10,7 @@ Page({
     page: "1",
     shops: [],
     journey: [],//公里数
-
+    receiveData:{},
     curPage:1,
     pageSize :10,
     totalSize : 1
@@ -44,6 +44,7 @@ Page({
        //  "shopTag":"",
           "page": that.data.page
         }
+        pageParam = Object.assign({}, pageParam, that.data.receiveData )
         console.log(nearShopUrl + pageParam)
         let customIndex = app.AddClientUrl(nearShopUrl, pageParam, 'get', 1)
 
@@ -130,6 +131,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log("====options===", options)
+    this.setData({ receiveData: options})
     this.getData();
 
   },

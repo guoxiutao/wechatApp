@@ -65,11 +65,11 @@
             <view class='product_infomation_bottom'>
               <view class='product_infomation_left' wx:if="{{cart.item.promotion&&cart.item.promotion!=0}}">
                 <view class='price'>￥<text class='font_size'>{{cart.item.promotionPrice}}</text></view>
-                <text class='tag_price'>/￥{{cart.item.tagPrice}}</text>
+                <text class='tag_price' wx:if="{{cart.item.promotionPrice<cart.item.tagPrice}}">/￥{{cart.item.tagPrice}}</text>
               </view>
               <view class='product_infomation_left' wx:else>
                 <view class='price'>￥<text class='font_size'>{{cart.item.price}}</text></view>
-                <text class='tag_price'>/￥{{cart.item.tagPrice}}</text>
+                <text class='tag_price' wx:if="{{cart.item.price<cart.item.tagPrice}}">/￥{{cart.item.tagPrice}}</text>
               </view>
               <view class='product_num_handle'>
                 <view class='carIcon' style='margin-right:20rpx' data-id='{{index}}' data-cantadd='{{cart.count == 1}}' data-count='{{cart.count}}' catchtap='subCarNum'>
@@ -99,7 +99,7 @@
     </view>
   </block>
   
-  <component-customPage data="{{sendIndexData}}"></component-customPage> 
+  <component-customPage data="{{sendIndexData}}" bind:resEvent="getCart"></component-customPage> 
 </view>
 <view class='cart_tab'>
   <view class='cart_tab_info'>

@@ -37,11 +37,6 @@ Page({
     hasMore: false,
     delBtnWidth:120
   },
-
-
-
-
-
   touchS: function (e) {
     console.log('===touchS===', e)
     if (e.touches.length == 1) {
@@ -202,6 +197,7 @@ Page({
   /* 全部删除 */
   delectAll: function (e) {
     var that = this
+    console.log("====delectAll====", e)
     var listPro = {
       shopId: '',
       selectedIds: '',

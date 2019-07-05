@@ -134,7 +134,7 @@
   width: 100%;
 }
 .product_name{
-  width:100%;
+  width:90%;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;

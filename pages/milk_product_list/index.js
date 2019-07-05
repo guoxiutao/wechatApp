@@ -30,7 +30,8 @@ Page({
     reqSearch:false,
     productTypeItem:[],
     productTypeName:"",
-    sendIndexData:null
+    sendIndexData:null,
+    showListType:null,
   },
   /* 点击遮罩层 */
   closeZhezhao: function () {
@@ -76,17 +77,33 @@ Page({
             tagArray = data[i].tags.slice(1, -1).split("][")
             data[i].tagArray = tagArray;
           }
+          if (data[i].tagPrice > data[i].price) {
+            let discount = ((Number(data[i].price) / Number(data[i].tagPrice)) * 10).toFixed(1);
+            data[i].discount = discount
+          }
         }
         console.log("data", data)
         if (ifAdd == 2) {
           dataArr = []
         }
+        let showListType=null
+        if (data.length!=0&&data[0].productType==6){
+          showListType ="piaowu"
+        } else {
+          showListType = "common"
+        }
+        that.setData({ showListType: showListType })
+        console.log("showListType", that.data.showListType)
         if (!data || data.length == 0) {
           that.setData({ productListData: null, sendData: { relateBean: [], jsonData: { count: 0 }}})
         } else {
           if (dataArr == null) { dataArr = [] }
           dataArr = dataArr.concat(data)
-          that.setData({ productListData: dataArr, sendData: { relateBean: dataArr, jsonData: { count: dataArr.length, showCard:1} }})
+          if (showListType == 'piaowu'){
+            that.setData({ productListData: dataArr, sendData: { relateBean: dataArr, jsonData: { count: dataArr.length, showCard: 0 } } })
+          }else{
+            that.setData({ productListData: dataArr, sendData: { relateBean: dataArr, jsonData: { count: dataArr.length, showCard: 1 } } })
+          }
         }
         console.log("datasendData", that.data.sendData)
         wx.hideLoading()
@@ -100,10 +117,15 @@ Page({
   },
   tolinkUrl: function (e) {
     console.log("===e====", e)
+    let info = e.currentTarget.dataset.info
     let linkUrl
-    let id = e.currentTarget.dataset.id||"";
-    if(id){
-      linkUrl = "product_detail.html?productId=" + e.currentTarget.dataset.id; 
+    let id = info.id||"";
+    if (info){
+      if (info.productType == 6) {
+        linkUrl = "ticket_detail.html?productId=" + info.id;
+      } else {
+        linkUrl = "product_detail.html?productId=" + info.id;
+      }
     }else{
       linkUrl = e.currentTarget.dataset.link;
     }

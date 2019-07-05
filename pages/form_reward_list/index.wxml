@@ -7,12 +7,12 @@
           <text class='form_name'>{{formRewardItem.rewardPlatformUserName}}</text>
         </view>
         <view class='form_title_right'>
-            <!--  "奖励类型 1积分 2红包  3优惠券 4线下奖励 5分销余额" -->
+            <!--  "奖励类型 1积分 2红包  3优惠券 4线下奖励 5分销 {{properties.alias_yue||'余额'}}" -->
             <!-- <text class='reward_type' wx:if="{{formRewardItem.rewardType==1}}">积分</text>
             <text class='reward_type' wx:if="{{formRewardItem.rewardType==2}}">红包</text>
             <text class='reward_type' wx:if="{{formRewardItem.rewardType==3}}">优惠券</text>
             <text class='reward_type' wx:if="{{formRewardItem.rewardType==4}}">线下奖励</text>
-            <text class='reward_type' wx:if="{{formRewardItem.rewardType==5}}">分销余额</text>
+            <text class='reward_type' wx:if="{{formRewardItem.rewardType==5}}">分销{{properties.alias_yue||'余额'}}</text>
             <text class='reward_value'>{{formRewardItem.rewardValue}}</text> -->
           <!-- <image class='user_icon' src='{{formRewardItem.rewardPlatformUserIcon}}'></image>
           <text class='user_name'>{{formRewardItem.rewardPlatformUserName}}</text> -->
@@ -32,7 +32,7 @@
           <text class='reward_type' wx:if="{{formRewardItem.rewardType==2}}">红包</text>
           <text class='reward_type' wx:if="{{formRewardItem.rewardType==3}}">优惠券</text>
           <text class='reward_type' wx:if="{{formRewardItem.rewardType==4}}">线下奖励</text>
-          <text class='reward_type' wx:if="{{formRewardItem.rewardType==5}}">分销余额</text>
+          <text class='reward_type' wx:if="{{formRewardItem.rewardType==5}}">分销{{properties.alias_yue||'余额'}}</text>
           <text class='reward_value' wx:if="{{formRewardItem.rewardType!=3}}">{{formRewardItem.rewardValue}}</text>
         </view>
         <view class='form_reward_bottom_right'>

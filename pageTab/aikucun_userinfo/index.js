@@ -26,6 +26,14 @@ Page({
       posterState: false,
     })
   },
+  bindWxGz:function(){
+    let that=this;
+    console.log('===bindWxGz====', that.data.loginUser)
+    let paramsUrl = "https://mini.sansancloud.com/chainalliance/" + app.clientNo + "/bindWxGz.html?platformUserId=" + that.data.loginUser.platformUser.id;
+    if (!that.data.loginUser.platformUser.openid){
+      that.tolinkUrl(paramsUrl)
+    }
+  },
   showPoster: function () {
     let that = this;
     console.log('===showPoster====', that.data.loginUser.id)
@@ -328,7 +336,7 @@ Page({
   /* 组件事件集合 */
 
   tolinkUrl: function (e) {
-    let linkUrl = e.currentTarget.dataset.link
+    let linkUrl = e.currentTarget ? e.currentTarget.dataset.link:e
     app.linkEvent(linkUrl)
   }
 })

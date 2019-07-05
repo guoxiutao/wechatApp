@@ -8,6 +8,7 @@ Page({
     data: {
         setting: {},
         loginUser: null,
+        properties: {},
         servant: {
             account: {
                 account: 0,
@@ -118,9 +119,9 @@ Page({
                     })
                     that.setNav(servant)
                 } else {
-                    wx.showModal({
+                  wx.showModal({
                         title: '失败了',
-                        content: '请求失败了，请下拉刷新！',
+                      content: res.data.errMsg,
                     })
 
                 }
@@ -203,32 +204,63 @@ Page({
 
   },
   checkState: function () {
+    let that=this
     console.log('======checkState.loginUser======', app.loginUser)
+    that.setData({
+      setting: app.setting,
+      loginUser: app.loginUser
+    })
+    this.setNavColor()
+    this.getservantInfo()
     if (!app.loginUser.platformUser.managerServantId) {
       console.log("=========没有归属服务员=========")
       this.setData({ applyServantType: false })
       return
     }
   },
+  conut:1,
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+      let that=this;
       console.log('======app.loginUser======', app.loginUser)
       if (app.loginUser) {
-        this.checkState();
+        that.checkState();
       } else {
-        console.log('======111222333======')
-        app.addLoginListener(this);
+        wx.showLoading({
+          title: 'loading'
+        })
+        app.addLoginListener(that);
+        console.log("====setTimeout1=====")
+        that.setTimeoutLogin(that.conut)
       }
-      this.setData({
-          setting: app.setting,
-          loginUser: app.loginUser
+      that.setData({
+        setting: app.setting,
+        loginUser: app.loginUser,
+         
       })
-      this.setNavColor()
-      this.getservantInfo()
     },
-
+  setTimeoutLogin: function (conuData){
+    let that = this;
+    console.log("====setTimeout-init=====", conuData)
+    that.conut = conuData ;
+    that.conut +=2;
+    if (that.conut<=5){
+      setTimeout(function () {
+        if (app.loginUser) {
+          wx.hideLoading()
+        } else {
+          that.setTimeoutLogin(that.conut)
+        }
+      }, that.conut * 1000)
+    }else{
+      wx.showModal({
+        title: '失败了',
+        content: '请求失败了，请下拉刷新！',
+      })
+    }
+  },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

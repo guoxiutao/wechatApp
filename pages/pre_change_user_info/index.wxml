@@ -5,7 +5,7 @@
     </view>
     
 
-    <view class='inputGroup' catchsubmit="changeUserInfo">
+    <view class='inputGroup' catchsubmit="changeUserInfo" wx:if="{{!sendOptionData&&!showAddressForm}}">
       
 
       <view class='input_item_container'>
@@ -22,7 +22,7 @@
         <input placeholder="个性签名" maxlength='20' name='userTip' value='{{loginUser.platformUser.userTip}}'></input>
       </view>
     </view> 
-    <view class='CheckBox'>
+    <view class='CheckBox' wx:if="{{!sendOptionData&&!showAddressForm}}">
       <view class='checkBox_container'>
         <view class='checkBoxName'>性别</view>
         <radio-group name='sex' bindchange='sexChange'>

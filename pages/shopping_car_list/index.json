@@ -3,7 +3,7 @@
   "enablePullDownRefresh": true,
   "backgroundColor": "#cccccc",
     "usingComponents": {
-      "productList": "../tunzai/components/productList/productList",
-        "posters": "../../view/partials/canvas/index"
+        "posters": "../../view/partials/canvas/index",
+        "component-tag-customPage": "../../view/partials/custom_page/index"
     }
 }

@@ -43,9 +43,7 @@
                         </block>
                       </view>
 
-                      <view class='cartItems' wx:for='{{list.orderItems}}' 
-                        wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' 
-                        data-orderNo='{{list.orderNo}}' bindtap='lookMore'>
+                      <view class='cartItems' wx:for='{{list.orderItems}}' wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' data-orderNo='{{list.orderNo}}' bindtap='lookMore' wx:if="{{list.orderType!=17}}">
                         <view class='itemCheckbox'>
                           <image mode='aspectFill' src='{{orderItem.itemIcon}}?x-oss-process=style/preview'></image>
                         </view>
@@ -67,7 +65,14 @@
                           </view>
                         </view>
                       </view>
-
+                      <!-- 场馆 -->
+                      <!-- <view class='venues_cell_list' wx:if="{{list.orderType==17}}">
+                        <view class='venues_cell_item' style='background:{{setting.platformSetting.defaultColor}}' wx:for='{{orderData.venuesCells[0].cells}}'  wx:for-item='venuesCellItem' wx:key='{{venuesCellItem.startTimeSeconds}}'>
+                          <text class='venues_cell_item_time'>{{venuesCellItem.startTimeStr}}-{{venuesCellItem.endTimeStr}}</text>
+                          <text class='venues_cell_item_price'>￥{{venuesCellItem.cellPrice}}</text>
+                          <text class='circular'></text>
+                        </view>
+                      </view> -->
                       <view  class='butn_container'>
                           <view class='order_type_icon'>
                             
@@ -85,6 +90,9 @@
                             </view>
                             <view class='orderType' wx:elif="{{list.orderType==7}}">
                                <image class='orderTypeIcon' src='http://image1.sansancloud.com/sansancloud/2018_9/4/16/40/15_466.jpg?x-oss-process=style/preview_120'></image>
+                            </view>
+                            <view class='orderType' wx:elif="{{list.orderType==17}}">
+                               <image class='orderTypeIcon' src='http://image1.sansancloud.com/xianhua/2019_7/3/10/51/56_79.jpg?x-oss-process=style/preview_120'></image>
                             </view>
                           </view>
                           <text>订单金额￥{{list.goodsAmount - list.youhuiAmount}}</text>

@@ -1,5 +1,5 @@
 <view class='container font_08'>
-  <view class='orderSateContainer '>
+  <view class='orderSateContainer' wx:if="{{!orderDetailData.processInstanceId&&orderDetailData.mendianZiti==0}}">
     <view class='oooo ' >
       <image mode='aspectFill' src='/images/icons/page.png'></image>
       <view class='oooo_view'> 
@@ -8,26 +8,25 @@
         <text>运费: ￥{{orderDetailData.yunfeiAmount}}</text>
         <text>{{orderDetailData.payTypeStr}}: ￥{{orderDetailData.payAmount}}</text>
         <block wx:if='{{orderDetailData.payStatus == 0}}'> <text>支付状态: 未支付</text>  </block>
-          <block wx:if='{{orderDetailData.payStatus == 1}}'> <text>支付状态: 已支付</text>  </block>
-          <block wx:if='{{orderDetailData.payStatus == 2}}'> <text>支付状态: 已退款</text>  </block>
-
+        <block wx:if='{{orderDetailData.payStatus == 1}}'> <text>支付状态: 已支付</text>  </block>
+        <block wx:if='{{orderDetailData.payStatus == 2}}'> <text>支付状态: 已退款</text>  </block>
       </view>
     </view> 
   
     <block wx:if='{{orderDetailData.easyStatusStr == "作废"}}'> 
-          <text style='color:{{setting.platformSetting.defaultColor}}'>已作废</text>
-        </block>
-        <block wx:elif='{{orderDetailData.easyStatusStr == "完成"}}'> 
-          <text style='color:{{setting.platformSetting.defaultColor}}'>交易成功</text>
-        </block>
-        <block wx:elif='{{orderDetailData.easyStatusStr == "待评价"}}'> 
-          <text style='color:{{setting.platformSetting.defaultColor}}'>待完成</text>
-        </block>
-        <block wx:else>
-           <text style='color:{{setting.platformSetting.defaultColor}}'>{{orderDetailData.easyStatusStr}}</text> 
-        </block>
+      <text style='color:{{setting.platformSetting.defaultColor}}'>已作废</text>
+    </block>
+    <block wx:elif='{{orderDetailData.easyStatusStr == "完成"}}'> 
+      <text style='color:{{setting.platformSetting.defaultColor}}'>交易成功</text>
+    </block>
+    <block wx:elif='{{orderDetailData.easyStatusStr == "待评价"}}'> 
+      <text style='color:{{setting.platformSetting.defaultColor}}'>待完成</text>
+    </block>
+    <block wx:else>
+        <text style='color:{{setting.platformSetting.defaultColor}}'>{{orderDetailData.easyStatusStr}}</text> 
+    </block>
   </view>
-  <view class='orderKuaidi' wx:if='{{orderDetailData.orderStatus > 3 && orderDetailData.orderStatus < 7&&orderDetailData.processInstanceId==0 }}'>
+  <view class='orderKuaidi' wx:if='{{orderDetailData.orderStatus > 3 && orderDetailData.orderStatus < 7&&orderDetailData.processInstanceId==0&& orderDetailData.mendianZiti==0}}'>
       <view> 
          <text>快递名：</text> 
          <text style='color:{{setting.platformSetting.defaultColor}}' >{{orderDetailData.kuaidiName}}</text> 
@@ -39,14 +38,14 @@
         <text wx:else style='padding:0 0.4em;border-radius:0.4em;color:#e24148; border:2rpx solid #e24148; margin-left:0.6em;'></text>
       </view>
   </view>
-  <view wx:if="{{orderDetailData.mendianZiti==0}}">
+  <view wx:if="{{orderDetailData.mendianZiti==0&&!formCommitId}}">
     <view bindtap='showOtherArr' class='editAddr' wx:if='{{orderDetailData.orderStatus < 3}}'><!--  -->
       <view class='editAddr_text'>修改收货地址</view>
       <image src='/images/icons/right.png'></image>
     </view>
-    <view class='addrItems2' wx:if="{{orderDetailData.mendianZiti==0}}">
+    <view class='addrItems2' wx:if="{{orderDetailData.mendianZiti==0&&orderDetailData.hideUserAddress==0}}">
         <view class='addrItemsLeft'>
-          <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
+          <image mode="aspectFill" class='addr_icon' src='/images/icons/addr.png?x-oss-process=style/preview'></image>
           <view class='addrInfo'>
             <view>
               <text>{{orderDetailData.buyerName}}</text>
@@ -58,13 +57,18 @@
         <view class='navigation'  wx:if="{{orderDetailData.buyerLatitude!=0&&orderDetailData.buyerLongitude!=0}}" style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}' catchtap='clickCatch' data-info="{{orderDetailData}}"><text>去导航</text></view>
     </view>
   </view>
-  <view wx:else>
-    <view class='editAddr'><!--  -->
+  <view  wx:if="{{orderDetailData.mendianZiti==1&&!formCommitId}}">
+    <view class='editAddr'>
       <view class='editAddr_text'>自提门店：【{{orderDetailData.belongMendian.name}}】</view>
       <!-- <image src='/images/icons/right.png'></image> -->
     </view>
     <view class='addrItems2' catchtap='clickCatch' data-info="{{orderDetailData.belongMendian}}">
-        <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
+      <view class='cardVoucher_ewm'>
+        <image class='cardVoucher_ewm_img' src='{{ewmCode}}'></image>
+        <text style='font-size:30rpx;margin:10rpx 0'>订单号：{{orderDetailData.orderNo}}</text>
+        <text style='font-size:26rpx;color:#999'>Tip:【请出示该小程序码核销】</text>
+      </view>
+        <!-- <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
         <view class='addrInfo'>
           <text>{{orderDetailData.belongMendian.telno}}</text>
           <text class='font2' wx:if="{{orderDetailData.belongMendian.address}}">{{orderDetailData.belongMendian.address}}</text>
@@ -73,7 +77,7 @@
         <view class='check_info'>
           <text class='check_info_text'>去导航</text>
           <image class='check_info_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/14/5/10_367.jpg'></image>
-        </view>
+        </view> -->
     </view>
   </view>
   <view class='server_container' catchtap='clickCatch' data-info="{{orderDetailData.belongMendian}}">
@@ -110,6 +114,12 @@
   </view>
 <!-- 表单地址 -->
 <check-form-detail id="checkFormDetail" showTitle="false" showBtn="false" formCommitId="{{formCommitId}}" wx:if="{{formCommitId}}" bind:selectPsotion="selectPsotion"></check-form-detail>
+  <process-instance-item  wx:if="{{orderDetailData.processInstanceId}}" data="{{orderDetailData.processInstance}}" ></process-instance-item>
+  <map class='mapItem' id="map" longitude="{{orderDetailData.assignServant.longitude||0}}" latitude="{{orderDetailData.assignServant.latitude||0}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange" show-location='true' style="width: 100%; height: 768rpx;" wx:if="{{orderDetailData.assignServant}}">
+    <cover-view class="play" >
+        <cover-image class="img" src="../../images/icon/center.png" style='width:80rpx;height:80rpx;' />
+    </cover-view>
+  </map>
   <view class='orderTime'>
     <text>订单生成时间: {{orderDetailData.addTime}}</text>
     <text>订单支付时间: {{orderDetailData.payTime}}</text>

@@ -41,10 +41,14 @@ Component({
        if (this.data.data.relateBean&&this.data.data.relateBean.length!=0){
          this.data.productList = this.data.data.relateBean;
          let tagArray=[];
-         for (let i = 0; i < this.data.data.relateBean.length; i++) {
-           if (this.data.data.relateBean[i].tags && this.data.data.relateBean[i].tags != '') {
-             tagArray = this.data.data.relateBean[i].tags.slice(1, -1).split("][")
-             this.data.data.relateBean[i].tagArray = tagArray;
+         for (let i = 0; i < this.data.productList.length; i++) {
+           if (this.data.productList[i].tags && this.data.productList[i].tags != '') {
+             tagArray = this.data.productList[i].tags.slice(1, -1).split("][")
+             this.data.productList[i].tagArray = tagArray;
+           }
+           if (this.data.productList[i].tagPrice > this.data.productList[i].price){
+             let discount = ((Number(this.data.productList[i].price) / Number(this.data.productList[i].tagPrice))*10).toFixed(1);
+             this.data.productList[i].discount = discount
            }
          }
          this.setData({ data: this.data.data})
@@ -148,6 +152,8 @@ Component({
         header: app.headerPost,
         method: 'POST',
         success: function (res) {
+          let resEventData = res.data
+          that.triggerEvent('resEvent', { resEventData}, {})
           console.log('---------------change_shopping_car_item-----------------')
           console.log(res.data)
           wx.hideLoading()
@@ -185,7 +191,7 @@ Component({
           try {
             app.carChangeNotify(res.data);
           } catch (e) { }
-
+          console.log("=========加入购物车动作==========")
 
         },
         fail: function (res) {
@@ -393,10 +399,17 @@ Component({
       this.data.MeasureParams = []
     },
     tolinkUrl: function (e) {
-      console.log(e.currentTarget.dataset.id)
+      console.log(e.currentTarget.dataset.info)
       // product_detail.html?productId= 9219;
-      var a = "product_detail.html?productId=" + e.currentTarget.dataset.id; 
-      app.linkEvent(a);
+      let productData = e.currentTarget.dataset.info
+      let link="";
+      if (productData.productType==6){
+        link = "ticket_detail.html?productId=" + productData.id; 
+      }else{
+        link = "product_detail.html?productId=" + productData.id; 
+      }
+      // var a = "product_detail.html?productId=" + e.currentTarget.dataset.id; 
+      app.linkEvent(link);
     }
   },
 })

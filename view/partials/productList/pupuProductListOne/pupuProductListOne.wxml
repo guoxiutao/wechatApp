@@ -1,7 +1,7 @@
 <template name="pupuProductListOne">
 
   <block wx:if='{{relateBean.length != 0}}'>
-    <view class='product_items3' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}" wx:if="{{index<jsonData.count}}" data-id="{{result.productId||result.id}}" bindtap='tolinkUrl'>
+    <view class='product_items3' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}" wx:if="{{index<jsonData.count}}" data-info='{{result}}' bindtap='tolinkUrl'>
       <view class='product_items3_promotion_name' wx:if="{{result.tagArray[0]}}">{{result.tagArray[0]}}</view>
       <image class='product_items3_img' mode="aspectFill" src='{{result.imagePath||result.itemIcon}}?x-oss-process=style/preview'></image>
       <view class='product_items3_view1'>
@@ -34,7 +34,7 @@
         </scroll-view> -->
         <text class='location_name'>{{result.unitShow}}</text>
         <view class='product_price'>
-          <text class='price' wx:if="{{result.promotion>0}}">￥{{result.promotionPrice}}</text>
+          <text class='price' wx:if="{{result.promotion&&result.promotion!=0}}">￥{{result.promotionPrice}}</text>
           <text class='price' wx:else>￥{{result.price||result.itemPrice}}</text>
           <text class='price' wx:if='{{result.maxPrice>result.price}}'>-{{result.maxPrice}}</text>
           <text wx:if='{{result.maxPrice<=result.price&&result.tagPrice>result.price}}' class="tag_price">￥{{result.tagPrice}}</text>

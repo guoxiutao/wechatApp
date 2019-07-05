@@ -3,7 +3,7 @@
 
 <block  wx:if="{{relateBean.length!=0}}">
     <view class='detail_list_mode1' style='background:  #eeeeee;'>
-      <view class="mode1_items"   wx:for="{{relateBean}}" wx:for-item="item" wx:key="{{index}}"  bindtap='tolinkUrl' data-id='{{item.id}}'
+      <view class="mode1_items"   wx:for="{{relateBean}}" wx:for-item="item" wx:key="{{index}}"  bindtap='tolinkUrl' data-info='{{item}}'
         style='border-right: 10px solid #eeeeee;'> 
         <image  mode='aspectFill'  src="{{item.imagePath}}?x-oss-process=style/preview"></image>
         <view class='center'>{{item.name}}</view>

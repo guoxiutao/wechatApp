@@ -204,6 +204,7 @@ Page({
           let loginParam = {}
           loginParam.code = res.code
           loginParam.scene = app.more_scene
+          loginParam.force = 1
           let customIndex = app.AddClientUrl("/wx_mini_code_login.html", loginParam, 'post')
           wx.request({
             url: customIndex.url,

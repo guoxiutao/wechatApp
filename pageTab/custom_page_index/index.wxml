@@ -8,7 +8,7 @@
   </block>
     <!--技术支持  -->
     <!-- <view class='buttom' bindtap='buttom'><text>技术支持:福州三三网络科技有限公司</text></view> -->
-    <component-footer wx:if="{{setting.platformSetting.jishuzhichi}}"></component-footer> <!-- 组件-->
+    <!-- <component-footer wx:if="{{setting.platformSetting.jishuzhichi}}"></component-footer> -->
 </view>   
 <view wx:else class="blankPage">
    <view class='blankPage_image'></view>

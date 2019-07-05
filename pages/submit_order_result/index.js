@@ -9,7 +9,8 @@ Page({
   data: {
     success:null,
     setting:null,
-    butn_show_loading:false
+    butn_show_loading: false,
+    properties: {},
   },
   /* 去充值 */
   toAccount:function(){
@@ -79,9 +80,19 @@ Page({
                 url: '/pages/order_pintuan_detail/index?orderNo=' + that.data.success.orderNo,
               })
             }else{
-              wx.redirectTo({
-                url: '/pages/order_list_tab/index',
-              })
+              if (that.data.success.mendianZiti == 1) {
+                setTimeout(function () {
+                  wx.redirectTo({
+                    url: '/pages/order_detail/index?orderNo=' + orderNo,
+                  })
+                }, 2000)
+              } else {
+                setTimeout(function () {
+                  wx.redirectTo({
+                    url: '/pages/order_list_tab/index',
+                  })
+                }, 2000)
+              }
             }
             /* setTimeout(function () {
               
@@ -129,11 +140,19 @@ Page({
                   icon: 'success',
                   duration: 2000
                 })
-                setTimeout(function () {
-                  wx.redirectTo({
-                    url: '/pages/order_list/index',
-                  })
-                }, 2000)
+                if (res.data.relateObj.mendianZiti==1){
+                  setTimeout(function () {
+                    wx.redirectTo({
+                      url: '/pages/order_detail/index?orderNo=' + orderNo,
+                    })
+                  }, 2000)
+                }else{
+                  setTimeout(function () {
+                    wx.redirectTo({
+                      url: '/pages/order_list_tab/index',
+                    })
+                  }, 2000)
+                }
               } else {
                 wx.showToast({
                   title: res.data.errMsg,
@@ -198,8 +217,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({ setting: app.setting })
-    this.setData({ loginUser: app.loginUser })
+    this.setData({ setting: app.setting, loginUser: app.loginUser, properties: app.properties })
   },
 
   /**

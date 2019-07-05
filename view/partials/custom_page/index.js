@@ -13,18 +13,47 @@ Component({
     // 这里是一些组件内部数据
     showPopup:false,
     renderData: null,
-    PaiXuPartials: [], 
+    PaiXuPartials:null, 
     kefuCount: 0,
+    footerCount: 0,
     defaultTop:0,
-    footerImgState:false,
+    footerImgState: false,
+    sendOptionData: null,
+    showAddressForm: false,
+    userInfoFormCommitId: '',
+    showUserForm: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
 
   ready: function () {
     let that=this;
+    app.footerCount++;
+    this.setData({ footerCount: app.footerCount})
     console.log('zujian',this.data.data)
     if (this.data.data){}
-    this.setData({ setting: app.setting })
+    this.setData({
+      loginUser: app.loginUser,
+      setting: app.setting,
+      userInfo:{
+        telno: app.loginUser.telno||'',
+        headimg: app.loginUser.userIcon||'',
+        nickname: app.loginUser.nickname||'',
+        userTip: app.loginUser.userTip||'',
+        sex: app.loginUser.sex,
+      }
+    })
     console.log('setting', this.data.setting)
+    console.log('app.loginUser', this.data.loginUser)
+// 获取用户信息
+    if (that.data.canIUse) {
+      console.log('==that.data.canIUse===', that.data.canIUse);
+      app.userInfoReadyCallback = res => {
+        console.log("=====userInfo====",res)
+        that.setData({
+          userInfo: res.userInfo,
+        })
+      }
+    }
     this.getParac();
     wx.getSetting({//检查用户是否授权了
       success(res) {
@@ -37,10 +66,136 @@ Component({
           that.setData({ showPopup: false })
         }
       }});
+    if (app.setting.platformSetting.userNeedShenhe > 0 && !(app.loginUser && app.loginUser.platformUser.userInfoFormCommitId)) {
+      that.setData({ showUserForm: true })
+      if (app.setting.platformSetting.userInfoCustomFormId) {
+        console.log("有设置用户表单", app.setting.platformSetting.userInfoCustomFormId)
+        that.setData({ showAddressForm: true, sendOptionData: { customFormId: app.setting.platformSetting.userInfoCustomFormId } })
+      } else {
+        that.setData({ sendOptionData: {} })
+      }
+    }
   },
   methods: {
+    toChangeUserInfo: function (userInfo) {
+      let that = this;
+      var customIndex = app.AddClientUrl("/change_user_info.html", userInfo, 'post')
+      wx.request({
+        url: customIndex.url,
+        data: customIndex.params,
+        header: app.headerPost,
+        method: 'POST',
+        success: function (res) {
+          console.log(res.data)
+          if (res.data.errcode == '0') {
+            wx.showToast({
+              title: '修改成功',
+              icon: 'success',
+              duration: 2000
+            })
+          }
+          that.setData({ showUserForm: false })
+          that.loginIn()
+        },
+        fail: function (res) {
+          app.loadFail()
+        },
+        complete: function () {
+          that.setData({ butn_show_loading: false })
+        }
+      })
+    },
+
+    loginIn: function (data) {
+
+      //app.wxLogin()
+      app.get_session_userinfo()
+      // setTimeout(function () { wx.navigateBack() },200)
+
+
+      return
+      console.log(data)
+      var that = this;
+
+      var loginUrl = app.AddClientUrl("Client.User.Login", data, 'post')
+      wx.request({
+        url: loginUrl.url,
+        data: loginUrl.params,
+        method: 'POST',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          console.log(res.header)
+          var header = res.header
+          var cookie = null
+          if (!!header['Set-Cookie']) {
+            cookie = header['Set-Cookie']
+          }
+          if (!!header['set-cookie']) {
+            cookie = header['set-cookie']
+          }
+
+          console.log(cookie)
+
+
+          //console.log(res.data)
+          if (res.data.errcode == 0) {
+            wx.setStorage({
+              key: "cookie",
+              data: cookie
+            })
+            app.header = {
+              'content-type': 'application/json', // 默认值
+              'Cookie': cookie
+            }
+            app.cookie = cookie
+            app.loginUser = res.data.relateObj
+            that.setData({ loginUser: res.data.relateObj })
+            wx.setStorage({
+              key: "loginUser",
+              data: res.data.relateObj
+            })
+
+            wx.navigateBack()
+
+
+          }
+          else {
+            wx.showToast({
+              title: '失败',
+              icon: 'loading',
+              duration: 1500
+            })
+          }
+        },
+        fail: function (res) {
+          console.log("fail")
+          app.loadFail()
+        }
+      })
+    },
+    getDataFun: function (e) {
+      let that = this;
+      console.log("===getDataFun===", e, e.detail.formId)
+      if (e.detail.formId) {
+        let userInfo = that.data.userInfo;
+        userInfo.userInfoFormCommitId = e.detail.formId
+        that.toChangeUserInfo(userInfo)
+      };
+    },
+    submitData: function (e) {
+      let that = this;
+      console.log("===getDataFun===", e, e.detail.formId)
+      that.selectComponent("#userForm").formSubmit();
+    },
     // 这里是一个自定义方法
-    /* 组件事件集合 */
+    resEventFun: function (event){
+      let that=this;
+      console.log("==========resEventFun=========", event)
+      let resEventData = event.detail.resEventData;
+      that.triggerEvent('resEvent', { resEventData }, {})
+    },
     bindGetUserInfo: function (e) {
       let that=this;
       that.setData({ showPopup: false })

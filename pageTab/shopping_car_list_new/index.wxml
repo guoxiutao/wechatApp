@@ -4,9 +4,6 @@
 <import src="../../view-new/aikucun/measure_card.wxml"/>
 <import src="../../view-new/aikucun/kefu.wxml"/>
 <import src="../../view-new/aikucun/aikucun_new_title.wxml"/>
- 
-
-
 <view class='container'> 
 <view wx:if='{{hasMore}}' class='hasMoreCart'>刷新购物车查看商品</view> 
 <block wx:if="{{cartData}}">
@@ -35,16 +32,9 @@
             <label class='itemCheckbox'>
               <checkbox checked='{{checkedList}}' color='{{setting.platformSetting.defaultColor}}' value='{{cart.id}}'></checkbox>
             </label> 
-            <!-- catchtap='cart_pro_click_toDetail' data-description='{{cart.item.promotionBean.description}}'
-              data-name='{{cart.item.name}}' data-promotionId='{{cart.item.promotion}}' 
-            data-productId='{{cart.item.productCode}}' data-id="{{cart.item.id}}"-->
             <image catchtap='cart_pro_click_toDetail' data-description='{{cart.item.promotionBean.description}}'
               data-name='{{cart.item.name}}' data-promotionId='{{cart.item.promotion}}' 
             data-productId='{{cart.item.productCode}}' data-id="{{cart.item.id}}" class='itemCheckbox_image' mode='aspectFill' src='{{cart.item.imagePath}}?x-oss-process=style/preview'></image>
-            <!-- 
-            catchtap='cart_pro_click_toDetail' data-description='{{cart.item.promotionBean.description}}'
-              data-name='{{cart.item.name}}' data-promotionId='{{cart.item.promotion}}' 
-            data-productId='{{cart.item.productCode}}'  data-id="{{cart.item.id}}" -->
             <view class='item_infomation' catchtap='cart_pro_click_toDetail' data-description='{{cart.item.promotionBean.description}}'
               data-name='{{cart.item.name}}' data-promotionId='{{cart.item.promotion}}' 
             data-productId='{{cart.item.productCode}}'  data-id="{{cart.item.id}}">
@@ -83,11 +73,6 @@
           <text>删除</text>
         </view>
       </view>
-
-
-
-
-      
       <view class='butn_container'>
         <view class='de' bindtap='delectChecked'>删除选中</view>
         <view data-shopId='{{cartshop.id}}' bindtap='delectAll'>清空商品</view>
@@ -110,7 +95,7 @@
 </view>
   <view class='hotProductContainer' bindtap='closeCardShare'>
     <template is="aikucun_new_title" data="{{...setting,sysWidth,loginUser:loginUser,title:'爆款推荐'}}"></template> 
-    <productList  data="{{hotProduct}}" id="productLists"  bind:action='selectFun' bind:showPosters='showPosters'></productList>
+    <component-tag-customPage data="shoppingcard"></component-tag-customPage> <!-- 首页组件-->
     <template is="measure_card" data="{{setting:setting,minCount,showCount,focusData:focusData,byNowParams:byNowParams,measurementJson:measurementJson,showShare}}"></template> 
     <template is="kefu" data="{{loginUser:loginUser,showKefu}}"></template> 
   </view>

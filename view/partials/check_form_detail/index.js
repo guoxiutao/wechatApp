@@ -336,25 +336,27 @@ Component({
             customForm.commitArr = [];
             if (res.data.relateObj.customForm && res.data.relateObj.customForm.decorateDetailStyle){
               let formDetailStyle = JSON.parse(res.data.relateObj.customForm.decorateDetailStyle);
+              console.log("formDetailStyle", formDetailStyle)
               let resultPointerData = formDetailStyle.resultPointerData
-              if (formDetailStyle.detailViewMagic.length!=0){
-                let formDetailStyleArray=formDetailStyle.detailViewMagic
-                for (let i = 0; i < formDetailStyleArray.length;i++){
-                  console.log("=======name======", formDetailStyleArray[i].propertieName,)
-                  if (formDetailStyleArray[i].propertieName){
-                    if (commitJson[formDetailStyleArray[i].propertieName].type == 11) {
-                      that.setData({
-                        banner: { androidTemplate: '', jsonData: { height: Math.abs((formDetailStyleArray[i].endPointY - formDetailStyleArray[i].startPointY + 1) * 750 / Number(formDetailStyle.width)), images: commitJson[formDetailStyleArray[i].propertieName].value } }
-                      })
-                    }
-                  }
-                }
+              for (let i = 0; i < resultPointerData;i++){
+                
               }
+              // if (formDetailStyle.detailViewMagic.length!=0){
+              //   let formDetailStyleArray=formDetailStyle.detailViewMagic
+              //   for (let i = 0; i < formDetailStyleArray.length;i++){
+              //     console.log("=======name======", formDetailStyleArray[i].propertieName,)
+              //     if (formDetailStyleArray[i].propertieName){
+              //       if (commitJson[formDetailStyleArray[i].propertieName].type == 11) {
+              //         that.setData({
+              //           banner: { androidTemplate: '', jsonData: { height: Math.abs((formDetailStyleArray[i].endPointY - formDetailStyleArray[i].startPointY + 1) * 750 / Number(formDetailStyle.width)), images: commitJson[formDetailStyleArray[i].propertieName].value } }
+              //         })
+              //       }
+              //     }
+              //   }
+              // }
               that.setData({ formDetailStyle: formDetailStyle })
-              that.setData({ width: Number(that.data.formDetailStyle.width) || 0 })
-              that.setData({ height: Number(that.data.formDetailStyle.height) || 0 })
             }
-            console.log("===formDetailStyle====", that.data.formDetailStyle, that.data.banner, that.data.width, that.data.height)
+            console.log("===formDetailStyle====", that.data.formDetailStyle, that.data.bannert)
             for (let key in commitJson) {
               if (commitJson[key].type == 14) {
                 customForm.telno = commitJson[key].value

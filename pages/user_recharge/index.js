@@ -8,7 +8,16 @@ Page({
   data: {
     money: 100,
     payway: 3,
-    butn_show_loading: false
+    butn_show_loading: false,
+    properties:{},
+  },
+  selectItemFun:function(e){
+    console.log("========selectItemFun========",e)
+    let that=this;
+    let info = e.currentTarget.dataset.info;
+    that.data.money = info.value
+    that.setData({ money: info.value })
+    that.subMitButn()
   },
   getBuyerScript: function (e) {
     this.setData({ money: e.detail.value })
@@ -124,7 +133,7 @@ Page({
    */
   onLoad: function (options) {
     let that=this;
-    console.log("options",options)
+    console.log("options", options)
     if (options.money){
       that.setData({ money: options.money })
     }
@@ -134,8 +143,17 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({ setting: app.setting })
-    this.setData({ loginUser: app.loginUser })
+    this.data.setting = app.setting
+    if (this.data.setting.platformSetting.rechargeList && typeof (this.data.setting.platformSetting.rechargeList)=='string'){
+      this.data.setting.platformSetting.rechargeList = JSON.parse(this.data.setting.platformSetting.rechargeList)
+    }
+    this.setData({ setting: this.data.setting, loginUser: app.loginUser, properties: app.properties })
+    console.log("setting", app.setting)
+    if (app.properties.alias_yue) {
+      wx.setNavigationBarTitle({
+        title: app.properties.alias_yue + '充值',
+      })
+    }
   },
 
   /**

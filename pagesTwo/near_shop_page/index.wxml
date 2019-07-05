@@ -43,6 +43,83 @@
       </view>
     </view>
   </view>
+  <!-- 场馆列表 -->
+  <view class='venues_block' wx:if="{{venuesTypeList&&venuesTypeList.length!=0}}">
+    <view class='venues_title'>
+      <image class='venues_title_img' src='http://image1.sansancloud.com/xianhua/2019_6/28/19/49/53_128.jpg?x-oss-process=style/preview_120'></image>
+      <text class='venues_title_text'>预定</text>
+    </view>
+    <view class='venues_type_list'>
+      <scroll-view scroll-x class="venues_type_scroll_list" scroll-with-animation='true'>
+        <view class='venues_type_item {{selectVenuesData.venuesTypeData.index==index?"type_active":""}}' style='background:{{selectVenuesData.venuesTypeData.index==index?setting.platformSetting.defaultColor:""}}' wx:for="{{venuesTypeList}}" wx:for-item="data" wx:key="{{index}}" data-index="{{index}}" data-info="{{data}}" data-type="venuesType" catchtap='selectVenuesDataFun'>
+          <text class='venues_type_name'>{{data.name}}</text>
+        </view>
+      </scroll-view>
+    </view>
+    <view class='days_list'>
+      <scroll-view scroll-x class="days_scroll_list" scroll-with-animation='true'>
+        <view class='days_item' wx:for="{{nextSevenDaysList}}" wx:for-item="data" wx:key="{{index}}" style='{{selectVenuesData.daysData.index==index?"border-bottom: 10rpx solid"+ setting.platformSetting.defaultColor:""}};color:{{selectVenuesData.daysData.index==index?setting.platformSetting.defaultColor:""}}' data-info="{{data}}" data-index="{{index}}" data-type="daysData" catchtap='selectVenuesDataFun'>
+          <text class='days_item_week'>{{data.weekData}}</text>
+          <text class='days_item_data'>{{data.oneDataStr}}</text>
+        </view>
+      </scroll-view>
+    </view>
+    <view class='venues_cell_list'>
+      <scroll-view scroll-x class="venues_cell_scroll_list" scroll-with-animation='true'>
+        <view class='venues_cell_item' wx:for="{{venuesTypeList[selectVenuesData.venuesTypeData.index].venues}}" wx:for-item="data" wx:key="{{index}}" style='border:1rpx solid {{selectVenuesData.venuesCelleData.index==index? setting.platformSetting.defaultColor:"#ccc"}};background:{{selectVenuesData.venuesCelleData.index==index? setting.platformSetting.secondColor:"#fff"}}' data-info="{{data}}" data-index="{{index}}" data-type="venuesCell" catchtap='selectVenuesDataFun'>
+          <text class='venues_cell_item_name'>{{data.name}}({{data.stock}}个)</text>
+        </view>
+      </scroll-view>
+    </view>
+    <view class='venues_cell_detail'>
+      <view class='venues_cell_detail_left'>
+        <view class='venues_cell_detail_info'>
+          <text class='venues_cell_detail_time'>{{selectVenuesData.venuesCelleData.data.startTimeStr}}-{{selectVenuesData.venuesCelleData.data.endTimeStr}}</text>
+          <text class='venues_cell_detail_text'>任选时间段</text>
+        </view>
+        <view class='venues_cell_detail_price'>
+          <text class='venues_cell_detail_price_text' style='color:{{setting.platformSetting.defaultColor}}'>￥{{selectVenuesData.venuesCelleData.data.price}}</text>
+          <text class='venues_cell_detail_price_unit'>起</text>
+          <text class='venues_cell_detail_price_unit' wx:if="{{selectVenuesData.venuesCelleData.data.unitType==1}}">（{{selectVenuesData.venuesCelleData.data.unitLength}}分钟）</text>
+          <text class='venues_cell_detail_price_unit' wx:if="{{selectVenuesData.venuesCelleData.data.unitType==2}}">（{{selectVenuesData.venuesCelleData.data.unitLength}}天）</text>
+        </view>
+      </view>
+      <view class='venues_cell_detail_right'>
+        <text class='venues_cell_detail_right_text' catchtap='scheduledVenuesFun' style='background:{{setting.platformSetting.defaultColor}}'>预定</text>
+      </view>
+    </view>
+  </view>
+  <!-- 场馆预定 -->
+<view class='zhezhao' wx:if="{{venuesDateCellsState}}" catchtap='hiddenZheZhao'></view>
+<view class='venues_date_cells_block' wx:if="{{venuesDateCellsState}}">
+  <view class='venues_date_cells_title'>
+    <text class='venues_date_cells_name'>{{venuesCellList.venues.name}}（{{venuesCellList.monthDay}}）</text>
+  </view>
+  <view class='venues_date_cells_list'>
+    <view class='venues_date_cells_item' wx:for="{{venuesCellList.cells}}" wx:for-item="data" wx:key="{{index}}" data-type="{{data.state?'cancel':'select'}}" data-index="{{index}}" data-info="{{data}}" data-startSecond="{{data.startTimeSeconds}}" catchtap='{{data.status!=1?"":"selecVenuesCellItemFun"}}' style='border: 1rpx solid {{data.state?setting.platformSetting.defaultColor:"#ccc"}};background:{{data.state?setting.platformSetting.secondColor:"#fff"}}'>
+      <text class='venues_date_cells_time' style='color:{{data.status!=1?"#999":""}}'>{{data.startTimeStr}}</text>
+      <text class='venues_date_cells_price' style='color:{{data.status!=1?"#999":setting.platformSetting.defaultColor}}'>￥{{data.cellPrice}}</text>
+      <text class='cell_tag_bg' wx:if="{{data.cellTag}}" style='border-top: 30px solid {{data.status!=1?"#999":setting.platformSetting.defaultColor}};'></text>
+      <text class='cell_tag_text' wx:if="{{data.cellTag}}">{{data.cellTag}}</text>
+    </view>
+  </view>
+  <view class='have_venues_date_cells_title'>
+    <text>已选场次</text>
+  </view>
+  <view class='have_venues_date_cells_list' wx:if="{{haveVenuesDateCellsList.length!=0}}">
+  <!-- haveVenuesDateCellsList -->
+    <view class='have_venues_date_cells_item' wx:for="{{haveVenuesDateCellsList}}" wx:for-item="data" wx:key="{{index}}" style='background:{{setting.platformSetting.defaultColor}}'>
+      <text class='have_venues_date_cells_time'>{{data.info.startTimeStr}}-{{data.info.endTimeStr}}</text>
+      <text class='have_venues_date_cells_price'>￥{{data.info.cellPrice}}</text>
+      <text class='circular'></text>
+    </view>
+  </view>
+  <view class='no_have_venues_date_cells' wx:else>暂无选择的场次</view>
+  <view class='submit_data' style='background:{{setting.platformSetting.defaultColor}}' catchtap='confirmReserve'>
+    <text class='all_price'>￥{{allPrice}}</text>
+    <text class='submit_data_text'>确认预定</text>
+  </view>
+</view>
   <!-- 首页组件-私有产品详情装饰-->
 <component-customPage data="{{sendShopData}}" wx:if="{{componentState||componentIndexState}}"></component-customPage> 
   <view class='product_info' wx:else>

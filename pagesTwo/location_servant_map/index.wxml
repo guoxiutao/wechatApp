@@ -34,21 +34,29 @@
      <view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
         <block wx:if = "{{!! servantData}}">
           <view class='servant_items2' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{servantDetail.id}}' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
-            <view class="servant_head">
-              <image class='servant_head_img' mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
-              <view  class="servant_state">
-                <image class='servant_type_icon' wx:if="{{result.status==1}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_486.jpg'></image>
-                <image class='servant_type_icon' wx:if="{{result.status==2}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_503.jpg'></image>
-                <image class='servant_type_icon' wx:if="{{result.status==3}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_506.jpg'></image>
+            <view class='servant_items2_top'>
+              <view class="servant_head">
+                <image class='servant_head_img' mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
+                <view  class="servant_state">
+                  <image class='servant_type_icon' wx:if="{{result.status==1}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_486.jpg'></image>
+                  <image class='servant_type_icon' wx:if="{{result.status==2}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_503.jpg'></image>
+                  <image class='servant_type_icon' wx:if="{{result.status==3}}" src='http://image1.sansancloud.com/xianhua/2019_1/13/15/46/31_506.jpg'></image>
+                </view>
+              </view>
+              <view class='servant_items2_view1'>
+                <text class='servant_name'>{{result.name}}</text>
+                <text class='location_name' wx:if="{{result.longitude>0}}">{{result.description}}</text>
+                <text class='location_name' wx:else>{{result.description}}</text>
+              </view>
+              <view class='order_servant' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
+                <text style='color:{{setting.platformSetting.defaultColor}}'>去预约</text>
               </view>
             </view>
-            <view class='servant_items2_view1'>
-              <text class='servant_name'>{{result.name}}</text>
-              <text class='location_name' wx:if="{{result.longitude>0}}">{{result.description}}</text>
-              <text class='location_name' wx:else>{{result.description}}</text>
-            </view>
-            <view class='order_servant' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
-              <text style='color:{{setting.platformSetting.defaultColor}}'>去预约</text>
+            <view class='servant_items2_info'>
+              <image src='http://image1.sansancloud.com/xianhua/2019_7/4/16/5/5_640.jpg?x-oss-process=style/preview_120' class='servant_items2_rich_icon'></image>
+              <view class='servant_items2_rich'>
+                <text>{{result.description}}</text>
+              </view>
             </view>
           </view>
         </block>

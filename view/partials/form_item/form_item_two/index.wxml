@@ -39,16 +39,16 @@
     </view>
   </view>
   <view class='center_part'>
-    <view class='center_part_item' wx:for="{{formCommitItem.commitArr}}" wx:key="{{index}}" wx:for-index="idx" wx:for-item="itemData"  wx:if="{{itemData.type!=11&&itemData.type!=7&&idx<=formCommitItem.showNum}}">
+    <view class='center_part_item' wx:for="{{formCommitItem.commitArr}}" wx:key="{{index}}" wx:for-index="idx" wx:for-item="itemData"  wx:if="{{itemData.type!=11&&itemData.type!=7&&idx<=formCommitItem.showNum&&itemData.showInList==1}}">
       <text class='center_part_item_title' wx:if="{{itemData.type!=9}}">{{itemData.title}}</text>
       <text class='interval' wx:if="{{itemData.type!=9}}">:</text>
       <text class='center_part_item_value' wx:if="{{itemData.type!=12}}">{{itemData.value}}</text>
       <text class='center_part_item_value' wx:if="{{itemData.type==12}}">{{itemData.value.value}}</text>
-      <view class='more' wx:if="{{formCommitItem.commitArr.length>3&&idx==formCommitItem.showNum-1&&formCommitItem.showMoreState}}">
-        <image class='showMore' data-index="{{index}}" data-type="hidden"  catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_412.jpg?x-oss-process=style/preview_120'></image>
+      <view class='more' wx:if="{{formCommitItem.lengthStr>3&&idx==formCommitItem.showNum-2&&formCommitItem.showMoreState}}">
+        <image class='showMore' data-index="{{idx}}" data-type="hidden"  catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_412.jpg?x-oss-process=style/preview_120'></image>
       </view>
-      <view class='more' wx:if="{{formCommitItem.commitArr.length>3&&idx==formCommitItem.showNum&&!formCommitItem.showMoreState}}">
-        <image class='showMore' data-index="{{index}}" data-length="{{formCommitItem.commitArr.length}}" data-type="show" catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_428.jpg?x-oss-process=style/preview_120' ></image>
+      <view class='more' wx:if="{{formCommitItem.lengthStr>=3&&idx==formCommitItem.showNum&&!formCommitItem.showMoreState}}">
+        <image class='showMore' data-index="{{idx}}" data-length="{{formCommitItem.lengthStr}}" data-type="show" catchtap='showMore' src='http://image1.sansancloud.com/xianhua/2019_3/20/11/1/46_428.jpg?x-oss-process=style/preview_120' ></image>
       </view>
     </view>
     <view class='show_img' wx:for="{{formCommitItem.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==7&&itemData.value}}">

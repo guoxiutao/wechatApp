@@ -14,7 +14,8 @@ Page({
     couponState: true,
     couponCountState: true,
     couponTimetState: true,
-    clickStyle:'receive'
+    clickStyle:'receive',
+    showBtn:false,
   },
   getData: function () {
     let that = this
@@ -170,7 +171,16 @@ Page({
   optParam: {}, // option数据 用来转发和刷新
   onLoad: function (options) {
     console.log("===options===",options)
-    this.optParam = options
+    this.optParam = options;
+    let showBtn=false;
+    if (options.type=='jifen'){
+      showBtn = false;
+    }else{
+      showBtn = true;
+    }
+    this.setData({
+      showBtn: showBtn,
+    });
     this.getData(options)
   },
 

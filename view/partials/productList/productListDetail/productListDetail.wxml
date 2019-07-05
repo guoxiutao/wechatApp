@@ -1,7 +1,7 @@
 <template name="productListDetail">
 
   <block wx:if='{{relateBean.length != 0}}'>
-    <view class='product_items2' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}" wx:if="{{index<jsonData.count}}" data-id="{{result.id}}" bindtap='tolinkUrl'>
+    <view class='product_items2' wx:for="{{relateBean}}" wx:for-item="result" wx:key="{{index}}" wx:if="{{index<jsonData.count}}" data-info='{{result}}'bindtap='tolinkUrl'>
       <image mode="aspectFill" src='{{result.imagePath}}?x-oss-process=style/preview'></image>
       <view class='product_items2_view1'>
         <text class='product_name'>{{result.name}}</text>

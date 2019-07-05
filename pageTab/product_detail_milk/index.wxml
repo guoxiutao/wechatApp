@@ -64,7 +64,7 @@
       </view>
     </view>
     <view class='product_base_info'>
-      <view class='product_unit'><text>{{productData.productInfo.unitShow||"900g/罐"}}</text></view>
+      <view class='product_unit'><text>{{productData.productInfo.unitShow}}</text></view>
       <view class='product_price_info'>
         <text>￥</text>
         <text class='product_price' wx:if="{{productData.productInfo.promotionBean}}">{{productData.productInfo.promotionPrice}}</text>
@@ -73,7 +73,7 @@
           <text>/</text><text class='value'>￥{{productData.productInfo.tagPrice}}</text>
         </view>
       </view>
-      <view class='product_brand'><text>{{productData.productInfo.brandName||"美国原装"}}</text></view>
+      <view class='product_brand'><text>{{productData.productInfo.brandName}}</text></view>
     </view>
   </view>
   <view class='btn_tab'>

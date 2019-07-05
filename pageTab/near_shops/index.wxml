@@ -24,10 +24,10 @@
   </view>
 </block>
 <block wx:if="{{shops.length==0}}">
-            <view class="noproduct">
-              <image mode="widthFix" src='/images/icons/no-product.png'></image>
-              <text>没有相关店铺</text>
-            </view>
-          </block>
+  <view class="noproduct">
+    <image mode="widthFix" src='/images/icons/no-product.png'></image>
+    <text>没有相关店铺</text>
+  </view>
+</block>
 
 

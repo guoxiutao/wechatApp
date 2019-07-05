@@ -337,8 +337,8 @@ page{
 .servant_items2{
   padding: 10px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center; */
   background: #fff;
   border-bottom: 1px solid #f1f1f1;
   min-height:120rpx; 
@@ -657,4 +657,27 @@ border-bottom: 2rpx solid #FE5722;
       word-break: break-all;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .servant_items2_top{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background:#fff;
+      margin-bottom: 20rpx;
+    }
+    .servant_items2_info{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding:0 20rpx;
+    }
+    .servant_items2_rich_icon{
+      width: 50rpx;
+      height: 40rpx;
+      margin-right: 20rpx;
+    }
+    .servant_items2_rich{
+      font-size: 26rpx;
+      color: #999;
+      width: 90%;
     }

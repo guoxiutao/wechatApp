@@ -111,3 +111,13 @@
   height: 60rpx;
   border-radius: 60rpx;
 }
+.userBindWxGz{
+  position: absolute;
+  right: 40rpx;
+  top: 100rpx;
+}
+.userBindWxGzCode{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 60rpx;
+}

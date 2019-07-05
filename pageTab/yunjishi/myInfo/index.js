@@ -8,6 +8,7 @@ Page({
   data: {
     setting: {},
     loginUser: null,
+    properties: {},
     myData: {
       account: {
         account: 0,
@@ -220,7 +221,8 @@ Page({
     console.log('======app.loginUser======', app.setting)
     this.setData({
       setting: app.setting,
-      loginUser: app.loginUser
+      loginUser: app.loginUser,
+      properties: app.properties
     })
     console.log('======this.loginUser======', this.data.loginUser)
     if (this.data.loginUser.platformUser.managerMendianId) {

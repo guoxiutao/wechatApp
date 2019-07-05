@@ -55,13 +55,13 @@
       <view class='Items'><text>订单已付金额: </text> <text>￥ {{successData.goodsAmount}}</text> </view>
       <view class='Items'><text>支付方式: </text>
         <text wx:if="{{successData.payTypeStr=='3'}}">微信支付</text>
-        <text wx:if="{{successData.payTypeStr=='2'}}">余额支付</text>
+        <text wx:if="{{successData.payTypeStr=='2'}}">{{properties.alias_yue||'余额'}}支付</text>
         <text wx:if="{{successData.payTypeStr=='9'}}">积分支付</text>
       </view>
       <view class='Items'><text>备注: </text> <text>{{successData.remark}}</text> </view>
       <!-- <block wx:if='{{success.payType == 2}}'>
         <view class='Items'>充值说明: <text class='main' style="color:{{setting.platformSetting.defaultColor}}"
-        bindtap='toAccount'>点击查看余额充值方式</text></view>
+        bindtap='toAccount'>点击查看{{properties.alias_yue||'余额'}}充值方式</text></view>
       </block> -->
 
       <button class='butn' bindtap='toIndex' style="background:{{setting.platformSetting.defaultColor}}">返回首页</button>

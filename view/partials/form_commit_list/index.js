@@ -281,6 +281,7 @@ Component({
             console.log("=========dataArr=========", dataArr)
             let obj;
             for (let i = 0; i < dataArr.length; i++) {
+              
               dataArr[i].showMoreState =false;
               dataArr[i].showNum = 2;
               dataArr[i].commitArr=[];
@@ -302,11 +303,24 @@ Component({
                 }
               }
             }
+            for (let i = 0; i < dataArr.length; i++){
+              if (dataArr[i].commitArr.length != 0) {
+                let lengthStr = 0;
+                for (let j = 0; j < dataArr[i].commitArr.length; j++) {
+                  if (dataArr[i].commitArr[j].showInList == 1) {
+                    lengthStr++
+                  }
+                }
+                console.log("======lengthStr====", lengthStr)
+                dataArr[i].lengthStr = lengthStr
+              }
+            }
             // for (let i = 0; i < dataArr.length;i++){
             //   dataArr[i] = JSON.stringify(dataArr[i])
             // }
             that.setData({ formCommitList: dataArr })
             console.log("===formCommitList====", that.data.formCommitList,)
+            
             // if (state == 'upload') {
             //   for (let i=0;i<dataArr.length;i++){
             //     that.selectComponent("#formItem").initData("测试");
@@ -354,18 +368,18 @@ Component({
             let data = res.data.relateObj;
             that.setData({ customFormData: data })
             if (data && data.decorateListStyle) {
-              console.log("有装修列表")
               formListStyle = JSON.parse(data.decorateListStyle);
-              let resultPointerData = formListStyle.resultPointerData
-              if (formListStyle.detailViewMagic.length != 0) {
-                let formListStyleArray = formListStyle.detailViewMagic
-                for (let i = 0; i < formListStyleArray.length; i++) {
-                  console.log("=======name======", formListStyleArray[i].propertieName)
-                  if (formListStyleArray[i].propertieName) {
+              console.log("有装修列表", formListStyle)
+              // let resultPointerData = formListStyle.resultPointerData
+              // if (formListStyle.detailViewMagic.length != 0) {
+              //   let formListStyleArray = formListStyle.detailViewMagic
+              //   for (let i = 0; i < formListStyleArray.length; i++) {
+              //     console.log("=======name======", formListStyleArray[i].propertieName)
+              //     if (formListStyleArray[i].propertieName) {
                     
-                  }
-                }
-              } 
+              //     }
+              //   }
+              // } 
               that.setData({ formListStyle: null })
               that.setData({ formListStyle: formListStyle })
               that.setData({ width: Number(that.data.formListStyle.width) || 0 })

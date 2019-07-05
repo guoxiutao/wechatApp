@@ -1,6 +1,6 @@
 /* pages/my_pages/user_recharge/index.wxss */
 .chongzhijine{
-  margin: 1em 0;
+  margin-top:10rpx;
   padding:10px 0;
   width: 100%;
   display: flex;
@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: flex-start;
   border-bottom: 1rpx solid #aaa;
+  font-size: 30rpx;
 }
 .chongzhijine text{
   
@@ -45,6 +46,7 @@
   justify-content: flex-start;
   align-items: center;
   border-bottom: 1px solid #dddddd;
+  font-size: 30rpx;
   
 }
 .payWay text{
@@ -55,4 +57,32 @@
   background: #8B572A;
   color: #fff;
   margin:30rpx 20rpx;
+}
+.chongzhiList{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  padding: 30rpx 20rpx;
+}
+.chongzhiItem{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 26rpx;
+  background: #fff;
+  border-radius: 6rpx;
+  padding: 16rpx 15rpx;
+  margin: 10rpx;
+  width: 26%;
+}
+.chongzhiItem:last-child{
+  margin-right: 0
+}
+.price{
+  font-size: 30rpx
+}
+.rewardPrice{
+  font-size: 22rpx;
 }

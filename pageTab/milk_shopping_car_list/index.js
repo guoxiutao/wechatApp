@@ -184,8 +184,7 @@ Page({
       content: '删除该商品',
       success: function (res) {
         if (res.confirm) {
-          that.delectCart(listPro);
-
+          that.delectCart(listPro,'some');
         } else if (res.cancel) {
           return
         }
@@ -209,22 +208,27 @@ Page({
       content: '全部删除',
       success: function (res) {
         if (res.confirm) {
-          that.delectCart(listPro);
+          that.delectCart(listPro,'all');
+          // app.carChangeNotify("clear");
         } else if (res.cancel) {}
       }
     })
     try {
-      app.carChangeNotify("clear");
     } catch (e) { }
   },
   /* 删除选中 */
   delectChecked: function () {
     var that = this
-    var pushItem = this.data.pushItem
+    var pushItem = this.data.pushItem;
+    let allDelect='some';
     var listPro = {
       shopId: '',
       selectedIds: '',
       type: 'selected'
+    }
+    console.log("", istPro.shopId)
+    if (pushItem.length == that.data.cartData.length){
+      allDelect='all'
     }
     if (pushItem.length == 0) {
       return
@@ -238,14 +242,14 @@ Page({
       content: '确认删除',
       success: function (res) {
         if (res.confirm) {
-          that.delectCart(listPro);
+          that.delectCart(listPro, allDelect);
         } else if (res.cancel) {}
       }
     })
 
   },
   //删除购物车的调用函数
-  delectCart: function (params) {
+  delectCart: function (params,type) {
     var that = this
     var customIndex = app.AddClientUrl("/delete_shopping_car_list_item.html", params, 'post')
     wx.request({
@@ -257,9 +261,22 @@ Page({
         console.log('-----------delect----------')
         console.log(res.data)
         wx.hideLoading()
-        that.getCart()
+        if (type == 'all') {
+          that.getCart()
+        } else {
+          that.getCart('init')
+        }
+        // that.setData({
+        //   pushItem:[],
+        //   countGood: 0,
+        //   countPrice: 0
+        // })
         try {
-          app.carChangeNotify('reload');
+          if (type=='all'){
+            app.carChangeNotify('clear');
+          }else{
+            app.carChangeNotify('reload');
+          }
         } catch (e) { }
       },
       fail: function (res) {
@@ -532,7 +549,7 @@ Page({
   /* 加载购物车内容 */
 
   getCart: function (type) {
-    console.log('==========')
+    console.log('==========', type)
     var customIndex = app.AddClientUrl("/get_shopping_car_list_item.html")
     var that = this
     wx.request({
@@ -576,7 +593,7 @@ Page({
             console.log("======successcartData====", that.data.cartData)
           }
           that.showPrice()
-          if (type=='init'){
+          if (type == 'init' || (type&&type.detail)){
             that.chooseAll()
           }
         }
@@ -651,62 +668,69 @@ Page({
   },
 
   showPrice: function () {
-    if (!this.data.cartData) {
-      this.setData({
-        countGood: 0,
-        countPrice: 0
-      })
-      return
-    }
-    var checkedItem = this.data.checkedItem
-    var cartDataItem = this.data.cartData[0].carItems
-
-    var pushItem = []
-    var countGood = 0
-    var countPrice = 0
-
-    for (let i = 0; i < cartDataItem.length; i++) {
-      for (let j = 0; j < checkedItem.length; j++) {
-        if (cartDataItem[i].id == checkedItem[j]) {
-          pushItem.push(cartDataItem[i])
-        }
-      }
-    }
-    for (let i = 0; i < pushItem.length; i++) {
-      countGood += parseInt(pushItem[i].count)
-      console.log("====pushItem=====", pushItem[i])
-      let promotionPrice = 0;
-      let carItemPrice = 0;
-      let specialSaleTypePrice = 0;
-      if (pushItem[i].item.itemSpecialSaleType == 1) {
-        specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
-      } 
-      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
-        promotionPrice = pushItem[i].item.promotionPrice
-      } else {
-        carItemPrice = pushItem[i].carItemPrice
-      }
-      console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
-      if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
-        countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
-      } else {
-        countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
-      }
-      // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0){
-      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
-      // } else {
-      //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
-      // }
-    }
-    countPrice = countPrice.toFixed(2)
+    let resultData = app.showPrice(this.data.cartData, this.data.checkedItem);
+    console.log("===========resultData==========", resultData)
     this.setData({
-      pushItem: pushItem,
-      countGood: countGood,
-      countPrice: countPrice
+      pushItem: resultData.pushItem || [],
+      countGood: resultData.countGood,
+      countPrice: resultData.countPrice
     })
-    console.log(pushItem, 'pushItem__')
-    console.log(countGood, 'countGood__')
-    console.log(countPrice, "countPrice__")
+    // if (!this.data.cartData) {
+    //   this.setData({
+    //     countGood: 0,
+    //     countPrice: 0
+    //   })
+    //   return
+    // }
+    // var checkedItem = this.data.checkedItem
+    // var cartDataItem = this.data.cartData[0].carItems
+
+    // var pushItem = []
+    // var countGood = 0
+    // var countPrice = 0
+
+    // for (let i = 0; i < cartDataItem.length; i++) {
+    //   for (let j = 0; j < checkedItem.length; j++) {
+    //     if (cartDataItem[i].id == checkedItem[j]) {
+    //       pushItem.push(cartDataItem[i])
+    //     }
+    //   }
+    // }
+    // for (let i = 0; i < pushItem.length; i++) {
+    //   countGood += parseInt(pushItem[i].count)
+    //   console.log("====pushItem=====", pushItem[i])
+    //   let promotionPrice = 0;
+    //   let carItemPrice = 0;
+    //   let specialSaleTypePrice = 0;
+    //   if (pushItem[i].item.itemSpecialSaleType == 1) {
+    //     specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
+    //   } 
+    //   if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+    //     promotionPrice = pushItem[i].item.promotionPrice
+    //   } else {
+    //     carItemPrice = pushItem[i].carItemPrice
+    //   }
+    //   console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
+    //   if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
+    //     countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
+    //   } else {
+    //     countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
+    //   }
+    //   // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0){
+    //   //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
+    //   // } else {
+    //   //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
+    //   // }
+    // }
+    // countPrice = countPrice.toFixed(2)
+    // this.setData({
+    //   pushItem: pushItem,
+    //   countGood: countGood,
+    //   countPrice: countPrice
+    // })
+    // console.log(pushItem, 'pushItem__')
+    // console.log(countGood, 'countGood__')
+    // console.log(countPrice, "countPrice__")
   },
   /* 全部参数 */
   params: {

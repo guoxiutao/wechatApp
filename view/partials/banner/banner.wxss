@@ -1,3 +1,5 @@
+
+@import 'more_banner/index.wxss';/* 引入可以滑动的样式 */
 .SwiperContainer{
    /* margin-top: -6rpx;  */
   height: 9em;

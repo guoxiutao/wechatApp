@@ -732,10 +732,10 @@ Page({
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
     });
-    let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail", params: { pageObjectId: options.id || options.productId} })
-    that.setData({ sendIndexData: sendIndexData })
-    let sendProductData = JSON.stringify({ title: 'noTitle', url: "product_detail_" + (options.id || options.productId) })
-    that.setData({ sendProductData: sendProductData })
+    // let sendIndexData = JSON.stringify({ title: 'noTitle', url: "productdetail", params: { pageObjectId: options.id || options.productId} })
+    // that.setData({ sendIndexData: sendIndexData })
+    // let sendProductData = JSON.stringify({ title: 'noTitle', url: "product_detail_" + (options.id || options.productId) })
+    // that.setData({ sendProductData: sendProductData })
     console.log("商品id和店铺id",options)
     that.dataFOr_getData.id = options.id || options.productId
     that.dataFOr_getData.addShopId = options.addShopId || 236

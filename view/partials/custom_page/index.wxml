@@ -1,6 +1,6 @@
 
 <view class="container" style='margin-bottom:{{footerImgState?"320rpx":"0"}}'>
-  <block wx:for="{{PaiXuPartials}}" wx:key="{{temp}}" >
+  <block wx:for="{{PaiXuPartials}}" wx:key="{{temp}}">
     <!--组件化 -->
     <component-tag-nameNearShop  wx:if='{{item.partialType == "23"}}'  data="{{item}}"></component-tag-nameNearShop> <!-- 附近店铺-->
 
@@ -22,9 +22,10 @@
 
     <component-tag-namedetailList wx:if='{{item.partialType =="9"}}' data="{{item}}"></component-tag-namedetailList><!-- 9 列表样式-->
 
-    <component-tag-nameProductList wx:if='{{item.partialType =="15"}}' data="{{item}}"></component-tag-nameProductList><!-- 15 产品列表-->
+    <component-tag-nameProductList wx:if='{{item.partialType =="15"}}' data="{{item}}" bind:resEvent="resEventFun"></component-tag-nameProductList>
+    <!-- 15 产品列表-->
 
-    <component-tag-nameNewsList wx:if='{{item.partialType =="16"}}' data="{{item}}"></component-tag-nameNewsList><!-- 16 产品列表-->
+    <component-tag-nameNewsList wx:if='{{item.partialType =="16"}}' data="{{item}}"></component-tag-nameNewsList><!-- 16 新闻列表-->
 
     <component-tag-nameVideo wx:if='{{item.partialType =="20"}}' data="{{item}}"></component-tag-nameVideo><!-- 20 视频-->
 
@@ -49,6 +50,8 @@
     <component-tag-locateAddress id="locateAddress" wx:if='{{item.partialType =="28"}}' data="{{item}}" ></component-tag-locateAddress><!-- 28 地址定位-->
 
     <component-tag-shoppingCar wx:if='{{item.partialType =="29"}}' data="{{item}}" ></component-tag-shoppingCar><!-- 29 购物车组件-->
+
+    <component-tag-jifenList wx:if='{{item.partialType =="30"}}' data="{{item}}" ></component-tag-jifenList><!-- 30 积分组件-->
   
 
   </block>
@@ -58,6 +61,16 @@
     </block>
   </cover-view>
   <!--24 客服-->
+  <component-footer wx:if="{{setting.platformSetting.jishuzhichi&&PaiXuPartials&&footerCount<=1}}"></component-footer>
+  <view class='authorization' wx:if="{{showUserForm}}" catchtouchmove="true">
+    <view class='authorizationBg'></view>
+    <view class="popupPage">
+      <scroll-view scroll-y style="height:100%;">
+        <component-form-detail id="userForm" wx:if="{{sendOptionData&&showAddressForm}}" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" bind:sendDataFun="getDataFun"></component-form-detail><!-- 弹窗-->
+      </scroll-view>
+      <view class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>提交资料</view>
+    </view>
+  </view>
   <view wx:if="{{showPopup}}">
     <view class='authorizationBg'></view>
     <view class='authorization'>

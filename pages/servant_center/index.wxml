@@ -2,7 +2,7 @@
 <view class='container' wx:if="{{applyServantType}}">
     <view class='tongji_container' style='background:{{setting.platformSetting.defaultColor}}' data-link='servant_account.html' bindtap='tolinkUrl'>      
       <view class='tongji_mid font_24'>{{servant.account.account}}</view>
-      <view class='tongji_top'>账户余额（￥）</view>
+      <view class='tongji_top'>账户{{properties.alias_yue||'余额'}}（￥）</view>
       <view class='servantStatus' catchtap='showStatusListFun'>
         <text class='servantStatusShap' style='background:{{servantStatusShapColor}}'></text>
         <text>{{servantStatusText}}</text>

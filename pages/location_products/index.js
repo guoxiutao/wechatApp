@@ -7,6 +7,7 @@ Page({
   data: {
     setting: null, // setting   
     productData: [], // 商品数据 
+    productType: [],
     sysWidth: 320,//图片大小
     positionTab:'',
     ProductshowWay: 1, // ProductshowWay列表显示方法 (默认显示地图)
@@ -21,9 +22,8 @@ Page({
       longitude: 119.30130341796878,
     }]
   },
-  //获取产品分类
-  getProductType: function (parentCategoryId,categoryId,callback){
-    var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: parentCategoryId})
+  getProductType: function (categoryId) {
+    var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId || 0 })
     wx.showLoading({
       title: 'loading'
     })
@@ -33,19 +33,20 @@ Page({
       header: app.header,
       success: function (res) {
         wx.hideLoading()
-        console.log("getProductType",res.data)
-        if (res.data.errcode==0){
+        console.log("getProductType", res.data)
+        if (res.data.errcode == 0) {
           that.setData({ productType: res.data.relateObj })
-        }else{
+        } else {
           that.setData({ productType: that.data.productType })
         }
-        that.data.productType.unshift({ id: categoryId || parentCategoryId,name:"全部"})
+        that.data.productType.unshift({ id: categoryId || 0, name: "全部" })
         for (let i = 0; i < that.data.productType.length; i++) {
           that.data.productType[i].colorAtive = '#888';
         }
         that.data.productType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
         that.data.productType[0].active = true;
         that.setData({ productType: that.data.productType })
+        console.log("that.data.productType", that.data.productType)
         wx.hideLoading()
       },
       fail: function (res) {
@@ -107,43 +108,99 @@ Page({
   },
   /* 点击分类大项 */
   bindTypeItem: function (event) {
-    let onId;
-    if (event && event.currentTarget){
-      onId = event.currentTarget.dataset.type.id
-      console.log('====bindTypeItem currentTarget====',onId)
-    } else if (event && !event.currentTarget){
-      onId = event
-      console.log('====bindTypeItem event====',onId)
-    }
-    console.log(event)
-    console.log("this.data.setting.platformSetting",this.data.setting)
-    for (let i = 0; i < this.data.setting.platformSetting.categories.length; i++) {
-      if (this.data.setting.platformSetting.categories[i].id == onId ) {
-        this.data.setting.platformSetting.categories[i].active = true
-        console.log(this.data.setting.platformSetting.defaultColor)
-        this.data.setting.platformSetting.categories[i].colorAtive =this.data.setting.platformSetting.defaultColor;
+    console.log(event.currentTarget.dataset.type)
+    let that = this;
+    for (let i = 0; i < that.data.productType.length; i++) {
+      if (that.data.productType[i].id == event.currentTarget.dataset.type.id) {
+        that.data.productType[i].active = true
+        that.data.productType[i].colorAtive = that.data.setting.platformSetting.defaultColor;
+        that.setData({ currentItem: that.data.productType[i] })
       }
       else {
-        this.data.setting.platformSetting.categories[i].active = false
-        this.data.setting.platformSetting.categories[i].colorAtive = '#888';
+        that.data.productType[i].active = false
+        that.data.productType[i].colorAtive = '#888';
       }
     }
-    this.setData({
-      setting: this.data.setting,
+
+    that.setData({
+      productType: that.data.productType,
     })
 
-    this.listPage.page = 1
-    this.params.page = 1
+    that.listPage.page = 1
+    that.params.page = 1
 
-    if (onId == "all") {
+    if (event.currentTarget.dataset.type.id == "all") {
 
-      this.params.categoryId = ''
-      this.getData(this.params, 2)
-    } else {
-      this.params.categoryId = onId
-      this.getData(this.params, 2)
+      that.params.categoryId = ''
+      that.getData(this.params, 2)
+      that.setData({ showType: false, bindProductTypeIndex: null })
+
+      var allItem = {
+        id: ""
+      }
+      that.setData({
+        focusTypeItem: allItem
+      })
     }
+    else {
+
+      that.setData({
+        focusTypeItem: event.currentTarget.dataset.type,
+      })
+      var focus = event.currentTarget.dataset.type
+
+      //if (focus.children.length == 0) {
+
+
+
+      that.params.categoryId = focus.id
+      that.setData({ productDetail: null })
+      that.getData(this.params, 2)
+      that.setData({ showType: false, bindProductTypeIndex: null })
+      //}
+
+    }
+
   },
+  /* 点击分类大项 */
+  // bindTypeItem: function (event) {
+  //   let onId;
+  //   if (event && event.currentTarget){
+  //     onId = event.currentTarget.dataset.type.id
+  //     console.log('====bindTypeItem currentTarget====',onId)
+  //   } else if (event && !event.currentTarget){
+  //     onId = event
+  //     console.log('====bindTypeItem event====',onId)
+  //   }
+  //   console.log(event)
+  //   console.log("this.data.setting.platformSetting",this.data.setting)
+  //   for (let i = 0; i < this.data.setting.platformSetting.categories.length; i++) {
+  //     if (this.data.setting.platformSetting.categories[i].id == onId ) {
+  //       this.data.setting.platformSetting.categories[i].active = true
+  //       console.log(this.data.setting.platformSetting.defaultColor)
+  //       this.data.setting.platformSetting.categories[i].colorAtive =this.data.setting.platformSetting.defaultColor;
+  //     }
+  //     else {
+  //       this.data.setting.platformSetting.categories[i].active = false
+  //       this.data.setting.platformSetting.categories[i].colorAtive = '#888';
+  //     }
+  //   }
+  //   this.setData({
+  //     setting: this.data.setting,
+  //   })
+
+  //   this.listPage.page = 1
+  //   this.params.page = 1
+
+  //   if (onId == "all") {
+
+  //     this.params.categoryId = ''
+  //     this.getData(this.params, 2)
+  //   } else {
+  //     this.params.categoryId = onId
+  //     this.getData(this.params, 2)
+  //   }
+  // },
   /* 获取数据 */
   getData: function (param, ifAdd) {
     //根据把param变成&a=1&b=2的模式
@@ -405,8 +462,15 @@ Page({
         if (options.productTypeId) {
           that.setData({ positionTab: options.productTypeId })
           options.categoryId = options.productTypeId
-          that.bindTypeItem(options.productTypeId)
+          that.getProductType(options.categoryId, that.bindTypeItem)
+        } else {
+          that.getProductType(options.categoryId)
         }
+        // if (options.productTypeId) {
+        //   that.setData({ positionTab: options.productTypeId })
+        //   options.categoryId = options.productTypeId
+        //   that.bindTypeItem(options.productTypeId)
+        // }
         if (!!options.forceSearch && options.forceSearch == 2) {
           that.setData({ ProductshowWay: 2 })
         } else {

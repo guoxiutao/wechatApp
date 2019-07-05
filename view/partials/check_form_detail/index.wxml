@@ -1,17 +1,6 @@
 <wxs src="../../../public/publicFun.wxs" module="publicFun"></wxs>
 <block wx:if="{{!loading}}">
 <view class='content' wx:if="{{allFormData.belongFormType!=2}}">
-  <!-- <view class='formBanner'>
-    <image class='bannerUrl' src='{{customForm.banner}}' mode='widthFix'></image>
-  </view> -->
-  <!-- <view class='formHead'>
-    <view class='formName'>
-      <text>{{customForm.formName}}</text>
-    </view>
-    <view class='formDescription'>
-      <text>{{customForm.description}}</text>
-    </view>
-  </view> -->
   <view class='formContent'>
   <!-- 0字符串   1数字 2下拉框  3单选框  4复选框  5日期  6时间  7 图片  8 间隔 -->
     <view wx:for='{{customForm.items}}' wx:for-item='item'>
@@ -151,54 +140,63 @@
     </view>
   </view>
   <view wx:else>
-    <view class='mofang_templete' style='height:{{750/width*height}}rpx;position:relative' >
-      <view class='mofang_item' wx:for='{{formDetailStyle.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*750/width}}rpx;top:{{(item.startPointY*750/width)+1}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*750/width)}}rpx;height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
-        <view class='lunbotu' wx:if="{{commitJson[item.propertieName].type==11}}">
-          <component-tag-banner wx:if='{{banner}}' data="{{banner}}"></component-tag-banner>  <!-- 4 标题 -->
+    <view class='mofang_templete' >
+      <view wx:for='{{formDetailStyle}}' wx:key='{{index}}' wx:for-item="itemData" style='height:{{itemData.type==2?"":750/12*itemData.height}}rpx;position:relative'>
+        <view class='mofang_item' wx:if="{{itemData.type==1}}" wx:for='{{itemData.data.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*750/12}}rpx;top:{{(item.startPointY*750/12)+1}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*750/12)}}rpx;height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
+          <view class='lunbotu' wx:if="{{commitJson[item.propertieName].type==11}}">
+            <component-tag-banner wx:if='{{banner}}' data="{{banner}}"></component-tag-banner>  <!-- 4 标题 -->
+          </view>
+          <!-- 左右布局 height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)+1}}rpx;-->
+          <view class='form_detail_center_item' style="display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}};border-top-width:{{item.borderTop}}rpx;border-bottom-width:{{item.borderBottom}}rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx ;margin:{{item.marginBottomTop}}rpx {{item.marginNum}}rpx;border-radius: {{item.borderRadius}}rpx;height:{{item.marginBottomTop?(publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12))-2*item.marginBottomTop:''}}rpx" wx:if="{{(commitJson[item.propertieName].type!=7&&commitJson[item.propertieName].type!=11)&&(item.placeType==0||item.placeType==3)}}">
+            <view class="titleStyle" wx:if="{{item.propertiesType==0}}">
+              <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+              <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};font-weight:{{item.titleWeight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=9&&item.propertiesType==0}}">{{item.propertieTitle}}</text>
+            </view>
+            <view class='center_part_item_title' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}}" wx:if="{{item.propertiesType==1}}">
+              <image wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+              <text style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};padding-bottom:{{item.borderBottom!=0?"8rpx":""}};padding-top:{{item.borderTop!=0?"8rpx":""}};font-weight:{{item.titleWeight==1?"bold":"0"}}'>{{item.propertieTitle}}</text>
+            </view>
+            <view class='center_part_item_title' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}}" wx:if="{{item.propertiesType==2}}">
+              <image wx:if="{{item.backgroundImage}}" mode='aspectFit' style='height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*750/12)}}rpx' src='{{item.backgroundImage}}'></image>
+            </view>
+            <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=12}}">{{commitJson[item.propertieName].value}}</text>
+            <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type==12}}">{{commitJson[item.propertieName].value.value}}</text>
+            <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{commitJson[item.propertieName].type==12}}" catchtap='clickCatch' data-item="{{commitJson[item.propertieName].value}}">
+              <text>去导航</text>
+            </view>
+          </view>
+          <!--上下布局  height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)+1}}rpx;-->
+          <view class='form_detail_center_item' style="display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==1?'column':'column-reverse'}};align-items:{{item.align}};justify-content:center;border-top-width:0rpx;border-bottom-width:0rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx;margin:{{item.marginBottomTop}}rpx {{item.marginNum}}rpx;border-radius: {{item.borderRadius}}rpx;height:{{item.marginBottomTop?(publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12))-2*item.marginBottomTop:''}}rpx" wx:if="{{(commitJson[item.propertieName].type!=7&&commitJson[item.propertieName].type!=11)&&(item.placeType==1||item.placeType==2)}}">
+            <view class="titleStyle" wx:if="{{item.propertiesType==0}}">
+              <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+              <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};font-weight:{{item.titleWeight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=9}}">{{item.propertieTitle}}</text>
+            </view>
+            <view class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}}' wx:if="{{item.propertiesType==1}}">
+              <image wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
+              <text style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};padding-bottom:{{item.borderBottom!=0?"8rpx":""}};padding-top:{{item.borderTop!=0?"8rpx":""}};font-weight:{{item.titleWeight==1?"bold":"0"}}'>{{item.propertieTitle}}</text>
+            </view>
+            <view class='center_part_item_title' wx:if="{{item.propertiesType==2}}">
+              <image mode='aspectFit' style='width:100%' src='{{item.backgroundImage}}'></image>
+            </view>
+            <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=12}}">{{commitJson[item.propertieName].value}}</text>
+            <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type==12}}">{{commitJson[item.propertieName].value.value}}</text>
+            <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{commitJson[item.propertieName].type==12}}" catchtap='clickCatch' data-item="{{commitJson[item.propertieName].value}}">
+              <text>去导航</text>
+            </view>
+          </view>
+          <view style='width:100%;height:100%;padding:{{imagePadding}}rpx;box-sizing:border-box' wx:if="{{commitJson[item.propertieName].type==7}}">
+            <image mode='aspectFill' src='{{commitJson[item.propertieName].value}}' data-link='{{commitJson[item.propertieName].value}}' bindtap='tolinkUrl' style='border-radius: {{item.borderRadius}}px;width:100%;height:100%;padding:20rpx;box-sizing:border-box' wx:if="{{commitJson[item.propertieName].type==7&&commitJson[item.propertieName].value&&commitJson[item.propertieName].value!='支付后可见'}}"></image>
+            <text style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:else>{{commitJson[item.propertieName].value}}</text>
+          </view>     
         </view>
-        <!-- 左右布局 height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)+1}}rpx;-->
-        <view class='form_detail_center_item' style="display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}};border-top-width:{{item.borderTop}}rpx;border-bottom-width:{{item.borderBottom}}rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx ;margin:{{item.marginBottomTop}}rpx {{item.marginNum}}rpx;border-radius: {{item.borderRadius}}rpx;height:{{item.marginBottomTop?(publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width))-2*item.marginBottomTop:''}}rpx" wx:if="{{(commitJson[item.propertieName].type!=7&&commitJson[item.propertieName].type!=11)&&(item.placeType==0||item.placeType==3)}}">
-          <view class="titleStyle" wx:if="{{item.propertiesType==0}}">
-            <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
-            <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};font-weight:{{item.titleWeight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=9&&item.propertiesType==0}}">{{item.propertieTitle}}</text>
-          </view>
-          <view class='center_part_item_title' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}}" wx:if="{{item.propertiesType==1}}">
-            <image wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
-            <text style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};padding-bottom:{{item.borderBottom!=0?"8rpx":""}};padding-top:{{item.borderTop!=0?"8rpx":""}};font-weight:{{item.titleWeight==1?"bold":"0"}}'>{{item.propertieTitle}}</text>
-          </view>
-          <view class='center_part_item_title' style="height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)}}rpx;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}}" wx:if="{{item.propertiesType==2}}">
-            <image wx:if="{{item.backgroundImage}}" mode='aspectFit' style='height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*750/width)}}rpx' src='{{item.backgroundImage}}'></image>
-          </view>
-          <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=12}}">{{commitJson[item.propertieName].value}}</text>
-          <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type==12}}">{{commitJson[item.propertieName].value.value}}</text>
-          <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{commitJson[item.propertieName].type==12}}" catchtap='clickCatch' data-item="{{commitJson[item.propertieName].value}}">
-            <text>去导航</text>
+        <!-- 模块自适应 -->
+        <view wx:if="{{itemData.type==2}}">
+          <view style="display:flex;margin:0;background:{{itemData.data.backgroudColor}};flex-direction:{{itemData.data.placeType==1?'column':'column-reverse'}};align-items:{{itemData.data.align}};justify-content:center;border-top-width:0rpx;border-bottom-width:0rpx;border-left-width:{{itemData.data.borderLeft}}rpx;border-right-width:{{itemData.data.borderRight}}rpx;border-color:{{itemData.data.borderColor}};border-style:solid;padding:{{itemData.data.paddingBottomTop}}rpx {{itemData.data.paddingNum}}rpx;margin:{{itemData.data.marginBottomTop}}rpx {{itemData.data.marginNum}}rpx;border-radius: {{itemData.data.borderRadius}}rpx;font-size:{{itemData.data.fontSize}}px;color:{{itemData.data.fontColor}};font-weight:{{itemData.data.weight==1?'bold':'0'}}">
+            <text>自定义模块</text>
+            <text>{{commitJson[itemData.data.propertieName].value}}</text>
           </view>
         </view>
-        <!--上下布局  height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)+1}}rpx;-->
-        <view class='form_detail_center_item' style="display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==1?'column':'column-reverse'}};align-items:{{item.align}};justify-content:center;border-top-width:0rpx;border-bottom-width:0rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx;margin:{{item.marginBottomTop}}rpx {{item.marginNum}}rpx;border-radius: {{item.borderRadius}}rpx;height:{{item.marginBottomTop?(publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width))-2*item.marginBottomTop:''}}rpx" wx:if="{{(commitJson[item.propertieName].type!=7&&commitJson[item.propertieName].type!=11)&&(item.placeType==1||item.placeType==2)}}">
-          <view class="titleStyle" wx:if="{{item.propertiesType==0}}">
-            <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
-            <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};font-weight:{{item.titleWeight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=9}}">{{item.propertieTitle}}</text>
-          </view>
-          <view class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}}' wx:if="{{item.propertiesType==1}}">
-            <image wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
-            <text style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};padding-bottom:{{item.borderBottom!=0?"8rpx":""}};padding-top:{{item.borderTop!=0?"8rpx":""}};font-weight:{{item.titleWeight==1?"bold":"0"}}'>{{item.propertieTitle}}</text>
-          </view>
-          <view class='center_part_item_title' wx:if="{{item.propertiesType==2}}">
-            <image mode='aspectFit' style='width:100%' src='{{item.backgroundImage}}'></image>
-          </view>
-          <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=12}}">{{commitJson[item.propertieName].value}}</text>
-          <text class='center_part_item_value' style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type==12}}">{{commitJson[item.propertieName].value.value}}</text>
-          <view class='to_navigation' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{commitJson[item.propertieName].type==12}}" catchtap='clickCatch' data-item="{{commitJson[item.propertieName].value}}">
-            <text>去导航</text>
-          </view>
-        </view>
-        <view style='width:100%;height:100%;padding:{{imagePadding}}rpx;box-sizing:border-box' wx:if="{{commitJson[item.propertieName].type==7}}">
-          <image mode='aspectFill' src='{{commitJson[item.propertieName].value}}' data-link='{{commitJson[item.propertieName].value}}' bindtap='tolinkUrl' style='border-radius: {{item.borderRadius}}px;width:100%;height:100%;padding:20rpx;box-sizing:border-box' wx:if="{{commitJson[item.propertieName].type==7&&commitJson[item.propertieName].value&&commitJson[item.propertieName].value!='支付后可见'}}"></image>
-          <text style='font-size:{{item.fontSize}}px;color:{{item.fontColor}};font-weight:{{item.weight==1?"bold":"0"}}' wx:else>{{commitJson[item.propertieName].value}}</text>
-        </view>     
-      </view> 
+      </view>
     </view>
     <!-- 评论区 -->
     <view class='form_detail_bottom' wx:if="{{allFormData.commentAble==1}}">

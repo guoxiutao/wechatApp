@@ -24,8 +24,17 @@ Page({
     topName: {
       SearchProductName: "",//头部搜索的
     },
-
-
+    nextSevenDaysList: [],
+    venuesTypeList: [],
+    venuesCellList:[],
+    selectVenuesData:{
+      venuesTypeData:{index:0,data:null},
+      daysData: { index: 0, data: null },
+      venuesCelleData: { index: 0, data: null }
+    },
+    venuesDateCellsState:false,
+    haveVenuesDateCellsList:[],
+    allPrice:0,
     focusTypeItem: null,
     bindProductTypeIndex: null,
 
@@ -646,6 +655,277 @@ Page({
       },
     })
   },
+  /* 确认预定场馆 */
+  confirmReserve:function(){
+    console.log("=====confirmReserve========")
+    let that=this;
+    let param = that.data.selectVenuesData
+    let startSeconds= [];
+    let haveVenuesDateCellsList = that.data.haveVenuesDateCellsList;
+    for (let i = 0; i < haveVenuesDateCellsList.length;i++){
+      startSeconds.push(haveVenuesDateCellsList[i].startSecond)
+    }
+    if (startSeconds.length==0){
+      wx.showToast({
+        title: '请选择场次!',
+        image: '/images/icons/tip.png',
+        duration: 1000
+      })
+      return;
+    }
+    console.log("======startSeconds============", startSeconds)
+    let params = { venuesId: param.venuesCelleData.data.id, venuesDateStr: param.daysData.data.oneData, startSeconds: startSeconds.join(',') }
+    var customIndex = app.AddClientUrl('/create_venues_order.html', params, 'post')
+    wx.showLoading({
+      title: 'loading'
+    })
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        console.log("=====confirmReserve_res======", res.data)
+        if (res.data.errcode == 0) {
+          wx.navigateTo({
+            url: '/pages/edit_order/index?orderNo=' + res.data.relateObj.orderNo,
+          })
+        }
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        console.log("fail")
+        wx.hideLoading()
+        app.loadFail()
+      },
+      complete: function () {
+       
+      },
+    })
+  },
+  /* 选择场馆 */
+  selecVenuesCellItemFun: function (e) {
+    console.log("=====selecVenuesCellItemFun========",e)
+    let that=this;
+    let index = e.currentTarget.dataset.index;
+    let info = e.currentTarget.dataset.info;
+    let type = e.currentTarget.dataset.type;
+    let startSecond = e.currentTarget.dataset.startsecond;
+    let haveVenuesDateCellsList = that.data.haveVenuesDateCellsList;
+    let allPrice = 0;
+    let venuesCellList = that.data.venuesCellList;
+    if (haveVenuesDateCellsList.length!=0){
+      console.log("已有选择场次")
+      if (type == 'cancel') {
+        console.log("取消场次")
+        for (let i = 0; i < haveVenuesDateCellsList.length; i++) {
+          if (haveVenuesDateCellsList[i].startSecond == startSecond){
+            haveVenuesDateCellsList.splice(i, 1)
+            venuesCellList.cells[index].state = false
+          }
+        }
+      } else {
+        console.log("选择场次")
+        haveVenuesDateCellsList.splice(haveVenuesDateCellsList.length, 0, { startSecond: startSecond, info: info })
+        venuesCellList.cells[index].state = true
+      }
+    } else {
+      console.log("第一次选择场次")
+      haveVenuesDateCellsList.splice(haveVenuesDateCellsList.length, 0, { startSecond: startSecond, info: info })
+      venuesCellList.cells[index].state = true
+    }
+    for (let i = 0; i < haveVenuesDateCellsList.length; i++) {
+      allPrice += haveVenuesDateCellsList[i].info.cellPrice;
+    }
+    console.log("=====haveVenuesDateCellsList========", haveVenuesDateCellsList)
+    that.setData({ haveVenuesDateCellsList: haveVenuesDateCellsList, venuesCellList: venuesCellList, allPrice: allPrice})
+  },
+  /* 预定场馆 */
+  scheduledVenuesFun: function () {
+    console.log("=====scheduledVenuesFun========")
+    let that=this;
+    that.setData({ venuesDateCellsState: true })
+  },
+  hiddenZheZhao: function () {
+    console.log("=====hiddenZheZhao========")
+    let that = this;
+    that.setData({ venuesDateCellsState: false })
+  },
+  /* 获取场馆日期单元 */
+  getVenuesDateCellsData: function (param) {
+    console.log("=====getVenuesDateCellsData========",param)
+    let params = { venuesId: param.venuesCelleData.data.id, venuesDateStr: param.daysData.data.oneData}
+    var customIndex = app.AddClientUrl('/wx_get_venues_date_cells.html', params)
+    wx.showLoading({
+      title: 'loading'
+    })
+    var that = this
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("=====getVenuesDateCellsData======", res.data)
+        if (res.data.errcode==0){
+          let venuesCellList = res.data.relateObj[0]
+          for (let i = 0; i < venuesCellList.cells.length;i++){
+            venuesCellList.cells[i].state = false
+          }
+          that.setData({ venuesCellList: venuesCellList })
+          console.log("=====venuesCellList======", that.data.venuesCellList)
+        }
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        console.log("fail")
+        wx.hideLoading()
+        app.loadFail()
+      },
+      complete: function () {
+        that.setData({ canRefresh: true })
+      },
+    })
+  },
+  selectVenuesDataFun:function(e){
+    let that = this;
+    console.log("====selectVenuesDataFun===", e)
+    let selectVenuesData=that.data.selectVenuesData
+    let type = e.currentTarget.dataset.type;
+    let index = e.currentTarget.dataset.index;
+    let info = e.currentTarget.dataset.info;
+    that.setData({ haveVenuesDateCellsList: [], allPrice: 0 })
+    if (type =='venuesType'){
+      console.log("===========venuesType===============")
+      selectVenuesData.venuesTypeData = { index: index,data:info}
+      selectVenuesData.daysData = { index: 0, data: that.data.nextSevenDaysList[0] }
+      if (that.data.venuesTypeList[index].venues.length != 0) {
+        selectVenuesData.venuesCelleData = { index: 0, data: that.data.venuesTypeList[index].venues[0] }
+        that.getVenuesDateCellsData(selectVenuesData)
+      }
+    } else if (type == 'daysData') {
+      console.log("===========daysData===============")
+      selectVenuesData.daysData = { index: index, data: info }
+      if (that.data.venuesTypeList[selectVenuesData.venuesTypeData.index].venues.length != 0) {
+        selectVenuesData.venuesCelleData = { index: 0, data: that.data.venuesTypeList[selectVenuesData.venuesTypeData.index].venues[0] }
+        that.getVenuesDateCellsData(selectVenuesData)
+      }
+    } else {
+      console.log("===========venuesCell===============")
+      selectVenuesData.venuesCelleData = { index: index, data: info }
+      that.getVenuesDateCellsData(selectVenuesData)
+    }
+    that.setData({ selectVenuesData: selectVenuesData })
+    console.log("====selectVenuesDataFun===", e, selectVenuesData)
+  },
+  getNextSevenDays:function(){
+    let that=this
+    let myDate = new Date();
+    let curDayData=myDate.getDay();
+    let curLocaleData=myDate.toLocaleDateString(); //获取当前日期
+    console.log("====getNextSevenDays===", curDayData, curLocaleData)
+    for(let i=0;i<10;i++){
+      console.log("=======", i + curDayData);
+      let switchData;
+      let oneData;
+      if (i + curDayData > 6 && i + curDayData<14){
+        switchData = i + curDayData-7
+      } else if (i + curDayData>=14){
+        switchData = i + curDayData - 14
+      }else{
+        switchData = i + curDayData
+      }
+      switch (switchData) {
+        case 0:
+          oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周日':'今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+        case 1:
+          oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周一' : '今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+        case 2:
+          oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周二' : '今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+        case 3:
+          oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周三' : '今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+        case 4:
+          oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周四' : '今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+        case 5:
+          let oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周五' : '今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+        case 6:
+          oneData = that.getOneDay(i)
+          that.data.nextSevenDaysList.splice(that.data.nextSevenDaysList.length, 0, { weekData: i != 0 ? '周六' : '今天', oneData: oneData, oneDataStr: oneData.slice(5)})
+          console.log("====getOneDay=====", i, that.getOneDay(i))
+          console.log("===that.data.nextSevenDaysList===", that.data.nextSevenDaysList)
+          break;
+      } 
+    }
+    let selectVenuesData = that.data.selectVenuesData
+    selectVenuesData.daysData = { index: 0, data: that.data.nextSevenDaysList[0] }
+    that.setData({ selectVenuesData: selectVenuesData })
+    that.setData({ nextSevenDaysList:that.data.nextSevenDaysList})
+    that.getVenuesDateCellsData(selectVenuesData)
+  },
+  getOneDay:function (day){
+    var dd = new Date();
+    dd.setDate(dd.getDate() + day);//获取AddDayCount天后的日期 
+    var y = dd.getFullYear();
+    var m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1;//获取当前月份的日期 
+    var d = dd.getDate() < 10 ? '0' +  dd.getDate() : dd.getDate();
+    return y + "-" + m + "-" + d; 
+  },
+  /* 获取场馆类型数据 */
+  getShopVenuesTypeData: function (param) {
+    var customIndex = app.AddClientUrl('/wx_get_shop_venues_types.html', { shopId: param.addShopId})
+    wx.showLoading({
+      title: 'loading'
+    })
+    var that = this
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("=====shopVenuesTypeData======", res.data)
+        let venuesTypeList = res.data.relateObj.result
+        that.setData({ venuesTypeList: venuesTypeList })
+        console.log("=====that.data.venuesTypeList======", that.data.venuesTypeList)
+        if (venuesTypeList.length != 0) {
+          let selectVenuesData = that.data.selectVenuesData
+          selectVenuesData.venuesTypeData = { index: 0, data: that.data.venuesTypeList[0] }
+          selectVenuesData.venuesCelleData = { index: 0, data: that.data.venuesTypeList[0].venues[0] }
+          that.setData({ selectVenuesData: selectVenuesData })
+          that.getNextSevenDays();
+        }
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        console.log("fail")
+        wx.hideLoading()
+        app.loadFail()
+      },
+      complete: function () {
+        that.setData({ canRefresh: true })
+      },
+    })
+  },
   /* 全部参数 */
   params: {
     categoryId: "",
@@ -970,6 +1250,7 @@ Page({
     console.log("app.cart_offline", app.cart_offline)
     that.params.shopProductType = 0;
     that.getShopTypeData(options);
+    that.getShopVenuesTypeData(options);
     let sendIndexData = JSON.stringify({ title: 'noTitle', url: "shop", params: { pageObjectId: that.params.belongShop, pageObjectType: 9} })
     that.setData({ sendIndexData: sendIndexData })
     let sendShopData = JSON.stringify({ title: 'noTitle', url: "shop_" + that.params.belongShop })

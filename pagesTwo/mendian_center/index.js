@@ -6,8 +6,9 @@ Page({
      * 页面的初始数据
      */
     data: {
-        setting: {},
-        loginUser: null,
+      setting: {},
+      loginUser: null,
+      properties: {},
         mendian: {
             account: {
                 account: 0,
@@ -83,19 +84,24 @@ Page({
                         mendian: mendian
                     })
                     that.setNav(mendian)
-                } else {
+                } 
+                else {
                     wx.showModal({
                         title: '失败了',
-                        content: '请求失败了，请下拉刷新！',
+                      content: res.data.errMsg,
                     })
 
                 }
 
                 wx.hideLoading()
             },
-            fail: function (res) {
-                wx.hideLoading()
-                app.loadFail()
+          fail: function (res) {
+            wx.showModal({
+              title: '失败了',
+              content: '请求失败了，请下拉刷新！',
+            })
+            wx.hideLoading()
+            app.loadFail()
             }
         })
     },
@@ -106,7 +112,8 @@ Page({
         mendian.waitCompleteOrderDistributeAmount = app.toFix(mendian.waitCompleteOrderDistributeAmount)
         return mendian
     },
-    setNavColor:function(){
+  setNavColor: function () {
+    console.log('setNavColor', app.setting)
       wx.setNavigationBarColor({
         frontColor: '#ffffff',
         backgroundColor: app.setting.platformSetting.defaultColor
@@ -114,7 +121,7 @@ Page({
       })
     },
     setNav: function (mendian) {
-      console.log('app.setting', app.setting)
+      console.log('setNav', app.setting)
         wx.setNavigationBarTitle({
             title: mendian.name,
         })
@@ -181,6 +188,12 @@ Page({
   },
   checkState: function () {
     console.log('======checkState.loginUser======', app.loginUser)
+    this.setData({
+      setting: app.setting,
+      loginUser: app.loginUser
+    })
+    this.setNavColor()
+    this.getMendianInfo()
     if (!app.loginUser.platformUser.managerMendianId) {
       console.log("=========没有管理店铺=========")
       this.setData({ applyMendianType: false })
@@ -189,25 +202,50 @@ Page({
 
     }
   },
+  conut: 1,
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+      let that=this;
       console.log('======app.loginUser======', app.loginUser)
+      console.log('====== app.setting======', app.setting)
       if (app.loginUser) {
         this.checkState();
       } else {
-        console.log('======111222333======')
         app.addLoginListener(this);
-      }
-        this.setData({
-            setting: app.setting,
-            loginUser: app.loginUser
+        wx.showLoading({
+          title: 'loading'
         })
-        this.setNavColor()
-        this.getMendianInfo()
+        console.log("====setTimeout1=====")
+        that.setTimeoutLogin(that.conut)
+      }
+      this.setData({
+          setting: app.setting,
+          loginUser: app.loginUser,
+          properties: app.properties
+      })
     },
-
+  setTimeoutLogin: function (conuData) {
+    let that = this;
+    console.log("====setTimeout-init=====", conuData)
+    that.conut = conuData;
+    that.conut += 2;
+    if (that.conut <= 5) {
+      setTimeout(function () {
+        if (app.loginUser) {
+          wx.hideLoading()
+        } else {
+          that.setTimeoutLogin(that.conut)
+        }
+      }, that.conut * 1000)
+    } else {
+      wx.showModal({
+        title: '失败了',
+        content: '请求失败了，请下拉刷新！',
+      })
+    }
+  },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

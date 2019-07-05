@@ -3,6 +3,12 @@
     <text>充值金额</text>
     <input value='{{money}}' bindinput='getBuyerScript'  placeholder=''></input>
   </view>
+  <view class='chongzhiList'>
+    <view class='chongzhiItem' catchtap='selectItemFun' data-info="{{item}}" wx:for="{{setting.platformSetting.rechargeList}}" style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'>
+      <text class='price'>￥{{item.value}}</text>
+      <text class='rewardPrice'>赠送￥{{item.reward}}</text>
+    </view>
+  </view>
   <view class='way'>
    <view class='payName'>支付方式</view>
   <radio-group bindchange="getPayWay">

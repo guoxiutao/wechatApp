@@ -8,7 +8,8 @@ Page({
   data: {
     money: 10,
     butn_show_loading:false,
-    mendian:null,
+    mendian: null,
+    properties: {},
   },
   
   getUserAmount: function (e) {
@@ -146,8 +147,12 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({ setting: app.setting })
-    this.setData({ loginUser: app.loginUser })
+    this.setData({ setting: app.setting, loginUser: app.loginUser, properties: app.properties })
+    if (app.properties.alias_yue){
+      wx.setNavigationBarTitle({
+        title: app.properties.alias_yue +'提现',
+      })
+    }
   },
 
   /**

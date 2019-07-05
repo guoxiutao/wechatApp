@@ -9,7 +9,8 @@ Page({
   data: {
     Data: [],
     moneyAmount: 0,
-    mendian: null
+    mendian: null,
+    properties:{},
   },
   userRecharge: function () {
     this.setData({ reflesh: 1 })
@@ -100,7 +101,12 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({ setting: app.setting })
+    this.setData({ setting: app.setting, properties: app.properties})
+    if (app.properties.alias_yue){
+      wx.setNavigationBarTitle({
+        title: '账户'+app.properties.alias_yue,
+      })
+    }
   },
 
   /**
