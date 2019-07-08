@@ -502,10 +502,13 @@ Component({
     let params={};
     let value={}
     params.customFormId = that.data.formId;
-    if(e){
+    if (e && e.currentTarget){
       value = e.detail.value
       params.miniNotifyFormId = e.detail.formId;
     }else{
+      if(e){
+        params.parentCommitId=e//子组件传过来的记录id
+      }
       for (let i = 0; i < that.data.formData.items.length; i++) {
         let name = that.data.formData.items[i].name;
         if ((that.data.formData.items[i].type == 0 || that.data.formData.items[i].type == 9 || that.data.formData.items[i].type == 1 || that.data.formData.items[i].type == 14)&& (!that.data.inputValue[name] && that.data.inputValue[name]!=='')){

@@ -184,9 +184,9 @@ Page({
     getParams.orderNo = id
     let customIndex = app.AddClientUrl("/get_order_detail.html", getParams)
     
-    wx.showLoading({
+    /*wx.showLoading({
       title: 'loading'
-    })
+    })*/
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -232,7 +232,7 @@ Page({
     mapCtx.getCenterLocation({
       success: function (res) {
         console.log('res', res)
-        that.getLoctionAddr(res.longitude, res.latitude)
+       // that.getLoctionAddr(res.longitude, res.latitude)
         that.params.latitude = res.latitude;
         that.params.longitude = res.longitude;
         that.setData({
@@ -249,10 +249,10 @@ Page({
     let that = this
     if (!app.checkIfLogin()) return;
     let getParams = {}
-    wx.showToast({
+   /* wx.showToast({
       title: '加载中...',
       icon: 'loading',
-    })
+    })*/
     getParams.instanceStatus=1
     getParams.processId = id
     let customIndex = app.AddClientUrl("/wx_get_process_instance_list.html", getParams)
@@ -292,7 +292,7 @@ Page({
       }
     })
   },
-  
+  timer:null,
   /**
    * 生命周期函数--监听页面加载
    */
@@ -306,8 +306,19 @@ Page({
       this.setData({
         orderNo: this.data.orderNo
       })
+      that.getOrderDetail(o.orderNo);
+       that.timer =  setInterval(function(){
+        console.log("===========timer get order detail============");
+      if (!that.data.orderDetailData||(that.data.orderDetailData.payStatus == 1 && that.data.orderDetailData.orderStatus<=3)){
+          that.getOrderDetail(o.orderNo)
+        
+      }else{
+        clearInterval(timer);
+      }
 
-      that.getOrderDetail(o.orderNo)
+    },8000);
+
+    
     }else{
       wx.navigateBack()
     }
@@ -333,14 +344,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+    clearInterval(this.timer);
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+    clearInterval(this.timer);
   },
 
   /**

@@ -61,6 +61,17 @@ Page({
   repVerificationResults:function(){
     this.tipFun("主人~您确认要核销吗？")
   },
+ continueVerificationResults: function () {
+   wx.scanCode({
+     onlyFromCamera: true,
+     success: (scanRes) => {
+       console.log("getVerificationCode", scanRes)
+       wx.navigateTo({
+         url: "/" + scanRes.path
+       })
+     }
+   })
+  },
   tipFun:function(data){
     let that=this;
     wx.showModal({

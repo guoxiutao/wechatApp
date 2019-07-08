@@ -33,7 +33,7 @@
     <block wx:if='{{servantshowWay == 2}}' >
      <view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
         <block wx:if = "{{!! servantData}}">
-          <view class='servant_items2' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{servantDetail.id}}' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
+          <view class='servant_items2' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{result.id}}' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
             <view class='servant_items2_top'>
               <view class="servant_head">
                 <image class='servant_head_img' mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
@@ -44,18 +44,29 @@
                 </view>
               </view>
               <view class='servant_items2_view1'>
-                <text class='servant_name'>{{result.name}}</text>
-                <text class='location_name' wx:if="{{result.longitude>0}}">{{result.description}}</text>
-                <text class='location_name' wx:else>{{result.description}}</text>
+                <view class='servant_items2_name_top'>
+                  <text class='servant_name'>{{result.name}}</text>
+                  <view class='servant_score'>
+                    <view class='servant_score_item' wx:for="{{4}}" wx:for-item="result" wx:key="{{result.id}}">
+                      <image src='http://image1.sansancloud.com/xianhua/2019_4/30/15/33/9_681.jpg?x-oss-process=style/preview_120' class='servant_score_item_icon'></image>
+                    </view>
+                    <text>4.5</text>
+                  </view>
+                </view>
+                <scroll-view scroll-x class="tab_scroll_list" scroll-with-animation='true'>
+                  <view class='tab_item' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>八字</view>
+                  <view class='tab_item' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>八字</view>
+                  <view class='tab_item' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>八字</view>
+                </scroll-view>
               </view>
-              <view class='order_servant' style='border:2rpx solid {{setting.platformSetting.defaultColor}}'>
-                <text style='color:{{setting.platformSetting.defaultColor}}'>去预约</text>
+              <view class='order_servant' style='background:{{setting.platformSetting.defaultColor}}'>
+                <text>预约</text>
               </view>
             </view>
             <view class='servant_items2_info'>
               <image src='http://image1.sansancloud.com/xianhua/2019_7/4/16/5/5_640.jpg?x-oss-process=style/preview_120' class='servant_items2_rich_icon'></image>
               <view class='servant_items2_rich'>
-                <text>{{result.description}}</text>
+                <text class='description'>{{result.description}}</text>
               </view>
             </view>
           </view>

@@ -29,7 +29,10 @@ Component({
       totalSize: 1,
       pageSize: 1,
       curPage: 1,
-    }
+    },
+    animationData: {}, //抽屉
+    showType: false,
+    userInfoFormCommitId:'',
   },
   // 返回
   ready: function () {
@@ -45,7 +48,54 @@ Component({
     that.getDetail()
   },
   methods: {
-
+    popupFormPage: function () {
+      console.log("=======popupFormPage==========")
+      this.setData({ showAddressForm: true, sendOptionData: { customFormId: this.data.customForm.replyFormId } })
+      this.setData({ showType: !this.data.showType })
+      let showType2 = this.data.showType
+      let animation = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-in-out',
+      })
+      console.log("=======popupFormPage==========", animation, this.data.showType)
+      if (showType2) {
+        animation.height(550).step()
+      } else {
+        animation.height(0).step()
+      }
+      this.setData({
+        animationData: animation.export()
+      })
+    },
+    closeZhezhao: function () {
+      this.setData({ showType: false })
+      let animation = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out',
+      })
+      animation.height(0).step()
+      this.setData({
+        animationData: animation.export()
+      })
+    },
+    submitData: function (e) {
+      let that = this;
+      console.log("===getDataFun===", e, e.detail.formId)
+      that.selectComponent("#submitForm").formSubmit(that.data.formCommitId);
+    },
+    getDataFun: function (e) {
+      let that = this;
+      console.log("===getDataFun===", e, e.detail.formId)
+      if (e.detail.formId) {
+        wx.showToast({
+          title: '报名成功',
+          icon: 'success',
+          duration: 2000
+        })
+        this.getDetail()
+        this.closeZhezhao()
+      };
+    },
     //物流单号 一键复制的事件
     copyText: function (e) {
       console.log("====copyText====",e)

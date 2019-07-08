@@ -3,7 +3,7 @@
 <import src="form_item_two/index.wxml"/>  <!-- 正常的活动列表 -->
 <import src="form_item_decorated/index.wxml"/>  <!-- 正常的活动列表 -->
 
-  <block wx:if='{{formCommitItem.belongFormType != 2&&(!formListStyle||formListStyle.length==0)&&!controlLimitState}}'>
+  <block wx:if='{{formCommitItem.belongFormType == 0&&(!formListStyle||formListStyle.length==0)&&!controlLimitState}}'>
     <template is="form_item_one"  data="{{formCommitItem,setting,controlLimitState}}"></template>
   </block> 
  

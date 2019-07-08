@@ -374,23 +374,49 @@ page{
   white-space:nowrap; 
   width:100%;
 }
+.servant_items2_name_top{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .servant_name{
   color: #555;
-  font-size: 28rpx;
+  font-size: 30rpx;
   font-weight: bold;
   overflow:hidden; 
   text-overflow:ellipsis;
   white-space:nowrap; 
   width:100%;
 }
-.order_servant{
-  height: 40rpx;
-  border-radius: 10rpx;
-  padding: 4rpx 10rpx;
-  font-size: 22rpx;
+.servant_score{
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 0 20rpx;
+  font-size:30rpx;
+}
+.servant_score_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10rpx;
+}
+.servant_score_item:last-child{
+  margin: 0
+}
+.servant_score_item_icon{
+  width: 30rpx;
+  height: 30rpx
+}
+.order_servant{
+  height: 50rpx;
+  border-radius: 10rpx;
+  padding: 4rpx 20rpx;
+  font-size: 28rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
 }
 .servant_status{
   display: flex;
@@ -669,15 +695,43 @@ border-bottom: 2rpx solid #FE5722;
       display: flex;
       flex-direction: row;
       align-items: flex-start;
-      padding:0 20rpx;
+      padding:0 30rpx;
     }
     .servant_items2_rich_icon{
-      width: 50rpx;
-      height: 40rpx;
+      width: 45rpx;
+      height: 35rpx;
       margin-right: 20rpx;
     }
     .servant_items2_rich{
-      font-size: 26rpx;
+      font-size: 28rpx;
       color: #999;
       width: 90%;
+    }
+    .description{
+      display: -webkit-box;
+      -webkit-line-clamp:3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      letter-spacing: 4rpx;
+    }
+    .tab_scroll_list{
+      height:68rpx;
+      width:95%;
+      box-sizing:border-box;
+      overflow:hidden;
+      line-height:68rpx;
+      font-size:24rpx;
+      white-space:nowrap;
+
+    }
+    .tab_item{
+      margin-left:10rpx;
+      height:40rpx;
+      display:inline-block;
+      border-radius: 16rpx;
+      padding: 0 16rpx;
+      line-height: 40rpx;
+    }
+    .tab_item:first-child{
+      margin-left:0
     }

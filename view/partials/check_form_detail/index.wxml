@@ -1,6 +1,6 @@
 <wxs src="../../../public/publicFun.wxs" module="publicFun"></wxs>
 <block wx:if="{{!loading}}">
-<view class='content' wx:if="{{allFormData.belongFormType!=2}}">
+<view class='content' wx:if="{{allFormData.belongFormType==0}}">
   <view class='formContent'>
   <!-- 0字符串   1数字 2下拉框  3单选框  4复选框  5日期  6时间  7 图片  8 间隔 -->
     <view wx:for='{{customForm.items}}' wx:for-item='item'>
@@ -69,7 +69,7 @@
     </view>
   </view>
 </view>
-<view class='content2' wx:if="{{allFormData.belongFormType==2}}" style='margin-bottom:120rpx'>
+<view class='content2' wx:else style='margin-bottom:120rpx'>
   <view class='form_detail_top'>
     <view class='form_detail_top_left'>
       <image class='user_head_img' src='{{allFormData.commitPlatformUserIcon}}'></image>
@@ -141,13 +141,13 @@
   </view>
   <view wx:else>
     <view class='mofang_templete' >
-      <view wx:for='{{formDetailStyle}}' wx:key='{{index}}' wx:for-item="itemData" style='height:{{itemData.type==2?"":750/12*itemData.height}}rpx;position:relative'>
-        <view class='mofang_item' wx:if="{{itemData.type==1}}" wx:for='{{itemData.data.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*750/12}}rpx;top:{{(item.startPointY*750/12)+1}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*750/12)}}rpx;height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
+      <view wx:for='{{formDetailStyle}}' wx:key='{{index}}' wx:for-item="itemData" style='height:{{itemData.type==2?"":750/12*itemData.height*publicFun.toAbs(itemData.aspectRatio)}}rpx;position:relative'>
+        <view class='mofang_item' wx:if="{{itemData.type==1}}" wx:for='{{itemData.data.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*750/12}}rpx;top:{{(item.startPointY*750/12)+1}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*750/12)}}rpx;height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)*publicFun.toAbs(itemData.aspectRatio)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
           <view class='lunbotu' wx:if="{{commitJson[item.propertieName].type==11}}">
             <component-tag-banner wx:if='{{banner}}' data="{{banner}}"></component-tag-banner>  <!-- 4 标题 -->
           </view>
           <!-- 左右布局 height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*750/width)+1}}rpx;-->
-          <view class='form_detail_center_item' style="display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:flex-start;justify-content:{{item.align}};border-top-width:{{item.borderTop}}rpx;border-bottom-width:{{item.borderBottom}}rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx ;margin:{{item.marginBottomTop}}rpx {{item.marginNum}}rpx;border-radius: {{item.borderRadius}}rpx;height:{{item.marginBottomTop?(publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12))-2*item.marginBottomTop:''}}rpx" wx:if="{{(commitJson[item.propertieName].type!=7&&commitJson[item.propertieName].type!=11)&&(item.placeType==0||item.placeType==3)}}">
+          <view class='form_detail_center_item' style="display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:center;justify-content:{{item.align}};border-top-width:{{item.borderTop}}rpx;border-bottom-width:{{item.borderBottom}}rpx;border-left-width:{{item.borderLeft}}rpx;border-right-width:{{item.borderRight}}rpx;border-color:{{item.borderColor}};border-style:solid;padding:{{item.paddingBottomTop}}rpx {{item.paddingNum}}rpx ;margin:{{item.marginBottomTop}}rpx {{item.marginNum}}rpx;border-radius: {{item.borderRadius}}rpx;height:{{item.marginBottomTop?(publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)*publicFun.toAbs(itemData.aspectRatio))-2*item.marginBottomTop:publicFun.toAbs((item.endPointY-item.startPointY+1)*750/12)*publicFun.toAbs(itemData.aspectRatio)}}rpx" wx:if="{{(commitJson[item.propertieName].type!=7&&commitJson[item.propertieName].type!=11)&&(item.placeType==0||item.placeType==3)}}">
             <view class="titleStyle" wx:if="{{item.propertiesType==0}}">
               <image  wx:if="{{item.propertieIcon}}" mode='aspectFit' style='height:{{publicFun.toNum(item.titleSize)+2}}px;width:{{publicFun.toNum(item.titleSize)+2}}px;margin-right:12rpx;' src='{{item.propertieIcon}}'></image>
               <text class='center_part_item_title' style='font-size:{{item.titleSize}}px;color:{{item.titleColor}};font-weight:{{item.titleWeight==1?"bold":"0"}}' wx:if="{{commitJson[item.propertieName].type!=9&&item.propertiesType==0}}">{{item.propertieTitle}}</text>
@@ -192,8 +192,9 @@
         <!-- 模块自适应 -->
         <view wx:if="{{itemData.type==2}}">
           <view style="display:flex;margin:0;background:{{itemData.data.backgroudColor}};flex-direction:{{itemData.data.placeType==1?'column':'column-reverse'}};align-items:{{itemData.data.align}};justify-content:center;border-top-width:0rpx;border-bottom-width:0rpx;border-left-width:{{itemData.data.borderLeft}}rpx;border-right-width:{{itemData.data.borderRight}}rpx;border-color:{{itemData.data.borderColor}};border-style:solid;padding:{{itemData.data.paddingBottomTop}}rpx {{itemData.data.paddingNum}}rpx;margin:{{itemData.data.marginBottomTop}}rpx {{itemData.data.marginNum}}rpx;border-radius: {{itemData.data.borderRadius}}rpx;font-size:{{itemData.data.fontSize}}px;color:{{itemData.data.fontColor}};font-weight:{{itemData.data.weight==1?'bold':'0'}}">
-            <text>自定义模块</text>
-            <text>{{commitJson[itemData.data.propertieName].value}}</text>
+            <!-- <text>自定义模块</text> -->
+            <text wx:if="{{itemData.data.propertiesType==0}}">{{commitJson[itemData.data.propertieName].value}}</text>
+            <text wx:else>{{itemData.data.propertieTitle}}</text>
           </view>
         </view>
       </view>
@@ -238,13 +239,21 @@
     </view>
   </view>
   <!-- 已付费人员 -->
-  <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0&&customForm.attendPlatformUserShowType==1}}">
-    <text class='havePayUserTitle' style='color:{{color}}'>参与者</text>
+  <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0}}">
+    <view class='havePayUserTitle'>
+      <text>已报名({{allFormData.attendList.totalSize}})</text>
+      <view class='havePayUserTitleRight'>
+        <text style='color:{{color}}'>更多报名</text>
+        <image class='more_user_icon' src='http://image1.sansancloud.com/xianhua/2019_5/14/17/27/34_899.jpg?x-oss-process=style/preview_120'></image>
+      </view>
+    </view>
     <view class='havePayUserList'>
+      <scroll-view scroll-x class="havePayUserScrollList" scroll-with-animation='true'>
       <view class='havePayUserItem' wx:for="{{allFormData.attendList.result}}">
         <image class='userIcon' src='{{item.attendPlatformUserIcon}}'></image>
-        <text class='userName' wx:if="{{customForm.attendPlatformUserShowType!=2}}">{{item.attendPlatformUserName}}</text>
+        <text class='userName' >{{item.attendPlatformUserName}}{{item.attendPlatformUserName}}{{item.attendPlatformUserName}}</text>
       </view>
+      </scroll-view>
     </view>
   </view>
 </view>
@@ -253,11 +262,12 @@
   <image class='comments_img_icon' bindtap='sendComments' src='http://image1.sansancloud.com/jianzhan/2019_3/13/18/4/57_119.jpg?x-oss-process=style/preview_120' mode="aspectFitf"></image>
 </view>
 <!-- 表单按钮功能区 -->
-<view class='bottomBtn' wx:if="{{allFormData.belongFormType==2&&showBtn=='true'&&(customForm.commentAble!=0&&customForm.commentAble!=1)&&(customForm.readLimit==0||customForm.readLimit==1)}}">
+<view class='bottomBtn' wx:if="{{allFormData.belongFormType!=0&&showBtn=='true'&&(customForm.commentAble!=0&&customForm.commentAble!=1)&&(customForm.readLimit==0||customForm.readLimit==1)}}">
    <view class='bottomBtnTel {{customForm.commentAble==2?"w100per":"w48per"}}' wx:if="{{customForm.commentAble==2||customForm.commentAble==23}}" data-phonenumber="{{customForm.telno}}" catchtap='calling' style=' border: 2rpx solid {{color}};color:{{color}}'>
      <text>拨打电话</text>
    </view>
-   <view class='bottomBtnForm {{customForm.commentAble==3?"w100per":"w48per"}}' data-link="form_detail.html?customFormId={{customForm.replyFormId}}" catchtap='tolinkUrl' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" style=' border: 2rpx solid {{color}};color:{{color}}' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" >
+   <view class='bottomBtnForm {{customForm.commentAble==3?"w100per":"w48per"}}' catchtap='popupFormPage' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" style=' border: 2rpx solid {{color}};color:{{color}}' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" >
+   <!--  data-link="form_detail.html?customFormId={{customForm.replyFormId}}" catchtap='tolinkUrl' -->
      <text>填写表单</text>
    </view>
 </view>
@@ -265,7 +275,8 @@
    <view class='bottomBtnTel {{customForm.commentAble==2?"w48per":"w32per"}}' wx:if="{{customForm.commentAble==2||customForm.commentAble==23}}" data-phonenumber="{{customForm.telno}}" catchtap='calling' style=' border: 2rpx solid {{color}};color:{{color}}'>
      <text>拨打电话</text>
    </view>
-   <view class='bottomBtnForm {{customForm.commentAble==3?"w48per":"w32per"}}' data-link="form_detail.html?customFormId={{customForm.replyFormId}}" catchtap='tolinkUrl' style=' border: 2rpx solid {{color}};color:{{color}}' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" >
+   <view class='bottomBtnForm {{customForm.commentAble==3?"w48per":"w32per"}}' catchtap='popupFormPage' style=' border: 2rpx solid {{color}};color:{{color}}' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" >
+   <!--  data-link="form_detail.html?customFormId={{customForm.replyFormId}}" catchtap='tolinkUrl' -->
      <text>填写表单</text>
    </view>
    <view class='bottomBtnPay {{customForm.commentAble==23?"w32per":"w48per"}}' data-commitId="{{allFormData.id}}" catchtap='payToCheckForm' style=' background-image:linear-gradient(to right,{{secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
@@ -276,5 +287,15 @@
    <view class='bottomBtnPay w100per' data-commitId="{{allFormData.id}}" catchtap='payToCheckForm' style=' background-image:linear-gradient(to right,{{secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
      <text>付费查看</text>
    </view>
+</view>
+<!-- 填写表单弹窗动画 -->
+<view class='zhezhao' wx:if="{{showType}}" bindtap='closeZhezhao'></view>
+<view class='popupFormDetail' animation="{{animationData}}">
+  <scroll-view scroll-y style="height:100%;">
+    <component-form-detail id="submitForm" wx:if="{{sendOptionData&&showAddressForm}}" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" bind:sendDataFun="getDataFun"></component-form-detail><!-- 弹窗-->
+    </scroll-view>
+</view>
+<view' wx:if="{{showType}}" class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>
+  <text>提交资料</text>
 </view>
 </block>

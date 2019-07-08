@@ -13,4 +13,8 @@
   <view class='verification_btn' style='background:{{platformSetting.defaultColor}}' bindtap='repVerificationResults'>
     <text>确认核销</text>
   </view>
+
+   <view class='verification_btn1' style='background:{{platformSetting.defaultColor}}' bindtap='continueVerificationResults'>
+    <text>继续核销</text>
+  </view>
 </view>

@@ -178,7 +178,7 @@ Component({
       console.log("====data===", data)
       let formId = data.currentTarget.dataset.id ? data.currentTarget.dataset.id : 0;
       let belongFormType = data.currentTarget.dataset.belongformtype ? data.currentTarget.dataset.belongformtype : 0;
-      if (belongFormType != 2) {
+      if (belongFormType == 1) {
         console.log("普通表单")
         wx.showActionSheet({
           itemList: ['查看用户提交的表单'],

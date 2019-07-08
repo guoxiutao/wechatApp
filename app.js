@@ -1,16 +1,16 @@
 import { dellUrl } from "/public/requestUrl.js";
 const Promise = require('/promise/promise.js');
 App({
- //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
-  clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
+    //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
+    clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
 
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'xianhua',   //自定义的项目的名称。
+  clientNo: 'daishu',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.14',
+  version:'3.5.18',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -208,7 +208,7 @@ App({
   },
   toIndex: function () {
     console.log('首页叫做：' + this.miniIndexPage)
-
+    let that=this;
     console.log('首页叫做：' + this.clientNo)
     //这个需要注意  switchTab  和  redirectTo
     if (this.clientNo == 'tunzai') {
@@ -222,6 +222,9 @@ App({
       console.log("2222222222222")
       wx.switchTab({
         url: '/pageTab/' + this.miniIndexPage + '/index',
+        fail:function(){
+          that.linkEvent(that.miniIndexPage + '.html')
+        }
       })
     } else {
       console.log("33333333333333")

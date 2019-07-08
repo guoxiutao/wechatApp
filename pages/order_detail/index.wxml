@@ -57,16 +57,25 @@
         <view class='navigation'  wx:if="{{orderDetailData.buyerLatitude!=0&&orderDetailData.buyerLongitude!=0}}" style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}' catchtap='clickCatch' data-info="{{orderDetailData}}"><text>去导航</text></view>
     </view>
   </view>
-  <view  wx:if="{{orderDetailData.mendianZiti==1&&!formCommitId}}">
+  <view  wx:if="{{orderDetailData.mendianZiti==1}}">
     <view class='editAddr'>
       <view class='editAddr_text'>自提门店：【{{orderDetailData.belongMendian.name}}】</view>
       <!-- <image src='/images/icons/right.png'></image> -->
     </view>
     <view class='addrItems2' catchtap='clickCatch' data-info="{{orderDetailData.belongMendian}}">
-      <view class='cardVoucher_ewm'>
+      <view class='cardVoucher_ewm' wx:if="{{orderDetailData.orderStatus<=3&&orderDetailData.payStatus==1}}">
         <image class='cardVoucher_ewm_img' src='{{ewmCode}}'></image>
         <text style='font-size:30rpx;margin:10rpx 0'>订单号：{{orderDetailData.orderNo}}</text>
         <text style='font-size:26rpx;color:#999'>Tip:【请出示该小程序码核销】</text>
+      </view>
+       <view class='cardVoucher_ewm' wx:elif="{{orderDetailData.orderStatus>3&&orderDetailData.payStatus==1}}">
+        <view class='successIcon'><icon type='success' size='40' color="{{setting.platformSetting.defaultColor}}"></icon></view>
+        <text style='font-size:30rpx;margin:10rpx 0'>订单号：{{orderDetailData.orderNo}}</text>
+        <text style='font-size:26rpx;color:#999'>Tip:已发货成功</text>
+      </view>
+       <view class='cardVoucher_ewm' wx:else >
+        <text style='font-size:30rpx;margin:10rpx 0'>订单号：{{orderDetailData.orderNo}}</text>
+        <text style='font-size:26rpx;color:#999'>未支付</text>
       </view>
         <!-- <image mode="aspectFill" src='/images/icons/addr.png?x-oss-process=style/preview'></image>
         <view class='addrInfo'>
