@@ -11,10 +11,13 @@ Component({
     locationList2: {
       type: Object,
     },
-    showBtn:{
+    showBtn:{//是否显示提交按钮
       type: String,
     },
-    showTitle: {
+    showTitle: {//是否显示标题
+      type: String,
+    },
+    showSubmitPopup: {//是否需要提交数据后弹窗确认
       type: String,
     },
     userAddressCustomFormCommitId:{
@@ -28,6 +31,7 @@ Component({
     upLoadImageList:{},
     dataAndTime:{},
     showformSubmitBtn:false,
+    showSubmitPopup:false,
     processType: false,
     refProductFormType: false,
     productId:0,
@@ -96,10 +100,17 @@ Component({
       method: 'get',
       success: function (res) {
         console.log(res)
+        let formData = res.data.relateObj;
+        // let haveFormData=[];
+        // for (let i = 0; i < formData.length;i++){
+        //   if (formData[i].formHide==0){
+        //     haveFormData.push(formData[i])
+        //   }
+        // }
         if (that.data.userAddressCustomFormCommitId){
-          that.getDetail(that.data.userAddressCustomFormCommitId, res.data.relateObj)
+          that.getDetail(that.data.userAddressCustomFormCommitId, formData)
         }else{
-          that.setFormDataFun(res.data.relateObj)
+          that.setFormDataFun(formData)
         }
         if (that.data.showTitle!='false'){
           wx.setNavigationBarTitle({
@@ -166,6 +177,13 @@ Component({
       let that=this;
       console.log("===jsonData===", jsonData)
       console.log("===formData===", formData)
+      let haveFormData=[];
+      for (let i = 0; i < formData.items.length;i++){
+        if (formData.items[i].formHide==0){
+          haveFormData.push(formData.items[i])
+        }
+      }
+      formData.items = haveFormData;
       if (formData.items.length > 0) {
         let upLoadImageList = {};
         let region = {};
@@ -496,7 +514,23 @@ Component({
   formSubmit:function(e){
     console.log('form发生了submit事件，携带数据为：', e)
     var that = this;
-    console.log('===that.data.formData.items===', that.data.formData.items)
+    console.log('===that.data.formData.items===', that.data.formData.items, that.data.formData.userCanCommit)
+    if (that.data.formData.userCanCommit == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '您没有权限提交数据',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            app.navigateBack(1000)
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+            app.navigateBack(1000)
+          }
+        }
+      })
+      return;
+    };
     let newObj={}
     // console.log(that.params);
     let params={};
@@ -583,6 +617,25 @@ Component({
     if (that.data.userAddressCustomFormCommitId){
       params.customFromCommitId = that.data.userAddressCustomFormCommitId
     }
+    if (that.data.showSubmitPopup&&that.data.showSubmitPopup == 'false') {
+      that.sureSubimtFun(params)
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '您确认提交嘛?',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            that.sureSubimtFun(params)
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
+  },
+  sureSubimtFun: function (params){
+    let that=this;
     var formData = app.AddClientUrl("/wx_commit_custom_form.html", params, 'post')
     wx.request({
       url: formData.url,
@@ -597,15 +650,24 @@ Component({
             icon: 'success',
             duration: 1000
           })
-          if (!that.data.showformSubmitBtn){
-            that.triggerEvent('sendDataFun', { formId: res.data.relateObj.id }) //myevent自定义名称事件，父组件中使用
+          if (!that.data.showformSubmitBtn) {
+            let param = {};
+            console.log("======1===========")
+            if (res.data.relateObj.result_type) {
+              param = { formId: res.data.relateObj.result.id, result: res.data.relateObj.result }
+            } else {
+              param = { formId: res.data.relateObj.id }
+            }
+            that.triggerEvent('sendDataFun', param) //myevent自定义名称事件，父组件中使用
           }
-          if (that.data.processType){
+          if (that.data.processType) {
+            console.log("======2===========")
             setTimeout(function () {
               that.toProcessList(res.data.relateObj.id)
             }, 1000)
-          } else if (that.data.refProductFormType){
-            let baseProData={
+          } else if (that.data.refProductFormType) {
+            console.log("======3===========")
+            let baseProData = {
               productId: that.data.skuData.productId,
               itemCount: that.data.skuData.itemCount,
               shopId: that.data.skuData.shopId,
@@ -616,9 +678,10 @@ Component({
             let pintuanData = {
               pintuanCreateType: that.data.skuData.pintuanCreateType,
               pintuanRecordId: that.data.skuData.pintuanRecordId,
-              };
+            };
             app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
           } else if (that.data.formData.refProductId && that.data.formData.refProductId != 0) {
+            console.log("======4===========")
             let baseProData = {
               productId: that.data.formData.refProductId,
               itemCount: 1,
@@ -632,9 +695,10 @@ Component({
               pintuanRecordId: 0
             };
             app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
-          } else if (!that.data.showformSubmitBtn){
-            
-          }else{
+          } else if (!that.data.showformSubmitBtn) {
+            console.log("======5===========")
+          } else {
+            console.log("======6===========")
             setTimeout(function () {
               that.toFormCommitList()
             }, 1000)

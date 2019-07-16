@@ -26,9 +26,10 @@ Page({
   //获取产品分类
   getServantType: function (servantTypeId) {
     var customIndex = app.AddClientUrl("/find_servant_types.html")
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -191,9 +192,10 @@ Page({
       ifAdd = 1
     }
     var customIndex = app.AddClientUrl("/wx_find_servants.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,

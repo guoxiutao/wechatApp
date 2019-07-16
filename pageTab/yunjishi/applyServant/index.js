@@ -426,9 +426,10 @@ Page({
          }
          var customIndex = app.AddClientUrl("/applyServer.html", params, 'post')
 
-         wx.showLoading({
-           title: 'loading'
-         })
+        //  wx.showLoading({
+        //    title: 'loading'
+        //  })
+        app.showToastLoading('loading', true)
          wx.request({
            url: customIndex.url,
            data: customIndex.params,

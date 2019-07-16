@@ -40,9 +40,10 @@ Page({
     }
     console.log("===type==", type)
     var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId })
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

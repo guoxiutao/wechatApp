@@ -132,9 +132,10 @@ Page({
   /* 删除收藏 */
   removeFavourite: function (e) {
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var postData = {
       itemId: '',
       favoriteType: '1'
@@ -173,9 +174,10 @@ Page({
       itemId:'',
       favoriteType:'1'
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     let productData = this.data.productData
 
     postData.itemId = e.currentTarget.dataset.itemid
@@ -411,10 +413,11 @@ Page({
     let that=this;
     let productInfo = that.data.productData.productInfo
     let params = Object.assign({}, params, that.byNowParams, that.pintuanParams)
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     app.createOrder(that.byNowParams, that.pintuanParams)
   },
 
@@ -545,9 +548,10 @@ Page({
     }else{
       param = options
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     console.log('==param===', param)
     let postParam = {}
     postParam.productId = param.id || param.productId

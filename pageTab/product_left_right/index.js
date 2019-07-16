@@ -45,9 +45,10 @@ Page({
   //获取产品分类
   getProductType: function (categoryId) {
     var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId || 0 })
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -318,9 +319,10 @@ Page({
       ifAdd = 1
     }
     var customIndex = app.AddClientUrl("/more_product_list.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
 
 
@@ -477,10 +479,11 @@ Page({
   createOrder22: function (o) {
     var customIndex = app.AddClientUrl("/shopping_car_list_item_create_order.html", o, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

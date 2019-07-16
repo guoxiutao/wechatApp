@@ -35,10 +35,11 @@ Page({
         console.log(data)
         data.scene = app.more_scene
         var that = this;
-        wx.showLoading({
-            title: 'loading',
-            mask: true
-        })
+        // wx.showLoading({
+        //     title: 'loading',
+        //     mask: true
+        // })
+        app.showToastLoading('loading', true)
         var loginUrl = app.AddClientUrl("Client.User.Login", data, 'post')
         wx.request({
             url: loginUrl.url,
@@ -187,10 +188,11 @@ Page({
     },
     wxLogin: function () {
         console.log('--------------微信登录--------------')
-        wx.showLoading({
-            title: '微信自动登录中',
-            mask: true
-        })
+        // wx.showLoading({
+        //     title: '微信自动登录中',
+        //     mask: true
+        // })
+        app.showToastLoading('微信自动登录中', true)
         var that = this
 
 

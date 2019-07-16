@@ -24,9 +24,10 @@ Page({
     } else if (options.type == 2) {
       customIndex = app.AddClientUrl("/super_shop_manager_list_manager_process_instance.html", getParam, 'post')
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

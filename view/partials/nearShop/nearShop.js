@@ -66,9 +66,10 @@ Component({
              }
           console.log(pageParam)
           let customIndex = app.AddClientUrl("/more_near_shops.html", pageParam, 'get', 1)
-          wx.showLoading({
-            title: 'loading'
-          })
+          // wx.showLoading({
+          //   title: 'loading'
+          // })
+          app.showToastLoading('loading', true)
           wx.request({
             url: customIndex.url,
             header: app.header,

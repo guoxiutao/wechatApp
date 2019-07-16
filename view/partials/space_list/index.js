@@ -92,9 +92,10 @@ Component({
     //获取产品分类
     getSpaceType: function (parentCategoryId,categoryId,callback){
       var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: parentCategoryId})
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       var that = this
       wx.request({
         url: customIndex.url,
@@ -218,9 +219,10 @@ Component({
       let la1 = that.data.localPoint.latitude
       let lo1 = that.data.localPoint.longitude
       var customIndex = app.AddClientUrl("/wx_find_asset_space.html", param)
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       wx.request({
         url: customIndex.url,
         header: app.header,

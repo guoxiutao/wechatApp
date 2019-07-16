@@ -118,9 +118,10 @@ Component({
     },
     getActiveInfo: function () {
       let that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let postParam = { promotionId:that.data.activeId}
       let customIndex = app.AddClientUrl("/get_promotions_detail.html", postParam)
       wx.request({

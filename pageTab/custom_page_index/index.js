@@ -86,8 +86,16 @@ Page({
     }
   },
   onShow: function () {
-    console.log('-----------------a---------------', this.data.selectAddress)
+    console.log('-----------------a---------------', this.data.selectAddress, this.data.selectResultsData)
     let that=this;
+    if (that.data.selectResultsData){
+      let title = that.selectComponent("#container").selectAllComponents("#title");
+      if (title) {
+        for (let i = 0; i < title.length; i++) {
+          try { title[i].changeSearchProductFun(that.data.selectResultsData); } catch (e) { }
+        }
+      }
+    }
     if (that.data.selectAddress){
       let locateAddress = that.selectComponent("#container").selectAllComponents("#locateAddress"); 
       if (locateAddress){

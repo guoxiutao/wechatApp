@@ -24,9 +24,10 @@ Page({
      
       return
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
 
     var postData = {
       itemId: '',
@@ -62,9 +63,10 @@ Page({
       
       return
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var postData = {
       itemId: '',
       favoriteType: '9'
@@ -115,8 +117,7 @@ Page({
     var that = this
     getParam.page = that.listPage.page
     let customIndex = app.AddClientUrl("/get_brand_list.html", getParam )
-    wx.showLoading()
-    
+    app.showToastLoading('loading', true)
     
     wx.request({
       url: customIndex.url ,

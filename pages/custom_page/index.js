@@ -56,9 +56,10 @@ Page({
     console.log(finnalUrl)
     var customIndex = app.AddClientUrl(finnalUrl, pageParam,'get',1)
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     //拿custom_page
     wx.request({
       url: customIndex.url,

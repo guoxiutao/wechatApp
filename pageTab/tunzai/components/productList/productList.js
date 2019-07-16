@@ -205,9 +205,10 @@ Component({
 
      let customIndex = app.AddClientUrl("/more_product_list.html", param, 'get')
      console.log("customIndex.url", customIndex.url)
-     wx.showLoading({
-       title: 'loading'
-     })
+    //  wx.showLoading({
+    //    title: 'loading'
+    //  })
+    app.showToastLoading('loading', true)
 
      wx.request({
        url: customIndex.url,

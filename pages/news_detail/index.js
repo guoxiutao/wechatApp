@@ -34,9 +34,10 @@ Page({
     getParams.newsId = e.id||e.newsId
     var customIndex = app.AddClientUrl("/get_news_bbs_detail.html", getParams)
    
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     //拿custom_page
     wx.request({
       url: customIndex.url ,

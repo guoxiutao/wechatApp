@@ -48,9 +48,10 @@ Page({
         console.log(nearShopUrl + pageParam)
         let customIndex = app.AddClientUrl(nearShopUrl, pageParam, 'get', 1)
 
-        wx.showLoading({
-          title: 'loading'
-        })
+        // wx.showLoading({
+        //   title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
         //拿custom_page
         wx.request({
           url: customIndex.url,

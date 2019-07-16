@@ -32,9 +32,10 @@ Page({
       content: '设为默认地址',
       success: function (res) {
         if (res.confirm) {
-          wx.showLoading({
-            title: 'loading'
-          })
+          // wx.showLoading({
+          //   title: 'loading'
+          // })
+          app.showToastLoading('loading', true)
           var customIndex = app.AddClientUrl("/set_default_address.html", param,'post')
           wx.request({
             url: customIndex.url,
@@ -73,10 +74,11 @@ Page({
       content: '确认删除？',
       success: function (res) {
         if (res.confirm) {
-          wx.showLoading({
-            title: 'loading',
-            mask: true
-          })
+          // wx.showLoading({
+          //   title: 'loading',
+          //   mask: true
+          // })
+          app.showToastLoading('loading', true)
           var customIndex = app.AddClientUrl("/delete_address.html", param,'post')
           wx.request({
             url: customIndex.url,
@@ -117,9 +119,10 @@ Page({
     }
     var customIndex = app.AddClientUrl("/get_login_user_address_list.html")
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     //拿custom_page 
     wx.request({
       url: customIndex.url,

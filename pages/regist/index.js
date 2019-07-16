@@ -30,10 +30,11 @@ Page({
   },
   signUp:function(data){
     var that = this;
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     var loginUrl = app.AddClientUrl("/regist2.html", data,'post')
     wx.request({
       url: loginUrl.url,
@@ -131,10 +132,11 @@ Page({
   loginIn: function (data) {
     console.log(data)
     var that = this;
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     var loginUrl = app.AddClientUrl("Client.User.Login", data,'post')
     wx.request({
       url: loginUrl.url,

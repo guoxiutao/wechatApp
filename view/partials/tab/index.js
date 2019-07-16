@@ -62,9 +62,10 @@ Component({
     renderPage: function (linkUrl, index){
       let that = this;
       that.setData({ show: false })
-      wx.showLoading({
-        title: 'loaing',
-      })
+      // wx.showLoading({
+      //   title: 'loaing',
+      // })
+      app.showToastLoading('loading', true)
       let pageName = linkUrl.replace("custom_page_", "").replace(".html", "")
       console.log("这是值pageName currentTab", pageName, that.data.currentTab)
       console.log("index", index)

@@ -82,9 +82,10 @@ Page({
       ifAdd = 1
     }
     var customIndex = app.AddClientUrl("/wx_find_space_assets.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,

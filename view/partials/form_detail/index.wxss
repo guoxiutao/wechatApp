@@ -1,8 +1,11 @@
+
+@import '../../../app.wxss';/* 引入带有阴影的 */
 .content{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f5f5f5
+  background: #f5f5f5;
+  position: relative;
 }
 .formBanner{
   width: 100%;
@@ -265,4 +268,15 @@
 .checkbox:last-child{
   border-bottom: none;
   padding-bottom: 0
+}
+.zhezhao{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:#000;
+  opacity:0.6;
+  z-index:9;
+
 }

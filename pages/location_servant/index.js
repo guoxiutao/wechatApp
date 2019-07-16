@@ -94,9 +94,10 @@ Page({
   /* 获取数据 */
   getServantData: function () {
     let that=this;
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var customIndex = app.AddClientUrl("/wx_find_servants.html",that.params);
     wx.request({
       url: customIndex.url,

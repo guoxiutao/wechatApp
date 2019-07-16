@@ -43,9 +43,10 @@ Page({
     let getParams = {}
     getParams.pintuanRecordId = that.data.pintuanRecordId;
     let customIndex = app.AddClientUrl("/get_pintuan_record_detail.html", getParams)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -101,10 +102,11 @@ Page({
   createOrder22: function (o) {
     var customIndex = app.AddClientUrl("/buy_now.html", o, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

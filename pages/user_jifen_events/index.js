@@ -19,9 +19,10 @@ Page({
     getParam.page = that.listPage.page
     var customIndex = app.AddClientUrl("/get_user_jifen_events.html", getParam)
     
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

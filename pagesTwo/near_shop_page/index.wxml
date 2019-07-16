@@ -96,7 +96,7 @@
     <text class='venues_date_cells_name'>{{venuesCellList.venues.name}}（{{venuesCellList.monthDay}}）</text>
   </view>
   <view class='venues_date_cells_list'>
-    <view class='venues_date_cells_item' wx:for="{{venuesCellList.cells}}" wx:for-item="data" wx:key="{{index}}" data-type="{{data.state?'cancel':'select'}}" data-index="{{index}}" data-info="{{data}}" data-startSecond="{{data.startTimeSeconds}}" catchtap='{{data.status!=1?"":"selecVenuesCellItemFun"}}' style='border: 1rpx solid {{data.state?setting.platformSetting.defaultColor:"#ccc"}};background:{{data.state?setting.platformSetting.secondColor:"#fff"}}'>
+    <view class='venues_date_cells_item' wx:for="{{venuesCellList.cells}}" wx:for-item="data" wx:key="{{index}}" data-type="{{data.state?'cancel':'select'}}" data-index="{{index}}" data-info="{{data}}" data-startSecond="{{data.startTimeSeconds}}" catchtap='{{data.status!=1?"":"selecVenuesCellItemFun"}}' style='border: 1rpx solid {{data.state?setting.platformSetting.defaultColor:"#ccc"}};background:{{data.state?setting.platformSetting.defaultColor+"22":"#fff"}}'>
       <text class='venues_date_cells_time' style='color:{{data.status!=1?"#999":""}}'>{{data.startTimeStr}}</text>
       <text class='venues_date_cells_price' style='color:{{data.status!=1?"#999":setting.platformSetting.defaultColor}}'>￥{{data.cellPrice}}</text>
       <text class='cell_tag_bg' wx:if="{{data.cellTag}}" style='border-top: 30px solid {{data.status!=1?"#999":setting.platformSetting.defaultColor}};'></text>

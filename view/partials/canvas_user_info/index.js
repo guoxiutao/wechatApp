@@ -118,9 +118,10 @@ Component({
     },
     getUserInfo: function () {
       let that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let customIndex = app.AddClientUrl("/get_session_userinfo.html",{mini:1})
       wx.request({
         url: customIndex.url,

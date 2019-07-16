@@ -16,9 +16,10 @@ Page({
 
     var customIndex = app.AddClientUrl("/super_shop_manager_list_children_servants.html", getParam,'post')
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url, 
       data: customIndex.params,

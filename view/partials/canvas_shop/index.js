@@ -129,9 +129,10 @@ Component({
     getActiveInfo: function () {
       let that = this
       console.log('===that.data.shopId ===', that.data.shopId)
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let postParam = {}
       let customIndex = app.AddClientUrl('/shop_detail_' + that.data.shopId + '.html')
       wx.request({

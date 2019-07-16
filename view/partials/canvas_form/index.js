@@ -129,9 +129,10 @@ Component({
     getFormInfo: function () {
       let that = this
       console.log('===getFormInfo ===', that.data.formId)
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let postParam = {}
       let customIndex = app.AddClientUrl('/wx_get_custom_form.html', { customFormId: that.data.formId }, 'get')
       wx.request({

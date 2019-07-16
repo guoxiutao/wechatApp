@@ -223,9 +223,10 @@ Page({
     }
     var customIndex = app.AddClientUrl("/get_login_user_address_list.html")
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     //拿custom_page 
     wx.request({
       url: customIndex.url,

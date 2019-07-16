@@ -26,9 +26,10 @@ Page({
   /* 删除收藏 */
   removeFavourite: function (e) {
     let that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     let postData = {
       itemId: '',
       favoriteType: '1'
@@ -87,9 +88,10 @@ Page({
     getParam.page = this.listPage.page
     var customIndex = app.AddClientUrl("/get_favorite.html", getParam)
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

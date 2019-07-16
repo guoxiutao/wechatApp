@@ -7,6 +7,98 @@ Page({
    */
   data: {
     formCommitId:0,
+    showTypeTwo:false,
+    animationDataTwo: null,
+    shareTypeData: [{ name: '发送给朋友', type: 'botton' }, { name: '生成海报', type: 'text' }],
+    haveValueList:[],
+    allFormData:null,
+    posterState:false,
+    posterTitle:'',
+  },
+  closeZhezhao: function () {
+    this.setData({  showTypeTwo: false })
+    let animation = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease-out',
+    })
+    animation.height(0).step()
+    let setData = animation.export()
+    this.setData({
+      animationDataTwo: setData
+    })
+  },
+  showShare: function () {
+    this.setData({ showTypeTwo: !this.data.showTypeTwo })
+    let showTypeTwo = this.data.showTypeTwo
+    let animation = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease-in-out',
+    })
+    console.log("=======popupFormPage==========", animation, this.data.showType)
+    if (showTypeTwo) {
+      animation.height(150).step()
+    } else {
+      animation.height(0).step()
+    }
+    this.setData({
+      animationDataTwo: animation.export()
+    })
+  }, 
+  getDetail: function (formCommitId) {
+    let that = this;
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+    })
+    let formDetailData = app.AddClientUrl("/wx_get_custom_form_commit.html", { formCommitId: formCommitId }, 'get')
+    wx.request({
+      url: formDetailData.url,
+      data: formDetailData.params,
+      header: app.headerPost,
+      method: 'get',
+      success: function (res) {
+        console.log("====success====", res)
+        if (res.data.errcode == 0) {
+          wx.hideLoading()
+          that.setData({ allFormData: res.data.relateObj, loading: false })
+          let commitJson = JSON.parse(that.data.allFormData.commitJson);
+          let haveValueList = [];
+          for (let key in commitJson) {
+            if (commitJson[key].value && commitJson[key].value.length != 0 && commitJson[key].type != 7 && commitJson[key].type != 11 ){
+              let value = commitJson[key].value.value || commitJson[key].value
+              haveValueList.push(value)
+            }
+          }
+          console.log("=========haveValueList==========", haveValueList)
+          that.setData({ haveValueList: haveValueList})
+        } else {
+          wx.showToast({
+            title: '加载失败...',
+            icon: 'none',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.navigateBack(
+              { delta: 1, }
+            )
+          }, 2000);
+
+        }
+      }
+    })
+  },
+  showPoster:function(){
+    let that = this;
+    let ewmImgUrl = app.getQrCode({ type: "check_form_detail", id: that.data.formCommitId })
+    let posterTitle = that.data.allFormData.belongFormName + "(" + that.data.haveValueList + ")";
+    that.setData({ posterState: true, ewmImgUrl: ewmImgUrl, posterTitle: posterTitle})
+  },
+  // 关闭海报
+  getChilrenPoster(e) {
+    let that = this;
+    that.setData({
+      posterState: false,
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -14,7 +106,8 @@ Page({
   onLoad: function (options) {
     let that=this;
     console.log(options)
-    that.setData({ formCommitId: options.custom_form_commit_id})
+    that.getDetail(options.custom_form_commit_id)
+    that.setData({ formCommitId: options.custom_form_commit_id,setting:app.setting})
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -72,4 +165,17 @@ Page({
     // }
   },
 
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function (res) {
+    console.log(res)
+    let that = this
+    that.closeZhezhao();
+    let params = "custom_form_commit_id=" + that.data.formCommitId;
+    let shareName = that.data.allFormData.belongFormName + "(" + that.data.haveValueList + ")";
+    let shareAppMessageData = app.shareForFx('check_form_detail', shareName, params)
+    console.log('params:', params)
+    return shareAppMessageData
+  },
 })

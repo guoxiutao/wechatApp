@@ -65,9 +65,10 @@ function GetRequest(url) {
   return theResult;
 }
 function bindTabUrl(that,urlData, json2Form, app){
-  wx.showLoading({
-    title: 'loading',
-  })
+  // wx.showLoading({
+  //   title: 'loading',
+  // })
+  app.showToastLoading('loading', true)
   let GetParamStr = (urlData.param)
   console.log('bindTabUrl') 
   if (urlData.url == 'news_list.html'){

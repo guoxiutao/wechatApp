@@ -112,9 +112,10 @@ Page({
   //获取表单分类
   getFormType: function (groupName, callback) {
     var customIndex = app.AddClientUrl("/wx_find_custom_forms.html", { groupName: groupName })
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,

@@ -23,6 +23,12 @@ const app = getApp();
       // 这里是一个自定义方法
    
       /* 搜索 */
+      changeSearchProductFun:function(data){
+        let that=this;
+        if (that.data.data.androidTemplate == "more_product_search"){
+          console.log("===changeSearchProductFun===", data)
+        }
+      },
       searchProduct: function (e) {
         var product = e.detail.value
         console.log(product)

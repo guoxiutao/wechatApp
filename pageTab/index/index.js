@@ -229,6 +229,20 @@ Page({
       }, 200)
       return;
     }
+    // 分享出来带分享SHARE_CHECK_FORM_DETAIL_PAGE跳到表单详情记录页
+    if (options.SHARE_CHECK_FORM_DETAIL_PAGE && options.SHARE_CHECK_FORM_DETAIL_PAGE != "") {
+      console.log("表单详情记录页", options.SHARE_CHECK_FORM_DETAIL_PAGE)
+      setTimeout(function () {
+        wx.navigateTo({
+          url: '/pages/check_form_detail/index?custom_form_commit_id=' + options.SHARE_CHECK_FORM_DETAIL_PAGE,
+          success: function () {
+            app.shareSubPage = true;
+          }
+        })
+
+      }, 200)
+      return;
+    }
     // 分享出来带分享SHARE_USER_INFO_PAGE跳到我的页面
     if (options.SHARE_USER_INFO_PAGE && options.SHARE_USER_INFO_PAGE != "") {
       console.log("进入首页", options.SHARE_USER_INFO_PAGE)

@@ -53,9 +53,10 @@ Page({
     let params = {}
     var customIndex = app.AddClientUrl("/super_shop_manager_get_manager_servant_account.html", params, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

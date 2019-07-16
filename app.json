@@ -11,7 +11,6 @@
     "pageTab/milk_shopping_car_list/index",
     "pageTab/fx_center/index",
     "pageTab/productDetail/index",
-    "pageTab/ticket_detail/index",
     "pageTab/product_detail_milk/index",
     "pageTab/product_left_right/index",
     "pageTab/productType_left_right/index",
@@ -83,7 +82,12 @@
         "user_level/index",
         "near_shop_page/index",
         "task_management/index",
-        "location_servant_map/index"
+        "location_servant_map/index",
+        "more_attend_list/index",
+        "servant_detail/index",
+        "aikucun_userinfo/index",
+        "more_select_page/index",
+        "ticket_detail/index"
       ]
     },
     {
@@ -100,7 +104,6 @@
         "asset_detail/index",
         "organize_detail/index",
         "space_detail/index",
-        "servant_detail/index",
         "my_card_voucher_detail/index",
         "verification_record/index",
         "news_tab/index",
@@ -211,13 +214,13 @@
       "text": "技师"
     },
     {
-      "pagePath": "pageTab/milk_shopping_car_list/index",
+      "pagePath": "pageTab/productType_left_right/index",
       "iconPath": "images/icons/fx.png",
       "selectedIconPath": "images/icons/fx2.png",
       "text": "工作进程"
     },
     {
-      "pagePath": "pageTab/asset_bill_list/index",
+      "pagePath": "pageTab/milk_shopping_car_list/index",
       "iconPath": "images/icons/good1.png",
       "selectedIconPath": "images/icons/good2.png",
       "text": "购物车"

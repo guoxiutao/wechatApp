@@ -653,6 +653,7 @@ white-space:nowrap;
   position: fixed;
   bottom: 100rpx;
   z-index:11;
+  background:#fff;
 }
 .submitBtn{
   position: fixed;
@@ -663,7 +664,7 @@ white-space:nowrap;
   width: 100%;
   color: #fff;
   padding: 20rpx;
-  z-index: 10002;
+  z-index: 10;
   box-sizing:border-box;
   height: 100rpx;
   font-size: 30rpx;
@@ -676,7 +677,7 @@ white-space:nowrap;
   bottom: 0;
   background: #000;
   opacity: 0.6;
-  z-index: 10;
+  z-index: 9;
 }
 .havePayUserScrollList{
   width: 100%; 
@@ -685,4 +686,14 @@ white-space:nowrap;
   line-height: 68rpx;
   font-size: 24rpx; 
   white-space: nowrap;
+}
+.img_block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.img_item{
+  width: 100%;
+  
 }

@@ -7,10 +7,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'daishu',   //自定义的项目的名称。
+  clientNo: 'jianzhan',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.18',
+  version:'3.5.23',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -42,7 +42,15 @@ App({
     statusBarHeight: wx.getSystemInfoSync()['statusBarHeight']
   },
   successOnlaunch: false,
-
+  showToastLoading:function(title,mask){
+    console.log("=====showToastLoading=====", title, mask)
+    if (this.clientNo!='naifen'){
+      wx.showLoading({
+        title: title,
+        mask:mask
+      })
+    }
+  },
   defaultMendianID: "",
 
   // 扫描二维码所带的参数，即扫码进来携带MendianID
@@ -505,7 +513,8 @@ App({
     else if (linkUrl.substr(0, 14) == 'search_product') {
       console.log("this.clientNo", this.clientNo)
       wx.navigateTo({
-        url: '/pages/' + 'milk_product_list' + '/index' + urlData.param,
+        // 'milk_product_list'
+        url: '/pages/' + (this.properties.style_product_list || "milk_product_list") + '/index' + urlData.param,
       })
     }
     else if (linkUrl.substr(0, 18) == 'promotion_products') {
@@ -875,10 +884,11 @@ App({
       more_scene = '0'
     }
     console.log('--------------微信登录--------------')
-    wx.showLoading({
-      title: '登录中',
-      mask: true
-    })
+    this.showToastLoading('登录中', true)
+    // wx.showLoading({
+    //   title: '登录中',
+    //   mask: true
+    // })
     var that = this
     console.log('===1===')
     wx.login({//微信登入接口
@@ -1229,6 +1239,11 @@ App({
       console.log(data.type)
       str = 'SHARE_FORM_DETAIL_PAGE'
       str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_FORM_DETAIL_PAGE%3d'
+      postParam[str] = data.id;
+    } else if (data.type == 'check_form_detail') {
+      console.log(data.type)
+      str = 'SHARE_CHECK_FORM_DETAIL_PAGE'
+      str2 = '/super_shop_manager_get_mini_code.html?mini=1&path=pageTab%2findex%2findex%3fSHARE_CHECK_FORM_DETAIL_PAGE%3d'
       postParam[str] = data.id;
     } else if (data.type == 'user_info') {
       console.log(data.type)

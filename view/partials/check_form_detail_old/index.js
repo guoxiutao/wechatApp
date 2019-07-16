@@ -202,9 +202,10 @@ Component({
     payToCheckForm:function(e){
       console.log("========payToCheckForm=========",e)
       let that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let formCommitId = e.currentTarget.dataset.commitid
       let wxChatPayParam = {
         formCommitId: formCommitId,

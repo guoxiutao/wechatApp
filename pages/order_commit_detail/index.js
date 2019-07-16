@@ -81,10 +81,11 @@ Page({
     //  PostData.productId = Data.orderItems[i].productItem.id 
     }
     console.log(PostData)
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     var customIndex = app.AddClientUrl("/comment_order.html", PostData,'post')
       wx.request({
         url: customIndex.url,

@@ -1,0 +1,42 @@
+.container{
+  /* background: #f1f1f1 */
+}
+.attend_list{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.attend_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 120rpx;
+  width: 100%;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eee;
+  font-size: 28rpx;
+  box-sizing: border-box
+}
+.attend_item_left{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.attend_head_icon{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 80rpx;
+  margin-right: 20rpx;
+}
+.attend_name{
+  font-size: 30rpx;
+}
+.attend_item_right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.attend_time{
+  color: #999
+}

@@ -131,9 +131,10 @@ Component({
     },
     getNewsInfo: function () {
       let that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let postParam = {}
       postParam.newsId =this.data.newsId
       let customIndex = app.AddClientUrl("/get_news_bbs_detail.html", postParam)

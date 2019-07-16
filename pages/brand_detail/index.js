@@ -24,9 +24,10 @@ Page({
     if (!app.checkIfLogin()) {
       return
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
 
     var postData = {
       itemId: '',
@@ -55,9 +56,10 @@ Page({
   },
   /* 关注 */
   guanzhuDaShi: function (e) {
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var postData = {
       itemId: '',
       favoriteType: '9'
@@ -85,9 +87,10 @@ Page({
   },
   getData:function(){
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var getParam = {}
     getParam.brandId = that.brandId
     var customIndex = app.AddClientUrl("/get_brand_detail.html", getParam)

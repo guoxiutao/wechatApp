@@ -110,9 +110,10 @@ Page({
   showOtherArr:function() {
     var customIndex = app.AddClientUrl("/get_login_user_address_list.html")
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url ,
       header: app.header,
@@ -192,7 +193,7 @@ Page({
     })
   },
   chooseNewAddr: function (e) {
-    wx.showLoading()
+    app.showToastLoading('loading', true)
     let that=this;
     //console.log(e.currentTarget.dataset.chooseid)
     var addrArr = this.data.addrArr
@@ -227,9 +228,10 @@ Page({
     let that=this;
     let params = { addressId: addressId, orderNo: that.data.orderData.orderNo};
     var customIndex = app.AddClientUrl("/change_order_address.html", params, 'post')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     //拿custom_page 
     wx.request({
       url: customIndex.url,
@@ -312,9 +314,10 @@ Page({
     getParams.gotCouponListId = that.orderMessage.gotCouponListId
     getParams.mendianZiti = that.data.mendianZiti
     var customIndex = app.AddClientUrl("/get_edit_order_detail.html", getParams)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -471,10 +474,11 @@ Page({
   },
   toSubmitOrder:function(data){
     var customIndex = app.AddClientUrl("/submit_order.html", data, 'post')
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,
@@ -536,9 +540,10 @@ Page({
     }
     var customIndex = app.AddClientUrl("/get_login_user_address_list.html")
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     //拿custom_page 
     wx.request({
       url: customIndex.url,
@@ -580,10 +585,11 @@ Page({
       }
 
 
-      wx.showLoading({
-        title: 'loading',
-        mask: true
-      })
+      // wx.showLoading({
+      //   title: 'loading',
+      //   mask: true
+      // })
+      app.showToastLoading('loading', true)
 
       wx.request({
         url: customIndex.url,

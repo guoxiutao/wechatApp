@@ -276,9 +276,10 @@ Page({
     //根据把param变成&a=1&b=2的模式
     if (!ifAdd) {ifAdd = 1}
     var customIndex = app.AddClientUrl("/more_product_list.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -429,10 +430,11 @@ Page({
   createOrder22: function (o) {
     var customIndex = app.AddClientUrl("/shopping_car_list_item_create_order.html", o, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

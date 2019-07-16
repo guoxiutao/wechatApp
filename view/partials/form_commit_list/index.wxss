@@ -23,18 +23,24 @@
   border-top:1rpx solid #f1f1f1;
 }
 .select_tab_item{
-  width: 25%;
+  width: 20%;
   display: flex;
-  padding: 25rpx 0;
+  padding: 25rpx 10rpx;
   flex-direction: row;
   align-items: center;
   justify-content:center;
+}
+.select_tab_item_text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .select_tab_item_icon{
   margin-left: 10rpx;
   width: 20rpx;
   height: 20rpx;
 }
+/* 下拉样式 */
 .select_tab_item_value{
   position: absolute;
   top: 84rpx;
@@ -61,6 +67,97 @@
   padding:20rpx 30rpx;
   margin:0 25rpx;
   /* box-sizing: border-box; */
+}
+/* 多选样式 */
+.select_tab_item_value_two{
+  position: absolute;
+  top: 84rpx;
+  z-index: 11;
+  left: 0;
+  width: 100%;
+  height: 500rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-size: 24rpx;
+  color: #888;
+  background:#fff;
+  padding:20rpx;
+}
+.select_tab_list_two_block{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100rpx;
+  overflow:hidden;
+  height:100%;
+}
+.select_tab_item_value_name_two{
+  border:1rpx solid #f1f1f1;
+  display:inline-block;
+  text-align: center;
+  padding:10rpx;
+  margin:14rpx;
+  width: 18%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+/* 更多选项的样式 */
+.select_tab_list_three{
+  position: absolute;
+  top: 84rpx;
+  z-index: 11;
+  left: 0;
+  width: 100%;
+  height: 800rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-size: 24rpx;
+  color: #888;
+  background:#fff;
+  padding:20rpx;
+}
+.select_tab_list_three_block{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100rpx;
+  overflow:hidden;
+  height:100%;
+}
+.select_tab_item_three{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.select_tab_item_three_value_list{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+  font-size: 24rpx;
+  color: #888;
+  background:#fff;
+  padding:20rpx;
+}
+.select_tab_item_value_name_three{
+  border:1rpx solid #f1f1f1;
+  display:inline-block;
+  text-align: center;
+  padding:10rpx;
+  margin:10rpx;
+  width: 18%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .zhezhao {
   position:fixed;
@@ -456,4 +553,49 @@
   width:100%;
   height:40rpx;
   white-space: nowrap
+}
+.more_select{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  right: 25rpx;
+  top: 0;
+  padding:25rpx 0;
+}
+.more_select_icon{
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 6rpx
+}
+.multi_select_bg{
+  position: absolute;
+  bottom: 20rpx;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height:100rpx;
+}
+.multi_select_btn{
+  padding: 10rpx 50rpx;
+  color: #fff;
+  border-radius: 16rpx;
+  margin-left: 10rpx;
+  width:60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.multi_select_btn_clear{
+  padding: 10rpx 50rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  width:60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

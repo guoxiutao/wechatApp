@@ -167,9 +167,10 @@ Page({
       ifAdd = 1
     }
     var customIndex = app.AddClientUrl("/wx_find_user_asset_bill.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -217,9 +218,10 @@ Page({
   /* 获取数据 */
   getNonData: function () {
     var customIndex = app.AddClientUrl("/wx_get_user_will_pay_bill.html")
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,

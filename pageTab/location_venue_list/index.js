@@ -26,9 +26,10 @@ Page({
   },
   getVenueType: function () {
     var customIndex = app.AddClientUrl("/wx_get_venues_types.html", )
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -180,9 +181,10 @@ Page({
       params = Object.assign({}, params, that.data.searchData)
     }
     var customIndex = app.AddClientUrl("/more_near_shops.html", params)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -304,7 +306,9 @@ Page({
   /* 商品显示方法 */
 
   toMy: function () {
-    app.toMy()
+    wx.navigateTo({
+      url: '/pagesTwo/aikucun_userinfo/index'
+    })
   },
   tolinkUrl: function (event) {
     let that=this;
@@ -447,5 +451,12 @@ Page({
       this.getData(this.params);
     }
   },
+  /**
+     * 用户点击右上角分享
+     */
 
+  onShareAppMessage: function (res) {
+    console.log(res, app.miniIndexPage)
+    return app.shareForFx2(app.miniIndexPage)
+  },
 })

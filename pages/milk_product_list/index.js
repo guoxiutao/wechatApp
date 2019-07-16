@@ -55,9 +55,10 @@ Page({
     //var postParam = this.ChangeParam(param)
     //param.page = this.listPage.page
     var customIndex = app.AddClientUrl("/more_product_list.html", param, 'get', '1')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
 
 
@@ -119,7 +120,7 @@ Page({
     console.log("===e====", e)
     let info = e.currentTarget.dataset.info
     let linkUrl
-    let id = info.id||"";
+    let id = info&&info.id||"";
     if (info){
       if (info.productType == 6) {
         linkUrl = "ticket_detail.html?productId=" + info.id;

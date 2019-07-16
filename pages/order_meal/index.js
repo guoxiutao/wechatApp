@@ -502,9 +502,10 @@ Page({
   getShopTypeData: function (param) {
     //根据把param变成&a=1&b=2的模式
     var customIndex = app.AddClientUrl('/shop_detail_' + param.addShopId + '.html')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -537,9 +538,10 @@ Page({
     }
     //根据把param变成&a=1&b=2的模式
     var customIndex = app.AddClientUrl('/more_product_list.html', param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -677,10 +679,11 @@ Page({
   creatOrder_buyNow: function (data) {
     var customIndex = app.AddClientUrl("/buy_now.html", data, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

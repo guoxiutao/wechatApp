@@ -124,9 +124,10 @@ Component({
     },
     getProInfo: function () {
       let that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let postParam = {}
       postParam.productId =this.data.proId
       postParam.addShopId = this.data.shopId

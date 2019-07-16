@@ -4,6 +4,7 @@
   "component": true,
   "usingComponents": {
     "component-tag-banner": "../banner/banner",
-    "component-form-detail": "../form_detail/index"
+    "component-form-detail": "../form_detail/index",
+    "form-posters": "/view/partials/canvas_check_form_detail/index"
   }
 }

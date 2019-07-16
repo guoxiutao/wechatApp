@@ -58,9 +58,10 @@ Page({
     let getParam = {}
     var customIndex = app.AddClientUrl("/super_mini_find_jifen_types.html", getParam)
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

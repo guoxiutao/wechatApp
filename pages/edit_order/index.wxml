@@ -144,7 +144,7 @@
       </view> -->
     </view>
 <!-- 表单地址 -->
-    <form-detail id="orderForm" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userAddressCustomFormCommitId}}" wx:if="{{sendOptionData&&showAddressForm}}" bind:sendDataFun="getDataFun"></form-detail>
+    <form-detail id="orderForm" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userAddressCustomFormCommitId}}" wx:if="{{sendOptionData&&showAddressForm}}" showSubmitPopup='false' bind:sendDataFun="getDataFun"></form-detail>
     <!-- 支付方式 -->
     <view class='payName'>支付方式</view>
     <radio-group class='radioGroup' bindchange="payWayChange">

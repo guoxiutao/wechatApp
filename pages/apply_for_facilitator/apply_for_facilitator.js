@@ -17,9 +17,10 @@ Page({
     console.log('-------获取邀请码二维码信息--------')
     var customIndex = app.AddClientUrl("/get_qrcode.html")
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

@@ -21,9 +21,10 @@ Page({
 
     var customIndex = app.AddClientUrl("/get_mendian_order_items_admin_mendian_json.html", getParam, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

@@ -26,7 +26,14 @@
 }
 .to_navigation{
   border-radius:20rpx;
-  font-size:26rpx;
+  font-size:22rpx;
   padding:6rpx 20rpx;
   margin-left:10rpx;
+  width: 80rpx
+}
+.center_part_item_value{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
 }

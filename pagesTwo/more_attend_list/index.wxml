@@ -1,0 +1,13 @@
+<view class='container'>
+  <view class='attend_list'>
+    <view class='attend_item' wx:for="{{attendList}}" key="{{index}}">
+      <view class='attend_item_left'>
+        <image src='{{item.attendPlatformUserIcon}}?x-oss-process=style/preview_120' class='attend_head_icon'></image>
+        <text class='attend_name'>{{item.attendPlatformUserName}}</text>
+      </view>
+      <view class='attend_item_right'>
+        <text class='attend_time'>{{item.attendPlatformUserTime||'2019-07-05 11:54'}}</text>
+      </view>
+    </view>
+  </view>
+</view>

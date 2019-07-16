@@ -152,9 +152,10 @@ Page({
     }else{
       param = options
     }
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     console.log('==param===', param)
     let postParam = {}
     postParam.spaceId = param.spaceId

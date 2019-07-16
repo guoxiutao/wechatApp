@@ -1,0 +1,102 @@
+<view class='container'>
+  <view class='servant_top'>
+    <image src='http://image1.sansancloud.com/xianhua/2019_7/9/17/4/27_602.jpg?x-oss-process=style/preview_120' mode='aspectFit' class='share_icon'></image>
+    <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_7/9/16/15/55_241.jpg?x-oss-process=style/preview_120' class='servant_top_bg'></image>
+    <view class='servant_top_info'>
+      <image src='{{servantDetail.icon}}' mode='aspectFit' class='servant_head_img'></image>
+      <view class='servant_name_block'>
+        <text class='servant_name'>{{servantDetail.surname}}师傅</text>
+        <view class='servant_certification' style='background:{{platformSetting.defaultColor}}'>已认证</view>
+      </view>
+      <view class='servant_score'>
+        <view class='servant_score_item' wx:for="{{4}}" wx:for-item="result" wx:key="{{result.id}}">
+          <image src='http://image1.sansancloud.com/xianhua/2019_7/9/16/19/57_322.jpg?x-oss-process=style/preview_120' class='servant_score_item_icon'></image>
+        </view>
+        <text>4.5评分</text>
+      </view>
+      <scroll-view scroll-x class="servant_tag_scroll_list" scroll-with-animation='true'>
+        <view class='servant_tag_item'>八字</view>
+        <view class='servant_tag_item'>八字</view>
+        <view class='servant_tag_item'>八字</view>
+      </scroll-view>
+    </view>
+  </view>
+  <!-- 个人介绍 -->
+  <view class='servant_info_block'>
+    <view class='servant_info_block_title'>
+      <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_7/9/17/36/51_263.jpg?x-oss-process=style/preview_120' class='servant_info_block_title_icon'></image>
+      <text class='servant_info_block_title_text'>个人介绍</text>
+    </view>
+    <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
+    <view class='servant_rich' wx:if="{{servantDetail.richText}}"><template is="1" data="{{wxParseData:article.nodes}}"></template></view>
+    <view class='servant_rich' wx:else>暂无详情介绍</view>
+  </view>
+  <view class='line' style='border-bottom:8rpx solid {{platformSetting.defaultColor}}55'></view>
+  <!-- 服务项目 -->
+  <view class='servant_info_block'>
+    <view class='servant_info_block_title'>
+      <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_7/9/17/37/24_725.jpg?x-oss-process=style/preview_120' class='servant_info_block_title_icon'></image>
+      <text class='servant_info_block_title_text'>服务项目</text>
+    </view>
+    <view class='servant_server_list'>
+      <view class='servant_server_item' wx:for="{{9}}" style='background:{{platformSetting.defaultColor}}'>
+        <text class='servant_server_item_name'>求学升学</text>
+      </view>
+    </view>
+  </view>
+  <view class='line' style='background:{{platformSetting.defaultColor}}55'></view>
+  <!-- 评价信用 -->
+  <view class='servant_info_block'>
+    <view class='servant_info_block_title'>
+      <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_7/9/17/37/24_727.jpg?x-oss-process=style/preview_120' class='servant_info_block_title_icon'></image>
+      <text class='servant_info_block_title_text'>评价信用</text>
+    </view>
+    <view class='servant_score_detail'>
+      <!--咨询质量  -->
+      <view class='servant_score_detail_item'>
+        <view class='servant_score_detail_item_left'>
+          <text class='servant_score_detail_item_title'>咨询质量:</text>
+          <view class='servant_score_detail_item_icon' wx:for="{{3}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image src='http://image1.sansancloud.com/xianhua/2019_7/9/17/44/7_448.jpg?x-oss-process=style/preview_120' class='servant_score_detail_item_icon_img'></image>
+          </view>
+          <view class='servant_score_detail_item_icon' wx:for="{{5-3}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image src='http://image1.sansancloud.com/xianhua/2019_7/9/16/14/58_109.jpg?x-oss-process=style/preview_120' class='servant_score_detail_item_icon_img'></image>
+          </view>
+        </view>
+        <view class='servant_score_detail_item_right'>
+          <text>2.8评分</text>
+        </view>
+      </view>
+      <!--服务态度  -->
+      <view class='servant_score_detail_item'>
+        <view class='servant_score_detail_item_left'>
+          <text class='servant_score_detail_item_title'>服务态度:</text>
+          <view class='servant_score_detail_item_icon' wx:for="{{4}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image src='http://image1.sansancloud.com/xianhua/2019_7/9/17/44/7_448.jpg?x-oss-process=style/preview_120' class='servant_score_detail_item_icon_img'></image>
+          </view>
+          <view class='servant_score_detail_item_icon' wx:for="{{5-4}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image src='http://image1.sansancloud.com/xianhua/2019_7/9/16/14/58_109.jpg?x-oss-process=style/preview_120' class='servant_score_detail_item_icon_img'></image>
+          </view>
+        </view>
+        <view class='servant_score_detail_item_right'>
+          <text>3.8评分</text>
+        </view>
+      </view>
+      <!--回复速度  -->
+      <view class='servant_score_detail_item'>
+        <view class='servant_score_detail_item_left'>
+          <text class='servant_score_detail_item_title'>回复速度:</text>
+          <view class='servant_score_detail_item_icon' wx:for="{{5}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image src='http://image1.sansancloud.com/xianhua/2019_7/9/17/44/7_448.jpg?x-oss-process=style/preview_120' class='servant_score_detail_item_icon_img'></image>
+          </view>
+          <view class='servant_score_detail_item_icon' wx:for="{{5-5}}" wx:for-item="result" wx:key="{{result.id}}">
+            <image src='http://image1.sansancloud.com/xianhua/2019_7/9/16/14/58_109.jpg?x-oss-process=style/preview_120' class='servant_score_detail_item_icon_img'></image>
+          </view>
+        </view>
+        <view class='servant_score_detail_item_right'>
+          <text>4.8评分</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

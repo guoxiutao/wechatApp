@@ -116,10 +116,11 @@ Page({
     var that = this
     let readySentArr = this.readyCommit_product()
     let overCommit = 0
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     for (let i = 0; i < readySentArr.length;i++){
       let customIndex = app.AddClientUrl("/comment_order.html", readySentArr[i], 'post')
       wx.request({

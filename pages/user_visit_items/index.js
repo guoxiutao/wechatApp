@@ -27,9 +27,10 @@ Page({
     getParams.page = this.listPage.page
     var customIndex = app.AddClientUrl("/get_user_visit_items.html", getParams)
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

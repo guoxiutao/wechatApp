@@ -74,9 +74,10 @@ Page({
   //获取产品分类
   getAssetsType: function (categoryId) {
     var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId || 0 })
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -152,9 +153,10 @@ Page({
       ifAdd = 1
     }
     var customIndex = app.AddClientUrl("/wx_find_space_assets.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -258,9 +260,10 @@ Page({
     var that = this
     var customIndex = this.more_space_list_URL(this.params);
     console.log(customIndex)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

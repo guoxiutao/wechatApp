@@ -31,9 +31,10 @@ Page({
     getParams.orderItemId = orderItemId
     let customIndex = app.AddClientUrl("/get_order_product_comment_page_partial.html", getParams)
 
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

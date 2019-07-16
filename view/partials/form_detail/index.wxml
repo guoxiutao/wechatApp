@@ -110,7 +110,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <textarea auto-height="" data-name="{{items.name}}" bindinput="saveSearchValue" placeholder='{{items.remark}}' value='{{items.defaultValue}}' name="{{items.name}}"/>
+          <textarea  maxlength="-1" auto-height="" data-name="{{items.name}}" bindinput="saveSearchValue" placeholder='{{items.remark}}' value='{{items.defaultValue}}' name="{{items.name}}"/>
         </view>
         <!-- 地址 -->
         <view class='inputString common' wx:if='{{items.type==10}}'>
@@ -200,4 +200,5 @@
     </view>
   </view>
 </view>
+<!-- <view class='zhezhao'></view> -->
 </form>

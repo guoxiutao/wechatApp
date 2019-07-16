@@ -817,8 +817,8 @@
   align-items: center;
   border: 1rpx solid #ccc;
   border-radius: 10rpx;
-  margin-right:16rpx;
-  margin-bottom:16rpx;
+  margin-right:15rpx;
+  margin-bottom:15rpx;
   padding:6rpx 28rpx;
   font-size:28rpx;
   width:15%;

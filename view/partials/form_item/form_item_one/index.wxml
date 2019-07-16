@@ -2,7 +2,7 @@
 <!--正常的标题 -->
 <template name="form_item_one">
 <block >
-<view class='form_commit_item'>
+<view class='form_commit_item' catchtap='checkFormDetail' data-id="{{formCommitItem.id}}">
   <view class='form_title'>
     <view class='form_title_left'>
       <image class='user_icon' src='{{formCommitItem.commitPlatformUserIcon}}?x-oss-process=style/preview_120'></image>

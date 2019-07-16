@@ -131,9 +131,10 @@ Page({
 
   loginOut: function () {
     return
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.removeStorage({
       key: 'loginUser',
       success: function (res) {

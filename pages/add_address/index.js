@@ -120,10 +120,11 @@ Page({
       else {
         customIndex = app.AddClientUrl("/edit_address.html", that.needParam, 'post')
       }
-      wx.showLoading({
-        title: 'loading',
-        mask: true
-      })
+      app.showToastLoading('loading', true)
+      // wx.showLoading({
+      //   title: 'loading',
+      //   mask: true
+      // })
 
       wx.request({
         url: customIndex.url,

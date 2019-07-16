@@ -20,9 +20,10 @@ Page({
 
     let customIndex = app.AddClientUrl("/get_manager_mendian_order_detail_admin_mendian_json.html", getParams,'post')
 
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

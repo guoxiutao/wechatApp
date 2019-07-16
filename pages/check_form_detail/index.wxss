@@ -461,3 +461,70 @@ text-overflow:ellipsis;
 white-space:nowrap;
 
 }
+
+.shareFormPoster{
+  position: fixed;
+  top: 66%;
+  right: 20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 80rpx;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content: center;
+  z-index:10;
+}
+.shareFormPosterImg{
+  width: 46rpx;
+  height: 46rpx;
+}
+.select_share_list{
+  height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  z-index:11;
+  background: #fff;
+  overflow: hidden;
+}
+.select_share_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1rpx solid #eee;
+  overflow: hidden;
+}
+.select_share_name{
+  padding: 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color:#666;
+  font-size:30rpx;
+  line-height:50rpx;
+  width:100%;
+}
+button::after{
+  border:0;
+  border-radius: 0;
+  line-height:0;
+}
+input{
+  outline:none;
+  border:none;
+  list-style: none;
+}
+.select_share_item:last-child{
+  border-bottom: none
+}
+.cancel_select_share{
+  border-top: 10rpx solid #eee;
+  border-bottom: none;
+}

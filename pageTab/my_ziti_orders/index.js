@@ -87,9 +87,10 @@ Page({
     let tab = this.data.tab
     var customIndex = app.AddClientUrl("/get_order_list.html", params)
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

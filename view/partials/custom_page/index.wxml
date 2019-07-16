@@ -10,7 +10,7 @@
 
     <component-tag-nameBanner wx:if='{{item.partialType =="7"}}' data="{{item}}"></component-tag-nameBanner><!-- 7 Banner-->
 
-    <component-tag-name wx:if='{{item.partialType =="4"}}' data="{{item}}"></component-tag-name>  <!-- 4 标题 -->
+    <component-tag-name wx:if='{{item.partialType =="4"}}' id="title" data="{{item}}"></component-tag-name>  <!-- 4 标题 -->
 
     <component-tag-nameImageLink wx:if='{{item.partialType =="6"}}' data="{{item}}"></component-tag-nameImageLink><!-- 6 图片-->
 

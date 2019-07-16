@@ -197,9 +197,10 @@ Page({
       that.getData(menDian)
     } else {
       app.addLoginListener(that);
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       console.log("====setTimeout1=====")
       that.setTimeoutLogin(that.conut)
     }

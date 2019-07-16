@@ -583,9 +583,10 @@ Page({
   getShopTypeData: function (param) {
     //根据把param变成&a=1&b=2的模式
     var customIndex = app.AddClientUrl('/shop_detail_' + param.addShopId + '.html')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -619,9 +620,10 @@ Page({
     console.log('====getShopListData.param======',param)
     //根据把param变成&a=1&b=2的模式
     var customIndex = app.AddClientUrl('/more_product_list.html', param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -676,9 +678,10 @@ Page({
     console.log("======startSeconds============", startSeconds)
     let params = { venuesId: param.venuesCelleData.data.id, venuesDateStr: param.daysData.data.oneData, startSeconds: startSeconds.join(',') }
     var customIndex = app.AddClientUrl('/create_venues_order.html', params, 'post')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,
@@ -756,9 +759,10 @@ Page({
     console.log("=====getVenuesDateCellsData========",param)
     let params = { venuesId: param.venuesCelleData.data.id, venuesDateStr: param.daysData.data.oneData}
     var customIndex = app.AddClientUrl('/wx_get_venues_date_cells.html', params)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -805,7 +809,7 @@ Page({
       console.log("===========daysData===============")
       selectVenuesData.daysData = { index: index, data: info }
       if (that.data.venuesTypeList[selectVenuesData.venuesTypeData.index].venues.length != 0) {
-        selectVenuesData.venuesCelleData = { index: 0, data: that.data.venuesTypeList[selectVenuesData.venuesTypeData.index].venues[0] }
+        // selectVenuesData.venuesCelleData = { index: 0, data: that.data.venuesTypeList[selectVenuesData.venuesTypeData.index].venues[0] }
         that.getVenuesDateCellsData(selectVenuesData)
       }
     } else {
@@ -895,9 +899,10 @@ Page({
   /* 获取场馆类型数据 */
   getShopVenuesTypeData: function (param) {
     var customIndex = app.AddClientUrl('/wx_get_shop_venues_types.html', { shopId: param.addShopId})
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,
@@ -1029,10 +1034,11 @@ Page({
   creatOrder_buyNow: function (data) {
     var customIndex = app.AddClientUrl("/buy_now.html", data, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,

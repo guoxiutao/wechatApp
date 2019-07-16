@@ -33,9 +33,10 @@ Page({
         let params = {}
         var customIndex = app.AddClientUrl("/ge_manager_mendian_info_admin_mendian_json.html", params, 'post')
         var that = this
-        wx.showLoading({
-            title: 'loading'
-        })
+        // wx.showLoading({
+        //     title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
         wx.request({
             url: customIndex.url,
             data: customIndex.params,
@@ -66,9 +67,10 @@ Page({
         let params = {}
         var customIndex = app.AddClientUrl("/ge_manager_mendian_info_admin_mendian_json.html", params, 'post')
         var that = this
-        wx.showLoading({
-            title: 'loading'
-        })
+        // wx.showLoading({
+        //     title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
         wx.request({
             url: customIndex.url,
             data: customIndex.params,
@@ -214,9 +216,10 @@ Page({
         this.checkState();
       } else {
         app.addLoginListener(this);
-        wx.showLoading({
-          title: 'loading'
-        })
+        // wx.showLoading({
+        //   title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
         console.log("====setTimeout1=====")
         that.setTimeoutLogin(that.conut)
       }

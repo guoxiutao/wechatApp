@@ -76,9 +76,10 @@ Component({
         commitId: that.data.formCommitItem.id
       }
       var customIndex = app.AddClientUrl("/super_shop_manager_reply_custom_form_commit.html", params)
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       wx.request({
         url: customIndex.url,
         header: app.header,
@@ -113,9 +114,10 @@ Component({
         commitId: that.data.formCommitItem.id
       }
       var customIndex = app.AddClientUrl("/super_shop_manager_set_commit_form_flag.html", params)
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       wx.request({
         url: customIndex.url,
         header: app.header,
@@ -178,7 +180,7 @@ Component({
       console.log("====data===", data)
       let formId = data.currentTarget.dataset.id ? data.currentTarget.dataset.id : 0;
       let belongFormType = data.currentTarget.dataset.belongformtype ? data.currentTarget.dataset.belongformtype : 0;
-      if (belongFormType == 1) {
+      if (belongFormType == 0) {
         console.log("普通表单")
         wx.showActionSheet({
           itemList: ['查看用户提交的表单'],
@@ -244,9 +246,10 @@ Component({
     //获取产品分类
     getOrganizesType: function (parentCategoryId, categoryId, callback) {
       var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: parentCategoryId })
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       var that = this
       wx.request({
         url: customIndex.url,

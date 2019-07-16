@@ -270,9 +270,10 @@ Page({
 
     let customIndex = app.AddClientUrl("/more_product_list.html", param, 'get')
     console.log("customIndex.url", customIndex.url)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
 
     wx.request({
       url: customIndex.url,
@@ -524,10 +525,11 @@ Page({
   createOrder22: function (o) {
     var customIndex = app.AddClientUrl("/buy_now.html", o, 'post')
     var that = this
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       data: customIndex.params,
@@ -1074,9 +1076,10 @@ Page({
     var that = this
     var customIndex = this.more_product_list_URL(this.params);
     console.log(customIndex)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,

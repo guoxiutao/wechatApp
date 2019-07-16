@@ -28,9 +28,10 @@ Page({
       let params = { status: status}
       var customIndex = app.AddClientUrl("/wx_set_servant_status.html", params, 'post')
       var that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       wx.request({
         url: customIndex.url,
         data: customIndex.params,
@@ -98,9 +99,10 @@ Page({
       let params = {}
       var customIndex = app.AddClientUrl("/super_shop_manager_get_manager_servant_info.html", params, 'post')
         var that = this
-        wx.showLoading({
-            title: 'loading'
-        })
+        // wx.showLoading({
+        //     title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
         wx.request({
             url: customIndex.url,
             data: customIndex.params,
@@ -228,9 +230,10 @@ Page({
       if (app.loginUser) {
         that.checkState();
       } else {
-        wx.showLoading({
-          title: 'loading'
-        })
+        // wx.showLoading({
+        //   title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
         app.addLoginListener(that);
         console.log("====setTimeout1=====")
         that.setTimeoutLogin(that.conut)

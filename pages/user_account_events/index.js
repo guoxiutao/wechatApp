@@ -22,9 +22,10 @@ Page({
         if (!app.checkIfLogin()) {
             return
         }
-        wx.showLoading({
-            title: 'loading',
-        })
+        // wx.showLoading({
+        //     title: 'loading',
+        // })
+        app.showToastLoading('loading', true)
         var getParams = {}
         getParams.page = this.listPage.page
         var customIndex = app.AddClientUrl("/get_user_account_events.html", getParams)

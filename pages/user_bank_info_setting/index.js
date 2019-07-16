@@ -33,9 +33,10 @@ Page({
   },
   postParams: function (info) {
     var that = this;
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var postParamUserBank = app.AddClientUrl("/set_user_bank_info_setting.html", info, 'post')
     wx.request({
       url: postParamUserBank.url,
@@ -76,9 +77,10 @@ Page({
   },
   getSessionUserInfo:function(){
     var that = this;
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var postParamUserBank = app.AddClientUrl("/get_session_userinfo.html")
     wx.request({
       url: postParamUserBank.url,
@@ -165,10 +167,11 @@ Page({
   loginIn: function (data) {
     console.log(data)
     var that = this;
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     var loginUrl = app.AddClientUrl("Client.User.Login", data, 'post')
     wx.request({
       url: loginUrl.url,

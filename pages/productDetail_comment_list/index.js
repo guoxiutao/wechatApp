@@ -13,9 +13,10 @@ Page({
     //根据把param变成&a=1&b=2的模式
    // var postParam = this.ChangeParam(param)
     var customIndex = app.AddClientUrl("/get_product_comment_list.html", param)
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     var that = this
     wx.request({
       url: customIndex.url,

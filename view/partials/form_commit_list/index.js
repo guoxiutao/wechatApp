@@ -44,6 +44,8 @@ Component({
     commitJson: null,
     reqUrl: "/wx_find_decorate_custom_form_commits.html",
     controlLimitState:false,
+    showMoreSelectState:false,
+    oldSelectResultsData:{},
   },
   ready: function () {
     let that = this;
@@ -71,7 +73,8 @@ Component({
     } else {
       console.log("点击类型返回的页面")
       that.setData({ showTop: true })
-      let groupName = options.groupName ? options.groupName : "";
+      // options.groupName ? options.groupName : "";
+      let groupName = options.groupName || (options.jsonData && options.jsonData.groupName ? options.jsonData.groupName:"")||''
       that.getFormType(groupName, that.getData);
       that.data.params = options;
     }
@@ -100,7 +103,7 @@ Component({
       console.log("====data===", data)
       let formId = data.currentTarget.dataset.id ? data.currentTarget.dataset.id : 0;
       let belongFormType = data.currentTarget.dataset.belongformtype ? data.currentTarget.dataset.belongformtype : 0;
-      if (belongFormType != 2){
+      if (belongFormType ==0){
         console.log("普通表单")
         wx.showActionSheet({
           itemList: ['查看用户提交的表单'],
@@ -169,9 +172,10 @@ Component({
     //获取表单分类
     getFormType: function (groupName, callback) {
       let customIndex = app.AddClientUrl("/wx_find_custom_forms.html", { groupName: groupName })
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let that = this
       wx.request({
         url: customIndex.url,
@@ -320,18 +324,6 @@ Component({
             // }
             that.setData({ formCommitList: dataArr })
             console.log("===formCommitList====", that.data.formCommitList,)
-            
-            // if (state == 'upload') {
-            //   for (let i=0;i<dataArr.length;i++){
-            //     that.selectComponent("#formItem").initData("测试");
-            //   }
-            //   console.log("===更新组件formItem的数据====")
-            // }else{
-            //   console.log("===初次渲染formItem的数据====")
-            // }
-            
-            
-
 
             wx.hideLoading();
             that.setData({ loading: false })
@@ -370,16 +362,6 @@ Component({
             if (data && data.decorateListStyle) {
               formListStyle = JSON.parse(data.decorateListStyle);
               console.log("有装修列表", formListStyle)
-              // let resultPointerData = formListStyle.resultPointerData
-              // if (formListStyle.detailViewMagic.length != 0) {
-              //   let formListStyleArray = formListStyle.detailViewMagic
-              //   for (let i = 0; i < formListStyleArray.length; i++) {
-              //     console.log("=======name======", formListStyleArray[i].propertieName)
-              //     if (formListStyleArray[i].propertieName) {
-                    
-              //     }
-              //   }
-              // } 
               that.setData({ formListStyle: null })
               that.setData({ formListStyle: formListStyle })
               that.setData({ width: Number(that.data.formListStyle.width) || 0 })
@@ -392,8 +374,10 @@ Component({
             }
             console.log("===formListStyle====", that.data.formListStyle, that.data.banner, that.data.width, that.data.height)
 
-            if (res.data.relateObj.formType==2){
+            if (res.data.relateObj.formType!=0){
               that.setData({ publishState:true})
+            }else{
+              that.setData({ publishState: false })
             }
             if (data.items.length != 0) {
               let selectTab = [];
@@ -401,21 +385,30 @@ Component({
               for (let i = 0; i < data.items.length; i++) {
                 let listValues = [];
                 let selectTabItem = {};
-                if (data.items[i].type==2){
-                  selectResultsObj[data.items[i].name]=""
-                  selectTabItem.title = data.items[i].title;//选择标题
-                  selectTabItem.name = data.items[i].name;//选择键值
-                  selectTabItem.state = false;//选择状态
-                  if (data.items[i].listValues){//选择的值
+                if (data.items[i].type == 2 || data.items[i].type == 4){
+                  selectResultsObj[data.items[i].name]=""//选择值的初始化
+                  selectTabItem.title = data.items[i].title;//选择Tab标题
+                  selectTabItem.type = data.items[i].type == 2?'pull-down':'multi-select';//选择Tab类型(下拉)
+                  selectTabItem.name = data.items[i].name;//选择Tab键值
+                  selectTabItem.state = false;//选择Tab状态
+                  if (data.items[i].listValues){//选择Tab的值
                     if (data.items[i].listValues.indexOf(",") != -1) {
                       listValues = data.items[i].listValues.split(',')
                     } else {
                       listValues=[data.items[i].listValues]
                     }
+                    for (let j = 0; j < listValues.length; j++) {
+                      let obj = {};
+                      obj.value = listValues[j];
+                      obj.state = false;
+                      listValues[j] = obj
+                    }
                     selectTabItem.listValues = listValues;
                   }
                   console.log("===selectTabItem===", selectTabItem)
                   selectTab.push(selectTabItem)
+                } else if (data.items[i].type == 13){//级联组件类型
+                  selectResultsObj[data.items[i].name] = ""//选择值的初始化
                 }
               }
               console.log("==selectTab===", selectTab)
@@ -434,7 +427,7 @@ Component({
       let selectTab = that.data.selectTab
       let index = e.currentTarget.dataset.index;
       if (that.data.selectTabIndex!=index){
-        that.setData({ showCount: true })
+        that.setData({ showCount: true  ,showMoreSelectState: false})
         that.setData({ selectTabIndex: index })
         for (let i = 0; i < selectTab.length;i++){
           selectTab[i].state=false;
@@ -445,32 +438,103 @@ Component({
         that.closeZhezhao()
       }
     },
+    selectResult:function(e){
+      let that=this;
+      console.log("===selectResult===",e);
+      let index = e.currentTarget.dataset.index;//选项的位置
+      let type = e.currentTarget.dataset.type;//选项的类型
+      let indexFather = e.currentTarget.dataset.father;//tab的位置(更多里面点击时传的)
+      let selectTabIndex = indexFather||that.data.selectTabIndex;//tab的位置
+      let selectTab = that.data.selectTab//tab数据
+      that.data.oldSelectResultsData = JSON.parse(JSON.stringify(that.data.selectResultsObj))
+      let selectResultsObj = that.data.selectResultsObj//搜索数据
+      if (selectTab[selectTabIndex].type =='pull-down'){
+        if (index == -1) {
+          console.log("======pull-down选择了全部=====")
+          selectResultsObj[selectTab[selectTabIndex].name] = ""
+        } else {
+          console.log("======pull-down选择了其他选项=====")
+          selectResultsObj[selectTab[selectTabIndex].name] = selectTab[selectTabIndex].listValues[index].value
+          for (let i = 0; i < selectTab[selectTabIndex].listValues.length;i++){
+            selectTab[selectTabIndex].listValues[i].state=false;
+          }
+          selectTab[selectTabIndex].listValues[index].state = true
+        }
+        if (!type && type !='more_select'){
+          that.closeZhezhao()
+        }
+      } else if (selectTab[selectTabIndex].type == 'multi-select'){
+        if (index == -1) {
+          console.log("======multi-select选择了全部=====")
+          selectResultsObj[selectTab[selectTabIndex].name] = ""
+          for (let i = 0; i < selectTab[selectTabIndex].listValues.length; i++) {
+            selectTab[selectTabIndex].listValues[i].state = false;
+          }
+        } else {
+          console.log("======multi-select选择了其他选项=====")
+          let resultData =[]
+          if (selectResultsObj[selectTab[selectTabIndex].name]){
+            resultData = selectResultsObj[selectTab[selectTabIndex].name]
+          }
+          if (!selectTab[selectTabIndex].listValues[index].state){
+            resultData.push(selectTab[selectTabIndex].listValues[index].value)
+          }else{
+            for (let i = 0; i < resultData.length;i++){
+              if (resultData[i] == selectTab[selectTabIndex].listValues[index].value){
+                resultData.splice(i,1)
+              }
+            }
+          }
+          selectResultsObj[selectTab[selectTabIndex].name] = resultData;
+          selectTab[selectTabIndex].listValues[index].state = selectTab[selectTabIndex].listValues[index].state ? false : true;
+        }
+      }
+      that.getData(selectResultsObj);
+      console.log("==selectResultsObj===", selectResultsObj)
+      console.log("==oldSelectResultsData===", that.data.oldSelectResultsData)
+      that.setData({ selectResultsObj: selectResultsObj, selectTab: selectTab})
+    },
+    sureSelect: function (){
+      let that=this;
+      that.getData(that.data.selectResultsObj);
+      that.closeZhezhao()
+    },
+    clearSelect:function(){
+      let that = this;
+      let selectTabIndex = that.data.selectTabIndex;//tab的位置
+      let selectTab = that.data.selectTab//tab数据
+      let selectResultsObj = that.data.selectResultsObj//搜索数据
+      selectResultsObj[selectTab[selectTabIndex].name] = '';
+      for (let i = 0; i < selectTab[selectTabIndex].listValues.length;i++){
+        selectTab[selectTabIndex].listValues[i].state =false
+      }
+      that.setData({ selectResultsObj: selectResultsObj, selectTab: selectTab })
+      that.getData(selectResultsObj);
+      setTimeout(function(){
+        that.closeZhezhao()
+      },1000)
+    },
+    moreSelectFun:function(){
+      let that = this;
+      let showMoreSelectState=false
+      let selectTab = that.data.selectTab
+      for (let i = 0; i < selectTab.length; i++) {
+        selectTab[i].state = false;
+      }
+      if (!that.data.showMoreSelectState){
+        showMoreSelectState=true
+      }
+      that.setData({ showMoreSelectState: showMoreSelectState, showCount: false, selectTab: selectTab, selectTabIndex: -1 })
+    },
     closeZhezhao: function () {
       let that = this;
       let selectTab = that.data.selectTab
-      that.setData({ showCount: false })
+      that.setData({ showCount: false, showMoreSelectState: false})
       that.setData({ selectTabIndex: -1 })
       for (let i = 0; i < selectTab.length; i++) {
         selectTab[i].state = false;
       }
       that.setData({ selectTab: selectTab })
-    },
-    selectResult:function(e){
-      let that=this;
-      console.log("===selectResult===",e);
-      let index = e.currentTarget.dataset.index;
-      let selectTabIndex = that.data.selectTabIndex;
-      let selectTab = that.data.selectTab
-      let selectResultsObj = that.data.selectResultsObj
-      if (index==-1){
-        selectResultsObj[selectTab[selectTabIndex].name]=""
-      }else{
-        selectResultsObj[selectTab[selectTabIndex].name] = selectTab[selectTabIndex].listValues[index]
-      }
-      console.log("==selectResultsObj===", selectResultsObj)
-      that.setData({ selectResultsObj: selectResultsObj})
-      that.getData(selectResultsObj);
-      that.closeZhezhao()
     },
     /**
      * 生命周期函数--监听页面加载

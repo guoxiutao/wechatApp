@@ -58,9 +58,10 @@ Page({
     let that = this;
     param.promotionId = this.data.id
     let customIndex = app.AddClientUrl("/more_product_list.html", param, 'get')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -104,9 +105,10 @@ Page({
     let that = this
     param.promotionId = this.data.id
     let customIndex = app.AddClientUrl("/get_promotions_detail.html", param, 'get')
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -241,9 +243,10 @@ Page({
     console.log('onReachBottom')
     var that = this
     if (that.params.totalSize > that.params.page * that.params.pageSize) {
-      wx.showLoading({
-        title:'加载中...'
-      })
+      // wx.showLoading({
+      //   title:'加载中...'
+      // })
+      app.showToastLoading('加载中...', true)
       that.params.page++
       // 组件内的事件
       that.getProductData(that.params)

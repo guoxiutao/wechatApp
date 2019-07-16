@@ -32,7 +32,9 @@ Component({
     },
     animationData: {}, //抽屉
     showType: false,
+    showTypeTwo: false,
     userInfoFormCommitId:'',
+    posterState:false,
   },
   // 返回
   ready: function () {
@@ -43,39 +45,114 @@ Component({
       setting: app.setting,
       loginUser: app.loginUser,
       color: app.setting.platformSetting.defaultColor,
-      secondColor: app.setting.platformSetting.secondColor
+      secondColor: app.setting.platformSetting.secondColor,
+      width: app.globalData.sysWidth
     });
-    that.getDetail()
+    that.getDetail(that.data.formCommitId)
   },
   methods: {
     popupFormPage: function () {
       console.log("=======popupFormPage==========")
-      this.setData({ showAddressForm: true, sendOptionData: { customFormId: this.data.customForm.replyFormId } })
-      this.setData({ showType: !this.data.showType })
-      let showType2 = this.data.showType
-      let animation = wx.createAnimation({
-        duration: 400,
-        timingFunction: 'ease-in-out',
-      })
-      console.log("=======popupFormPage==========", animation, this.data.showType)
-      if (showType2) {
-        animation.height(550).step()
-      } else {
-        animation.height(0).step()
+      if (this.data.allFormData.canAttendStatus==1){
+        this.setData({ showAddressForm: true, sendOptionData: { customFormId: this.data.customForm.replyFormId } })
+        this.setData({ showType: !this.data.showType })
+        let showType2 = this.data.showType
+        let animation = wx.createAnimation({
+          duration: 400,
+          timingFunction: 'ease-in-out',
+        })
+        console.log("=======popupFormPage==========", animation, this.data.showType)
+        if (showType2) {
+          animation.height(450).step()
+        } else {
+          animation.height(0).step()
+        }
+        this.setData({
+          animationData: animation.export()
+        })
+      } else if (this.data.allFormData.canAttendStatus == 0){
+        wx.showModal({
+          title: '提示',
+          content: '不可报名参加',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              app.navigateBack(1000)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              app.navigateBack(1000)
+            }
+          }
+        })
+      } else if (this.data.allFormData.canAttendStatus == 2) {
+        wx.showModal({
+          title: '提示',
+          content: '报名名额已满',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              app.navigateBack(1000)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              app.navigateBack(1000)
+            }
+          }
+        })
+      } else if (this.data.allFormData.canAttendStatus == 3) {
+        wx.showModal({
+          title: '提示',
+          content: '已报名成功,无需再报名!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              app.navigateBack(1000)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              app.navigateBack(1000)
+            }
+          }
+        })
+      } else if (this.data.allFormData.canAttendStatus == 4) {
+        wx.showModal({
+          title: '提示',
+          content: '未开始报名',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              app.navigateBack(1000)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              app.navigateBack(1000)
+            }
+          }
+        })
+      } else if (this.data.allFormData.canAttendStatus == 5) {
+        wx.showModal({
+          title: '提示',
+          content: '已结束报名',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              app.navigateBack(1000)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              app.navigateBack(1000)
+            }
+          }
+        })
       }
-      this.setData({
-        animationData: animation.export()
-      })
     },
     closeZhezhao: function () {
-      this.setData({ showType: false })
+      this.setData({ showType: false,showTypeTwo: false })
       let animation = wx.createAnimation({
         duration: 400,
         timingFunction: 'ease-out',
       })
       animation.height(0).step()
+      let setData = animation.export()
       this.setData({
-        animationData: animation.export()
+        animationData: setData,
+        animationDataTwo: setData
       })
     },
     submitData: function (e) {
@@ -87,14 +164,67 @@ Component({
       let that = this;
       console.log("===getDataFun===", e, e.detail.formId)
       if (e.detail.formId) {
-        wx.showToast({
-          title: '报名成功',
-          icon: 'success',
-          duration: 2000
-        })
-        this.getDetail()
-        this.closeZhezhao()
+        that.toPayApplyCost(e.detail.result)
       };
+    },
+    toPayApplyCost: function (result){
+      var that = this
+      let loginUser = app.loginUser
+      console.log(loginUser)
+      let wxChatPayParam = {
+        openid: '',
+        orderNo: '',
+        app: 3
+      }
+      wxChatPayParam.openid = loginUser.platformUser.miniOpenId
+      wxChatPayParam.orderNo = result.orderNo
+      console.log(wxChatPayParam)
+      let customIndex = app.AddClientUrl("/unifined_order.html", wxChatPayParam, 'post')
+      wx.request({
+        url: customIndex.url,
+        data: customIndex.params,
+        header: app.headerPost,
+        method: 'POST',
+        success: function (res) {
+          console.log(res.data)
+          let PayStr = res.data
+          PayStr = '{' + PayStr + '}'
+          let wechatPayStr = JSON.parse(PayStr)
+          console.log(wechatPayStr)
+          wx.requestPayment({
+            'timeStamp': wechatPayStr.timeStamp,
+            'nonceStr': wechatPayStr.nonceStr,
+            'package': wechatPayStr.package,
+            'signType': wechatPayStr.signType,
+            'paySign': wechatPayStr.paySign,
+            'success': function (res) {
+              console.log('------成功--------')
+              console.log(res)
+              wx.showToast({
+                title: '报名成功',
+                icon: 'success',
+                duration: 2000
+              })
+              that.getDetail(that.data.formCommitId)
+              that.closeZhezhao()
+            },
+            'fail': function (res) {
+              console.log('------fail--------')
+              console.log(res)
+              wx.showToast({
+                title: '支付失败',
+                image: '/images/icons/tip.png',
+                duration: 2000
+              })
+              app.navigateBack(2000)
+            },
+            'complete': function () {
+              console.log('------complete--------')
+              console.log(res)
+            }
+          })
+        }
+      })
     },
     //物流单号 一键复制的事件
     copyText: function (e) {
@@ -181,8 +311,23 @@ Component({
     sendComments: function (e) {
       console.log("===sendComments==", e)
       var that = this
-      let value= e?e.detail.value:""
+      let value = e.detail && e.detail.value ? e.detail.value : that.data.commentValue
+      if (!value){
+        wx.showModal({
+          title: '提示',
+          content: '发布消息不能为空',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return
+      }
       that.commentInput(value)
+      that.setData({ commentValue: '' })
     },
     //添加评论
     commentInput: function (commentValue) {
@@ -252,9 +397,10 @@ Component({
     payToCheckForm:function(e){
       console.log("========payToCheckForm=========",e)
       let that = this
-      wx.showLoading({
-        title: 'loading'
-      })
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
       let formCommitId = e.currentTarget.dataset.commitid
       let wxChatPayParam = {
         formCommitId: formCommitId,
@@ -327,7 +473,7 @@ Component({
                 icon: 'success',
                 duration: 2000
               })
-              that.getDetail()
+              that.getDetail(that.data.formCommitId)
             },
             'fail': function (res) {
               console.log('------fail--------')
@@ -369,7 +515,7 @@ Component({
         title: '加载中...',
         icon: 'loading',
       })
-      let formDetailData = app.AddClientUrl("/wx_get_custom_form_commit.html", { formCommitId: that.data.formCommitId }, 'get')
+      let formDetailData = app.AddClientUrl("/wx_get_custom_form_commit.html", { formCommitId: formCommitId }, 'get')
       wx.request({
         url: formDetailData.url,
         data: formDetailData.params,
@@ -384,6 +530,7 @@ Component({
             that.getCommentData(that.data.allFormData.id, 1)
             let commitJson = JSON.parse(that.data.allFormData.commitJson);
             customForm.commitArr = [];
+            let banner = {};
             if (res.data.relateObj.customForm && res.data.relateObj.customForm.decorateDetailStyle){
               let formDetailStyle = JSON.parse(res.data.relateObj.customForm.decorateDetailStyle);
               console.log("formDetailStyle", formDetailStyle)
@@ -391,22 +538,27 @@ Component({
               for (let i = 0; i < resultPointerData;i++){
                 
               }
-              // if (formDetailStyle.detailViewMagic.length!=0){
-              //   let formDetailStyleArray=formDetailStyle.detailViewMagic
-              //   for (let i = 0; i < formDetailStyleArray.length;i++){
-              //     console.log("=======name======", formDetailStyleArray[i].propertieName,)
-              //     if (formDetailStyleArray[i].propertieName){
-              //       if (commitJson[formDetailStyleArray[i].propertieName].type == 11) {
-              //         that.setData({
-              //           banner: { androidTemplate: '', jsonData: { height: Math.abs((formDetailStyleArray[i].endPointY - formDetailStyleArray[i].startPointY + 1) * 750 / Number(formDetailStyle.width)), images: commitJson[formDetailStyleArray[i].propertieName].value } }
-              //         })
-              //       }
-              //     }
-              //   }
-              // }
+              if (formDetailStyle.length!=0){
+                let formDetailStyleArray=formDetailStyle
+                for (let i = 0; i < formDetailStyleArray.length;i++){
+                  console.log("=======name======", formDetailStyleArray[i].data.propertieName,)
+                  if (formDetailStyleArray[i].type == 1) {
+                    let detailViewMagic = formDetailStyleArray[i].data.detailViewMagic;
+                    console.log("===detailViewMagic===", detailViewMagic)
+                    for (let j = 0; j < detailViewMagic.length;j++){
+                      if (commitJson[detailViewMagic[j].propertieName]&&commitJson[detailViewMagic[j].propertieName].type == 11 && !banner['banner_' + detailViewMagic[j].propertieName]) {
+                        banner['banner_' + detailViewMagic[j].propertieName] = { androidTemplate: '', jsonData: { height: Math.abs((Number(detailViewMagic[j].endPointY) - Number(detailViewMagic[j].startPointY) + 1) * 750 / 12), images: commitJson[detailViewMagic[j].propertieName].value } }
+                        that.setData({
+                          banner: banner
+                        })
+                      }
+                    }
+                  }
+                }
+              }
               that.setData({ formDetailStyle: formDetailStyle })
             }
-            console.log("===formDetailStyle====", that.data.formDetailStyle, that.data.bannert)
+            console.log("===formDetailStyle====", that.data.formDetailStyle, banner)
             for (let key in commitJson) {
               if (commitJson[key].type == 14) {
                 customForm.telno = commitJson[key].value
@@ -421,20 +573,20 @@ Component({
                 let name = customForm.items[i].name
                 console.log("===img_======", customForm.items[i].type, customForm.items[i].type == 7 || customForm.items[i].type == 11)
                 if (customForm.items[i].type == 7 || customForm.items[i].type == 11) {
-                  upLoadImageList['img_' + i] = [];
+                  upLoadImageList['img_' + customForm.items[i].name] = [];
                   if (typeof (commitJson[name]) == "object") {
                     console.log("imgobject", commitJson[name].value)
                     if (typeof (commitJson[name].value) == "object") {
-                      upLoadImageList['img_' + i] = commitJson[name].value
+                      upLoadImageList['img_' + customForm.items[i].name] = commitJson[name].value
                     } else {
                       if (commitJson[name].value) {
-                        upLoadImageList['img_' + i].push(commitJson[name].value)
+                        upLoadImageList['img_' + customForm.items[i].name].push(commitJson[name].value)
                       }
                     }
                   } else {
                     console.log("imgstring", commitJson[name])
                     if (commitJson[name]) {
-                      upLoadImageList['img_' + i].push(commitJson[name])
+                      upLoadImageList['img_' + customForm.items[i].name].push(commitJson[name])
                     }
                   }
                   console.log("===upLoadImageList====", upLoadImageList)
@@ -482,6 +634,7 @@ Component({
               )}, 2000);
             
           }
+          return res.data.relateObj;
         }
       })
   },
@@ -507,7 +660,7 @@ Component({
   onPullDownRefresh: function () {
     let that = this;
     that.getCommentData(that.data.allFormData.id, 1);
-    that.getDetail()
+    that.getDetail(that.data.formCommitId)
   },
   }
 })

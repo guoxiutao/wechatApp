@@ -62,9 +62,10 @@ Page({
         if (!app.checkIfLogin()) {
             return
         }
-        wx.showLoading({
-            title: 'loading',
-        })
+        // wx.showLoading({
+        //     title: 'loading',
+        // })
+        app.showToastLoading('loading', true)
         var customIndex = app.AddClientUrl("/get_fx_yongjin_list.html")
         var that = this
         wx.request({

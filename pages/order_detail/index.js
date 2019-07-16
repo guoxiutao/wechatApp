@@ -54,9 +54,10 @@ Page({
   showOtherArr: function () {
     var customIndex = app.AddClientUrl("/get_login_user_address_list.html")
     var that = this
-    wx.showLoading({
-      title: 'loading'
-    })
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -74,7 +75,7 @@ Page({
   },
   
   chooseNewAddr: function (e) {
-    wx.showLoading()
+    app.showToastLoading('loading', true)
     let that = this
     var addrArr = this.data.addrArr
     var index = e.currentTarget.dataset.index

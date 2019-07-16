@@ -93,10 +93,11 @@ Page({
     console.log("that.data.commentOrder", that.data.commentOrder)
     let params = JSON.parse(JSON.stringify(that.data.commentOrder))
     params.commentImages = params.commentImages.join(",")
-    wx.showLoading({
-      title: 'loading',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: 'loading',
+    //   mask: true
+    // })
+    app.showToastLoading('loading', true)
     let customIndex = app.AddClientUrl("/comment_order.html", params, 'post')
     wx.request({
       url: customIndex.url,
