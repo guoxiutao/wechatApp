@@ -184,7 +184,7 @@
         <!-- 保存 -->
         <view class='saveData' wx:if="{{showformSubmitBtn}}">
           <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>{{formData.commitName}}</button>
-          <button class='checkFormList' bindtap='toFormCommitList' style='background:{{setting.platformSetting.secondColor}};color:#fff'>查看记录</button>
+          <button class='checkFormList' bindtap='toFormCommitList' style='background:{{setting.platformSetting.secondColor}};color:#fff'>我的记录</button>
     </view>
   </view>
   <view class='formHead' wx:if="{{formData.description}}">

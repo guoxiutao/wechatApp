@@ -7,10 +7,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'jianzhan',   //自定义的项目的名称。
+  clientNo: 'xianhua',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.23',
+  version:'3.5.28',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -477,6 +477,60 @@ App({
       urls: urls // 需要预览的图片http链接列表
     })
   },
+  goto: function (linkUrl){
+    let that=this;
+    that.shareSubPage = false;
+    console.log('====linkUrl======', linkUrl)
+    if (!linkUrl) {
+      return
+    }
+    let urlData = this.getUrlParams(linkUrl)
+    console.log("===========urlData============", urlData)
+    wx.navigateTo({
+      url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+      fail: function () {
+        //pages里不存在该页面
+        console.log("pageTab里不存在该页面,跳转pages目录下的页面")
+        wx.navigateTo({
+          url: "/pages/" + urlData.url + "/index" + urlData.param,
+          success: function () {
+            console.log("=====pages777777======")
+            that.shareSubPage = true;
+          },
+          fail: function () {
+            console.log("pages里不存在该页面,跳转pagesTwo目录下的页面")
+            wx.navigateTo({
+              url: "/pagesTwo/" + urlData.url + "/index" + urlData.param,
+              success: function () {
+                that.shareSubPage = true;
+              },
+              fail: function () {
+                console.log("跳转tab页")
+                wx.switchTab({
+                  url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+                  success: function () {
+                    that.shareSubPage = true;
+                  },
+                  fail: function () {
+                    console.log("跳转tunzai定制页")
+                    wx.navigateTo({
+                      url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
+                      success: function () {
+                        that.shareSubPage = true;
+                      },
+                      fail: function () {
+                        console.log("没有定义" + urlData.url + "页面")
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
+  },
   linkEvent: function (linkUrl) {
     console.log('====linkUrl======', linkUrl)
     if (!linkUrl) {
@@ -512,10 +566,12 @@ App({
     }
     else if (linkUrl.substr(0, 14) == 'search_product') {
       console.log("this.clientNo", this.clientNo)
+      this.goto((this.properties.style_product_list || "milk_product_list") + ".html"+ urlData.param);
+      return;/*
       wx.navigateTo({
         // 'milk_product_list'
         url: '/pages/' + (this.properties.style_product_list || "milk_product_list") + '/index' + urlData.param,
-      })
+      })*/
     }
     else if (linkUrl.substr(0, 18) == 'promotion_products') {
       wx.navigateTo({
@@ -560,15 +616,17 @@ App({
       // wx.navigateTo({
       //   url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
       // })
+      this.goto((this.properties.style_product_detail || "productDetail") + ".html" + urlData.param + "&addShopId=0");
+      return;/*
       if (this.clientNo == 'naifen') {
         wx.navigateTo({
-          url: '/pageTab/product_detail_milk/index?id=' + productId + "&addShopId=236",
+          url: '/pagesTwo/product_detail_milk/index?id=' + productId + "&addShopId=236",
         })
       } else {
         wx.navigateTo({
-          url: '/pageTab/productDetail/index' + urlData.param + "&addShopId=236",
+          url: '/pagesTwo/productDetail/index' + urlData.param + "&addShopId=236",
         })
-      }
+      }*/
       // if (linkUrl.substr(15, 6) == 'tunzai'){
       //   wx.navigateTo({
       //     url: '/pages/productDetail_tunzai/index?id=' + productId + "&addShopId=236",
@@ -599,39 +657,40 @@ App({
         address: paramObj.description
       })
     } else {
+      this.goto(linkUrl)
       // promotion_products.html   form_detail.html?customFormId=12
-      console.log("9999999999999999" + linkUrl.substr(0, 14))
-      wx.navigateTo({
-        url: "/pageTab/" + urlData.url + "/index" + urlData.param,
-        fail: function () {
-          //pages里不存在该页面
-          console.log("pageTab里不存在该页面,跳转pages目录下的页面")
-          wx.navigateTo({
-            url: "/pages/" + urlData.url + "/index" + urlData.param,
-            fail: function () {
-              console.log("pages里不存在该页面,跳转pagesTwo目录下的页面")
-              wx.navigateTo({
-                url: "/pagesTwo/" + urlData.url + "/index" + urlData.param,
-                fail: function () {
-                  console.log("跳转tab页")
-                  wx.switchTab({
-                    url: "/pageTab/" + urlData.url + "/index" + urlData.param,
-                    fail: function () {
-                      console.log("跳转tunzai定制页")
-                      wx.navigateTo({
-                        url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
-                        fail: function () {
-                          console.log("没有定义" + urlData.url + "页面")
-                        }
-                      })
-                    }
-                  })
-                }
-              })
-            }
-          })
-        }
-      })
+      // console.log("9999999999999999" + linkUrl.substr(0, 14))
+      // wx.navigateTo({
+      //   url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+      //   fail: function () {
+      //     //pages里不存在该页面
+      //     console.log("pageTab里不存在该页面,跳转pages目录下的页面")
+      //     wx.navigateTo({
+      //       url: "/pages/" + urlData.url + "/index" + urlData.param,
+      //       fail: function () {
+      //         console.log("pages里不存在该页面,跳转pagesTwo目录下的页面")
+      //         wx.navigateTo({
+      //           url: "/pagesTwo/" + urlData.url + "/index" + urlData.param,
+      //           fail: function () {
+      //             console.log("跳转tab页")
+      //             wx.switchTab({
+      //               url: "/pageTab/" + urlData.url + "/index" + urlData.param,
+      //               fail: function () {
+      //                 console.log("跳转tunzai定制页")
+      //                 wx.navigateTo({
+      //                   url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
+      //                   fail: function () {
+      //                     console.log("没有定义" + urlData.url + "页面")
+      //                   }
+      //                 })
+      //               }
+      //             })
+      //           }
+      //         })
+      //       }
+      //     })
+      //   }
+      // })
     }
   },
   checkLogin: function () {
@@ -1263,7 +1322,7 @@ App({
     postParam.scene = userId
     console.log(str, str2, postParam)
     // 上面是需要的参数下面的url
-    var customIndex = this.AddClientUrl(str2 + postParam[str] + "%26scene%3d" + userId + mendianId, postParam, 'get', '1')
+    var customIndex = this.AddClientUrl(str2 + postParam[str] + "%26hyaline%3d" +1+ "%26scene%3d" + userId + mendianId, postParam, 'get', '1')
     var result = customIndex.url.split("?");
 
     customIndex.url = result[0] + "?" + result[1]
@@ -1275,7 +1334,7 @@ App({
 
 
   },
-  shareForFx2: function (pageName, pageTitle, pageCode, imageUrl) {
+  shareForFx2: function (pageName, pageTitle, pageCode, imageUrl, aliasName) {
     //组合参数，交给custompage_index 解析
     // 组合参数所带
     console.log("000000000000", pageName)
@@ -1323,6 +1382,8 @@ App({
     } else if (pageCode.id && pageCode.id != "" && pageName == "news_detail") {
       pageCode.SHARE_NEWS_DETAIL_PAGE = pageCode.id
     } else {
+      pageCode.SHARE_COMMON_PAGE = pageCode[aliasName]
+      pageCode.linkUrl = pageName
       // pageCode.SHARE_PRODUCT_DETAIL_PAGE = pageName
     }
     if (pageCode.belongShop && pageCode.belongShop != "") {

@@ -59,13 +59,13 @@ Component({
         let showType2 = this.data.showType
         let animation = wx.createAnimation({
           duration: 400,
-          timingFunction: 'ease-in-out',
+          timingFunction: 'ease',
         })
         console.log("=======popupFormPage==========", animation, this.data.showType)
         if (showType2) {
-          animation.height(450).step()
+          animation.bottom('100rpx').step()
         } else {
-          animation.height(0).step()
+          animation.bottom('-100rpx').step()
         }
         this.setData({
           animationData: animation.export()
@@ -143,12 +143,12 @@ Component({
       }
     },
     closeZhezhao: function () {
-      this.setData({ showType: false,showTypeTwo: false })
+      this.setData({ showType: false, showTypeTwo: false, showAddressForm: false })
       let animation = wx.createAnimation({
         duration: 400,
-        timingFunction: 'ease-out',
+        timingFunction: 'ease',
       })
-      animation.height(0).step()
+      animation.bottom('-100rpx').step()
       let setData = animation.export()
       this.setData({
         animationData: setData,
@@ -163,9 +163,17 @@ Component({
     getDataFun: function (e) {
       let that = this;
       console.log("===getDataFun===", e, e.detail.formId)
-      if (e.detail.formId) {
+      if (e.detail.result) {
         that.toPayApplyCost(e.detail.result)
-      };
+      }else{
+        wx.showToast({
+          title: '报名成功',
+          icon: 'success',
+          duration: 2000
+        })
+        that.getDetail(that.data.formCommitId)
+        that.closeZhezhao()
+      }
     },
     toPayApplyCost: function (result){
       var that = this
@@ -248,8 +256,11 @@ Component({
     },
     tolinkUrl: function (event) {
       console.log(event.currentTarget.dataset.link)
-      console.log("===========e==========", event.currentTarget.dataset.url)
-      app.linkEvent(event.currentTarget.dataset.link);
+      let linkUrl = event.currentTarget.dataset.link
+      if (!linkUrl){
+        return
+      }
+      app.linkEvent(linkUrl);
     },
     saveImageToLocal: function (e) {
       let imgSrc = e.currentTarget.dataset.imageurl

@@ -79,6 +79,11 @@ scroll-view{
   padding:30rpx;
   color:#666;
   position: relative;
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .pintuan_item_left{
   display: flex;

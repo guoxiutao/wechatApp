@@ -10,8 +10,6 @@
     "pageTab/shopping_car_list_new/index",
     "pageTab/milk_shopping_car_list/index",
     "pageTab/fx_center/index",
-    "pageTab/productDetail/index",
-    "pageTab/product_detail_milk/index",
     "pageTab/product_left_right/index",
     "pageTab/productType_left_right/index",
     "pageTab/near_shops/index",
@@ -87,7 +85,10 @@
         "servant_detail/index",
         "aikucun_userinfo/index",
         "more_select_page/index",
-        "ticket_detail/index"
+        "ticket_detail/index",
+        "productDetail/index",
+        "ceshi_page/index",
+        "product_detail_milk/index"
       ]
     },
     {

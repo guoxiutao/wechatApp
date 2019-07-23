@@ -70,6 +70,7 @@ Page({
     console.log("=====options携带的参数=====", options)
     let that = this;
     app.shareSubPage = false;
+    
     if (!app.setting.platformSetting.id){
       console.log('还没获取到setting')
       app.getSetting().then(function (res) {
@@ -83,6 +84,7 @@ Page({
   },
   enterPage: function (options) {
     let that = this;
+ 
     if (options.params && options.params != "") {
       let aaa = JSON.parse(options.params)
       console.log(aaa)
@@ -128,9 +130,28 @@ Page({
         app.USER_DEFINED_SCENE = options.scene;
       }
     }
-
+    // 公用
+    if (options.SHARE_COMMON_PAGE && options.SHARE_COMMON_PAGE != "") {
+      console.log("=======SHARE_COMMON_PAGE=========", options)
+      let linkUrl = options.linkUrl ||'custom_page_index'
+      if (options.linkUrl ){
+        delete options.linkUrl
+      }
+      if (options.SHARE_COMMON_PAGE ) {
+        delete options.SHARE_COMMON_PAGE
+      }
+      if (options.scene) {
+        delete options.scene
+      }
+      let params = app.jsonToStr2(options)
+      console.log("=======params=========", params)
+      let result = linkUrl + ".html?" + params
+      setTimeout(function () {
+      app.goto(result);
+      },200);
+      return
+    }
     // 传入值携带桌子二维码的跳到订餐页面
-
     if (options.ENTER_ORDER_MEAL_TABLEID && options.ENTER_ORDER_MEAL_TABLEID != "" && options.ADDSHOPID && options.ADDSHOPID != "") {
       console.log("进入订餐页面", options.ENTER_ORDER_MEAL_TABLEID)
       setTimeout(function () {
@@ -193,7 +214,7 @@ Page({
       console.log("options.SHARE_PRODUCT_DETAIL_PAGE", options.SHARE_PRODUCT_DETAIL_PAGE)
       setTimeout(function () {
         wx.navigateTo({
-          url: '/pageTab/productDetail/index?id=' + options.SHARE_PRODUCT_DETAIL_PAGE + "&addShopId=236",
+          url: '/pagesTwo/productDetail/index?id=' + options.SHARE_PRODUCT_DETAIL_PAGE + "&addShopId=236",
           success: function () {
             app.shareSubPage = true;
           }

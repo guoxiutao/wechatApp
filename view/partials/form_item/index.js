@@ -27,8 +27,8 @@ Component({
   ready: function () {
     let that = this;
     console.log("====form-item-formCommitItem======", that.data.data);
-    console.log("====form-item-formListStyle=====", that.data.formListStyle);
-    console.log("====form-item-controlLimitState=====", that.data.controlLimitState);
+    // console.log("====form-item-formListStyle=====", that.data.formListStyle);
+    // console.log("====form-item-controlLimitState=====", that.data.controlLimitState);
     that.initData('init')
     this.setData({
       setting: app.setting,
@@ -51,8 +51,8 @@ Component({
         that.setData({ width: Number(that.data.formListStyle.width) || 0 })
         that.setData({ height: Number(that.data.formListStyle.height) || 0 })
       }
-      console.log("====form-item-width=====", that.data.width);
-      console.log("====form-item-height=====", that.data.height);
+      // console.log("====form-item-width=====", that.data.width);
+      // console.log("====form-item-height=====", that.data.height);
     },
     replyTextStateFun:function(e){
       console.log("=========replyTextStateFun=====")

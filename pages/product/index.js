@@ -381,9 +381,11 @@ Page({
     console.log("--------toProductDetail------")
     console.log(event.currentTarget.dataset.info)
     var info = event.currentTarget.dataset.info
-    wx.navigateTo({
-      url: '../productDetail/index?id=' + info.id + "&addShopId=" + info.belongShopId,
-    })
+    let link = 'productDetail.html ? id = ' + info.id + "&addShopId=" + info.belongShopId;
+    app.linkEvent(link)
+    // wx.navigateTo({
+    //   url: '../productDetail/index?id=' + info.id + "&addShopId=" + info.belongShopId,
+    // })
   },
 
   listPage: {

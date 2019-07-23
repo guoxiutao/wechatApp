@@ -90,6 +90,43 @@ Component({
     });
   },
   methods: {
+    clearSelect: function () {
+      let that = this;
+      let selectTab = that.data.selectTab;
+      let selectResultsData = that.data.selectResultsData;
+      let selectTypeAttrResultsData = that.data.selectTypeAttrResultsData;
+      let haveProTyeData = null
+      wx.showModal({
+        title: '提示',
+        content: '主人~您确定要重置嘛?',
+        success: function (res) {
+          if (res.confirm) {
+            for (let i in selectResultsData){
+              selectResultsData[i]=''
+            }
+            selectTypeAttrResultsData={};
+            let selectTabCopy = [];
+            for (let i = 0; i < selectTab.length; i++) {
+              console.log("==selectTab[i].type===", selectTab[i].type)
+              if (selectTab[i].type.indexOf('attr_') == -1) {
+                console.log("==selectTab[i]===", selectTab[i])
+                selectTabCopy.push(selectTab[i])
+              }
+            }
+            selectTab = selectTabCopy;
+            for (let i = 0; i < selectTab.length;i++){
+              for (let j = 0; j < selectTab[i].listValues.length; j++){
+                selectTab[i].listValues[j].state=false;
+              }
+            }
+            that.setData({ selectResultsData: selectResultsData, selectTypeAttrResultsData: selectTypeAttrResultsData, selectTab: selectTab, haveProTyeData: haveProTyeData});
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
     sureSelect: function () {
       console.log("============sureSelect==========");
       let that=this;
@@ -98,7 +135,7 @@ Component({
       let selectTypeAttrResultsData = that.data.selectTypeAttrResultsData;
       let attrKeyValues=[]
       for (let i in selectTypeAttrResultsData){
-        let str = selectTypeAttrResultsData[i].name + '=' + (selectTypeAttrResultsData[i].value || '')
+        let str = selectTypeAttrResultsData[i].name + '-' + (selectTypeAttrResultsData[i].value || '')
         attrKeyValues.push(str) 
       }
       selectResultsData['attrKeyValues'] = attrKeyValues.join("|_|")
@@ -113,7 +150,7 @@ Component({
       }
       params = params.slice(0,-1)
       console.log("params", params);
-      let link = (app.properties.style_product_list ? app.properties.style_product_list : "search_product.html") +'?' + params
+      let link = (app.properties.style_product_list ? app.properties.style_product_list +".html" : "search_product.html") +'?' + params
       app.linkEvent(link)
       // let pages = getCurrentPages();//当前页面
       // let prevPage = pages[pages.length - 2];//上一页面
@@ -130,9 +167,9 @@ Component({
       let type = e.currentTarget.dataset.type
       let value = Number(e.detail.value) 
       if (type =='startPrice'){
-        selectResultsData.startPrice = value
+        selectResultsData['startPrice'] = value
       } else if (type == 'endPrice') {
-        selectResultsData.endPrice = value
+        selectResultsData['endPrice'] = value
       }
       console.log("selectResultsData", selectResultsData)
       this.setData({ selectResultsData: selectResultsData})
@@ -147,6 +184,7 @@ Component({
       let selectTypeAttrResultsData = that.data.selectTypeAttrResultsData;
       let fatherIndex = e.currentTarget.dataset.father;
       let value = ''
+      let haveProTyeData = null
       for (let i = 0; i < selectTab[fatherIndex].listValues.length; i++) {
         selectTab[fatherIndex].listValues[i].state = false
       }
@@ -157,14 +195,32 @@ Component({
       } else {
         value = ''
       }
-      if (type != 'attr_block'){
-        selectResultsData[selectTab[fatherIndex].name] = value
-      }else{
+      if (type == 'attr_block'){
         console.log("value", value)
         selectTypeAttrResultsData[selectTab[fatherIndex].name].value = value
+      } else if (type == 'type_select'){
+        selectResultsData['categoryId'] = value
+        if (value){
+          haveProTyeData = { name: selectTab[fatherIndex].listValues[index].name, id: selectTab[fatherIndex].listValues[index].id }
+          that.getProductTypeAttrData(value)
+        }else{
+          console.log("产品类别不限")
+          let selectTabCopy = [];
+          for (let i = 0; i < selectTab.length; i++) {
+            console.log("==selectTab[i].type===", selectTab[i].type)
+            if (selectTab[i].type.indexOf('attr_') == -1) {
+              console.log("==selectTab[i]===", selectTab[i])
+              selectTabCopy.push(selectTab[i])
+            }
+          }
+          selectTab = selectTabCopy;
+        }
+        that.setData({ haveProTyeData: haveProTyeData })
+      }else{
+        selectResultsData[selectTab[fatherIndex].name] = value
       }
       console.log("============selectResult==========", selectResultsData, selectTab, selectTypeAttrResultsData);
-      that.setData({ selectTab: selectTab, selectResultsData: selectResultsData, selectTypeAttrResultsData: selectTypeAttrResultsData})
+      that.setData({ selectTab: selectTab, selectResultsData: selectResultsData, selectTypeAttrResultsData: selectTypeAttrResultsData, })
     },
     selectPopupType:function(){
       let that=this;

@@ -10,16 +10,16 @@
         </view>
         <!-- 价格筛选 -->
         <view class='select_tab_item_three_value_list' wx:if="{{selectTabItem.type=='price_select'}}">
-          <input class='price_input' placeholder='最低价' type='number' placeholder-style="color:#e2e2e2;" bindinput='savePriceFun' data-type="startPrice"></input>
+          <input class='price_input' placeholder='最低价' type='number' value='{{selectResultsData["startPrice"]}}' placeholder-style="color:#e2e2e2;" bindinput='savePriceFun' data-type="startPrice"></input>
           <text class='interval'>—</text>
-          <input class='price_input' placeholder='最高价' type='number' placeholder-style="color:#e2e2e2;" bindinput='savePriceFun' data-type="endPrice"></input>
+          <input class='price_input' placeholder='最高价' type='number' value='{{selectResultsData["endPrice"]}}' placeholder-style="color:#e2e2e2;" bindinput='savePriceFun' data-type="endPrice"></input>
         </view>
         <!-- 产品分类栏目 -->
         <view class='select_tab_item_three_value_list' wx:elif="{{selectTabItem.type=='pro_type_select'}}">
           <view class='select_tab_item_value_name_three a'  style='color:{{setting.platformSetting.defaultColor}};border:none' wx:if="{{haveProTyeData}}">
             <text>{{haveProTyeData.name}}</text>
           </view>
-          <view class='select_tab_item_value_name_three' data-father="{{indexOne}}" data-index="-1" style='{{!selectResultsData[selectTabItem.name]||selectResultsData[selectTabItem.name].length==0?"background:"+setting.platformSetting.defaultColor+";color:"+"#fff":""}}' catchtap='selectResult'>
+          <view class='select_tab_item_value_name_three' data-father="{{indexOne}}" data-index="-1" data-type="type_select" style='{{!selectResultsData[selectTabItem.name]||selectResultsData[selectTabItem.name].length==0?"background:"+setting.platformSetting.defaultColor+";color:"+"#fff":""}}' catchtap='selectResult'>
             <text>不限</text>
           </view>
           <view class='select_tab_item_value_name_three' data-father="{{indexOne}}" wx:if="{{index<=1}}" data-type="type_select" data-index="{{index}}" style='background:{{selectTabItemValues.state?setting.platformSetting.defaultColor:""}};color:{{selectTabItemValues.state?"#fff":""}}' catchtap='selectResult' wx:for="{{selectTabItem.listValues}}" wx:for-item="selectTabItemValues">

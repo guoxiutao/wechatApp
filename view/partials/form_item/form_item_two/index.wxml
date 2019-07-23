@@ -52,7 +52,7 @@
       </view>
     </view>
     <view class='show_img' wx:for="{{formCommitItem.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==7&&itemData.value}}">
-      <image class='show_img_item' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:for-item="img" wx:if="{{publicFun.typeOf(itemData.value)!='string'}}"></image>
+      <image class='show_img_item' mode='aspectFill' src='{{img}}' wx:for="{{itemData.value}}" wx:key="{{index}}" wx:for-item="img" wx:if="{{publicFun.typeOf(itemData.value)!='string'}}"></image>
       <image class='show_img_item' mode='aspectFill' src='{{itemData.value}}' wx:if="{{publicFun.typeOf(itemData.value)=='string'}}"></image>
     </view>
     <view class='show_img' wx:for="{{formCommitItem.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type==11&&itemData.value}}">

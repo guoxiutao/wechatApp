@@ -483,7 +483,7 @@ Component({
   },
   // 返回首页
   toFormCommitList: function (){
-    var a = "form_commit_list.html?customFormId=" + this.data.formId;
+    var a = "form_commit_list.html?self=1&customFormId=" + this.data.formId;
     app.linkEvent(a);
   },
   toProcessList: function (formCommitId) {

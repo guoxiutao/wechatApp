@@ -182,5 +182,19 @@ Page({
   
   },
 
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function (res) {
+    console.log(res)
+    let that = this;
+    let indexData = that.selectComponent("#indexPage").data.renderData;
+    console.log("====indexData====", indexData)
+    let params = { Cpage: indexData.channelName};
+    let shareName = indexData.channelTitle;
+    let shareAppMessageData = app.shareForFx2('custom_page', shareName, params, '', 'Cpage')
+    console.log('params:', params)
+    return shareAppMessageData
+  },
 
 })

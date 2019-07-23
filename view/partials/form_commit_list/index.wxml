@@ -5,12 +5,12 @@
   <view class='select_top' wx:if="{{showTop}}" style='position:{{componentState?"relative":"fixed"}}'>
     <view class='switch_tab'>
       <scroll-view scroll-x class="tab-h" scroll-into-view="{{'tab_'+positionTab}}" scroll-with-animation='true'>
-        <view  wx:for="{{formType}}" wx:for-item="type" wx:key="{{index}}" data-type="{{type}}" bindtap='bindTypeItem' id="{{'tab_'+type.id}}" class='tab-item' style='color:{{type.colorAtive}};border-bottom:{{type.active?"2rpx solid "+type.colorAtive:""}};'>{{type.formName}}</view>
+        <view  wx:for="{{formType}}" wx:for-item="type" wx:key="{{index}}" data-type="{{type}}" bindtap='bindTypeItem' id="{{'tab_'+type.id}}" class='tab-item' style='color:{{type.colorAtive}};border-bottom:{{type.active?"2rpx solid "+type.colorAtive:""}};font-size:{{type.active?"32rpx":"28rpx"}};'>{{type.formName}}</view>
        </scroll-view>
     </view>
     <view class='select_tab' wx:if="{{selectTab.length!=0}}">
-      <view class='select_tab_item' wx:for="{{selectTab}}" wx:if="{{index<=2}}" wx:for-item="selectTabItem" wx:key='{{index}}' catchtap='selectTab' data-index="{{index}}">
-        <text class='select_tab_item_text' style="color:{{selectTabIndex==index||(selectResultsObj[selectTabItem.name]&&selectResultsObj[selectTabItem.name].length!=0&&selectTabItem.type=='multi-select')?setting.platformSetting.defaultColor:''}}">{{selectResultsObj[selectTabItem.name]&&selectTabItem.type=='pull-down'?selectResultsObj[selectTabItem.name]:selectTabItem.title}}</text>
+      <view class='select_tab_item' wx:for="{{selectTab}}" wx:if="{{index<=1}}" wx:for-item="selectTabItem" wx:key='{{index}}' catchtap='selectTab' data-index="{{index}}">
+        <text class='select_tab_item_text' style="color:{{selectTabIndex==index||(selectResultsObj[selectTabItem.name]&&selectResultsObj[selectTabItem.name].length!=0&&(selectTabItem.type=='multi-select'||selectTabItem.type=='multistage-style'))?setting.platformSetting.defaultColor:''}}">{{selectResultsObj[selectTabItem.name]&&selectTabItem.type=='pull-down'?selectResultsObj[selectTabItem.name]:selectTabItem.title}}</text>
         <image class='select_tab_item_icon' wx:if="{{!selectTabItem.state}}" src='http://image1.sansancloud.com/jianzhan/2019_3/20/12/1/52_354.jpg?x-oss-process=style/preview_120'></image>
         <image class='select_tab_item_icon' wx:else src='http://image1.sansancloud.com/jianzhan/2019_3/20/12/1/52_336.jpg?x-oss-process=style/preview_120'></image>
       </view>
@@ -23,8 +23,33 @@
       <view class='select_tab_item_value_two' wx:if="{{showCount&&selectTab[selectTabIndex].type=='multi-select'}}">
         <scroll-view scroll-y class='select_tab_list_two_block'>
           <text class='select_tab_item_value_name_two' data-index="-1" catchtap='selectResult' style='{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==0?"background:"+setting.platformSetting.defaultColor+";color:"+"#fff":""}}'>不限</text>
-          <text class='select_tab_item_value_name_two' data-index="{{index}}" style='background:{{selectTabItemValues.state?setting.platformSetting.defaultColor:""}};color:{{selectTabItemValues.state?"#fff":""}}' catchtap='selectResult' key="{{index}}" wx:for="{{selectTab[selectTabIndex].listValues}}" wx:for-item="selectTabItemValues">{{selectTabItemValues.value}}</text>
+          <text class='select_tab_item_value_name_two' data-index="{{index}}" style='background:{{selectTabItemValues.state?setting.platformSetting.defaultColor:""}};color:{{selectTabItemValues.state?"#fff":""}}' catchtap='selectResult'  wx:key="{{index}}" wx:for="{{selectTab[selectTabIndex].listValues}}" wx:for-item="selectTabItemValues">{{selectTabItemValues.value}}</text>
         </scroll-view>
+        <view class='multi_select_bg'>
+          <text class='multi_select_btn_clear' catchtap='clearSelect' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>重置</text>
+          <text class='multi_select_btn' catchtap='sureSelect' style='background:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>确定</text>
+        </view>
+      </view>
+      <!-- 级联的选择样式 -->
+      <view class='select_tab_item_value_four' wx:if="{{showCount&&selectTab[selectTabIndex].type=='multistage-style'}}">
+        <view class='select_tab_list_four_list'>
+          <!-- 一级 -->
+          <scroll-view scroll-y class='select_tab_list_four_block'>
+            <text class='select_tab_item_value_name_four' data-level="two" data-index="-1" catchtap='selectResult' style='border-bottom:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==0?"1rpx solid "+setting.platformSetting.defaultColor:""}};background:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==0?"#fff":""}};color:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==0?setting.platformSetting.defaultColor:""}}'>不限</text>
+            <text class='select_tab_item_value_name_four' data-index="{{index}}" style='border-bottom:{{selectTabItemValues.state?"1rpx solid "+setting.platformSetting.defaultColor:""}};background:{{selectTabItemValues.state?"#fff":""}};color:{{selectTabItemValues.state?setting.platformSetting.defaultColor:""}}' catchtap='selectResult'  wx:key="{{index}}" data-item="{{selectTabItemValues}}" data-level="two" wx:for="{{selectTab[selectTabIndex].listValues}}" wx:for-item="selectTabItemValues">{{selectTabItemValues.name}}</text>
+          </scroll-view>
+          <!-- 二级 -->
+          <scroll-view scroll-y class='select_tab_list_four_block'>
+            <text class='select_tab_item_value_name_four' data-index="-1" data-level="three" catchtap='selectResult' style='border-bottom:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==1?"1rpx solid "+setting.platformSetting.defaultColor:""}};background:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==1?"#fff":""}};color:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==1?setting.platformSetting.defaultColor:""}}'>不限</text>
+            <text class='select_tab_item_value_name_four' data-index="{{index}}" style='border-bottom:{{selectTabItemValues.state?"1rpx solid "+setting.platformSetting.defaultColor:""}};background:{{selectTabItemValues.state?"#fff":""}};color:{{selectTabItemValues.state?setting.platformSetting.defaultColor:""}}' catchtap='selectResult' wx:key="{{index}}" data-level="three" data-item="{{selectTabItemValues}}" wx:for="{{twoMultistageData[selectTab[selectTabIndex].name]}}" wx:for-item="selectTabItemValues" wx:if="{{twoMultistageData[selectTab[selectTabIndex].name]}}">{{selectTabItemValues.name}}</text>
+          </scroll-view>
+          <!-- 三级 -->
+          <scroll-view scroll-y class='select_tab_list_four_block'>
+            <text class='select_tab_item_value_name_four' data-index="-1" catchtap='selectResult' style='border-bottom:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==1||selectResultsObj[selectTab[selectTabIndex].name].length==2?"1rpx solid "+setting.platformSetting.defaultColor:""}};background:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==1||selectResultsObj[selectTab[selectTabIndex].name].length==2?"#fff":""}};color:{{!selectResultsObj[selectTab[selectTabIndex].name]||selectResultsObj[selectTab[selectTabIndex].name].length==1||selectResultsObj[selectTab[selectTabIndex].name].length==2?setting.platformSetting.defaultColor:""}}'>不限</text>
+            <text class='select_tab_item_value_name_four' data-index="{{index}}" style='border-bottom:{{selectTabItemValues.state?"1rpx solid "+setting.platformSetting.defaultColor:""}};background:{{selectTabItemValues.state?"#fff":""}};color:{{selectTabItemValues.state?setting.platformSetting.defaultColor:""}}' catchtap='selectResult'  wx:key="{{index}}" data-item="{{selectTabItemValues}}" wx:for="{{threeMultistageData[selectTab[selectTabIndex].name]}}" wx:for-item="selectTabItemValues" wx:if="{{threeMultistageData[selectTab[selectTabIndex].name]}}">{{selectTabItemValues.name}}</text>
+          </scroll-view>
+        </view>
+        <!-- 按钮 -->
         <view class='multi_select_bg'>
           <text class='multi_select_btn_clear' catchtap='clearSelect' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>重置</text>
           <text class='multi_select_btn' catchtap='sureSelect' style='background:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>确定</text>
@@ -33,7 +58,7 @@
       <!--更多筛选的样式  -->
       <view class='select_tab_list_three' wx:if="{{showMoreSelectState}}">
         <scroll-view scroll-y class='select_tab_list_three_block'>
-          <view class='select_tab_item_three' wx:for="{{selectTab}}" wx:if="{{indexOne>2}}" wx:for-item="selectTabItem" wx:for-index="indexOne" wx:key='{{indexOne}}' >
+          <view class='select_tab_item_three' wx:for="{{selectTab}}" wx:if="{{indexOne>1&&selectTabItem.type!='multistage-style'}}" wx:for-item="selectTabItem" wx:for-index="indexOne" wx:key='{{indexOne}}' >
             <view class='select_tab_item_three_title'>
               <text>{{selectTabItem.title}}</text>
               <text style='color:#ccc;margin-left:6rpx' wx:if="{{selectTabItem.type=='pull-down'}}">(单选)</text>
@@ -56,7 +81,7 @@
         </view>
       </view>
       <!-- 更多筛选按钮 -->
-      <view class='more_select' wx:if="{{selectTab.length>3}}" catchtap="moreSelectFun">
+      <view class='more_select' wx:if="{{selectTab.length>2}}" catchtap="moreSelectFun">
         <image class='more_select_icon' src='http://image1.sansancloud.com/sansancloud/2019_7/10/10/48/52_267.jpg?x-oss-process=style/preview_120'></image>
         <text class='more_select_text'>筛选</text>
       </view>

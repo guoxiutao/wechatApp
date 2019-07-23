@@ -70,7 +70,7 @@
     </view>
   </view>
 </view>
-<view class='content2' wx:else style='margin-bottom:120rpx'>
+<view class='content2' wx:else style='padding-bottom:120rpx'>
   <view class='form_detail_top'>
     <view class='form_detail_top_left'>
       <image class='user_head_img' src='{{allFormData.commitPlatformUserIcon}}'></image>
@@ -143,7 +143,7 @@
   <view wx:else>
     <view class='mofang_templete' >
       <view wx:for='{{formDetailStyle}}' wx:key='{{index}}' wx:for-item="itemData" style='height:{{itemData.type==2?"":750/12*itemData.height*publicFun.toNum(itemData.aspectRatio)}}rpx;position:relative'>
-        <view class='mofang_item' wx:if="{{itemData.type==1}}" wx:for='{{itemData.data.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*750/12}}rpx;top:{{(((item.startPointY>item.endPointY?item.endPointY:item.startPointY)*750/12)+1)*publicFun.toNum(itemData.aspectRatio)}}rpx;width:{({publicFun.toAbs(item.endPointX-item.startPointX)+1)*750/12}}rpx;height:{{publicFun.toAbs((publicFun.toAbs(item.endPointY-item.startPointY)+1)*750/12)*publicFun.toNum(itemData.aspectRatio)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
+        <view class='mofang_item' data-link='{{item.linkUrl}}' catchtap='tolinkUrl' wx:if="{{itemData.type==1}}" wx:for='{{itemData.data.detailViewMagic}}' wx:key='{{index}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*750/12}}rpx;top:{{(((item.startPointY>item.endPointY?item.endPointY:item.startPointY)*750/12)+1)*publicFun.toNum(itemData.aspectRatio)}}rpx;width:{{(publicFun.toAbs(item.endPointX-item.startPointX)+1)*750/12}}rpx;height:{{publicFun.toAbs((publicFun.toAbs(item.endPointY-item.startPointY)+1)*750/12)*publicFun.toNum(itemData.aspectRatio)}}rpx;background:{{item.backgroundImage?"":item.backgroudColor}};'>
           <view class='lunbotu' wx:if="{{commitJson[item.propertieName].type==11}}">
             <component-tag-banner wx:if="{{banner['banner_'+item.propertieName]}}" data="{{banner['banner_'+item.propertieName]}}"></component-tag-banner>  <!-- 4 标题 -->
           </view>
@@ -257,7 +257,7 @@
       <scroll-view scroll-x class="havePayUserScrollList" scroll-with-animation='true'>
       <view class='havePayUserItem' wx:for="{{allFormData.attendList.result}}">
         <image class='userIcon' src='{{item.attendPlatformUserIcon}}'></image>
-        <text class='userName' >{{item.attendPlatformUserName}}{{item.attendPlatformUserName}}{{item.attendPlatformUserName}}</text>
+        <text class='userName' >{{item.attendPlatformUserName}}</text>
       </view>
       </scroll-view>
     </view>
@@ -274,7 +274,12 @@
    </view>
    <view class='bottomBtnForm {{customForm.commentAble==3?"w100per":"w48per"}}' catchtap='popupFormPage' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" style=' border: 2rpx solid {{allFormData.canAttendStatus==1?color:"#999"}};color:{{allFormData.canAttendStatus==1?color:"#999"}}' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" >
    <!--  data-link="form_detail.html?customFormId={{customForm.replyFormId}}" catchtap='tolinkUrl' -->
-     <text>{{customForm.replyButtonName}}</text>
+     <text wx:if='{{allFormData.canAttendStatus==1}}'>{{customForm.replyButtonName}}</text>
+     <text wx:elif='{{allFormData.canAttendStatus==0}}'>不可报名参加</text>
+     <text wx:elif='{{allFormData.canAttendStatus==2}}'>报名名额已满</text>
+     <text wx:elif='{{allFormData.canAttendStatus==3}}'>已报名成功</text>
+     <text wx:elif='{{allFormData.canAttendStatus==4}}'>未开始报名</text>
+     <text wx:elif='{{allFormData.canAttendStatus==5}}'>已结束报名</text>
    </view>
 </view>
 <view class='bottomBtn' wx:if="{{allFormData.belongFormType==2&&showBtn=='true'&&(customForm.commentAble!=0&&customForm.commentAble!=1)&&(customForm.readLimit==2||customForm.readLimit==3)}}">
@@ -283,7 +288,12 @@
    </view>
    <view class='bottomBtnForm {{customForm.commentAble==3?"w48per":"w32per"}}' catchtap='popupFormPage' style=' border: 2rpx solid {{allFormData.canAttendStatus==1?color:"#999"}};color:{{allFormData.canAttendStatus==1?color:"#999"}}' wx:if="{{customForm.commentAble==3||customForm.commentAble==23}}" >
    <!--  data-link="form_detail.html?customFormId={{customForm.replyFormId}}" catchtap='tolinkUrl' -->
-     <text>{{customForm.replyButtonName}}</text>
+     <text wx:if='{{allFormData.canAttendStatus==1}}'>{{customForm.replyButtonName}}</text>
+     <text wx:elif='{{allFormData.canAttendStatus==0}}'>不可报名参加</text>
+     <text wx:elif='{{allFormData.canAttendStatus==2}}'>报名名额已满</text>
+     <text wx:elif='{{allFormData.canAttendStatus==3}}'>已报名成功,无需再报名</text>
+     <text wx:elif='{{allFormData.canAttendStatus==4}}'>未开始报名</text>
+     <text wx:elif='{{allFormData.canAttendStatus==5}}'>已结束报名</text>
    </view>
    <view class='bottomBtnPay {{customForm.commentAble==23?"w32per":"w48per"}}' data-commitId="{{allFormData.id}}" catchtap='payToCheckForm' style=' background-image:linear-gradient(to right,{{secondColor}},{{color}});box-shadow:0px 0px 6px 0px {{color}};'>
      <text>付费查看</text>
@@ -295,9 +305,9 @@
    </view>
 </view>
 <!-- 填写表单弹窗动画 -->
-<view class='popupFormDetail' animation="{{animationData}}">
-  <scroll-view scroll-y style="height:100%;">
-    <component-form-detail id="submitForm" wx:if="{{sendOptionData&&showAddressForm}}" data="{{sendOptionData}}" showTitle="false" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" bind:sendDataFun="getDataFun"></component-form-detail><!-- 弹窗-->
+<view class='popupFormDetail' animation="{{animationData}}" wx:if="{{sendOptionData&&showAddressForm}}">
+  <scroll-view scroll-y >
+    <component-form-detail id="submitForm" wx:if="{{sendOptionData&&showAddressForm}}" data="{{sendOptionData}}" showTitle="true" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" bind:sendDataFun="getDataFun"></component-form-detail><!-- 弹窗-->
     </scroll-view>
 </view>
 <view' wx:if="{{showType}}" class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>

@@ -62,7 +62,7 @@ Component({
         }
         that.setData({ productType: productType })
         that.getProductType(itemData.id, 'two')
-      } else {
+      } else if (itemType == 'three'){
         let productTypeTwo = that.data.productTypeTwo
         for (let i = 0; i < productTypeTwo.length; i++) {
           productTypeTwo[i].active = false;
@@ -72,6 +72,15 @@ Component({
         }
         that.setData({ productTypeTwo: productTypeTwo })
         that.getProductType(itemData.id, 'three')
+      }else{
+        let productTypeThree = that.data.productTypeThree
+        for (let i = 0; i < productTypeThree.length; i++) {
+          productTypeThree[i].active = false;
+          if (i == itemIndex) {
+            productTypeThree[i].active = true;
+          }
+        }
+        that.setData({ productTypeThree: productTypeThree })
       }
     },
     //获取产品分类

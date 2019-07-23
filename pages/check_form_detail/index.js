@@ -62,9 +62,10 @@ Page({
           wx.hideLoading()
           that.setData({ allFormData: res.data.relateObj, loading: false })
           let commitJson = JSON.parse(that.data.allFormData.commitJson);
+          console.log("=======commitJson========", commitJson)
           let haveValueList = [];
           for (let key in commitJson) {
-            if (commitJson[key].value && commitJson[key].value.length != 0 && commitJson[key].type != 7 && commitJson[key].type != 11 ){
+            if (commitJson[key].value && commitJson[key].value.length != 0 && commitJson[key].type != 7 && commitJson[key].type != 11 && commitJson[key].showInList ==1 ){
               let value = commitJson[key].value.value || commitJson[key].value
               haveValueList.push(value)
             }
@@ -90,7 +91,7 @@ Page({
   showPoster:function(){
     let that = this;
     let ewmImgUrl = app.getQrCode({ type: "check_form_detail", id: that.data.formCommitId })
-    let posterTitle = that.data.allFormData.belongFormName + "(" + that.data.haveValueList + ")";
+    let posterTitle = that.data.allFormData.belongFormName + "(" + that.data.haveValueList.join("/") + ")";
     that.setData({ posterState: true, ewmImgUrl: ewmImgUrl, posterTitle: posterTitle})
   },
   // 关闭海报
@@ -172,9 +173,10 @@ Page({
     console.log(res)
     let that = this
     that.closeZhezhao();
-    let params = "custom_form_commit_id=" + that.data.formCommitId;
-    let shareName = that.data.allFormData.belongFormName + "(" + that.data.haveValueList + ")";
-    let shareAppMessageData = app.shareForFx('check_form_detail', shareName, params)
+    console.log('that.data.haveValueList:', that.data.haveValueList)
+    let params = { custom_form_commit_id: that.data.formCommitId};
+    let shareName = that.data.allFormData.belongFormName + "(" + that.data.haveValueList.join("/") + ")";
+    let shareAppMessageData = app.shareForFx2('check_form_detail', shareName, params, '','custom_form_commit_id')
     console.log('params:', params)
     return shareAppMessageData
   },
