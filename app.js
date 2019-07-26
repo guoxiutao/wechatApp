@@ -7,10 +7,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'xianhua',   //自定义的项目的名称。
+  clientNo: 'jianzhan',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.28',
+  version:'3.5.29',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',

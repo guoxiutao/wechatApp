@@ -15,7 +15,7 @@ page{
   position:fixed;
   z-index:111;
   width: 100%;
-  height: 150rpx;
+  height: 165rpx;
 
 }
 .search_input_bg{
@@ -27,6 +27,8 @@ page{
   flex-direction: row;
   align-items: center;
   box-sizing:border-box;
+  position:relative;
+  z-index:11;
 }
 .search_input{
   border-radius: 60rpx;
@@ -323,7 +325,7 @@ page{
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-top:150rpx;
+  margin-top:165rpx;
 }
 .play{
   position: absolute;
@@ -344,9 +346,9 @@ page{
   min-height:120rpx; 
 }
 .servant_head_img{
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 20rpx
+  width: 130rpx;
+  height: 130rpx;
+  border-radius: 10rpx
 }
 .servant_items2 .servant_items2_view1{
   display: flex;
@@ -355,7 +357,8 @@ page{
   align-items: flex-start;
   margin-left: 30rpx;
   min-height:80rpx;
-  width: 65%;
+  width:100%;
+  position: relative;
 }
 .servant_items2_view1 .tags_content{
   display: flex;
@@ -378,35 +381,42 @@ page{
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
+  justify-content: space-between
 }
 .servant_name{
   color: #555;
-  font-size: 30rpx;
+  font-size: 28rpx;
   font-weight: bold;
   overflow:hidden; 
   text-overflow:ellipsis;
   white-space:nowrap; 
-  width:100%;
+  width:80%;
+}
+.servant_price{
+  font-size: 30rpx
 }
 .servant_score{
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 20rpx;
-  font-size:30rpx;
+  margin:14rpx 0;
+  font-size:22rpx;
+  font-weight:bold;
+  color:#444;
 }
 .servant_score_item{
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 10rpx;
+  margin-right: 16rpx;
 }
 .servant_score_item:last-child{
   margin: 0
 }
 .servant_score_item_icon{
-  width: 30rpx;
-  height: 30rpx
+  width: 26rpx;
+  height: 26rpx
 }
 .order_servant{
   height: 50rpx;
@@ -670,8 +680,8 @@ border-bottom: 2rpx solid #FE5722;
       border-radius: 30rpx;
       position: absolute;
       border: 4rpx solid #fff;
-      bottom: 0;
-      right: 0;
+      bottom: -14rpx;
+      right: -14rpx;
     }
     .servant_type_icon{
       width: 30rpx;
@@ -695,12 +705,13 @@ border-bottom: 2rpx solid #FE5722;
       display: flex;
       flex-direction: row;
       align-items: flex-start;
-      padding:0 30rpx;
+      /* padding:0 30rpx; */
     }
     .servant_items2_rich_icon{
-      width: 45rpx;
-      height: 35rpx;
-      margin-right: 20rpx;
+      width:40rpx;
+      height:30rpx;
+      margin-right:16rpx;
+      margin-top:4rpx;
     }
     .servant_items2_rich{
       font-size: 28rpx;
@@ -709,29 +720,123 @@ border-bottom: 2rpx solid #FE5722;
     }
     .description{
       display: -webkit-box;
-      -webkit-line-clamp:3;
+      -webkit-line-clamp:2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      letter-spacing: 4rpx;
+      letter-spacing: 2rpx;
     }
     .tab_scroll_list{
-      height:68rpx;
+      height:50rpx;
       width:95%;
       box-sizing:border-box;
       overflow:hidden;
-      line-height:68rpx;
-      font-size:24rpx;
+      line-height:50rpx;
+      font-size:20rpx;
       white-space:nowrap;
 
     }
     .tab_item{
-      margin-left:10rpx;
-      height:40rpx;
+      margin-left:14rpx;
+      height:30rpx;
       display:inline-block;
-      border-radius: 16rpx;
-      padding: 0 16rpx;
-      line-height: 40rpx;
+      border-radius: 20rpx;
+      padding: 2rpx 16rpx;
+      line-height: 30rpx;
     }
     .tab_item:first-child{
       margin-left:0
+    }
+    /* 筛选 */
+    .select_top{
+      display: flex;
+      flex-direction: column;
+      width:100%;
+      background:#fff;
+      z-index:11;
+      top: 80rpx
+    }
+    .select_tab{
+      width: 100%;
+      /* padding: 0 35rpx; */
+      box-sizing: border-box;
+      font-size: 26rpx;
+      color: #888;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-bottom:1rpx solid #eee;
+      position: relative;
+      border-top:1rpx solid #f1f1f1;
+    }
+    .select_tab_item{
+      width: 35%;
+      display: flex;
+      padding: 25rpx 10rpx;
+      flex-direction: row;
+      align-items: center;
+      justify-content:center;
+    }
+    .select_tab_item_text{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .select_tab_item_icon{
+      margin-left: 10rpx;
+      width: 20rpx;
+      height: 20rpx;
+    }
+    /* 下拉样式 */
+    .select_tab_item_value{
+      position: absolute;
+      top: 84rpx;
+      z-index: 11;
+      left: 0;
+      width: 100%;
+      /* padding: 30rpx; */
+      height: 500rpx;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      font-size: 24rpx;
+      color: #888;
+      background:#fff;
+      /* border-top: 1rpx solid #eee */
+    }
+    .select_tab_item_value_name:first-child{
+      border: none;
+    }
+    .select_tab_item_value_name{
+      border-top:1rpx solid #f1f1f1;
+      display:flex;
+      align-items: center;
+      padding:20rpx 30rpx;
+      margin:0 25rpx;
+      /* box-sizing: border-box; */
+    }
+    .more_select{
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26rpx;
+      right: 40rpx;
+      top: 0;
+      padding:25rpx 0;
+    }
+    .more_select_icon{
+      width: 36rpx;
+      height: 36rpx;
+      margin-right: 6rpx
+    }
+    .servant_fun{
+      position: absolute;
+      right: 0;
+      top: 40rpx;
+    }
+    .servant_fun_text{
+      padding: 4rpx 10rpx;
+      font-size: 26rpx;
+      color: #fff;
+      border-radius:10rpx;
     }

@@ -66,7 +66,7 @@ Component({
     if (options.customFormId) {
       console.log("提交按钮后返回的页面")
       that.setData({ showTop: false })
-      // that.setData({ customFormId: options.customFormId })
+      that.setData({ customFormId: options.customFormId })
       that.data.listPage.page = 1
       that.data.listPage.customFormId = options.customFormId
       if (options.self){
@@ -82,6 +82,7 @@ Component({
       that.getFormType(groupName, that.getData);
       that.data.params = options;
     }
+    console.log('===options===', that.data.componentState, that.data.publishState)
   },
   methods: {
     showMore:function(e){
@@ -390,6 +391,7 @@ Component({
             }else{
               that.setData({ publishState: false })
             }
+            console.log("=====publishState========", that.data.publishState)
             if (data.items.length != 0) {
               let selectTab = [];
               let selectResultsObj = {};

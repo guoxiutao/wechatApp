@@ -100,3 +100,15 @@
     </view>
   </view>
 </view>
+<!-- 底部按钮组 -->
+<view class='bottom_btn_group'>
+  <view class='bottom_btn_group_left'>
+    <view class='bottom_btn_group_left_item'>
+      <image class='bottom_btn_group_left_item_icon' src='http://image1.sansancloud.com/xianhua/2019_4/1/13/52/1_278.jpg?x-oss-process=style/preview_120'></image>
+      <text class='bottom_btn_group_left_item_text'>关注</text>
+    </view>
+  </view>
+  <view class='bottom_btn_group_right'>
+    <text class='bottom_btn_group_right_text' style='background:{{platformSetting.defaultColor}}'>预约</text>
+  </view>
+</view>
