@@ -103,7 +103,16 @@
                 <text>扫一扫</text>
             </view>
             <view class='borderRight'></view>
-        </view>        
+        </view>   
+        <view class='mendian_menu_item' data-link='mendian_management_product.html'   bindtap='tolinkUrl'>
+            <view class='imageContainer'>
+                <image src='http://image1.sansancloud.com/xianhua/2019_8/1/10/35/44_598.jpg?x-oss-process=style/preview_120'></image>
+            </view>
+            <view class='item_text'>
+                <text>商品管理</text>
+            </view>
+            <view class='borderRight'></view>
+        </view>       
         <!-- <view class='mendian_menu_item'>
             <form bindsubmit="submitFormId" report-submit='true' >
               <button form-type="submit" style='background:none !important; border:none !important;'></button>

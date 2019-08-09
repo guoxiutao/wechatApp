@@ -61,6 +61,18 @@ Page({
     
     // Countdown(app,this);
   },
+  onHide:function(){
+    console.log("======onHide=======",)
+    let that=this;
+    let title = this.selectComponent("#container").selectAllComponents("#title");
+    if (title) {
+      for (let i = 0; i < title.length; i++) {
+        try { title[i].clearInterval(); } catch (e) { }
+      }
+    }
+    console.log("===onHide====", title)
+
+  },
   jumpToPage: function (shareParam){
     if (shareParam.pageName == 'custom_page_index'){
       return
@@ -87,12 +99,24 @@ Page({
   },
   onShow: function () {
     console.log('-----------------a---------------', this.data.selectAddress, this.data.selectResultsData)
-    let that=this;
+    let that = this;
+    let title = that.selectComponent("#container").selectAllComponents("#title");
+    if (title) {
+      for (let i = 0; i < title.length; i++) {
+        if (title[i].data.data.androidTemplate == "popup_page"){
+          try {
+            title[i].findNotifyTipsFun();
+          } catch (e) { }
+        }
+      }
+    }
     if (that.data.selectResultsData){
-      let title = that.selectComponent("#container").selectAllComponents("#title");
       if (title) {
         for (let i = 0; i < title.length; i++) {
-          try { title[i].changeSearchProductFun(that.data.selectResultsData); } catch (e) { }
+          try { 
+            title[i].changeSearchProductFun(that.data.selectResultsData); 
+            title[i].findNotifyTipsFun(); 
+            } catch (e) { }
         }
       }
     }

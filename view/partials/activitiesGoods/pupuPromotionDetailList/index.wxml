@@ -8,7 +8,7 @@
     <view class='pupu_promotion_detail_right'>
       <view class='pupu_promotion_detail_time'>
         <text class='pupu_promotion_detail_time_title'>{{relateBean.promotionStatus==0?"抢购开始倒计时:":"抢购结束倒计时:"}}</text>
-        <view class='pupu_promotion_detail_time_value'>
+        <view class='pupu_promotion_detail_time_value' wx:if="{{relateBean.promotionStatus!=2}}">
           <view class='pupu_promotion_detail_time_value_item_value'> <text>{{countDownDay}}/D</text></view>
           <view class='colon'> <text></text></view>
           <view class='pupu_promotion_detail_time_value_item_value' > <text>{{countDownHour}}</text></view>
@@ -17,6 +17,7 @@
           <view class='colon'> <text>:</text></view>
           <view class='pupu_promotion_detail_time_value_item_value'> <text>{{countDownSecond}}</text></view>
         </view>
+        <view class='over_promotion' wx:else>活动已结束</view>
         <view class='pupu_promotion_detail_more' bindtap='clickLink1' data-id='{{relateBean.id}}'>
           <text class='pupu_promotion_detail_more_text'>更多</text>
           <image class='pupu_promotion_detail_more_icon' src='http://image1.sansancloud.com/xianhua/2019_4/3/18/3/24_160.jpg?x-oss-process=style/preview_120'></image>
@@ -62,22 +63,6 @@
           <text class='to_car3_text' wx:else>选购</text>
         </view>
       </view>
-    <!-- <view class='pupu_promotion_detail_item' wx:for="{{relateBean.products}}" wx:key="index" wx:for-item="item"  bindtap='clickLink' data-id='{{item.id}}' data-index='{{item.id}}'>
-      <view class='pupu_promotion_detail_item_img'>
-        <image mode='aspectFill' class='pupu_promotion_detail_item_url' src='{{item.imagePath}}'></image>
-      </view>
-      <view class='pupu_promotion_detail_item_info'>
-        <text class='pupu_promotion_detail_item_name'>{{item.name}}</text>
-        <view class='pupu_promotion_detail_item_price'>
-          ￥<text class='pupu_promotion_detail_item_true_price'>{{item.price}}</text>
-          <view class='font_color'>/<text class='pupu_promotion_detail_item_tagprice'>￥{{item.tagPrice}}</text></view>
-        </view>
-        <text class='pupu_promotion_detail_item_unit'>{{item.unitShow}}</text>
-        <text class='pupu_promotion_detail_item_cart' style='background:{{setting.secondColor}}' wx:if="{{relateBean.promotionStatus==0}}">收藏</text>
-        <text class='pupu_promotion_detail_item_cart' style='background:{{setting.defaultColor}}' wx:if="{{relateBean.promotionStatus==1}}">立即抢购</text>
-        <text class='pupu_promotion_detail_item_cart' wx:if="{{relateBean.promotionStatus==2}}">活动结束</text>
-      </view>
-    </view> -->
   </view>
 </block>
 </template>

@@ -57,7 +57,14 @@ Component({
     multiIndex:{},//选择级联位置
     currentMultiData:{},
     haveFormData:null,
-    showCheckBoxState:[],
+    showCheckBoxState: [],
+    showRadioState: [],
+    measurePriceList: [],
+    showMask: false,
+    animationData: {}, //抽屉
+    limitStockData:['不限制','限制'],
+    selectLimitStockIndex:0,
+    controlFieldShow:{},//控制字段的显示隐藏
   },
   ready: function () {
     let that = this;
@@ -101,12 +108,6 @@ Component({
       success: function (res) {
         console.log(res)
         let formData = res.data.relateObj;
-        // let haveFormData=[];
-        // for (let i = 0; i < formData.length;i++){
-        //   if (formData[i].formHide==0){
-        //     haveFormData.push(formData[i])
-        //   }
-        // }
         if (that.data.userAddressCustomFormCommitId){
           that.getDetail(that.data.userAddressCustomFormCommitId, formData)
         }else{
@@ -121,6 +122,99 @@ Component({
     })
   },
   methods: {
+    limitStockStateFun:function(e){
+      console.log("======limitStockStateFun=======", e)
+      let selectLimitStockIndex=e.detail.value;
+      this.setData({ selectLimitStockIndex: selectLimitStockIndex})
+    },
+    deleteMeasureItem:function(e){
+      console.log("======deleteMeasureItem=======",e)
+      let that=this;
+      let index = e.currentTarget.dataset.index;
+      let measurePriceList = that.data.measurePriceList
+      measurePriceList.splice(1, 1)
+      that.setData({ measurePriceList: measurePriceList })
+    },
+    sureMeasuresData:function(e){
+      console.log("======sureMeasuresData=======", e)
+      let that=this;
+      let measurePriceList = that.data.measurePriceList
+      let resultData = e.detail.value;
+      if (!resultData.attendMeasureName){
+        wx.showModal({
+          title: '提示',
+          content: '主人~您的规格名还没填写哦!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return;
+      }else if (!resultData.attendPrice) {
+        wx.showModal({
+          title: '提示',
+          content: '主人~您的规格价格还没填写哦!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return;
+      } else if (!resultData.attendStock) {
+        wx.showModal({
+          title: '提示',
+          content: '主人~您的规格库存还没填写哦!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return;
+      }else{
+        measurePriceList.splice(measurePriceList.length, 0, resultData)
+        that.setData({ measurePriceList: measurePriceList})
+        that.closeZhezhao()
+      }
+    },
+    addMeasuresItemFun:function(){
+      let that=this;
+      console.log("=======addMeasuresItemFun=======", that.data.measurePriceList)
+      that.setData({ showMask: !that.data.showMask })
+      let animation = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease',
+      })
+      console.log("=======popupFormPage==========", animation, that.data.showMask)
+      if (that.data.showMask) {
+        animation.bottom('100rpx').step()
+      } else {
+        animation.bottom('-100rpx').step()
+      }
+      that.setData({
+        animationData: animation.export()
+      })
+    },
+    closeZhezhao: function () {
+      this.setData({ showMask: false })
+      let animation = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease',
+      })
+      animation.bottom('-100rpx').step()
+      let setData = animation.export()
+      this.setData({
+        animationData: setData,
+      })
+    },
     toImgUrl: function (event) {
       console.log(event.currentTarget.dataset.link)
       console.log("===========e==========", event.currentTarget.dataset.url)
@@ -189,13 +283,22 @@ Component({
         let region = {};
         let dataAndTime = {};
         let selectPicker = {};
+        let controlFieldShow = that.data.controlFieldShow
         for (let i = 0; i < formData.items.length; i++) {
-          if (formData.items[i].listValues && (formData.items[i].type == 2 || formData.items[i].type == 4)) {
-            formData.items[i].listValues = formData.items[i].listValues.split(",")
+          controlFieldShow[formData.items[i].name] = true;
+        }
+        for (let i = 0; i < formData.items.length; i++) {
+          if (formData.items[i].listValues && (formData.items[i].type == 2 || formData.items[i].type == 4 || formData.items[i].type == 3)) {
+            if (formData.items[i].type != 3){
+              formData.items[i].listValues = formData.items[i].listValues.split(",")
+            }
             let name = "picker_";
             if (formData.items[i].type == 4){
               name ='checkbox_'
             }
+            if (formData.items[i].type == 3) {
+              name = 'radio_'
+            } 
             if (jsonData&&jsonData[formData.items[i].name]){
               selectPicker[name + i] = jsonData[formData.items[i].name].value
             }else{
@@ -207,6 +310,40 @@ Component({
                 selectPicker[name + i] = ""
               }
             }
+            if (formData.items[i].type == 3) {
+              formData.items[i].listValues = JSON.parse(formData.items[i].listValues)
+              let listValues = formData.items[i].listValues
+              selectPicker['radio_' + i] = formData.items[i].defaultValue||'0'
+              let showRadioState = [];
+              for (let j=0;j<listValues.length;j++){
+                showRadioState[j]=false;
+                if (listValues[j].children){
+                  let childrenList = listValues[j].children.split(',')
+                  console.log("====childrenList====", childrenList)
+                  for (let k = 0; k < childrenList.length; k++) {
+                    console.log("=======childrenList[k]==========", childrenList[k])
+                    if (controlFieldShow[childrenList[k]]){
+                      controlFieldShow[childrenList[k]]=false;
+                    }
+                  }
+                }
+                if (formData.items[i].defaultValue && listValues[j].value == formData.items[i].defaultValue){
+                  console.log("====单选===")
+                  showRadioState[j] = true;
+                  if (listValues[j].children) {
+                    let childrenList = listValues[j].children.split(',')
+                    console.log("==childrenList===", childrenList)
+                    for (let k = 0; k < childrenList.length; k++) {
+                      console.log("=======childrenList[k]==========", childrenList[k], controlFieldShow[childrenList[k]])
+                      controlFieldShow[childrenList[k]] = true;
+                    }
+                  }
+                }
+              }
+              console.log("=======showRadioState========", showRadioState)
+              that.setData({ showRadioState: showRadioState })
+            }
+            console.log("=======selectPicker========", selectPicker)
             that.setData({
               selectPicker: selectPicker
             })
@@ -238,9 +375,39 @@ Component({
             }
             console.log("=======selectPicker======", selectPicker)
           } else if (formData.items[i].listValues && formData.items[i].type == 13) {
+            let one=0;
+            let two=0;
+            let three=0;
+            let index=0
             formData.items[i].listValues = JSON.parse(formData.items[i].listValues)
+            let listValues = formData.items[i].listValues
             that.setData({ currentMultiData: formData.items })
-            that.setMultiPicker(formData.items[i], 0, 0, 0);
+            if (formData.items[i].defaultValue){
+              let defaultValue = JSON.parse(formData.items[i].defaultValue);
+              console.log("=====defaultValue----13====", defaultValue, listValues)
+              for (let k = 0; k < listValues.length; k++) {
+                if (listValues[k].name == defaultValue[index]) {
+                  one = k;
+                  index++ 
+                  let childrenTwo = listValues[k].children
+                  for (let l = 0; l < childrenTwo.length; l++) {
+                    if (childrenTwo[l].name == defaultValue[index]) {
+                      two = l;
+                      index++
+                      let childrenThree = childrenTwo[l].children
+                      for (let n = 0; n < childrenThree.length; n++) {
+                        if (childrenThree[n].name == defaultValue[index]) {
+                          three = n;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              that.setMultiPicker(formData.items[i],one, two, three);
+            }else{
+              that.setMultiPicker(formData.items[i], 0, 0, 0);
+            }
           } else if (formData.items[i].type == 9999) {
             formData.items[i].splitStyle = JSON.parse(formData.items[i].splitStyle);
           } else if (formData.items[i].type == 7 || formData.items[i].type == 11) {
@@ -308,8 +475,8 @@ Component({
             }
           }
         }
-        that.setData({ formData: formData })
-        console.log(that.data.formData)
+        that.setData({ formData: formData, controlFieldShow: controlFieldShow })
+        console.log(that.data.formData, that.data.controlFieldShow)
       }
     },
     saveSearchValue: function (e) {
@@ -368,6 +535,32 @@ Component({
       selectPicker['checkbox_' + index] = e.detail.value
       this.setData({
         selectPicker: selectPicker
+      })
+      console.log("=====selectPicker=====", selectPicker)
+    },
+    radioChange: function (e) {
+      console.log('radioChange发生change事件，携带value值为：', e)
+      let that = this;
+      let index = e.target.dataset.index;
+      let itemValue = e.target.dataset.value;
+      let value = e.detail.value
+      let controlFieldShow = that.data.controlFieldShow;
+      for (let i in controlFieldShow){
+        controlFieldShow[i]=true;
+      }
+      for (let i = 0; i < itemValue.length;i++){
+        if (value != itemValue[i].value && itemValue[i].children){
+          let childrenData=itemValue[i].children.split(",")
+          for (let j = 0; j < childrenData.length;j++){
+            controlFieldShow[childrenData[j]]=false
+          }
+        }
+      }
+      let selectPicker = that.data.selectPicker;
+      selectPicker['radio_' + index] = value
+      this.setData({
+        selectPicker: selectPicker,
+        controlFieldShow: controlFieldShow
       })
       console.log("=====selectPicker=====", selectPicker)
     },
@@ -511,9 +704,10 @@ Component({
     that.data.selectPicker["picker_" + index] = value[selectIndex]
     that.setData({ selectPicker: that.data.selectPicker})
   },
-  formSubmit:function(e){
+    formSubmit: function (e, measureData){
     console.log('form发生了submit事件，携带数据为：', e)
     var that = this;
+    let measurePriceList = that.data.measurePriceList;
     console.log('===that.data.formData.items===', that.data.formData.items, that.data.formData.userCanCommit)
     if (that.data.formData.userCanCommit == 0) {
       wx.showModal({
@@ -536,6 +730,14 @@ Component({
     let params={};
     let value={}
     params.customFormId = that.data.formId;
+    if (that.data.formData.attendSupportMeasures == 1) {
+      params.measurePriceList = JSON.stringify(measurePriceList);
+    }
+    if (measureData){
+      console.log("=======传了多规格数据=========")
+      params = Object.assign({}, params, measureData)
+      // params.attendMeasureName = measureData.attendMeasureName
+    }
     if (e && e.currentTarget){
       value = e.detail.value
       params.miniNotifyFormId = e.detail.formId;
@@ -558,6 +760,7 @@ Component({
     let selectPicker = {};
     let region = {}
     let checkboxList = {}
+    let radioList = {}
     let multistageData = {}
     for (let i = 0; i<that.data.formData.items.length;i++){
       if (that.data.formData.items[i].type == 7||that.data.formData.items[i].type ==11){
@@ -568,6 +771,8 @@ Component({
         dataAndTime[that.data.formData.items[i].name] = that.data.dataAndTime[that.data.formData.items[i].name] || ""
       } else if (that.data.formData.items[i].type == 2) {
         selectPicker[that.data.formData.items[i].name] = that.data.selectPicker['picker_' + i] || ""
+      } else if (that.data.formData.items[i].type == 3) {
+        radioList[that.data.formData.items[i].name] = that.data.selectPicker['radio_' + i] || ""
       } else if (that.data.formData.items[i].type == 4) {
         checkboxList[that.data.formData.items[i].name] = that.data.selectPicker['checkbox_' + i] || ""
       }else if (that.data.formData.items[i].type == 12) {
@@ -590,14 +795,16 @@ Component({
 
       }
     }
-    value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker, multistageData, checkboxList)
+    value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker, multistageData, checkboxList, radioList)
     console.log('===value2=====', value, that.data.formData)
     let itemData = that.data.formData.items
     // return
     console.log('===itemData====', itemData)
+    let controlFieldShow = that.data.controlFieldShow;
     for (let i = 0; i < itemData.length;i++){
       newObj[itemData[i].name] = { value: value[itemData[i].name] || "", title: itemData[i].title, type: itemData[i].type, showInList: itemData[i].showInList, showInListOrder: itemData[i].showInListOrder }
-      if (itemData[i].mustInput == 1 && (!value[itemData[i].name] || value[itemData[i].name].length == 0)) {
+      console.log("===controlFieldShow====", itemData[i].name, controlFieldShow[itemData[i].name])
+      if ((itemData[i].mustInput == 1 && (!value[itemData[i].name] || value[itemData[i].name].length == 0)) && controlFieldShow[itemData[i].name]) {
         wx.showModal({
           title: '提示',
           content: '请填写完整',

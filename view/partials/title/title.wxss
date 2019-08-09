@@ -167,3 +167,35 @@
 .phcolor{
   color: #999
 }
+.popup_page_list{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 10%;
+  left: 10rpx;
+  background: #00000099;
+  color: #fff;
+  border-radius:10rpx;
+  opacity: 0;
+  /* overflow: hidden;
+  height: 0; */
+  z-index: 1000,
+}
+.popup_page_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 24rpx;
+}
+.user_text{
+  padding:16rpx;
+}
+.user_icon{
+  width: 60rpx;
+  height: 60rpx;
+  border-top-left-radius: 10rpx;
+  border-bottom-left-radius: 10rpx;
+  margin-left:-1rpx;
+}

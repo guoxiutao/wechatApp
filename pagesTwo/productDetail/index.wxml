@@ -65,19 +65,55 @@
           </block> -->
           <view class='product_stock'><text>仅剩{{productData.productInfo.stock}}件</text></view>
        </view>
-       <view class='share_product' bindtap='showPoster'><image src='http://image.tunzai.vip/tunzai/2018_8/28/9/48/50_64.jpg'></image></view>
+       <view class='share_product' bindtap='showPoster'><image src='https://image1.sansancloud.com/xianhua/2019_8/8/17/26/49_115.jpg?x-oss-process=style/preview_120'></image></view>
     </view>
     <view class='InfoName' >{{productData.productInfo.name}}</view>
     <block wx:if='{{!!productData.productInfo.description}}'>
       <view class='InfoSubName '>·{{productData.productInfo.description}}</view>
     </block>
   </view>
-<!-- 促销 -->
-  <view class='InfoSale' wx:if='{{saleStrategyState}}' style='background:{{setting.platformSetting.secondColor}}'>
+<!-- 促销策略 -->
+  <!-- <view class='InfoSale' wx:if='{{saleStrategyState}}' style='background:{{setting.platformSetting.secondColor}}'>
       <view class='InfoSaleDes' style='background:{{setting.platformSetting.defaultColor}}'>
         <view class='InfoSaleText'>促销</view><view class='InfoSaleText'>活动</view>
       </view>
       <text style='color:{{setting.platformSetting.defaultColor}}'>{{productData.productInfo.saleStrategyName}}</text>
+  </view> -->
+  <!--商品特卖  -->
+  <view class='special_sale_list'>
+    <text class='special_sale_title'>促销</text>
+    <view class='special_sale_data'>
+      <view class='special_sale_item'>
+        <view class='special_sale_item_type' style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==1}}">满减</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==2}}">买赠</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==3}}">限购</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==4}}">日限购</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==5}}">周限购</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==6}}">月限购</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==7}}">活动限购</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==8}}">会员特卖</text>
+        </view>
+        <view class='special_sale_item_value'>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==1}}">满￥{{productData.productInfo.itemSpecialSaleValue1}}钱,减￥{{productData.productInfo.itemSpecialSaleValue2}}钱</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==2}}">买￥{{productData.productInfo.itemSpecialSaleValue1}}件,赠￥{{productData.productInfo.itemSpecialSaleValue2}}件</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==3}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==4}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==5}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==6}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==7}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==8}}">会员特卖</text>
+        </view>
+      </view>
+      <view class='special_sale_item' wx:if='{{saleStrategyState}}'>
+        <view class='special_sale_item_type' style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'>
+          优惠
+        </view>
+        <view class='special_sale_item_value'>
+          {{productData.productInfo.saleStrategyName}}
+        </view>
+      </view>
+    </view>
   </view>
 <!-- <view class='helpBlank'></view> -->
    <block wx:if="{{clientNo=='tunzai'}}">

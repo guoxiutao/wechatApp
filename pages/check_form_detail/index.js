@@ -13,7 +13,8 @@ Page({
     haveValueList:[],
     allFormData:null,
     posterState:false,
-    posterTitle:'',
+    posterTitle: '',
+    sendFormData: null,
   },
   closeZhezhao: function () {
     this.setData({  showTypeTwo: false })
@@ -60,6 +61,8 @@ Page({
         console.log("====success====", res)
         if (res.data.errcode == 0) {
           wx.hideLoading()
+          let sendFormData = JSON.stringify({ title: 'noTitle', url: "form_" + res.data.relateObj.belongFormId })
+          that.setData({ sendFormData: sendFormData })
           that.setData({ allFormData: res.data.relateObj, loading: false })
           let commitJson = JSON.parse(that.data.allFormData.commitJson);
           console.log("=======commitJson========", commitJson)

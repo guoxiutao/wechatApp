@@ -270,7 +270,7 @@
   padding-bottom: 0
 }
 .zhezhao{
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   right:0;
@@ -279,4 +279,111 @@
   opacity:0.6;
   z-index:9;
 
+}
+.support_measure{
+  flex-direction:row;
+  background:#fff;
+  height:100%;
+  font-size:34rpx;
+
+}
+/* 多规格 */
+.add_measures{
+  width:50rpx;
+  height:50rpx;
+  border:2rpx dashed #ccc;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-left: 10rpx;
+}
+.add_measures_icon{
+  width: 30rpx;
+  height: 30rpx
+}
+.add_measures_popup{
+  position: fixed;
+  top: 50%;
+  margin-top: -260rpx;
+  left: 50%;
+  margin-left: -300rpx;
+  width: 600rpx;
+  height: 520rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  z-index: 11;
+  box-sizing:border-box;
+  padding:20rpx;
+  font-size: 30rpx;
+}
+.add_measures_popup_title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1rpx solid #f1f1f1;
+  padding: 10rpx 0;
+  font-weight:bold;
+  margin-bottom:40rpx;
+}
+.add_measures_popup_list{
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
+}
+.add_measures_popup_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.add_measures_popup_item_input{
+  width:76%;
+  border:1rpx solid #f1f1f1;
+  padding:0 10rpx;
+}
+.no_support_measure_list{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 70%;
+  font-size: 26rpx;
+  color: #999
+}
+.support_measure_list{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 70%;
+  padding:20rpx;
+}
+.support_measure_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx 20rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  position: relative;
+  font-size: 26rpx;
+  margin:10rpx;
+}
+.delete_support_measure_item{
+  position: absolute;
+  top: -12rpx;
+  right: -10rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 30rpx;
+  height: 30rpx;
+  background:hsla(0,0%,60%,.6);
+  /* opacity:0.6; */
+  border-radius:30rpx;
+  font-size:24rpx;
+  line-height:30rpx;
 }

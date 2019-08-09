@@ -416,56 +416,6 @@ Page({
     // })
     app.showToastLoading('loading', true)
     app.createOrder(that.byNowParams, that.pintuanParams)
-    // if (productInfo.preOrderCustomFormId) {
-    //   let url;
-    //   if (that.byNowParams.cartesianId){
-    //     url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId + '&params=' + JSON.stringify(params);
-    //   }else{
-    //     url = '/pages/form_detail/index?customFormId=' + productInfo.preOrderCustomFormId + '&productId=' + productInfo.productId;
-    //   }
-    //   wx.navigateTo({
-    //     url: url,
-    //   })
-    //   return
-    // } else {
-    //   wx.showLoading({
-    //     title: 'loading',
-    //     mask: true
-    //   })
-    //   app.createOrder(that.byNowParams, that.pintuanParams)
-    // }
-    // var customIndex = app.AddClientUrl("/buy_now.html", params, 'post')
-    // wx.request({
-    //   url: customIndex.url,
-    //   data: customIndex.params,
-    //   header: app.headerPost,
-    //   method: 'POST',
-    //   success: function (res) {
-    //     console.log("点击确定后内容",res.data)
-    //     let data = res.data
-    //     if (!!res.data.orderNo) {
-    //       wx.hideLoading()
-        
-    //       wx.navigateTo({
-    //         url: '/pages/edit_order/index?orderNo=' + res.data.orderNo,
-    //       })
-    //     } else {
-    //       wx.hideLoading()
-    //       wx.showToast({
-    //         title: res.data.errMsg,
-    //         image: '/images/icons/tip.png',
-    //         duration: 2000
-    //       })
-    //     }
-    //   },
-    //   fail: function (res) {
-    //     wx.hideLoading()
-    //     app.loadFail()
-    //   },
-    //   complete: function (res) {
-        
-    //   }
-    // })
   },
 
   /* 加入購物車 */
@@ -587,7 +537,7 @@ Page({
       }
     })
   },
-  getData:function(options){
+  getData:function(options,type){
     let param = {}
     let that = this
     if (!options){
@@ -600,10 +550,10 @@ Page({
     // })
     app.showToastLoading('loading', true)
     console.log('==param===', param)
-    let postParam = {}
-    postParam.productId = param.id || param.productId
-    postParam.addShopId = param.addShopId
-    let customIndex = app.AddClientUrl("/product_detail.html", postParam)
+    // let postParam = {}
+    param.productId = param.id || param.productId
+    param.addShopId = param.addShopId
+    let customIndex = app.AddClientUrl("/product_detail.html", param)
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -679,6 +629,11 @@ Page({
       fail: function (res) {
         console.log("====fail=====")
         app.loadFail()
+        if (!type){
+          console.log("======加载失败一次======")
+          that.optionsData.someOneParam=1
+          that.getData(that.optionsData,'lastOne')
+        }
       },
       complete:function(res){
         wx.hideLoading()
@@ -692,6 +647,7 @@ Page({
   onError:function(options){
     console.log("on error!!!");
   },
+  optionsData:null,
   onLoad: function (options) {
     console.log('--------product----------', options)
     let that = this;
@@ -711,7 +667,8 @@ Page({
     that.dataFOr_getData.id = options.id || options.productId
     that.dataFOr_getData.addShopId = options.addShopId
     that.setData({ dataFOr_getData:that.dataFOr_getData})
-    that.getData(options)
+    that.optionsData = options
+    that.getData(that.optionsData)
   },
 
 

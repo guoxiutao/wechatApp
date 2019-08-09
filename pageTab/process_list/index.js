@@ -10,6 +10,8 @@ Page({
     processList: [],
     currentIndex:0,
     tabItem:[],
+    localPoint: { longitude: 0, latitude:0},
+    grabOrderState:false,
   },
   tabItem:[
     { text: "派单中", state: 0, params: { instanceStatus: 0 }},
@@ -20,10 +22,60 @@ Page({
   changeStateProcess:function(e){
     let that=this;
     console.log("===changeStateProcess===",e)
-    let index = e.currentTarget.dataset.index
+    let index = e.currentTarget? e.currentTarget.dataset.index:e
     that.listPage.page = 1
     that.setData({ currentIndex:index})
     that.getProcessList();
+  },
+  /* 组件事件集合 */
+  tolinkUrl: function (data) {
+    let that=this;
+    let linkUrl = data.currentTarget ? data.currentTarget.dataset.link : data;
+    console.log("==linkUrl===", linkUrl)
+    if (linkUrl.indexOf("unassign_snatch_process_list")!=-1){
+      that.setData({ grabOrderState:true})
+    }
+    app.linkEvent(linkUrl)
+  },
+  // 获取可抢单数据
+  getUnassignProcessList: function () {
+    let that = this
+    if (!app.checkIfLogin()) return;
+    let getParams = that.data.localPoint
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+    })
+    let customIndex = app.AddClientUrl("/wx_get_servant_unassign_snatch_process_instance_list.html", getParams)
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log('====getUnassignProcessList-res===', res)
+        let data = res.data;
+        if (typeof (res.data) == 'string') {
+          data = JSON.parse(res.data)
+        }
+        // if (data.errcode == 0) {
+        //   that.listPage.pageSize = data.relateObj.pageSize
+        //   that.listPage.totalSize = data.relateObj.totalSize
+        //   let dataArr = that.data.processList
+        //   if ((!data.relateObj.result || data.relateObj.result.length == 0) || that.listPage.page == 1) {
+        //     dataArr = null;
+        //     that.setData({ processList: [] })
+        //   }
+        //   dataArr = (dataArr || []).concat(data.relateObj.result)
+        //   that.setData({ processList: dataArr })
+        //   if (dataArr) {
+        //     wx.hideToast()
+        //   }
+        // }
+        console.log('===processList===', that.data.processList);
+      },
+      complete: function (res) {
+
+      }
+    })
   },
   /* 获取数据 */
   getProcessList: function () {
@@ -100,7 +152,20 @@ Page({
       let params = JSON.parse(options.actionEvent)
       that.doAction(params)
     }
-    that.params=options
+    that.params=options;
+    let localPoint = that.data.localPoint
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success: function (res) {
+        console.log('==getLocation==', res)
+        localPoint.latitude = res.latitude
+        localPoint.longitude = res.longitude
+        that.setData({
+          localPoint: localPoint
+        })
+        that.getUnassignProcessList()
+      }
+    })
     // that.getProcessList();
   },
   /**
@@ -116,6 +181,10 @@ Page({
   onShow: function () {
     let that=this;
     that.getProcessList();
+    if (that.data.grabOrderState) {
+      that.changeStateProcess(1)
+      that.setData({ grabOrderState: false })
+    }
     // if (this.data.reflesh == 1) {
     //   this.onPullDownRefresh()
     // }

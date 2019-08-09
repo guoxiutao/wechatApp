@@ -88,7 +88,9 @@
         "ticket_detail/index",
         "productDetail/index",
         "ceshi_page/index",
-        "product_detail_milk/index"
+        "product_detail_milk/index",
+        "mendian_management_product/index",
+        "unassign_snatch_process_list/index"
       ]
     },
     {
@@ -215,7 +217,7 @@
       "text": "技师"
     },
     {
-      "pagePath": "pageTab/productType_left_right/index",
+      "pagePath": "pageTab/process_list/index",
       "iconPath": "images/icons/fx.png",
       "selectedIconPath": "images/icons/fx2.png",
       "text": "工作进程"

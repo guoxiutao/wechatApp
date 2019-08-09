@@ -41,11 +41,6 @@ Component({
       else{
         this.getCart();
       }
-      // this.setData({
-      //   pushItem: data.item,
-      //   countGood: data.totalCarItemCount,
-      //   countPrice: data.totalCarItemPrice.toFixed(2)
-      // })
     },
     getCart: function (type) {
       console.log('==========')
@@ -92,10 +87,8 @@ Component({
             that.showPrice()
           }
 
-          //wx.hideLoading()
         },
         fail: function (res) {
-          // wx.hideLoading()
 
         }
       })
@@ -109,56 +102,6 @@ Component({
         countGood: resultData.countGood,
         countPrice: resultData.countPrice
       })
-      // if (!this.data.cartData) {
-      //   this.setData({
-      //     countGood: 0,
-      //     countPrice: 0
-      //   })
-      //   return
-      // }
-      // var cartDataItem = this.data.cartData[0].carItems
-
-      // var pushItem = []
-      // var countGood = 0
-      // var countPrice = 0
-
-      // for (let i = 0; i < cartDataItem.length; i++) {
-      //   pushItem.push(cartDataItem[i])
-      // }
-      // for (let i = 0; i < pushItem.length; i++) {
-      //   countGood += parseInt(pushItem[i].count)
-      //   console.log("====pushItem=====", pushItem[i])
-      //   let promotionPrice = 0;
-      //   let carItemPrice = 0;
-      //   let specialSaleTypePrice = 0;
-      //   if (pushItem[i].item.itemSpecialSaleType==1){
-      //     if (parseInt(pushItem[i].count) * pushItem[i].carItemPrice >= Number(pushItem[i].item.itemSpecialSaleValue1)){
-      //       specialSaleTypePrice = Number(pushItem[i].item.itemSpecialSaleValue2)
-      //     }
-      //   }
-      //   if (pushItem[i].item.promotion && pushItem[i].item.promotion != 0) {
-      //     promotionPrice = pushItem[i].item.promotionPrice
-      //   }else {
-      //     carItemPrice = pushItem[i].carItemPrice
-      //   }
-      //   console.log("====pushItem=====", promotionPrice, carItemPrice, specialSaleTypePrice)
-      //   if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0) {
-      //     countPrice += ((parseInt(pushItem[i].count) * promotionPrice) - specialSaleTypePrice)
-      //   } else {
-      //     countPrice += ((parseInt(pushItem[i].count) * carItemPrice) - specialSaleTypePrice)
-      //   }
-      //   // if (pushItem[i].item.promotion && pushItem[i].item.promotion!=0) {
-      //   //   countPrice += parseInt(pushItem[i].count) * pushItem[i].item.promotionPrice
-      //   // } else {
-      //   //   countPrice += parseInt(pushItem[i].count) * pushItem[i].carItemPrice
-      //   // }
-      // }
-      // countPrice = countPrice.toFixed(2)
-      // this.setData({
-      //   pushItem: pushItem,
-      //   countGood: countGood,
-      //   countPrice: countPrice
-      // })
     },
     tolinkUrl: function (event) {
       console.log(event.currentTarget.dataset.link)

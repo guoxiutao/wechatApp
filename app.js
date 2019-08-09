@@ -2,15 +2,15 @@ import { dellUrl } from "/public/requestUrl.js";
 const Promise = require('/promise/promise.js');
 App({
     //clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
-    clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
+     clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
 
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'jianzhan',   //自定义的项目的名称。
+  clientNo: 'xianhua',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.29',
+  version:'3.5.40',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -25,6 +25,7 @@ App({
   kefuCount: 0,
   loginSuccessListeners: [],
   carChangeNotifys:[],
+  popupNotifysList:[],
   payItem: null, //下单的时候传过去的
   userSign: null, //账号密码
   EditAddr: null,//传值的
@@ -69,8 +70,23 @@ App({
   addCarChangeNotify:function(listener){
     this.carChangeNotifys.push(listener);
   },
+  addPopupNotifysList: function (listener){
+    this.popupNotifysList.push(listener);
+  },
+  clearPopupNotifysList: function (data){
+    console.log('===clearPopupNotifysList====', data);
+    if (this.popupNotifysList && this.popupNotifysList.length > 0) {
+      for (let t = 0; t < this.popupNotifysList.length; t++) {
+        try {
+          this.popupNotifysList[t].clearInterval(data);
+        } catch (e) {
+          console.log(res);
+        }
+      }
+    }
+  },
   carChangeNotify:function(data){
-    console.log('000000000000', data);
+    console.log('000000carChangeNotify000000', data);
     if (this.carChangeNotifys && this.carChangeNotifys.length > 0) {
       console.log('000000000000', this.carChangeNotifys)
       for (let t = 0; t < this.carChangeNotifys.length; t++) {
@@ -494,7 +510,6 @@ App({
         wx.navigateTo({
           url: "/pages/" + urlData.url + "/index" + urlData.param,
           success: function () {
-            console.log("=====pages777777======")
             that.shareSubPage = true;
           },
           fail: function () {

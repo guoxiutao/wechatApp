@@ -651,12 +651,12 @@ white-space:nowrap;
   /* opacity:0; */
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: fixed;
   bottom: -100rpx;
   z-index:11;
   background:#fff;
-  padding:40rpx 20rpx 20rpx 20rpx;
+  padding:20rpx;
   box-sizing:border-box;
 }
 .submitBtn{
@@ -664,14 +664,54 @@ white-space:nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
   bottom:0;
   width: 100%;
   color: #fff;
   padding: 20rpx;
   z-index: 10;
   box-sizing:border-box;
+  background: #fff;
   height: 100rpx;
   font-size: 30rpx;
+}
+.nextSubmitBtn{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  bottom:0;
+  width: 100%;
+  z-index: 10;
+  box-sizing:border-box;
+  background: #fff;
+  height: 100rpx;
+  font-size: 30rpx;
+  border-top:1rpx solid #f1f1f1;
+}
+.submit_btn_left{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20rpx 40rpx;
+  background: #fff;
+  width: 50%;
+  height: 100%;
+  box-sizing:border-box;
+}
+.submit_btn_right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  color: #fff;
+  height: 100%
+}
+.total_price{
+  margin-left: 10rpx;
+  font-size: 32rpx;
 }
 .zhezhao{
   position: fixed;
@@ -700,4 +740,95 @@ white-space:nowrap;
 .img_item{
   width: 100%;
   
+}
+/* 多规格 */
+.measure_price_list{
+  display: flex;
+  flex-direction: column;
+  padding:20rpx;
+  /* background:#f8f8f8; */
+}
+.measure_price_list_title{
+  padding: 10rpx 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  border-bottom: 1rpx solid #f1f1f1;
+  margin-bottom:20rpx;
+}
+.measure_price_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  margin:10rpx 0;
+  padding:20rpx;
+  background:#fff;
+  position: relative;
+  color: #666;
+}
+.attend_measure_name{
+  width: 80%
+}
+.attend_price{
+  width: 20%;
+  text-align:end;
+}
+.cell_tag_bg{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  color: #fff;
+}
+.cell_tag_text{
+  position: absolute;
+  right: -10rpx;
+  top: -2rpx;
+  color: #fff;
+  /* transform:rotate(-42deg); */
+  font-size: 20rpx;
+  width:30rpx;
+  height:30rpx;
+}
+.select_measure_count{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+}
+.select_measure_count_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #ddd;
+  color: #666;
+  margin-right: 6rpx;
+  font-size: 30rpx;
+  width: 56rpx;
+  height: 56rpx;
+}
+.form_title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom:1rpx solid #eee;
+  font-size:30rpx;
+  padding:20rpx 0;
+}
+.return_select_measure_icon{
+  width: 40rpx;
+  height: 40rpx;
+}
+.close_popup_icon{
+  width: 40rpx;
+  height: 40rpx;
 }

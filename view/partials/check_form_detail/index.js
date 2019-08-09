@@ -35,6 +35,12 @@ Component({
     showTypeTwo: false,
     userInfoFormCommitId:'',
     posterState:false,
+    measurePriceList:'',
+    selectMeasureIndex: 0,
+    selectMeasureData: '',
+    buyCount: 1,
+    totalPrice: 0,
+    nextStepState:false,
   },
   // 返回
   ready: function () {
@@ -51,11 +57,69 @@ Component({
     that.getDetail(that.data.formCommitId)
   },
   methods: {
+    nextStepFun: function () {
+      console.log("========nextStepFun=====")
+      let that=this;
+      let nextStepState = that.data.nextStepState
+      that.setData({ nextStepState: !nextStepState})
+    },
+    subBuyCount:function(){
+      console.log("========subBuyCount=====")
+      let that=this;
+      let buyCount = that.data.buyCount;
+      let selectMeasureData = that.data.selectMeasureData;
+      if (buyCount==1){
+        wx.showToast({
+          title: '数量不能为0!',
+          icon: 'none',    //如果要纯文本，不要icon，将值设为'none'
+          duration: 2000
+        })  
+      }else{
+        buyCount--
+      }
+      let totalPrice = (buyCount * selectMeasureData.attendPrice)
+      that.setData({ buyCount: buyCount, totalPrice: totalPrice})
+    },
+    addBuyCount:function(){
+      console.log("========addBuyCount=====")
+      let that = this;
+      let selectMeasureData = that.data.selectMeasureData;
+      let buyCount = that.data.buyCount;
+      if (!selectMeasureData.attendStock||(selectMeasureData.attendStock > buyCount)){
+        buyCount++
+      }else{
+        wx.showToast({
+          title: '库存不足~',
+          image: '/images/icons/tip.png',  //image的优先级会高于icon
+          duration: 2000
+        })
+      }
+      let totalPrice = (buyCount * selectMeasureData.attendPrice)
+      that.setData({ buyCount: buyCount, totalPrice: totalPrice })
+    },
+    selectMeasureItem:function(e){
+      let that=this;
+      let index = e.currentTarget.dataset.index;
+      let measurePriceList = that.data.measurePriceList;
+      let selectMeasureData = measurePriceList[index];
+      let buyCount = that.data.buyCount;
+      if ((buyCount > selectMeasureData.attendStock) && selectMeasureData.attendStock){
+        wx.showToast({
+          title: '已选择最大库存~',
+          image: '/images/icons/tip.png',  //image的优先级会高于icon
+          duration: 2000
+        })
+        buyCount = selectMeasureData.attendStock;
+        that.setData({ buyCount: buyCount})
+      }
+      let totalPrice = (buyCount * selectMeasureData.attendPrice)
+      that.setData({ selectMeasureData: selectMeasureData, selectMeasureIndex: index, totalPrice: totalPrice})
+    },
+    
     popupFormPage: function () {
       console.log("=======popupFormPage==========")
       if (this.data.allFormData.canAttendStatus==1){
-        this.setData({ showAddressForm: true, sendOptionData: { customFormId: this.data.customForm.replyFormId } })
-        this.setData({ showType: !this.data.showType })
+        this.setData({ showAddressForm: true, sendOptionData: { customFormId: this.data.customForm.replyFormId }, showType: !this.data.showType  })
         let showType2 = this.data.showType
         let animation = wx.createAnimation({
           duration: 400,
@@ -143,7 +207,12 @@ Component({
       }
     },
     closeZhezhao: function () {
-      this.setData({ showType: false, showTypeTwo: false, showAddressForm: false })
+      let nextStepState=false;
+      console.log("======closeZhezhao=========", this.data.measurePriceList)
+      if (!this.data.measurePriceList){
+        nextStepState = true
+      }
+      this.setData({ showType: false, showTypeTwo: false, showAddressForm: false, nextStepState: nextStepState })
       let animation = wx.createAnimation({
         duration: 400,
         timingFunction: 'ease',
@@ -157,8 +226,13 @@ Component({
     },
     submitData: function (e) {
       let that = this;
+      let selectMeasureData = that.data.selectMeasureData
+      let resultData =''
+      if (selectMeasureData){
+        resultData={ attendMeasureName: selectMeasureData.attendMeasureName, buyCount: that.data.buyCount }
+      }
       console.log("===getDataFun===", e, e.detail.formId)
-      that.selectComponent("#submitForm").formSubmit(that.data.formCommitId);
+      that.selectComponent("#submitForm").formSubmit(that.data.formCommitId, resultData);
     },
     getDataFun: function (e) {
       let that = this;
@@ -536,7 +610,18 @@ Component({
           console.log("====success====",res)
           if (res.data.errcode==0){
             wx.hideLoading()
-            that.setData({ allFormData: res.data.relateObj, loading:false})
+            let measurePriceList='';
+            if (res.data.relateObj.measurePriceList && res.data.relateObj.measurePriceList!='[]'){
+              measurePriceList = JSON.parse(res.data.relateObj.measurePriceList)
+              let buyCount = that.data.buyCount;
+              let selectMeasureData = measurePriceList[0]
+              let totalPrice = (buyCount * selectMeasureData.attendPrice);
+              that.setData({ selectMeasureData: selectMeasureData, totalPrice: totalPrice})
+            }else{
+              that.setData({ nextStepState:true})
+            }
+            console.log("=====measurePriceList====", measurePriceList)
+            that.setData({ allFormData: res.data.relateObj, loading: false, measurePriceList: measurePriceList})
             let customForm = that.data.allFormData.customForm;
             that.getCommentData(that.data.allFormData.id, 1)
             let commitJson = JSON.parse(that.data.allFormData.commitJson);

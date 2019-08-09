@@ -19,11 +19,6 @@ Component({
     tolinkUrl: function (event) {
       console.log(event.currentTarget.dataset.link)
       app.linkEvent(event.currentTarget.dataset.link);
-
-
-      // wx.navigateTo({
-      //   url: '/pages/' + event.currentTarget.dataset.page + '/index'
-      // })
     }
   },
 })

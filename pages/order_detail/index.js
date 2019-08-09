@@ -308,18 +308,16 @@ Page({
         orderNo: this.data.orderNo
       })
       that.getOrderDetail(o.orderNo);
-       that.timer =  setInterval(function(){
+      that.timer =  setInterval(function(){
         console.log("===========timer get order detail============");
-      if (!that.data.orderDetailData||(that.data.orderDetailData.payStatus == 1 && that.data.orderDetailData.orderStatus<=3)){
-          that.getOrderDetail(o.orderNo)
-        
-      }else{
-        clearInterval(timer);
-      }
+        if (!that.data.orderDetailData||(that.data.orderDetailData.payStatus == 1 && that.data.orderDetailData.orderStatus<=3)){
+            that.getOrderDetail(o.orderNo)
+          
+        }else{
+          clearInterval(timer);
+        }
 
-    },8000);
-
-    
+      },8000);
     }else{
       wx.navigateBack()
     }

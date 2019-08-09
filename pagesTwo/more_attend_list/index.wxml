@@ -6,7 +6,7 @@
         <text class='attend_name'>{{item.attendPlatformUserName}}</text>
       </view>
       <view class='attend_item_right'>
-        <text class='attend_time'>{{item.attendPlatformUserTime||'2019-07-05 11:54'}}</text>
+        <text class='attend_time'>{{item.attendTime}}</text>
       </view>
     </view>
   </view>

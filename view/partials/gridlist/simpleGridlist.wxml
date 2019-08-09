@@ -12,11 +12,19 @@
     
     <block wx:else>
 
-      <view class="grid_cell" style="width:{{100/ jsonData.column}}%;"  wx:for="{{jsonData.cells}}" wx:for-item="cells" wx:key="{{index}}" data-link="{{cells.linkUrl}}" bindtap='tolinkUrl'>
-        <image wx:if="{{cells.iconPath}}" src="{{cells.iconPath}}?x-oss-process=style/preview"></image>
-        <view class=" {{cells.loginCheck}}" site_url="{{cells.linkUrl}}"  targetType="{{cells.targetType}}">
-          {{cells.text}}
+      <view class="grid_cell" style="width:{{100/ jsonData.column}}%;"  wx:for="{{jsonData.cells}}" wx:for-item="cells" wx:key="{{index}}">
+        <view class='grid_cell_item' wx:if="{{cells.linkUrl!='contact'}}" data-link="{{cells.linkUrl}}" catchtap='tolinkUrl'>
+          <image wx:if="{{cells.iconPath}}" src="{{cells.iconPath}}?x-oss-process=style/preview"></image>
+          <view class=" {{cells.loginCheck}}" site_url="{{cells.linkUrl}}"  targetType="{{cells.targetType}}">
+            {{cells.text}}
+          </view>
         </view>
+        <button open-type="contact" plain='true' hover-class="none" style='border:none' class="grid_cell_item kefu" wx:else>
+          <image wx:if="{{cells.iconPath}}" src="{{cells.iconPath}}?x-oss-process=style/preview"></image>
+          <view class=" {{cells.loginCheck}}" site_url="{{cells.linkUrl}}"  targetType="{{cells.targetType}}">
+            {{cells.text}}
+          </view>
+        </button>
       </view>
     </block>
 

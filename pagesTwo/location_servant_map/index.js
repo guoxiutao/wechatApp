@@ -6,7 +6,7 @@ Page({
 
   data: {
     setting: null, // setting   
-    servantData: [], // 商品数据 
+    servantData: null, // 商品数据 
     servantType: [], // 商品数据 
     servantshowWay: 2, // servantshowWay列表显示方法 (默认显示地图)
     colorAtive: '#888',
@@ -40,6 +40,9 @@ Page({
     selectTabIndex: -1,
     selectResultsValue: {},
     selectResultsObj: {},
+  },
+  getServantTypeRelateData:function(){
+
   },
   calling:function(e){
     let that=this;
@@ -313,10 +316,6 @@ Page({
   toIndex(){
     app.toIndex()
   },
-  tolinkUrl: function (e) {
-    let linkUrl = e.currentTarget.dataset.link
-    app.linkEvent(linkUrl)
-  },
   getCenterPoint(callback){
     console.log("===getCenterPoint==")
     let that = this;
@@ -367,7 +366,20 @@ Page({
   },
   /* 组件事件集合 */
   tolinkUrl: function (e) {
-    let linkUrl = e.currentTarget ? e.currentTarget.dataset.link : e
+    let that=this;
+    console.log("===========params==========", that.params)
+    let params=''
+    let link = e.currentTarget.dataset.link
+    if (that.params.servantTypeId) {
+      console.log("========servantTypeId==========", that.params.servantTypeId)
+      if (link.indexOf("?")!=-1){
+        params = "&servantTypeId=" + that.params.servantTypeId
+      }else{
+        params = "?servantTypeId=" + that.params.servantTypeId
+      }
+    }
+    
+    let linkUrl = e.currentTarget ? e.currentTarget.dataset.link + params : e
     app.linkEvent(linkUrl)
   },
   getScale: function () {

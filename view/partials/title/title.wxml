@@ -3,6 +3,7 @@
 <import src="headline.wxml"/>  <!-- 正常的标题 -->
 <import src="pupu_product_search.wxml"/>  <!-- pupu搜索框 -->
 <import src="more_product_search.wxml"/>  <!-- pupu搜索框 -->
+<import src="popup_page.wxml"/>  <!-- pupu搜索框 -->
 
 
     <!-- 当 androidTemplate为空的时候去引入普通标题框  -->  
@@ -31,6 +32,10 @@
   <block wx:if='{{data.androidTemplate == "more_product_search"}}'>
     <template is="more_product_search" 
        data="{{...data,setting}}"></template> 
+  </block>
+  <block wx:if='{{data.androidTemplate == "popup_page"}}'>
+    <template is="popup_page" 
+       data="{{findNotifyTipsItem,showPopup,animationData,setting}}"></template> 
   </block>
 
   <!-- <view>{{data.id}}</view> -->

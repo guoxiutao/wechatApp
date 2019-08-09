@@ -809,3 +809,47 @@ button {
 .pintuan{
   line-height:40rpx;
 }
+.special_sale_list{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  font-size: 24rpx;
+  width: 100%;
+  padding: 20rpx 40rpx;
+  box-sizing: border-box;
+  background: #fff;
+  margin-top:16rpx;
+}
+.special_sale_title{
+  color: #999;
+  margin-right: 16rpx;
+}
+.special_sale_data{
+  display: flex;
+  flex-direction: column;
+}
+.special_sale_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom:20rpx;
+}
+.special_sale_item:last-child{
+  margin-bottom: 0
+}
+.special_sale_item_type{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10rpx;
+  border-radius: 20rpx;
+  font-size:20rpx;
+  margin-right: 14rpx;
+}
+.special_sale_item_value{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

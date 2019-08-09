@@ -21,11 +21,25 @@
   align-items: center;
   
 }
+.grid_cell_item{
+  padding-top: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
 .grid_cell image{
   width: 80rpx;
   height:80rpx;
 }
 .grid_cell view{
+  margin-top: 4px;
+  color: #666666;
+  font-size: 12px;
+  line-height: 17px;
+}
+.grid_cell button{
   margin-top: 4px;
   color: #666666;
   font-size: 12px;

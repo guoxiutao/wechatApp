@@ -245,7 +245,7 @@
     </view>
   </view>
   <!-- 已付费人员 -->
-  <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0}}">
+  <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0&&allFormData.attendCountPerUser!=1}}">
     <view class='havePayUserTitle'>
       <text>已报名({{allFormData.attendList.totalSize}})</text>
       <view class='havePayUserTitleRight' data-link="more_attend_list.html?formCommitId={{allFormData.id}}" catchtap='tolinkUrl'>
@@ -306,11 +306,43 @@
 </view>
 <!-- 填写表单弹窗动画 -->
 <view class='popupFormDetail' animation="{{animationData}}" wx:if="{{sendOptionData&&showAddressForm}}">
-  <scroll-view scroll-y >
-    <component-form-detail id="submitForm" wx:if="{{sendOptionData&&showAddressForm}}" data="{{sendOptionData}}" showTitle="true" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" bind:sendDataFun="getDataFun"></component-form-detail><!-- 弹窗-->
+  <view class='form_title' wx:if="{{nextStepState}}">
+    <image catchtap='nextStepFun' class='return_select_measure_icon' src='http://image1.sansancloud.com/xianhua/2019_7/31/15/25/40_519.jpg?x-oss-process=style/preview_120' wx:if="{{measurePriceList.length!=0}}"></image>
+    <text wx:else></text>
+    <text>请填写以下信息</text>
+    <image class='close_popup_icon' src='http://image1.sansancloud.com/xianhua/2019_7/31/15/25/40_755.jpg?x-oss-process=style/preview_120' catchtap='closeZhezhao'></image>
+  </view>
+  <scroll-view scroll-y  style='max-height:700rpx'>
+    <view class='measure_price_list' wx:if="{{measurePriceList.length!=0&&!nextStepState}}">
+      <view class='measure_price_list_title'>
+        <text>选择规格</text>
+      </view>
+      <view class='measure_price_item' wx:for="{{measurePriceList}}" wx:for-item="measurePriceItem" style='border:1rpx solid {{selectMeasureIndex==index?setting.platformSetting.defaultColor:"#eee"}}' catchtap='selectMeasureItem' data-index="{{index}}">
+        <text class='attend_measure_name'>{{measurePriceItem.attendMeasureName}}</text>
+        <text class='attend_price' style='color:{{setting.platformSetting.defaultColor}}'>￥{{measurePriceItem.attendPrice}}</text>
+        <text class='cell_tag_bg' wx:if="{{selectMeasureIndex==index}}" style='border-top: 30px solid {{setting.platformSetting.defaultColor}}'></text>
+        <text class='cell_tag_text' wx:if="{{selectMeasureIndex==index}}">✓</text>
+      </view>
+      <view class='measure_price_list_title' wx:if="{{allFormData.mulBuyObject==1}}">
+        <text>选择数量</text>
+      </view>
+      <view class='select_measure_count' wx:if="{{allFormData.mulBuyObject==1}}">
+        <view class='select_measure_count_item' catchtap='subBuyCount' style='font-size:40rpx;'><text>-</text></view>
+        <view class='select_measure_count_item'><text>{{buyCount}}</text></view>
+        <view class='select_measure_count_item' catchtap='addBuyCount' style='font-size:40rpx;'><text>+</text></view>
+      </view>
+    </view>
+    <view wx:if="{{sendOptionData&&showAddressForm&&nextStepState}}">
+       <component-form-detail id="submitForm" data="{{sendOptionData}}" showTitle="true" showBtn="false" userAddressCustomFormCommitId="{{userInfoFormCommitId}}" bind:sendDataFun="getDataFun"></component-form-detail><!-- 弹窗-->
+    </view>
     </scroll-view>
 </view>
-<view' wx:if="{{showType}}" class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>
+<view' wx:if="{{showType&&nextStepState}}" class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>
   <text>提交资料</text>
+</view>
+<!-- 选择规格的底部按钮 -->
+<view wx:if="{{showType&&!nextStepState}}" class='nextSubmitBtn' catchtap='submitData'>
+  <view class='submit_btn_left'>合计<text class='total_price' style='color:{{setting.platformSetting.defaultColor}}'>￥{{totalPrice}}</text></view>
+  <text class='submit_btn_right' catchtap='nextStepFun' style='background:{{setting.platformSetting.defaultColor}}'>下一步</text>
 </view>
 </block>

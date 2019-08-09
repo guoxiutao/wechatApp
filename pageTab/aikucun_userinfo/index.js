@@ -26,13 +26,67 @@ Page({
       posterState: false,
     })
   },
-  bindWxGz:function(){
+  clickWxGz:function(){
     let that=this;
     console.log('===bindWxGz====', that.data.loginUser)
-    let paramsUrl = "https://mini.sansancloud.com/chainalliance/" + app.clientNo + "/bindWxGz.html?platformUserId=" + that.data.loginUser.platformUser.id;
-    if (!that.data.loginUser.platformUser.openid){
-      that.tolinkUrl(paramsUrl)
+    let loginUser = that.data.loginUser;
+    let title ="你确定要绑定公众号推送嘛~"
+    if (loginUser.platformUser.openid){
+      title = "你确定要解绑公众号推送嘛~"
     }
+    wx.showModal({
+      title: '提示',
+      content: title,
+      success: function (res) {
+        if (res.confirm) {
+          if (!loginUser.platformUser.openid) {
+            that.bindWxGz()
+          }else{
+            that.unBindWxGz()
+          }
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
+  bindWxGz:function(){
+    let that=this;
+    let paramsUrl = "https://mini.sansancloud.com/chainalliance/" + app.clientNo + "/bindWxGz.html?platformUserId=" + that.data.loginUser.platformUser.id;
+    that.tolinkUrl(paramsUrl)
+    that.getSessionUserInfo();
+  },
+  unBindWxGz: function () {
+    let that = this
+    let customIndex = app.AddClientUrl("/wx_unbind_wx_gz_openid.html")
+    //拿custom_page
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("====== res.data=========", res.data)
+        wx.hideLoading()
+        if (!res.data.errcode || res.data.errcode == '0') {
+          wx.showToast({
+            title: '解绑成功~',
+            icon: 'success',
+            duration: 1000
+          })
+          that.getSessionUserInfo();
+        } else {
+          console.log('加载失败')
+          wx.showToast({
+            title: res.data.errMsg + '~',
+            image: '/images/icons/tip.png',
+            duration: 1000
+          })
+        }
+      },
+      fail: function (res) {
+        console.log(res)
+        wx.hideLoading()
+      }
+    })
   },
   showPoster: function () {
     let that = this;

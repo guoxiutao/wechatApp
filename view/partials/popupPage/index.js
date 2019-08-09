@@ -27,29 +27,38 @@ Component({
     sysWidth:"",
   },
   ready:function(){
-    console.log("====jifen======", this.data.data,app.setting)
+    console.log("====notify======", this.data.data,app.setting)
+    that.findNotifyTipsFun();
     this.setData({
       sysWidth: app.globalData.sysWidth,
       setting:app.setting
     });
   },
   methods: {
-    // 这里是一个自定义方法
-    buttom: function () {
-      // console.log("1111111111111")
-      app.wxLogin(1011)
-      // wx.chooseAddress({
-      //   success: function (res) {
-      //     console.log(res.userName)
-      //     console.log(res.postalCode)
-      //     console.log(res.provinceName)
-      //     console.log(res.cityName)
-      //     console.log(res.countyName)
-      //     console.log(res.detailInfo)
-      //     console.log(res.nationalCode)
-      //     console.log(res.telNumber)
-      //   }
-      // })
+    //获取产品分类
+    findNotifyTipsFun: function () {
+      var customIndex = app.AddClientUrl("/wx_find_notify_tips.html", { test:1})
+      app.showToastLoading('loading', true)
+      var that = this
+      wx.request({
+        url: customIndex.url,
+        header: app.header,
+        success: function (res) {
+          wx.hideLoading()
+          console.log("findNotifyTipsFun", res.data)
+          if (res.data.errcode == 0) {
+            
+          } else {
+            
+          }
+          wx.hideLoading()
+        },
+        fail: function (res) {
+          console.log("fail")
+          wx.hideLoading()
+          app.loadFail()
+        }
+      })
     },
     tolinkUrl: function (e) {
       console.log(e.currentTarget.dataset.info)

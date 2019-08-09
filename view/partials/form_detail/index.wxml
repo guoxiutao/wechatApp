@@ -5,7 +5,7 @@
   </view>
   <view class='formContent'>
   <!-- 0字符串   1数字 2下拉框  3单选框  4复选框  5日期  6时间  7 图片  8 间隔 -->
-    <view wx:for='{{formData.items}}' wx:for-item='items'>
+    <view wx:for='{{formData.items}}' wx:for-item='items' wx:if="{{controlFieldShow[items.name]}}">
       
         <!-- 字符串 -->
         <view class='inputString common' wx:if='{{items.type==0}}'>
@@ -21,7 +21,7 @@
             <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{items.title}}</text>
           </view>
-          <input type="number" name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
+          <input type="digit" name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
         </view>
         <!-- 间隔 -->
         <view class='inputString' wx:if='{{items.type==9999}}'>
@@ -42,6 +42,18 @@
               <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
             </view>
           </picker >
+        </view>
+        <!-- 对错选项 -->
+        <view class='selectType common' wx:if='{{items.type==3}}' style='align-items:flex-start;padding:10px;flex-direction:column;'>
+          <view class='selectName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>{{items.title}}</text>
+          </view>
+          <radio-group bindchange="radioChange" data-index="{{index}}"  data-value="{{items.listValues}}" style="margin:10rpx 20rpx" class="checkboxList">
+            <label class="checkbox" wx:for="{{items.listValues}}">
+              <radio color="{{setting.platformSetting.defaultColor}}" value="{{item.value}}" checked="{{showRadioState[index]}}"/>{{item.name}}
+            </label>
+          </radio-group>
         </view>
         <!-- 复选框 -->
         <view class='selectType common' wx:if='{{items.type==4}}' style='align-items:flex-start;padding:10px;flex-direction:column;'>
@@ -179,8 +191,28 @@
           </view>
           <input  name="{{items.name}}" data-name="{{items.name}}" bindinput="saveSearchValue" value='{{items.defaultValue}}' placeholder='{{items.remark}}'></input>
         </view>
-        <!--  -->
+        
         </view>
+        <!-- 多规格栏目 -->
+        <view class='support_measure common' wx:if='{{formData.attendSupportMeasures==1}}'>
+          <view class='inputName'>
+            <text wx:if="{{items.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
+            <text>多规格</text>
+          </view>
+          <view class='support_measure_list' wx:if="{{measurePriceList&&measurePriceList.length!=0}}">
+            <view class='support_measure_item' style='background:{{setting.platformSetting.defaultColor}}' wx:for="{{measurePriceList}}" wx:for-item="measurePriceItem">
+              <text class='support_measure_item_name'>{{measurePriceItem.attendMeasureName}}-￥{{measurePriceItem.attendPrice}}</text>
+              <view class='delete_support_measure_item' data-index="{{index}}" catchtap='deleteMeasureItem'>x</view>
+            </view>
+          </view>
+          <view class='no_support_measure_list' wx:else>
+            <text>暂无数据</text>
+          </view>
+          <view class='add_measures' catchtap='addMeasuresItemFun'>
+            <image class='add_measures_icon' src='http://image1.sansancloud.com/jianzhan/2018_10/22/18/4/3_874.jpg?x-oss-process=style/preview_120'></image>
+          </view>
+        </view>
+        <!--  多规格栏目end-->
         <!-- 保存 -->
         <view class='saveData' wx:if="{{showformSubmitBtn}}">
           <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>{{formData.commitName}}</button>
@@ -200,5 +232,40 @@
     </view>
   </view>
 </view>
-<!-- <view class='zhezhao'></view> -->
+<view class='zhezhao' wx:if="{{showMask}}" bindtap='closeZhezhao'></view>
+<view class='add_measures_popup' wx:if="{{showMask}}" >
+  <view class='add_measures_popup_title'>
+    <text>添加规格</text>
+  </view>
+  <form bindsubmit="sureMeasuresData" report-submit class='add_measures_popup_list'>
+    <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>名称</text>
+      <input name="attendMeasureName" class='add_measures_popup_item_input' placeholder='请输入名称'></input>
+    </view>
+    <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>价格</text>
+      <input type="digit" name="attendPrice" class='add_measures_popup_item_input' placeholder='请输入价格'></input>
+    </view>
+    <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>供货价</text>
+      <input type="digit" name="attendTagPrice" class='add_measures_popup_item_input' placeholder='请输入供货价'></input>
+    </view>
+    <!-- <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>限库存</text>
+      <picker class='picker' data-index="{{index}}" bindchange="limitStockStateFun"  range="{{limitStockData}}">
+        <view class="pickerValue"><text>{{limitStockData[selectLimitStockIndex]}}</text></view>
+        <view class='pickerRight'>
+          <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
+        </view>
+      </picker >
+    </view>  wx:if="{{selectLimitStockIndex==1}}"-->
+    <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>库存</text>
+      <input type="number" name="attendStock" class='add_measures_popup_item_input' placeholder='请输入库存'></input>
+    </view>
+    <view class='saveData'>
+      <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>确定</button>
+    </view>
+  </form>
+</view>
 </form>

@@ -163,9 +163,8 @@ Component({
           url: '../../pageTab/tunzai/teMai/index?promotionId=' + data.id,
         })
       } else if (data.promotionStatus == 0 || data.promotionType == 50) {
-        wx.navigateTo({
-          url: '../../pages/promotion_detail/index?promotionId=' + data.id,
-        })
+        let a = "promotion_detail.html?promotionId=" + e.currentTarget.dataset.id;
+        app.linkEvent(a);
       }   
     },
   },

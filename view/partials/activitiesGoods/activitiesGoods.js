@@ -156,15 +156,17 @@ Component({
       // 如果是已经开始的就前往详情
       var oldData = this.data;
       if (oldData.data.relateBean.promotionStatus == 1) {
+        console.log("=====已开始的活动========")
         var a = "product_detail.html?productId=" + e.currentTarget.dataset.id;
         app.linkEvent(a);
-      }
-
-      if (oldData.data.relateBean.promotionStatus == 0) {
-
-        wx.navigateTo({
-          url: '../../pages/promotion_detail/index?promotionId=' + e.currentTarget.dataset.id,
-        })
+      }else if (oldData.data.relateBean.promotionStatus == 0) {
+        console.log("=====未开始的活动========")
+        var a = "promotion_detail.html?promotionId=" + e.currentTarget.dataset.id;
+        app.linkEvent(a);
+      }else if (oldData.data.relateBean.promotionStatus == 2) {
+        console.log("=====已结束的活动========")
+        var a = "product_detail.html?productId=" + e.currentTarget.dataset.id;
+        app.linkEvent(a);
       }
 
 
@@ -181,9 +183,8 @@ Component({
       }
 
       if (oldData.data.relateBean.promotionStatus == 0) {
-        wx.navigateTo({
-          url: '../../pages/promotion_detail/index?promotionId=' + e.currentTarget.dataset.id,
-        })
+        var a = "promotion_detail.html?promotionId=" + e.currentTarget.dataset.id;
+        app.linkEvent(a);
       }
 
 

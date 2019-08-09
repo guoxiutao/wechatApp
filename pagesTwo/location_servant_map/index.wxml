@@ -141,15 +141,13 @@
                   <text class='servant_price' style='color:{{setting.platformSetting.defaultColor}}' wx:if="{{result.servantTypeRelateBean}}">￥{{result.servantTypeRelateBean.price}}</text>
                 </view>
                 <view class='servant_score'>
-                  <view class='servant_score_item' wx:for="{{5}}" wx:for-item="result" wx:key="{{result.id}}">
+                  <view class='servant_score_item' wx:for="{{result.pingfen}}" wx:for-item="pingfenItem" wx:key="{{pingfenItem.id}}">
                     <image src='http://image1.sansancloud.com/xianhua/2019_4/30/15/33/9_681.jpg?x-oss-process=style/preview_120' class='servant_score_item_icon'></image>
                   </view>
-                  <text>4.5</text>
+                  <text>{{result.pingfen}}</text>
                 </view>
                 <scroll-view scroll-x class="tab_scroll_list" scroll-with-animation='true'>
-                  <view class='tab_item' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>八字</view>
-                  <view class='tab_item' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>梅花易数</view>
-                  <view class='tab_item' style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>奇门遁甲</view>
+                  <view class='tab_item' wx:for="{{result.tagArray}}" wx:for-item="tagItem" style='color:{{setting.platformSetting.defaultColor}};border:1rpx solid {{setting.platformSetting.defaultColor}}'>{{tagItem}}</view>
                 </scroll-view>
               </view>
                <!-- <view class='order_servant' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{result.servantTypeBean}}">

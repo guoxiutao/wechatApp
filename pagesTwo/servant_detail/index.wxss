@@ -23,6 +23,7 @@
   right: 30rpx;
   top: 30rpx;
   position: absolute;
+  z-index:10;
 }
 .servant_top_info{
   display: flex;
@@ -147,12 +148,12 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 100%;
   margin-top:30rpx;
 }
 .servant_server_item{
-  width: 24%;
+  width: 28%;
   border-radius: 10rpx;
   color: #fff;
   display: flex;
@@ -254,4 +255,241 @@
   justify-content: center;
   height:100%;
   
+}
+.popupServantTypeDetail{
+  max-height: 500rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  bottom: -100rpx;
+  z-index:11;
+  background:#fff;
+  padding:0rpx 20rpx;
+  box-sizing:border-box;
+}
+.submitBtn{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom:0;
+  width: 100%;
+  color: #fff;
+  padding:16rpx 20rpx;
+  z-index: 11;
+  box-sizing:border-box;
+  height: 100rpx;
+  background:#fff;
+
+}
+.submitBtn text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: #fff;
+  z-index: 11;
+  box-sizing:border-box;
+  height:100%;
+  font-size: 26rpx;
+  border-radius:10rpx;
+}
+.servantTypeList{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.servantTypeItem{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 24rpx;
+  border-bottom: 1rpx solid #f1f1f1;
+  padding: 20rpx;
+  box-sizing: border-box;
+  width: 100%;
+  color: #999
+}
+/* 提交表单弹窗 */
+.popupFormDetail{
+  /* height: 0; */
+  max-height: 850rpx;
+  /* opacity:0; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: -100rpx;
+  z-index:11;
+  background:#fff; 
+  padding:20rpx;
+  box-sizing:border-box;
+}
+.submitBtn{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  bottom:0;
+  width: 100%;
+  color: #fff;
+  padding: 20rpx;
+  z-index: 10;
+  box-sizing:border-box;
+  background: #fff;
+  height: 100rpx;
+  font-size: 30rpx;
+}
+.nextSubmitBtn{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  bottom:0;
+  width: 100%;
+  z-index: 10;
+  box-sizing:border-box;
+  background: #fff;
+  height: 100rpx;
+  font-size: 30rpx;
+  border-top:1rpx solid #f1f1f1;
+}
+.submit_btn_left{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20rpx 40rpx;
+  background: #fff;
+  width: 50%;
+  height: 100%;
+  box-sizing:border-box;
+}
+.submit_btn_right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  color: #fff;
+  height: 100%
+}
+.total_price{
+  margin-left: 10rpx;
+  font-size: 32rpx;
+}
+.zhezhao{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.6;
+  z-index: 9;
+}
+.havePayUserScrollList{
+  width: 100%; 
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 68rpx;
+  font-size: 24rpx; 
+  white-space: nowrap;
+}
+.img_block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.img_item{
+  width: 100%;
+  
+}
+.form_title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom:1rpx solid #eee;
+  font-size:30rpx;
+  padding:20rpx 0;
+}
+.return_select_measure_icon{
+  width: 40rpx;
+  height: 40rpx;
+}
+.close_popup_icon{
+  width: 40rpx;
+  height: 40rpx;
+}
+/* 分享 */
+.shareFormPoster{
+  position: fixed;
+  top: 66%;
+  right: 20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 80rpx;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content: center;
+  z-index:10;
+}
+.shareFormPosterImg{
+  width: 46rpx;
+  height: 46rpx;
+}
+.select_share_list{
+  height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  z-index:11;
+  background: #fff;
+  overflow: hidden;
+}
+.select_share_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1rpx solid #eee;
+  overflow: hidden;
+}
+.select_share_name{
+  padding: 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color:#666;
+  font-size:30rpx;
+  line-height:50rpx;
+  width:100%;
+}
+button::after{
+  border:0;
+  border-radius: 0;
+  line-height:0;
+}
+input{
+  outline:none;
+  border:none;
+  list-style: none;
+}
+.select_share_item:last-child{
+  border-bottom: none
+}
+.cancel_select_share{
+  border-top: 10rpx solid #eee;
+  border-bottom: none;
 }
