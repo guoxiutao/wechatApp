@@ -1,0 +1,88 @@
+<view class='container'>
+  <view class='top_meun_tab'>
+    <view class='top_meun_tab_item' wx:for="{{tabItem}}" catchtap='changeProductState' data-index="{{tabItem.status}}" wx:key='{{index}}' wx:for-item="tabItem" style='border-color:{{tabItem.status==currentIndex?setting.platformSetting.defaultColor:"#fff"}};color:{{tabItem.status==currentIndex?setting.platformSetting.defaultColor:""}}'>
+      <text>{{tabItem.text}}</text>
+    </view>
+  </view>
+  <!-- 产品列表 -->
+  <view class='product_list' wx:if="{{mendianProductsList.length!=0}}">
+    <view class='product_item' wx:for="{{mendianProductsList}}" wx:for-item="mendianProductItem" >
+      <view class='product_item_main_info'>
+        <view class='product_item_main_img'>
+          <image class='product_img' src='{{mendianProductItem.imagePath}}'></image>
+        </view>
+        <view class='priduct_info'>
+          <text class='product_name'>{{mendianProductItem.name}}</text>
+          <text class='product_price' style='color:{{setting.platformSetting.defaultColor}}'>￥{{mendianProductItem.price}}</text>
+          <view class='product_info_bottom'>
+            <view class='product_stock'>库存：<text class='product_stock_num'>{{mendianProductItem.stock}}</text></view>
+            <!-- <view class='product_sales'>销量：<text class='product_sales_num'></text></view> -->
+          </view>
+        </view>
+        <!-- 操作按钮 -->
+        <view class='handle_btn' data-id="{{mendianProductItem.id}}" catchtap='showHandleListFun'>
+          <image class='handle_btn_icon' src='http://image1.sansancloud.com/xianhua/2019_8/1/14/47/2_829.jpg?x-oss-process=style/preview_120'></image>
+          <!-- 操作选项 -->
+          <view class='handle_list' animation="{{animationData}}" wx:if="{{showHandleListState['showHandleListState_'+mendianProductItem.id]}}">
+            <view class='handle_item_bg'>
+              <view class='handle_item' wx:if="{{mendianProductItem.mendianStorages&&mendianProductItem.mendianStorages.length!=0}}" data-info="{{mendianProductItem}}" catchtap='soldOutFun'>
+                <image class='handle_item_icon' src='http://image1.sansancloud.com/xianhua/2019_8/2/16/28/11_596.jpg?x-oss-process=style/preview_120'></image>
+                <text>下架</text>
+              </view>
+              <view class='handle_item' wx:else data-info="{{mendianProductItem}}" catchtap='putAwayFun'>
+                <image class='handle_item_icon' src='http://image1.sansancloud.com/xianhua/2019_8/5/14/27/40_365.jpg?x-oss-process=style/preview_120'></image>
+                <text>上架</text>
+              </view>
+              <view class='handle_item' data-info="{{mendianProductItem}}" data-type="up" catchtap='editProductData'>
+                <image class='handle_item_icon' src='http://image1.sansancloud.com/xianhua/2019_8/2/16/28/37_743.jpg?x-oss-process=style/preview_120'></image>
+                <text>编辑</text>
+              </view>
+            </view>
+            <view class='triangle-right'></view>
+          </view>
+        </view>
+      </view>
+      <!-- 操作显示多规格产品 -->
+      <view class='more_measure_btn' data-id="{{mendianProductItem.id}}" wx:if="{{mendianProductItem.measureItem==1}}" catchtap='showMeasureListFun'>
+        <image class='more_measure_btn_icon' wx:if="{{!showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}" src='http://image1.sansancloud.com/xianhua/2019_8/2/15/21/34_281.jpg?x-oss-process=style/preview_120'></image>
+        <image class='more_measure_btn_icon' wx:else src='http://image1.sansancloud.com/xianhua/2019_8/2/15/22/51_366.jpg?x-oss-process=style/preview_120'></image>
+        <text wx:if="{{!showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}">展开</text>
+        <text wx:else>收起</text>
+      </view>
+      <!-- 多规格产品 -->
+      <!-- animation="{{animationData}}" -->
+      <view class='measure_list' wx:if="{{showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}" >
+        <view class='measure_item' wx:for="{{mendianProductItem.cartesians}}" wx:for-item="measureItem">
+          <view class='measure_item_name'>{{measureItem.measuresShow}}</view>
+          <view class='measure_item_price'>￥{{measureItem.price}}</view>
+          <view class='measure_item_stock'>{{measureItem.stock}}件</view>
+          <!-- <view class='measure_item_edit' wx:if="{{measureItem.storage}}" data-info="{{measureItem}}" data-type="down" catchtap='editProductData'>下架</view> -->
+          <view class='measure_item_edit' data-info="{{measureItem}}" data-type="up" catchtap='editProductData'>编辑</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='noList' wx:else>
+    <text>暂无产品~</text>
+  </view>
+</view>
+<!-- 设置库存和价格 -->
+<view class='zhezhao' wx:if="{{showMask}}" bindtap='closeZhezhao'></view>
+<view class='add_measures_popup' wx:if="{{showMask}}" >
+  <view class='add_measures_popup_title'>
+    <text>设置产品</text>
+  </view>
+  <form bindsubmit="sureMeasuresData" report-submit class='add_measures_popup_list'>
+    <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>价格</text>
+      <input type="digit" name="price" class='add_measures_popup_item_input' value='{{selectProductItem.price}}' placeholder='请输入价格'></input>
+    </view>
+    <view class='add_measures_popup_item'>
+      <text class='add_measures_popup_item_name'>库存</text>
+      <input type="number" name="stock" class='add_measures_popup_item_input' value='{{selectProductItem.stock}}' placeholder='请输入库存'></input>
+    </view>
+    <view class='saveData'>
+      <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>确定</button>
+    </view>
+  </form>
+</view>
