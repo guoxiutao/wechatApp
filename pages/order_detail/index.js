@@ -16,6 +16,19 @@ Page({
     hasAddnewAddr: false,
     ewmCode:"",
   },
+  tolinkUrl: function (e) {
+    console.log(e.currentTarget.dataset.info)
+    // product_detail.html?productId= 9219;
+    let productData = e.currentTarget.dataset.info
+    let link = "";
+    if (productData.productType == 6) {
+      link = "ticket_detail.html?productId=" + productData.itemId;
+    } else {
+      link = "product_detail.html?productId=" + productData.itemId;
+    }
+    // var a = "product_detail.html?productId=" + e.currentTarget.dataset.id; 
+    app.linkEvent(link);
+  },
   clickCatch: function (e) {
     console.log(e.currentTarget.dataset.info)
     let info = e.currentTarget.dataset.info;
@@ -314,7 +327,7 @@ Page({
             that.getOrderDetail(o.orderNo)
           
         }else{
-          clearInterval(timer);
+          clearInterval(that.timer);
         }
 
       },8000);

@@ -10,7 +10,7 @@ App({
   clientNo: 'xianhua',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.40',
+  version:'3.5.49',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -23,6 +23,8 @@ App({
   properties:{},
   //addr:null,
   kefuCount: 0,
+  // notifyTipPage:false,
+  // preNotifyTipPage: false,
   loginSuccessListeners: [],
   carChangeNotifys:[],
   popupNotifysList:[],
@@ -30,7 +32,8 @@ App({
   userSign: null, //账号密码
   EditAddr: null,//传值的
   richTextHtml: '',
-  footerCount:0,
+  footerCount: 0,
+  authorizationCount: 0,
   productParam: null,//传值的
   //  customPageJson:null,//page的动态组件json
   header: {
@@ -546,6 +549,19 @@ App({
       }
     })
   },
+  //扫一扫 核销
+  getVerificationCode: function (e) {
+    console.log("getVerificationCode", e)
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (scanRes) => {
+        console.log("getVerificationCode", scanRes)
+        wx.navigateTo({
+          url: "/" + scanRes.path
+        })
+      }
+    })
+  },
   linkEvent: function (linkUrl) {
     console.log('====linkUrl======', linkUrl)
     if (!linkUrl) {
@@ -624,6 +640,9 @@ App({
       wx.navigateTo({
         url: '/pages/' + 'web_view' + '/index?url=' + url,
       })
+    }
+    else if (linkUrl.indexOf('_sysScanQrcode')!=-1) {
+      this.getVerificationCode()
     }
     else if (linkUrl.substr(0, 14) == 'product_detail') {
       let productId = linkUrl.replace(/[^0-9]/ig, "");

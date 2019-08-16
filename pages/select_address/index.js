@@ -167,11 +167,25 @@ Page({
         }
         else {
           console.log("设置成功", that.data.selectAddressData)
+          wx.setStorageSync('selectAddressData', that.data.selectAddressData);
           let pages = getCurrentPages();//当前页面
           let prevPage = pages[pages.length - 2];//上一页面
-          prevPage.setData({//直接给上移页面赋值
-            selectAddress: that.data.selectAddressData,
-          });
+          console.log("====prevPage===", prevPage)
+          // prevPage.setData({//直接给上移页面赋值
+          //   selectAddress: that.data.selectAddressData,
+          // });
+          // let locateAddress = prevPage.selectComponent("#container").selectAllComponents("#locateAddress"); 
+          // console.log("===locateAddress=====", locateAddress)
+          if (prevPage) {
+            prevPage.onPullDownRefresh()
+            // for (let i = 0; i < locateAddress.length; i++) {
+            //   try { 
+            //     locateAddress[i].changeSelectAddress(that.data.selectAddressData, prevPage); 
+            //   } catch (e) {
+            //     console.log(e)
+            //    }
+            // }
+          }
           wx.navigateBack(
             { delta: 1, }
           )

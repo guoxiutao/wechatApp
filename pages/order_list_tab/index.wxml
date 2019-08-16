@@ -28,6 +28,7 @@
                       <view class='cartShopName'> 
                         <view class='storageName' wx:if='{{list.storageName}}'><text>{{list.storageName}}</text></view>
                         <view class='storageName' wx:elif='{{list.orderType==4}}'><text>充值订单</text></view>
+                        <view class='storageName' wx:elif='{{list.orderType==18}}'><text>{{list.attendBean?list.attendBean.attendCommitTitle:'报名表单'}}</text></view>
                         <view wx:else><text></text></view>
                         <block wx:if='{{list.easyStatusStr == "作废"}}'> 
                           <text class='' style='color:{{setting.platformSetting.defaultColor}}'>已作废</text>
@@ -43,7 +44,7 @@
                         </block>
                       </view>
 
-                      <view class='cartItems' wx:for='{{list.orderItems}}' wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' data-orderNo='{{list.orderNo}}' bindtap='lookMore' wx:if="{{list.orderType!=17}}">
+                      <view class='cartItems' wx:for='{{list.orderItems}}' wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' data-orderNo='{{list.orderNo}}' bindtap='lookMore' wx:if="{{list.orderType!=17||list.orderType!=18}}">
                         <view class='itemCheckbox'>
                           <image mode='aspectFill' src='{{orderItem.itemIcon}}?x-oss-process=style/preview'></image>
                         </view>
@@ -73,6 +74,29 @@
                           <text class='circular'></text>
                         </view>
                       </view> -->
+                      <!-- 表单提交的产品 -->
+                      <view class='cartItems' wx:for='{{list.attendBean.attendMeasureList}}' wx:for-item='orderItem' wx:key='{{orderItem.attendMeasureName}}' data-orderNo='{{list.orderNo}}' bindtap='lookMore' wx:if="{{list.orderType==18}}">
+                        <view class='itemCheckbox'>
+                          <image mode='aspectFill' wx:if="{{list.attendBean.attendPlatformUserIcon}}" src='{{list.attendBean.attendPlatformUserIcon}}?x-oss-process=style/preview'></image>
+                        </view>
+                        <view class='item_infomation'>
+                          <view class='item_infomation_name font1'>购买人：{{list.attendBean.attendPlatformUserName}}</view>
+                          
+                          <view class='item_infomation_name2 ' >购买产品：{{orderItem.attendMeasureName}}</view>
+                          <view class='item_infomation_nums'> 
+                            <text class='flexCenter'>x {{orderItem.buyCount}}</text>
+                          </view>
+                          <view class='item_infomation_money'>
+                            <view >单价:￥<text class='fontPrice'>{{orderItem.attendPrice}}</text></view>
+                            <view class='orderNoStyle'>
+                            <view class='zitiOrder' wx:if="{{list.mendianZiti==1}}">
+                                <image class='orderTypeIcon' src='http://image1.sansancloud.com/xianhua/2019_1/7/15/54/51_620.jpg?x-oss-process=style/preview_120'></image>
+                              </view>
+                              <text>订单号:{{list.orderNo}}</text>
+                            </view>
+                          </view>
+                        </view>
+                      </view>
                       <view  class='butn_container'>
                           <view class='order_type_icon'>
                             

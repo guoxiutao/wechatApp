@@ -16,6 +16,116 @@ Page({
     tab: [],
 
   },
+  confirmMendianOrder:function(e){
+    console.log("=====confirmMendianOrder=====",e)
+    var orderNo = e.currentTarget.dataset.orderno
+    var index = e.currentTarget.dataset.index
+    let tab = this.data.tab
+    let focusTab = tab[index]
+    var that = this
+
+    wx.showModal({
+      title: '提示',
+      content: '确认订单',
+      success: function (res) {
+        if (res.confirm) {
+          let param_post = {}
+          param_post.orderNo = orderNo
+          var customIndex = app.AddClientUrl("/wx_confirm_mendian_order.html", param_post, 'post')
+          wx.request({
+            url: customIndex.url,
+            data: customIndex.params,
+            header: app.headerPost,
+            method: 'POST',
+            success: function (res) {
+
+              if (res.data.errcode == '0') {
+                console.log(res.data)
+
+
+                wx.showToast({
+                  title: '确认订单成功',
+                  icon: 'success',
+                  duration: 1000
+                })
+                setTimeout(function () {
+                  focusTab.params.page = 1
+                  that.getOrderList(focusTab, index, 1)
+                }, 1000)
+              }
+              else {
+                wx.showToast({
+                  title: res.data.errMsg,
+                  image: '/images/icons/tip.png',
+                  duration: 1000
+                })
+              }
+            },
+            fail: function (res) {
+              app.loadFail()
+            }
+          })
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
+  rejectMendianOrder: function (e) {
+    console.log("=====rejectMendianOrder=====", e)
+    var orderNo = e.currentTarget.dataset.orderno
+    var index = e.currentTarget.dataset.index
+    let tab = this.data.tab
+    let focusTab = tab[index]
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '拒绝订单',
+      success: function (res) {
+        if (res.confirm) {
+          let param_post = {}
+          param_post.orderNo = orderNo
+          var customIndex = app.AddClientUrl("/wx_reject_mendian_order.html", param_post, 'post')
+
+          wx.request({
+            url: customIndex.url,
+            data: customIndex.params,
+            header: app.headerPost,
+            method: 'POST',
+            success: function (res) {
+
+              if (res.data.errcode == '0') {
+                console.log(res.data)
+
+
+                wx.showToast({
+                  title: '拒绝订单成功',
+                  icon: 'success',
+                  duration: 1000
+                })
+                setTimeout(function () {
+                  focusTab.params.page = 1
+                  that.getOrderList(focusTab, index, 1)
+                }, 1000)
+              }
+              else {
+                wx.showToast({
+                  title: res.data.errMsg,
+                  image: '/images/icons/tip.png',
+                  duration: 1000
+                })
+              }
+            },
+            fail: function (res) {
+              app.loadFail()
+            }
+          })
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
   toOrderDetail:function(e){
     let orderNo = e.currentTarget.dataset.orderno
     wx.navigateTo({

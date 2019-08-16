@@ -67,12 +67,18 @@ Page({
         focusTab.params.pageSize = res.data.pageSize
         focusTab.params.curPage = res.data.curPage
         focusTab.params.totalSize = res.data.totalSize
-        let result = res.data.result
+        let result = res.data.result;
+        for (let i = 0; i < result.length;i++){
+          if (result[i].attendBean){
+            result[i].attendBean.attendMeasureList = JSON.parse(result[i].attendBean.attendMeasureList)
+          }
+        }
+        console.log("====result=======", result)
         if (fresh){
           focusTab.List = []
         }
         
-        if (!res.data.result || res.data.result.length == 0) {
+        if (!result || result.length == 0) {
           focusTab.List = null
         } else {
           focusTab.List = focusTab.List.concat(result)

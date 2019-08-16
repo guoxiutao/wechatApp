@@ -774,6 +774,13 @@ white-space:nowrap;
 .attend_measure_name{
   width: 80%
 }
+.attend_measure_count{
+  width: 20%;
+  text-align:center;
+  border-radius:20rpx;
+  color:#fff;
+
+}
 .attend_price{
   width: 20%;
   text-align:end;

@@ -8,10 +8,38 @@ Page({
    */
   data: {
     attendList: {},
+    showMeasureListState: {},
+    animationData:{},
   },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
     app.linkEvent(linkUrl)
+  },
+  showMeasureListFun: function (e) {
+    let that = this;
+    console.log("=======showMeasureListFun========", e)
+    let productId = e.currentTarget.dataset.id;
+    let showMeasureListState = that.data.showMeasureListState
+    let state = showMeasureListState['showMeasureListState_' + productId]
+    for (let i in showMeasureListState) {
+      showMeasureListState[i] = false;
+    }
+    showMeasureListState['showMeasureListState_' + productId] = !state
+    that.setData({ showMeasureListState: showMeasureListState })
+    let showMeasureListState2 = showMeasureListState['showMeasureListState_' + productId]
+    let animation = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease',
+    })
+    console.log("=======popupFormPage==========", animation, this.data.showMeasureListState2)
+    if (showMeasureListState2) {
+      animation.bottom('100rpx').step()
+    } else {
+      animation.bottom('-100rpx').step()
+    }
+    this.setData({
+      animationData: animation.export()
+    })
   },
   /* 获取数据 */
   getAttendListData: function (params) {
@@ -22,16 +50,23 @@ Page({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
-        console.log('====getAttendListData-res===',res)
+        console.log('====getAttendListData-res===', res)
+        let showMeasureListState = that.data.showMeasureListState
         if (res.data.errcode == 0) {
-          let data = res.data.relateObj.result
+          let dataArr = res.data.relateObj.result
           if (that.pageData.curPage==1){
             that.data.attendList=[];
           }else{
-            data = that.data.attendList.concat(data)
+            dataArr = that.data.attendList.concat(dataArr)
           }
-          console.log("=========attendList===========", data)
-          that.setData({ attendList: data})
+          console.log("=========attendList===========", dataArr)
+          for (let i = 0; i < dataArr.length; i++){
+            if (dataArr[i].attendMeasureList){
+              dataArr[i].attendMeasureList = JSON.parse(dataArr[i].attendMeasureList)
+            }
+            showMeasureListState['showMeasureListState_' + dataArr[i].id] = false
+          }
+          that.setData({ attendList: dataArr, showMeasureListState: showMeasureListState})
           that.pageData.pageSize = res.data.relateObj.pageSize
           that.pageData.totalSize = res.data.relateObj.totalSize
         }else{

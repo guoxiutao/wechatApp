@@ -38,7 +38,7 @@ Component({
     measurePriceList:'',
     selectMeasureIndex: 0,
     selectMeasureData: '',
-    buyCount: 1,
+    buyCount: 0,
     totalPrice: 0,
     nextStepState:false,
   },
@@ -59,31 +59,56 @@ Component({
   methods: {
     nextStepFun: function () {
       console.log("========nextStepFun=====")
-      let that=this;
-      let nextStepState = that.data.nextStepState
-      that.setData({ nextStepState: !nextStepState})
+      let that = this;
+      let countState=false
+      let measurePriceList = that.data.measurePriceList;
+      for (let i = 0; i < measurePriceList.length; i++) {
+        if (measurePriceList[i].buyCount!=0){
+          countState=true;
+        }
+      }
+      if (!countState){
+        wx.showToast({
+          title: '您购买的数量不能为0!',
+          icon: 'none',    //如果要纯文本，不要icon，将值设为'none'
+          duration: 2000
+        })  
+      }else{
+        let nextStepState = that.data.nextStepState
+        that.setData({ nextStepState: !nextStepState })
+      }
     },
     subBuyCount:function(){
       console.log("========subBuyCount=====")
       let that=this;
+      let totalPrice = 0
       let buyCount = that.data.buyCount;
       let selectMeasureData = that.data.selectMeasureData;
-      if (buyCount==1){
+      let measurePriceList = that.data.measurePriceList;
+      let selectMeasureIndex = that.data.selectMeasureIndex
+      if (buyCount==0){
         wx.showToast({
-          title: '数量不能为0!',
+          title: '数量不能小于0!',
           icon: 'none',    //如果要纯文本，不要icon，将值设为'none'
           duration: 2000
         })  
       }else{
         buyCount--
       }
-      let totalPrice = (buyCount * selectMeasureData.attendPrice)
-      that.setData({ buyCount: buyCount, totalPrice: totalPrice})
+      measurePriceList[selectMeasureIndex].buyCount = buyCount
+      // let totalPrice = (buyCount * selectMeasureData.attendPrice)
+      for (let i = 0; i < measurePriceList.length;i++){
+        totalPrice +=(measurePriceList[i].buyCount * measurePriceList[i].attendPrice)
+      }
+      that.setData({ buyCount: buyCount, totalPrice: totalPrice, measurePriceList: measurePriceList})
     },
     addBuyCount:function(){
       console.log("========addBuyCount=====")
       let that = this;
+      let totalPrice =0
       let selectMeasureData = that.data.selectMeasureData;
+      let measurePriceList = that.data.measurePriceList;
+      let selectMeasureIndex = that.data.selectMeasureIndex
       let buyCount = that.data.buyCount;
       if (!selectMeasureData.attendStock||(selectMeasureData.attendStock > buyCount)){
         buyCount++
@@ -94,26 +119,33 @@ Component({
           duration: 2000
         })
       }
-      let totalPrice = (buyCount * selectMeasureData.attendPrice)
-      that.setData({ buyCount: buyCount, totalPrice: totalPrice })
+      measurePriceList[selectMeasureIndex].buyCount = buyCount
+      // let totalPrice = (buyCount * selectMeasureData.attendPrice)
+      for (let i = 0; i < measurePriceList.length; i++) {
+        console.log("====measurePriceList=========", measurePriceList[i])
+        console.log("===totalPrice-for====",totalPrice)
+        totalPrice +=(measurePriceList[i].buyCount * Number(measurePriceList[i].attendPrice))
+      }
+      console.log("====totalPrice====", totalPrice)
+      that.setData({ buyCount: buyCount, totalPrice: totalPrice, measurePriceList: measurePriceList })
     },
     selectMeasureItem:function(e){
       let that=this;
       let index = e.currentTarget.dataset.index;
       let measurePriceList = that.data.measurePriceList;
       let selectMeasureData = measurePriceList[index];
-      let buyCount = that.data.buyCount;
-      if ((buyCount > selectMeasureData.attendStock) && selectMeasureData.attendStock){
-        wx.showToast({
-          title: '已选择最大库存~',
-          image: '/images/icons/tip.png',  //image的优先级会高于icon
-          duration: 2000
-        })
-        buyCount = selectMeasureData.attendStock;
-        that.setData({ buyCount: buyCount})
-      }
-      let totalPrice = (buyCount * selectMeasureData.attendPrice)
-      that.setData({ selectMeasureData: selectMeasureData, selectMeasureIndex: index, totalPrice: totalPrice})
+      let buyCount = measurePriceList[index].buyCount
+      // if ((buyCount > selectMeasureData.attendStock) && selectMeasureData.attendStock){
+      //   wx.showToast({
+      //     title: '已选择最大库存~',
+      //     image: '/images/icons/tip.png',  //image的优先级会高于icon
+      //     duration: 2000
+      //   })
+      //   buyCount = selectMeasureData.attendStock;
+      //   that.setData({ buyCount: buyCount})
+      // }
+      // let totalPrice = (buyCount * selectMeasureData.attendPrice)
+      that.setData({ selectMeasureData: selectMeasureData, selectMeasureIndex: index,  buyCount: buyCount})
     },
     
     popupFormPage: function () {
@@ -226,10 +258,18 @@ Component({
     },
     submitData: function (e) {
       let that = this;
-      let selectMeasureData = that.data.selectMeasureData
+      let selectMeasureData = that.data.selectMeasureData;
+      let measurePriceList = that.data.measurePriceList
       let resultData =''
       if (selectMeasureData){
-        resultData={ attendMeasureName: selectMeasureData.attendMeasureName, buyCount: that.data.buyCount }
+        // resultData={ attendMeasureName: selectMeasureData.attendMeasureName, buyCount: that.data.buyCount }
+        resultData = JSON.parse(JSON.stringify(measurePriceList))
+        for (let i = 0; i < resultData.length;i++){
+          if (resultData[i].buyCount==0){
+            resultData.splice(i,1)
+            i--
+          }
+        }
       }
       console.log("===getDataFun===", e, e.detail.formId)
       that.selectComponent("#submitForm").formSubmit(that.data.formCommitId, resultData);
@@ -613,6 +653,9 @@ Component({
             let measurePriceList='';
             if (res.data.relateObj.measurePriceList && res.data.relateObj.measurePriceList!='[]'){
               measurePriceList = JSON.parse(res.data.relateObj.measurePriceList)
+              for (let i = 0; i < measurePriceList.length;i++){
+                measurePriceList[i].buyCount=0
+              }
               let buyCount = that.data.buyCount;
               let selectMeasureData = measurePriceList[0]
               let totalPrice = (buyCount * selectMeasureData.attendPrice);

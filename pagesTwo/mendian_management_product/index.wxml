@@ -1,4 +1,16 @@
 <view class='container'>
+  <view class="typeSearchContainer1" > 
+      <view class='search_input_bg'>
+        <view class='search_input'>
+          <view class='search_input_left'>
+            <image class='input_img' src='http://image1.sansancloud.com/xianhua/2018_9/14/16/25/0_222.jpg?x-oss-process=style/preview_120'></image>
+            <!--   data-link="search_page.html"  bindtap='linkUrl'-->
+            <input class='input' bindconfirm='getSearchProductName' placeholder='搜索产品名' value='{{searchProductName}}'></input>
+          </view>
+          <view class='empty_button' bindtap='getSearchProductName'><text>x</text></view>
+        </view>
+      </view>
+  </view>
   <view class='top_meun_tab'>
     <view class='top_meun_tab_item' wx:for="{{tabItem}}" catchtap='changeProductState' data-index="{{tabItem.status}}" wx:key='{{index}}' wx:for-item="tabItem" style='border-color:{{tabItem.status==currentIndex?setting.platformSetting.defaultColor:"#fff"}};color:{{tabItem.status==currentIndex?setting.platformSetting.defaultColor:""}}'>
       <text>{{tabItem.text}}</text>
@@ -13,9 +25,9 @@
         </view>
         <view class='priduct_info'>
           <text class='product_name'>{{mendianProductItem.name}}</text>
-          <text class='product_price' style='color:{{setting.platformSetting.defaultColor}}'>￥{{mendianProductItem.price}}</text>
+          <text class='product_price' style='color:{{setting.platformSetting.defaultColor}}'>最高供应价：￥{{mendianProductItem.supplyPrice}}</text>
           <view class='product_info_bottom'>
-            <view class='product_stock'>库存：<text class='product_stock_num'>{{mendianProductItem.stock}}</text></view>
+            <!-- <view class='product_stock'>库存：<text class='product_stock_num'>{{mendianProductItem.stock}}</text></view> -->
             <!-- <view class='product_sales'>销量：<text class='product_sales_num'></text></view> -->
           </view>
         </view>
@@ -43,9 +55,9 @@
         </view>
       </view>
       <!-- 操作显示多规格产品 -->
-      <view class='more_measure_btn' data-id="{{mendianProductItem.id}}" wx:if="{{mendianProductItem.measureItem==1}}" catchtap='showMeasureListFun'>
-        <image class='more_measure_btn_icon' wx:if="{{!showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}" src='http://image1.sansancloud.com/xianhua/2019_8/2/15/21/34_281.jpg?x-oss-process=style/preview_120'></image>
-        <image class='more_measure_btn_icon' wx:else src='http://image1.sansancloud.com/xianhua/2019_8/2/15/22/51_366.jpg?x-oss-process=style/preview_120'></image>
+      <view class='more_measure_btn' data-id="{{mendianProductItem.id}}" wx:if="{{mendianProductItem.measureItem==1&&currentIndex!=0}}" catchtap='showMeasureListFun'>
+        <image class='more_measure_btn_icon' wx:if="{{!showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}" src='http://image1.sansancloud.com/xianhua/2019_8/2/15/22/51_366.jpg?x-oss-process=style/preview_120'></image>
+        <image class='more_measure_btn_icon' wx:else src='http://image1.sansancloud.com/xianhua/2019_8/2/15/21/34_281.jpg?x-oss-process=style/preview_120'></image>
         <text wx:if="{{!showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}">展开</text>
         <text wx:else>收起</text>
       </view>
@@ -54,8 +66,8 @@
       <view class='measure_list' wx:if="{{showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}" >
         <view class='measure_item' wx:for="{{mendianProductItem.cartesians}}" wx:for-item="measureItem">
           <view class='measure_item_name'>{{measureItem.measuresShow}}</view>
-          <view class='measure_item_price'>￥{{measureItem.price}}</view>
-          <view class='measure_item_stock'>{{measureItem.stock}}件</view>
+          <view class='measure_item_price'>￥{{measureItem.storage.supplyPrice}}</view>
+          <!-- <view class='measure_item_stock'>{{measureItem.storage.stock}}件</view> -->
           <!-- <view class='measure_item_edit' wx:if="{{measureItem.storage}}" data-info="{{measureItem}}" data-type="down" catchtap='editProductData'>下架</view> -->
           <view class='measure_item_edit' data-info="{{measureItem}}" data-type="up" catchtap='editProductData'>编辑</view>
         </view>
@@ -74,12 +86,18 @@
   </view>
   <form bindsubmit="sureMeasuresData" report-submit class='add_measures_popup_list'>
     <view class='add_measures_popup_item'>
-      <text class='add_measures_popup_item_name'>价格</text>
-      <input type="digit" name="price" class='add_measures_popup_item_input' value='{{selectProductItem.price}}' placeholder='请输入价格'></input>
+      <text class='add_measures_popup_item_name'>供应价格</text>
+      <input type="digit" name="supplyPrice" class='add_measures_popup_item_input' value='{{selectProductItem.storage.supplyPrice||0}}' placeholder='请输入供应价格'></input>
     </view>
     <view class='add_measures_popup_item'>
-      <text class='add_measures_popup_item_name'>库存</text>
-      <input type="number" name="stock" class='add_measures_popup_item_input' value='{{selectProductItem.stock}}' placeholder='请输入库存'></input>
+      <text class='add_measures_popup_item_name'>规格状态</text>
+      <picker class='picker' data-index="{{stateIndex}}" bindchange="bindPickerChange" name='stock' value="{{stateIndex}}" range="{{range}}">
+          <view class="pickerValue"><text>{{range[stateIndex]}}</text></view>
+          <view class='pickerRight'>
+            <image class='pickerImg' src='http://image1.sansancloud.com/jianzhan/2018_9/11/13/41/53_722.jpg?x-oss-process=style/preview_120'></image>
+          </view>
+        </picker >
+      <!-- <input type="number" name="stock" class='add_measures_popup_item_input' value='{{selectProductItem.storage.stock}}' placeholder='请输入库存'></input> -->
     </view>
     <view class='saveData'>
       <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>确定</button>

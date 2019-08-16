@@ -248,7 +248,7 @@
     </view>
     <view class='add_measures_popup_item'>
       <text class='add_measures_popup_item_name'>供货价</text>
-      <input type="digit" name="attendTagPrice" class='add_measures_popup_item_input' placeholder='请输入供货价'></input>
+      <input type="digit" name="attendSupplyPrice" class='add_measures_popup_item_input' placeholder='请输入供货价'></input>
     </view>
     <!-- <view class='add_measures_popup_item'>
       <text class='add_measures_popup_item_name'>限库存</text>

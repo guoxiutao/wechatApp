@@ -1,15 +1,15 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.1",
-	"appid": "wx2a3c228775543106",
+	"libVersion": "2.8.0",
+	"appid": "wx37b3f495891dd60c",
 	"projectname": "nongpin",
 	"isGameTourist": false,
 	"condition": {

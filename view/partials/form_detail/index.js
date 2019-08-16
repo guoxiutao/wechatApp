@@ -734,8 +734,8 @@ Component({
       params.measurePriceList = JSON.stringify(measurePriceList);
     }
     if (measureData){
-      console.log("=======传了多规格数据=========")
-      params = Object.assign({}, params, measureData)
+      console.log("=======传了多规格数据=========", measureData)
+      params = Object.assign({}, params, { attendMeasureList:measureData})
       // params.attendMeasureName = measureData.attendMeasureName
     }
     if (e && e.currentTarget){

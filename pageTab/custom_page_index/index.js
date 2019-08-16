@@ -61,18 +61,6 @@ Page({
     
     // Countdown(app,this);
   },
-  onHide:function(){
-    console.log("======onHide=======",)
-    let that=this;
-    let title = this.selectComponent("#container").selectAllComponents("#title");
-    if (title) {
-      for (let i = 0; i < title.length; i++) {
-        try { title[i].clearInterval(); } catch (e) { }
-      }
-    }
-    console.log("===onHide====", title)
-
-  },
   jumpToPage: function (shareParam){
     if (shareParam.pageName == 'custom_page_index'){
       return
@@ -98,36 +86,27 @@ Page({
     }
   },
   onShow: function () {
-    console.log('-----------------a---------------', this.data.selectAddress, this.data.selectResultsData)
-    let that = this;
-    let title = that.selectComponent("#container").selectAllComponents("#title");
-    if (title) {
-      for (let i = 0; i < title.length; i++) {
-        if (title[i].data.data.androidTemplate == "popup_page"){
-          try {
-            title[i].findNotifyTipsFun();
-          } catch (e) { }
-        }
-      }
-    }
-    if (that.data.selectResultsData){
-      if (title) {
-        for (let i = 0; i < title.length; i++) {
-          try { 
-            title[i].changeSearchProductFun(that.data.selectResultsData); 
-            title[i].findNotifyTipsFun(); 
-            } catch (e) { }
-        }
-      }
-    }
-    if (that.data.selectAddress){
-      let locateAddress = that.selectComponent("#container").selectAllComponents("#locateAddress"); 
-      if (locateAddress){
-        for (let i = 0; i < locateAddress.length; i++) {
-          try { locateAddress[i].changeSelectAddress(that.data.selectAddress); } catch (e) { }
-        }
-      }
-    }
+    // console.log('-----------------a---------------', this.data.selectAddress, this.data.selectResultsData)
+    // let that = this;
+    // let title = that.selectComponent("#container").selectAllComponents("#title");
+    // if (that.data.selectResultsData){
+    //   if (title) {
+    //     for (let i = 0; i < title.length; i++) {
+    //       try { 
+    //         title[i].changeSearchProductFun(that.data.selectResultsData); 
+           
+    //         } catch (e) { }
+    //     }
+    //   }
+    // }
+    // if (that.data.selectAddress){
+    //   let locateAddress = that.selectComponent("#container").selectAllComponents("#locateAddress"); 
+    //   if (locateAddress){
+    //     for (let i = 0; i < locateAddress.length; i++) {
+    //       try { locateAddress[i].changeSelectAddress(that.data.selectAddress); } catch (e) { }
+    //     }
+    //   }
+    // }
     this.audioCtx = wx.createAudioContext('myAudio');
     let Time2 = util.formatTime(new Date())  //当前时间
     let OldTime = '2018-3-1 15:20:33'
@@ -158,9 +137,9 @@ Page({
     this.setData({ partialsName: partialsName })
     console.log("partialsName", this.data.partialsName)
   },
-  onPullDownRefresh: function () {
-    // 下拉刷新的时候首先判断存不存在tab
-    let that=this;
+  refreshPage:function(){
+    let that = this;
+    console.log("首页刷新")
     that.setPageName()
     wx.showToast({
       title: '加载中...',
@@ -169,8 +148,13 @@ Page({
     })
     setTimeout(function () {
       that.setPageName('index')
-      app.footerCount=0
+      app.footerCount = 0
     }, 500);
+  },
+  onPullDownRefresh: function () {
+    let that = this;
+    // 下拉刷新的时候首先判断存不存在tab
+    that.refreshPage()
     // if (this.data.listenerId) {
     //   console.log("hello:" + this.data.listenerId);
     //   try {

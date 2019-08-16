@@ -45,7 +45,7 @@ Component({
  
   },
   methods: {
-    changeSelectAddress: function (data) {
+    changeSelectAddress: function (data,indexPage) {
       let that=this;
       console.log("====changeSelectAddress====", data)
       let locationAddress
@@ -55,6 +55,20 @@ Component({
         locationAddress = data.province + data.city + data.area + data.address
       }
       that.setData({ locationAddress: locationAddress })
+      if (indexPage && indexPage.onPullDownRefresh){
+        indexPage.onPullDownRefresh();
+      }
+      // this.$parent.onPullDownRefresh()
+      // let pages = getCurrentPages(); //获取页面栈
+      // let currpage = pages[pages.length - 1]; //当前页面对象
+      // console.log("===currpage===22222", currpage)
+      // if (currpage) {
+      //   try{
+      //     console.log("==currpage====3333", currpage.onPullDownRefresh)
+      //     currpage.onPullDownRefresh();
+      //   } catch (e) {
+      //   }
+      // }
     },
     setLoctionAddr: function (pageParam) {
       let that = this
@@ -65,6 +79,7 @@ Component({
         success: function (res) {
           console.log("=====setLoctionAddr====", res.data)
           wx.hideLoading()
+         
         },
         fail: function (res) {
           wx.hideLoading()
@@ -153,23 +168,41 @@ Component({
     getLocationAddress:function(){
       let that=this;
       console.log("==========getLocationAddress=========")
-      wx.getLocation({
-        type: 'wgs84',
-        success: function (res) {
-          console.log("=====getLocationAddress====", res)
-          let latitude = res.latitude
-          let longitude = res.longitude
-          console.log(longitude + "..............." + latitude)
-          // 获取附近店铺数据
-          let pageParam = {
-            "longitude": longitude,
-            "latitude": latitude,
-          }
-          console.log(pageParam)
-          that.getLoctionAddr(pageParam)
-          that.getNearMenDian(pageParam);
+      let locationAddressData = wx.getStorageSync('selectAddressData')||''
+      if (locationAddressData){
+        let locationAddress=""
+        if (locationAddressData.value) {
+          locationAddress = locationAddressData.value
+        } else {
+          locationAddress = locationAddressData.province + locationAddressData.city + locationAddressData.area + locationAddressData.address
         }
-      })
+        that.setData({ locationAddress: locationAddress })
+        console.log("===locationAddressData====", locationAddressData);
+        let pageParam = {
+          "longitude": locationAddressData.longitude,
+          "latitude": locationAddressData.latitude,
+        }
+        that.getLoctionAddr(pageParam)
+      }else{
+        wx.getLocation({
+          type: 'wgs84',
+          success: function (res) {
+            console.log("=====getLocationAddress====", res)
+            let latitude = res.latitude
+            let longitude = res.longitude
+            console.log(longitude + "..............." + latitude)
+            // 获取附近店铺数据
+            let pageParam = {
+              "longitude": longitude,
+              "latitude": latitude,
+            }
+            console.log(pageParam)
+            that.getLoctionAddr(pageParam)
+            that.getNearMenDian(pageParam);
+          }
+        })
+      }
+     
     },
     // 获取地理数据
     getLoctionAddr: function (pageParam) {

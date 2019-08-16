@@ -16,6 +16,7 @@ Component({
     PaiXuPartials:null, 
     kefuCount: 0,
     footerCount: 0,
+    authorizationCount:0,
     defaultTop:0,
     footerImgState: false,
     sendOptionData: null,
@@ -28,7 +29,8 @@ Component({
   ready: function () {
     let that=this;
     app.footerCount++;
-    this.setData({ footerCount: app.footerCount})
+    app.authorizationCount++
+    this.setData({ authorizationCount: app.authorizationCount, footerCount: app.footerCount})
     console.log('zujian',this.data.data)
     if (this.data.data){}
     this.setData({
@@ -197,7 +199,7 @@ Component({
       that.triggerEvent('resEvent', { resEventData }, {})
     },
     bindGetUserInfo: function (e) {
-      let that=this;
+      let that = this;
       that.setData({ showPopup: false })
       console.log(that.data.showPopup)
       console.log(e.detail.userInfo)
@@ -212,7 +214,7 @@ Component({
         //用户按了拒绝按钮
       }
     },
-    cancel:function(){
+    cancel: function () {
       this.setData({ showPopup: false })
     },
     getParac: function () {
@@ -231,6 +233,24 @@ Component({
       if (jsonData.params){
         params = Object.assign({}, params, jsonData.params)
       }
+      // 经纬度
+      let locationAddressData = wx.getStorageSync('selectAddressData') || ''
+      if (locationAddressData) {
+         params = Object.assign({}, params,{
+          "longitude": locationAddressData.longitude,
+          "latitude": locationAddressData.latitude,
+        })
+      } else {
+        wx.getLocation({
+          type: 'wgs84',
+          success: function (res) {
+            console.log("=====getLocationAddress====", res)
+            params.latitude = res.latitude
+            params.longitude = res.longitude
+          }
+        })
+      }
+
       console.log("====url====", url, jsonData)
       var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", params, 'get', '1')
       //拿custom_page

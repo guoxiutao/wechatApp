@@ -89,7 +89,11 @@
                       </view>
                       <!-- 订单类型不同，按钮不一样 -->
                       <view class='butn_container2'>
-                          <text>{{list.addTime}}</text>
+                          <view class='butn_group' wx:if="{{list.orderStatus==1&&list.payStatus==1}}">
+                            <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='confirmMendianOrder'>确认订单</text>
+                            <text data-orderNo='{{list.orderNo}}' class='butn_item' data-index='{{index}}' bindtap='rejectMendianOrder'>拒绝订单</text>
+                          </view>
+                          <text wx:else>{{list.addTime}}</text>
                       </view>
 
                     </view>

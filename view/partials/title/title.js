@@ -1,4 +1,5 @@
 const app = getApp();
+var timeTimeout
   Component({
   properties: {
    
@@ -17,43 +18,104 @@ const app = getApp();
       showPopup:false,
       animationData:{},
       timer:null,
-      numberTime:0,
-  },
-    ready: function () {
-      let that=this;
-      console.log("==========title=============", that.data.data)
-      that.setData({ setting: app.setting })
-      console.log("==========setting=============", that.data.setting.platformSetting.defaultColor)
-      if (that.data.data.androidTemplate == "popup_page"){
-        that.findNotifyTipsFun();
-        app.addPopupNotifysList(this);
-      }
+      numberTime: 0,
+    },
+    lifetimes: {
+      attached: function () {
+        console.log("========attached=============")
+        let that = this;
+        console.log("==========title=============", that.data.data)
+        that.setData({ setting: app.setting })
+        console.log("==========setting=============", that.data.setting.platformSetting.defaultColor)
+        if (that.data.data.androidTemplate == "popup_page") {
+          that.findNotifyTipsFun();
+        }
+      },
+      detached: function () {
+        // 在组件离开页面节点树后， detached 生命周期被触发
+        let that = this;
+        if (that.data.data.androidTemplate == "popup_page") {
+          console.log("==========detached=============")
+          that.clearInterval()
+          clearTimeout(timeTimeout)
+          // app.notifyTipPage.clearInterval();
+          // app.preNotifyTipPage.clearInterval();
+          // app.notifyTipPage = app.preNotifyTipPage;
+          // app.notifyTipPage.findNotifyTipsFun();
+        }
+      },
+    },
+    pageLifetimes: {
+      show: function () {
+        // 页面被展示(主页之间的切换)
+        console.log("=====页面被展示=====")
+        let that = this;
+        if (that.data.data.androidTemplate == "popup_page") {
+          that.setData({ numberTime: 0 })
+          that.findNotifyTipsFun();
+        }
+      },
+      hide: function () {
+        // 页面被隐藏(主页之间的切换)
+        console.log("=====页面被隐藏=====")
+        let that = this;
+        if (that.data.data.androidTemplate == "popup_page") {
+          console.log("==========组件hide=============")
+          clearTimeout(timeTimeout)
+          that.clearInterval()
+          // app.notifyTipPage.clearInterval();
+          // app.preNotifyTipPage.clearInterval();
+          // app.notifyTipPage = app.preNotifyTipPage;
+          // app.notifyTipPage.findNotifyTipsFun();
+        }
+      },
     },
     methods: {
       // 这里是一个自定义方法
       findNotifyTipsFun: function () {
+        // if (app.notifyTipPage){
+        //   app.preNotifyTipPage=app.notifyTipPage;
+        //   app.notifyTipPage.clearInterval();
+        //   app.preNotifyTipPage.clearInterval();
+        // }
+        // app.notifyTipPage=this;
+        // var that = app.notifyTipPage;
+        let that = this;
         var customIndex = app.AddClientUrl("/wx_find_notify_tips.html", { test: 1 })
-        // app.showToastLoading('loading', true)
-        var that = this
         wx.request({
           url: customIndex.url,
           header: app.header,
           success: function (res) {
             wx.hideLoading()
-            console.log("findNotifyTipsFun", res.data)
+            console.log("findNotifyTipsFun", res.data, that.data.numberTime)
             if (res.data.errcode == 0) {
               let findNotifyTipsData = res.data.relateObj.result
               that.setData({ findNotifyTipsData: findNotifyTipsData, showPopup: true })
               let count=0;
               let numberTime = that.data.numberTime
-              setTimeout(function(){
+              // that.data.timer = setInterval(function () {
+              //   console.log("===========timer get order detail============");
+              //   if (count==0){
+              //     console.log("========从头开始===========")
+              //     that.setData({ numberTime: 5000 })
+              //   }
+              //   if (count < findNotifyTipsData.length) {
+              //     that.getFindNotifyTipsItem(findNotifyTipsData[count])
+              //     count++
+              //   } else {
+              //     that.setData({ numberTime: 60000 - (count * 5000) })
+              //     that.clearInterval()
+              //     that.findNotifyTipsFun()
+              //   }
+              // }, numberTime);
+              timeTimeout=setTimeout(function(){
                 that.data.timer = setInterval(function () {
                   console.log("===========timer get order detail============");
                   if (count < findNotifyTipsData.length) {
                     that.getFindNotifyTipsItem(findNotifyTipsData[count])
                     count++
                   } else {
-                    that.setData({ numberTime: 60000 })
+                    that.setData({ numberTime: 60000 - (count * 5000)})
                     that.clearInterval()
                     that.findNotifyTipsFun()
                   }
@@ -76,13 +138,13 @@ const app = getApp();
         console.log("=====clearInterval=====", data)
         if (that.data.showPopup){
           let timer = that.data.timer
-          that.setData({ showPopup: false })
           clearInterval(timer);
-          timer = null
+          that.setData({ showPopup: false, timer: null })
         }
       },
       getFindNotifyTipsItem: function (findNotifyTipsItem){
-        let that=this;
+        // let that = app.notifyTipPage;
+        let that = this;
         let animation = wx.createAnimation({
           duration: 400,
           timingFunction: 'ease',
@@ -93,7 +155,7 @@ const app = getApp();
         })
         console.log("=====findNotifyTipsItem====", findNotifyTipsItem)
         that.setData({ findNotifyTipsItem: findNotifyTipsItem })
-        setTimeout(function(){
+        setTimeout(function(){//停留4S
           animation.opacity(0).step()
           that.setData({
             animationData: animation.export(),

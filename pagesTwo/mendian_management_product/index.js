@@ -19,6 +19,28 @@ Page({
     animationData: {}, //抽屉
     showMask:false,
     selectProductItem:null,
+    range: ['缺货','有货'],
+    stateIndex:1,
+    searchProductName:''
+  },
+  /* 查找商品 */
+  getSearchProductName: function (e) {
+    var that = this;
+    console.log("getSearchProductName", e.detail.value)
+    if (e.detail.value) {
+      that.params.name = e.detail.value
+    } else {
+      that.params.name = ''
+      that.setData({ searchProductName: that.params.name })
+    }
+    that.findMendianProductsList();
+  },
+  bindPickerChange: function (event) {
+    console.log('====index=====', event)
+    let that = this;
+    let value = event.detail.value;
+    that.setData({ stateIndex: Number(value)})
+    console.log("===stateIndex====", that.data.stateIndex)
   },
   tolinkUrl: function (e) {
     let linkUrl = e.currentTarget.dataset.link
@@ -68,7 +90,7 @@ Page({
     let type = e.currentTarget.dataset.type;
     let productId = productInfo.itemId;
     let cartesianId = productInfo.id;
-    that.setData({ selectProductItem: productInfo })
+    that.setData({ selectProductItem: productInfo, })
     if (type=='down'){
       let params = { productId: productId, stock: -1, cartesianId: cartesianId }
       wx.showModal({
@@ -83,7 +105,7 @@ Page({
         }
       })
     }else{
-      that.setData({ showMask: true })
+      that.setData({ showMask: true, stateIndex: productInfo.storage?Number(productInfo.storage.stock) : 0})
     }
   },
   closeZhezhao: function () {
@@ -239,7 +261,7 @@ Page({
   findMendianProductsList: function () {
     let that = this
     app.showToastLoading('loading', true)
-    let params = { status: that.data.currentIndex, page: that.listPage.page}
+    let params = Object.assign({}, that.params, { status: that.data.currentIndex, page: that.listPage.page })
     let customIndex = app.AddClientUrl("/wx_find_mendian_products.html", params)
     wx.request({
       url: customIndex.url,
@@ -280,6 +302,7 @@ Page({
       }
     })
   },
+  params:{},
   listPage: {
     page: 1,
     pageSize: 0,
@@ -326,7 +349,6 @@ Page({
     this.listPage.page = 1
     this.findMendianProductsList();
     wx.stopPullDownRefresh()
-    wx.stopPullDownRefresh() 
   },
   /**
    * 页面上拉触底事件的处理函数

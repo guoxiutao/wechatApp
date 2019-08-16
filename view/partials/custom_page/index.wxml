@@ -71,7 +71,7 @@
       <view class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>提交资料</view>
     </view>
   </view>
-  <view wx:if="{{showPopup}}">
+  <view wx:if="{{showPopup&&authorizationCount<=1}}">
     <view class='authorizationBg'></view>
     <view class='authorization'>
       <view class='authorizationPopup'>

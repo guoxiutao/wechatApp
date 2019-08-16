@@ -16,7 +16,7 @@
           <view class='empty_button' bindtap='getSearchProductName'><text>x</text></view>
         </view>
       </view>
-    </view>
+  </view>
   
 <!--   <template is="product_search" data="{{...topName,...setting}}"></template>  -->
   <!-- <template is="typeSearch" data="{{...setting.platformSetting.categories}}"></template>  -->
@@ -99,8 +99,7 @@
     <block wx:if="{{ProductshowWay == 2}}">
         <view class='product_page_container'>
           <block wx:if = "{{!! productListData}}">
-            <view class='product_items' wx:for="{{productListData}}" wx:key='{{index}}' wx:for-item="result" 
-                   data-info='{{result}}' bindtap='toProductDetail'>
+            <view class='product_items' data-info='{{result}}' data-link="product_detail.html?id={{result.id}}"  bindtap='linkUrl' wx:for="{{productListData}}" wx:for-item="result" wx:key="{{result.id}}">
               <image mode="aspectFit" style='height:{{sysWidth*44/100}}px;width:100%;' src='{{result.imagePath}}?x-oss-process=style/preview'></image>
               <view>{{result.name}}</view>
               

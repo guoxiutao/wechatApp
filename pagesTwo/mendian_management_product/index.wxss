@@ -12,6 +12,7 @@
   border-top:1rpx solid #eee;
   box-sizing: border-box;
   z-index: 10;
+  margin-top:80rpx;
 }
 .top_meun_tab_item{
   display: flex;
@@ -28,7 +29,7 @@
   display: flex;
   flex-direction: column;
   padding:0 20rpx;
-  margin-top: 80rpx;
+  margin-top: 160rpx;
   background: #fff;
 }
 .product_item{
@@ -270,7 +271,7 @@
 .add_measures_popup_item_input{
   width:76%;
   border:1rpx solid #f1f1f1;
-  padding:0 10rpx;
+  padding:10rpx;
 }
 .saveData{
   width: 100%;
@@ -297,4 +298,90 @@
   padding: 30rpx;
   margin-top:80rpx;
   box-sizing:border-box;
+}
+.picker{
+  width: 76%;
+  height: 70rpx;
+  line-height:66rpx;
+  text-align:right;
+  float:left;
+  padding:0 10rpx;
+}
+.pickerRight{
+  height:66rpx;
+  display:flex;
+  align-items:center;
+  width:40rpx;
+  float:right;
+}
+.pickerValue{
+  width:90%;
+  height:70rpx;
+  float: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: center
+}
+.pickerImg{
+  width: 26rpx;
+  float: right;
+  height: 26rpx;
+}
+.typeSearchContainer1{
+  position:fixed;
+  z-index:111;
+  width: 100%;
+  height: 90rpx;
+
+}
+.search_input_bg{
+  padding: 20rpx;
+  background: #fff;
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing:border-box;
+}
+.search_input{
+  border-radius: 60rpx;
+  height: 60rpx;
+  background: #eee;
+  width: 100%;
+  padding: 15rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between
+}
+.search_input_left{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.search_input .input{
+  font-size: 24rpx;
+  margin-left: 20rpx;
+}
+.input_img{
+  width: 35rpx;
+  height: 35rpx;
+}
+.empty_button{
+  color: #fff;
+  background: #999;
+  width: 30rpx;
+  height: 30rpx;
+  font-size: 22rpx;
+  border-radius: 30rpx;
+  line-height: 30rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10rpx;
+  opacity: 0.8;
+  cursor: pointer;
 }

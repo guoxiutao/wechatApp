@@ -79,11 +79,11 @@
       </view>
       <text style='color:{{setting.platformSetting.defaultColor}}'>{{productData.productInfo.saleStrategyName}}</text>
   </view> -->
-  <!--商品特卖  -->
-  <view class='special_sale_list'>
+<!--商品特卖  -->
+  <view class='special_sale_list' wx:if="{{productData.productInfo.itemSpecialSaleType||saleStrategyState}}">
     <text class='special_sale_title'>促销</text>
     <view class='special_sale_data'>
-      <view class='special_sale_item'>
+      <view class='special_sale_item' wx:if="{{productData.productInfo.itemSpecialSaleType}}">
         <view class='special_sale_item_type' style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'>
           <text wx:if="{{productData.productInfo.itemSpecialSaleType==1}}">满减</text>
           <text wx:if="{{productData.productInfo.itemSpecialSaleType==2}}">买赠</text>
@@ -95,7 +95,7 @@
           <text wx:if="{{productData.productInfo.itemSpecialSaleType==8}}">会员特卖</text>
         </view>
         <view class='special_sale_item_value'>
-          <text wx:if="{{productData.productInfo.itemSpecialSaleType==1}}">满￥{{productData.productInfo.itemSpecialSaleValue1}}钱,减￥{{productData.productInfo.itemSpecialSaleValue2}}钱</text>
+          <text wx:if="{{productData.productInfo.itemSpecialSaleType==1}}">满￥{{productData.productInfo.itemSpecialSaleValue1}},减￥{{productData.productInfo.itemSpecialSaleValue2}}</text>
           <text wx:if="{{productData.productInfo.itemSpecialSaleType==2}}">买￥{{productData.productInfo.itemSpecialSaleValue1}}件,赠￥{{productData.productInfo.itemSpecialSaleValue2}}件</text>
           <text wx:if="{{productData.productInfo.itemSpecialSaleType==3}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>
           <text wx:if="{{productData.productInfo.itemSpecialSaleType==4}}">限购{{productData.productInfo.itemSpecialSaleValue1}}件</text>

@@ -102,8 +102,7 @@
       <text wx:if='{{orderDetailData.promotionName}}' class='marginleft vity_tag'>{{orderDetailData.promotionName}}</text>
       <text class='color' style='color:{{setting.platformSetting.defaultColor}}'>合计:￥ {{orderDetailData.goodsAmount}}</text>
     </view>
-    <view class='cartItems' wx:for='{{orderDetailData.orderItems}}' 
-      wx:for-item='orderItem' wx:key='{{orderItem.itemId}}'>
+    <view class='cartItems' wx:for='{{orderDetailData.orderItems}}' wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' catchtap='tolinkUrl' data-info='{{orderItem}}'>
       <view class='itemCheckbox'>
         <image mode='aspectFill' src='{{orderItem.itemIcon}}?x-oss-process=style/preview'></image>
       </view>
