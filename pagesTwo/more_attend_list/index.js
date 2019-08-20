@@ -61,7 +61,7 @@ Page({
           }
           console.log("=========attendList===========", dataArr)
           for (let i = 0; i < dataArr.length; i++){
-            if (dataArr[i].attendMeasureList){
+            if (dataArr[i].attendMeasureList && typeof (dataArr[i].attendMeasureList)=="string"){
               dataArr[i].attendMeasureList = JSON.parse(dataArr[i].attendMeasureList)
             }
             showMeasureListState['showMeasureListState_' + dataArr[i].id] = false
@@ -70,6 +70,55 @@ Page({
           that.pageData.pageSize = res.data.relateObj.pageSize
           that.pageData.totalSize = res.data.relateObj.totalSize
         }else{
+          wx.showModal({
+            title: '提示',
+            content: '主人~请求超时！确认重新加载',
+            success: function (res) {
+              if (res.confirm) {
+                that.getAttendListData(that.params)
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+        console.log('===attendList===', that.data.attendList);
+        console.log('===myAttend===', that.data.myAttend);
+      },
+      complete: function (res) {
+
+      }
+    })
+  },
+  /* 获取数据 */
+  getMyAttendListData: function (params) {
+    let that = this
+    let param = Object.assign({}, params, { page: that.pageData.curPage })
+    let customIndex = app.AddClientUrl("/wx_user_attend_custom_form_commit.html", param)
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log('====getAttendListData-res===', res)
+        let showMeasureListState = that.data.showMeasureListState
+        if (res.data.errcode == 0) {
+          let dataArr = res.data.relateObj.result
+          if (that.pageData.curPage == 1) {
+            that.data.attendList = [];
+          } else {
+            dataArr = that.data.attendList.concat(dataArr)
+          }
+          console.log("=========attendList===========", dataArr)
+          for (let i = 0; i < dataArr.length; i++) {
+            if (dataArr[i].attendMeasureList && typeof (dataArr[i].attendMeasureList) == "string") {
+              dataArr[i].attendMeasureList = JSON.parse(dataArr[i].attendMeasureList)
+            }
+            showMeasureListState['showMeasureListState_' + dataArr[i].id] = false
+          }
+          that.setData({ attendList: dataArr, showMeasureListState: showMeasureListState })
+          that.pageData.pageSize = res.data.relateObj.pageSize
+          that.pageData.totalSize = res.data.relateObj.totalSize
+        } else {
           wx.showModal({
             title: '提示',
             content: '主人~请求超时！确认重新加载',
@@ -147,7 +196,23 @@ Page({
       setting: app.setting,
       loginUser: app.loginUser
     })
-    that.getAttendListData(options);
+    let title=""
+    if (options.type == "my") {
+      console.log("=========我的参与记录=========",)
+      that.getMyAttendListData(options);
+      title ="我的参与记录"
+    } else if (options.type == "more"){
+      that.getAttendListData(options);
+      title = "更多参与记录"
+      console.log("=========更多参与记录=========")
+    }else{
+      that.getAttendListData(options);
+      title = "更多参与记录"
+      console.log("=========其他=========")
+    }
+    wx.setNavigationBarTitle({
+      title: title,
+    })
     console.log("===loginUser====", that.data.loginUser)
     console.log("===setting====", that.data.setting)
   },

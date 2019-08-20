@@ -10,9 +10,9 @@
     </view>
     <view class='select_tab' wx:if="{{selectTab.length!=0}}">
       <view class='select_tab_item' wx:for="{{selectTab}}" wx:if="{{index<=1}}" wx:for-item="selectTabItem" wx:key='{{index}}' catchtap='selectTab' data-index="{{index}}">
-        <text class='select_tab_item_text' style="color:{{selectTabIndex==index||(selectResultsObj[selectTabItem.name]&&selectResultsObj[selectTabItem.name].length!=0&&(selectTabItem.type=='multi-select'||selectTabItem.type=='multistage-style'))?setting.platformSetting.defaultColor:''}}">{{selectResultsObj[selectTabItem.name]&&selectTabItem.type=='pull-down'?selectResultsObj[selectTabItem.name]:selectTabItem.title}}</text>
-        <!-- <image class='select_tab_item_icon' wx:if="{{!selectTabItem.state}}" src='https://image1.sansancloud.com/jianzhan/2019_3/20/12/1/52_354.jpg?x-oss-process=style/preview_120'></image>
-        <image class='select_tab_item_icon' wx:else src='https://image1.sansancloud.com/jianzhan/2019_3/20/12/1/52_336.jpg?x-oss-process=style/preview_120'></image> -->
+        <text class='select_tab_item_text' style="color:{{selectTabIndex==index||(selectResultsObj[selectTabItem.name]&&selectResultsObj[selectTabItem.name].length!=0&&(selectTabItem.type=='multi-select'||selectTabItem.type=='multistage-style'))?setting.platformSetting.defaultColor:''}}">{{selectResultsObj[selectTabItem.name]&&selectTabItem.type=='pull-down'?(selectTabItem.name=='recordStatus'?specialSelectResultsObj[selectTabItem.name]:selectResultsObj[selectTabItem.name]):selectTabItem.title}}</text>
+        <image class='select_tab_item_icon' wx:if="{{!selectTabItem.state}}" src='https://image1.sansancloud.com/jianzhan/2019_3/20/12/1/52_354.jpg?x-oss-process=style/preview_120'></image>
+        <image class='select_tab_item_icon' wx:else src='https://image1.sansancloud.com/jianzhan/2019_3/20/12/1/52_336.jpg?x-oss-process=style/preview_120'></image>
       </view>
       <!-- 下拉的选择样式 -->
       <scroll-view scroll-y class='select_tab_item_value' wx:if="{{showCount&&selectTab[selectTabIndex].type=='pull-down'}}">
@@ -82,7 +82,7 @@
       </view>
       <!-- 更多筛选按钮 -->
       <view class='more_select' wx:if="{{selectTab.length>2}}" catchtap="moreSelectFun">
-        <!-- <image class='more_select_icon' src='https://image1.sansancloud.com/sansancloud/2019_7/10/10/48/52_267.jpg?x-oss-process=style/preview_120'></image> -->
+        <image class='more_select_icon' src='https://image1.sansancloud.com/sansancloud/2019_7/10/10/48/52_267.jpg?x-oss-process=style/preview_120'></image>
         <text class='more_select_text'>筛选</text>
       </view>
     </view>

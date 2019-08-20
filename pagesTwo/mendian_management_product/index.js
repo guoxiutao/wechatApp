@@ -21,7 +21,52 @@ Page({
     selectProductItem:null,
     range: ['缺货','有货'],
     stateIndex:1,
-    searchProductName:''
+    searchProductName:'',
+    productType:null,
+    productTypePopupState:false,
+  },
+  selectPopupType: function () {
+    let that = this;
+    that.setData({ productTypePopupState: true })
+  },
+  getChilrenPopupType(e) {
+    console.log("======getChilrenPopupType=========", e)
+    let that = this
+    that.params.categoryId = e.detail.id
+    that.setData({productTypePopupState: false})
+    that.findMendianProductsList();
+  },
+  //获取产品分类
+  getProductType: function (e, typeText) {
+    console.log("====e=====", e);
+    var that = this
+    var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html")
+    // wx.showLoading({
+    //   title: 'loading'
+    // })
+    app.showToastLoading('loading', true)
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        wx.hideLoading()
+        console.log("==res====", res.data)
+        if (res.data.errcode == 0) {
+          let productType = res.data.relateObj;
+          that.setData({
+            productType: productType,
+          })
+          console.log("productType", that.data.productType)
+        } else {
+        }
+        wx.hideLoading()
+      },
+      fail: function (res) {
+        console.log("fail")
+        wx.hideLoading()
+        app.loadFail()
+      }
+    })
   },
   /* 查找商品 */
   getSearchProductName: function (e) {
@@ -315,6 +360,7 @@ Page({
     console.log('===options===', options)
     let that=this;
     that.findMendianProductsList();
+    that.getProductType()
     console.log("===loginUser====", that.data.loginUser)
     console.log("===setting====", that.data.setting)
   },

@@ -248,12 +248,18 @@
   <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0&&allFormData.attendCountPerUser!=1}}">
     <view class='havePayUserTitle'>
       <text>已报名({{allFormData.attendList.totalSize}})</text>
-      <view class='havePayUserTitleRight' data-link="more_attend_list.html?formCommitId={{allFormData.id}}" catchtap='tolinkUrl'>
+      <view class='havePayUserTitleRight' data-link="more_attend_list.html?formCommitId={{allFormData.id}}&type=more" catchtap='tolinkUrl'>
         <text style='color:{{color}}'>更多报名</text>
         <image class='more_user_icon' src='http://image1.sansancloud.com/xianhua/2019_5/14/17/27/34_899.jpg?x-oss-process=style/preview_120'></image>
       </view>
     </view>
     <view class='havePayUserList'>
+      <view class='myPayUserItem' wx:if="{{allFormData.myAttendList&&allFormData.myAttendList.totalSize!=0}}" data-link="more_attend_list.html?formCommitId={{allFormData.id}}&type=my" catchtap='tolinkUrl'>
+        <image class='userIcon' src='{{allFormData.myAttendList.result[0].attendPlatformUserIcon}}'></image>
+        <text class='userName' >{{allFormData.myAttendList.result[0].attendPlatformUserName}}</text>
+        <text class='my_attend_count' style='background:{{color}}'>{{allFormData.myAttendList.totalSize}}</text>
+      </view>
+      <view class='parting_line'></view>
       <scroll-view scroll-x class="havePayUserScrollList" scroll-with-animation='true'>
       <view class='havePayUserItem' wx:for="{{allFormData.attendList.result}}">
         <image class='userIcon' src='{{item.attendPlatformUserIcon}}'></image>

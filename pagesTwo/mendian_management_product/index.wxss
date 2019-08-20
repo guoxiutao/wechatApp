@@ -335,7 +335,7 @@
 
 }
 .search_input_bg{
-  padding: 20rpx;
+  padding:20rpx 0 20rpx 20rpx;
   background: #fff;
   width: 100%;
   height: 80rpx;
@@ -384,4 +384,19 @@
   margin-right: 10rpx;
   opacity: 0.8;
   cursor: pointer;
+}
+.search_product_type{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 15%
+}
+.search_product_type_icon{
+  width: 50rpx;
+  height: 50rpx;
+  /* margin-right: 10rpx; */
+}
+.search_product_type_text{
+  font-size: 0;
 }

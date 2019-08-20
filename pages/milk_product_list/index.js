@@ -144,6 +144,8 @@ Page({
     productTypeId: "",
     itemSpecialSaleType: "0",
     promotionId: "",
+    longitude:0,
+    latitude:0,
   },
   productTypeItem:[
     { id: 0, title: "热卖", upState: false, downState: false, orderType: { up: 101, down: 1 }},
@@ -216,6 +218,11 @@ Page({
   onLoad: function (options) {
     console.log("===options===", options)
     let that=this;
+    let locationAddressData = wx.getStorageSync('selectAddressData') || ''
+    if (locationAddressData) {
+      that.params.latitude = locationAddressData.latitude;
+      that.params.longitude = locationAddressData.longitude;
+    }
     let sendIndexData = JSON.stringify({ title: 'noTitle', url: "product_list", params: { } })
     that.setData({ sendIndexData: sendIndexData })
     if (options.productName){

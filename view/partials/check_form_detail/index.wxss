@@ -590,6 +590,28 @@ white-space:nowrap;
 .havePayUserItem{
   display: inline-block;
   margin-right: 40rpx;
+  height:150rpx;
+}
+.myPayUserItem{
+  display: inline-block;
+  position: relative;
+  margin-right: 40rpx;
+  height:150rpx;
+}
+.my_attend_count{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding:5rpx 10rpx;
+  border-radius:32rpx;
+  font-size:24rpx;
+  border: 6rpx solid #fff;
+  bottom:40rpx;
+  right:-10rpx;
+
 }
 .havePayUserItem:last-child{
   margin-right:0;
@@ -724,12 +746,18 @@ white-space:nowrap;
   z-index: 9;
 }
 .havePayUserScrollList{
-  width: 100%; 
+  width: 74%; 
   box-sizing: border-box;
   overflow: hidden;
-  line-height: 68rpx;
   font-size: 24rpx; 
   white-space: nowrap;
+  height:150rpx;
+}
+.parting_line{
+  background:#ccc;
+  width:1rpx;
+  height:140rpx;
+  margin-right:40rpx;
 }
 .img_block{
   display: flex;

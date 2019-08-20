@@ -27,6 +27,7 @@ Component({
     selectTab: [],
     selectTabIndex:-1,
     selectResultsObj: {},
+    specialSelectResultsObj: {},
     showCount:false,
     formType:[],
     showTop: false,
@@ -395,6 +396,17 @@ Component({
             if (data.items.length != 0) {
               let selectTab = [];
               let selectResultsObj = {};
+              if (res.data.relateObj.formType ==3){
+                let item={}
+                selectResultsObj['recordStatus'] = ""//选择值的初始化
+                item.title ="活动状态";//选择Tab标题
+                item.type = 'pull-down';
+                item.name = "recordStatus";//选择Tab键值
+                item.state = false;//选择Tab状态
+                item.listValues = [{ value: "未开始", status: 10, state: false }, { value: "进行中", status: 11, state: false }, { value: "已结束", status: 12, state: false}]
+                // 全部 未开始 进行中 已结束
+                selectTab.push(item)
+              }
               for (let i = 0; i < data.items.length; i++) {
                 let listValues = [];
                 let selectTabItem = {};
@@ -491,13 +503,23 @@ Component({
       let selectTabIndex = indexFather||that.data.selectTabIndex;//tab的位置
       let selectTab = that.data.selectTab//tab数据
       let selectResultsObj = that.data.selectResultsObj//搜索数据
+      let specialSelectResultsObj = that.data.specialSelectResultsObj//
       if (selectTab[selectTabIndex].type =='pull-down'){
         if (index == -1) {
           console.log("======pull-down选择了全部=====")
-          selectResultsObj[selectTab[selectTabIndex].name] = ""
+          if (selectTab[selectTabIndex].name =='recordStatus'){
+            selectResultsObj[selectTab[selectTabIndex].name] = -1
+          }else{
+            selectResultsObj[selectTab[selectTabIndex].name] = ""
+          }
         } else {
           console.log("======pull-down选择了其他选项=====")
-          selectResultsObj[selectTab[selectTabIndex].name] = selectTab[selectTabIndex].listValues[index].value
+          if (selectTab[selectTabIndex].name == 'recordStatus') {
+            selectResultsObj[selectTab[selectTabIndex].name] = selectTab[selectTabIndex].listValues[index].status
+            specialSelectResultsObj[selectTab[selectTabIndex].name] = selectTab[selectTabIndex].listValues[index].value
+          } else {
+            selectResultsObj[selectTab[selectTabIndex].name] = selectTab[selectTabIndex].listValues[index].value
+          }
           for (let i = 0; i < selectTab[selectTabIndex].listValues.length;i++){
             selectTab[selectTabIndex].listValues[i].state=false;
           }
@@ -619,7 +641,7 @@ Component({
         that.setData({ threeMultistageData: allThreeMultistageData, twoMultistageData: allTwoMultistageData, selectResultsObj: selectResultsObj})
       }
       console.log("==selectResultsObj===", selectResultsObj)
-      that.setData({ selectResultsObj: selectResultsObj, selectTab: selectTab})
+      that.setData({ selectResultsObj: selectResultsObj, specialSelectResultsObj:specialSelectResultsObj,selectTab: selectTab})
     },
     sureSelect: function (){
       let that = this;

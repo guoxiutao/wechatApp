@@ -309,6 +309,7 @@ Page({
     shopProductType: "",
     latitude:'0',
     longitude:'0',
+    useLocation:1,
 
   },
   /* 查找商品 */
