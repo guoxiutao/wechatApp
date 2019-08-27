@@ -5,7 +5,7 @@
           <view class='search_input_left'>
             <image class='input_img' src='http://image1.sansancloud.com/xianhua/2018_9/14/16/25/0_222.jpg?x-oss-process=style/preview_120'></image>
             <!--   data-link="search_page.html"  bindtap='linkUrl'-->
-            <input class='input' bindconfirm='getSearchProductName' placeholder='搜索产品名' value='{{searchProductName}}'></input>
+            <input class='input' bindconfirm='getSearchProductName' placeholder='搜索产品名或编码' value='{{searchProductName}}'></input>
           </view>
           <view class='empty_button' bindtap='getSearchProductName'><text>x</text></view>
         </view>
@@ -24,7 +24,7 @@
   </view>
   <!-- 产品列表 -->
   <view class='product_list' wx:if="{{mendianProductsList.length!=0}}">
-    <view class='product_item' wx:for="{{mendianProductsList}}" wx:for-item="mendianProductItem" >
+    <view class='product_item' wx:for="{{mendianProductsList}}" wx:for-item="mendianProductItem"  data-info='{{mendianProductItem}}' bindtap='tolinkUrl'>
       <view class='product_item_main_info'>
         <view class='product_item_main_img'>
           <image class='product_img' src='{{mendianProductItem.imagePath}}'></image>
@@ -33,14 +33,19 @@
           <text class='product_name'>{{mendianProductItem.name}}</text>
           <text class='product_price' style='color:{{setting.platformSetting.defaultColor}}'>最高供应价：￥{{mendianProductItem.supplyPrice}}</text>
           <view class='product_info_bottom'>
+            <view class='product_stock' wx:if="{{mendianProductItem.mendianStorages.length!=0&&mendianProductItem.measureItem!=1}}">商家供货价：<text class='product_stock_num'>{{mendianProductItem.mendianStorages[0].supplyPrice}}</text></view>
             <!-- <view class='product_stock'>库存：<text class='product_stock_num'>{{mendianProductItem.stock}}</text></view> -->
             <!-- <view class='product_sales'>销量：<text class='product_sales_num'></text></view> -->
           </view>
         </view>
+        <view class='handle_btn'>
+          <text class='handle_item' wx:if="{{mendianProductItem.mendianStorages&&mendianProductItem.mendianStorages.length!=0}}" data-info="{{mendianProductItem}}" catchtap='soldOutFun'>下架</text>
+          <text class='handle_item' wx:else data-info="{{mendianProductItem}}" catchtap='putAwayFun'>上架</text>
+          <text class='handle_item' data-info="{{mendianProductItem}}" wx:if="{{mendianProductItem.measureItem!=1}}" data-type="{{mendianProductItem.mendianStorages&&mendianProductItem.mendianStorages.length!=0?'up':'down'}}" catchtap='editProductData'>编辑</text>
+        </view>
         <!-- 操作按钮 -->
-        <view class='handle_btn' data-id="{{mendianProductItem.id}}" catchtap='showHandleListFun'>
+        <!-- <view class='handle_btn' data-id="{{mendianProductItem.id}}" catchtap='showHandleListFun'>
           <image class='handle_btn_icon' src='http://image1.sansancloud.com/xianhua/2019_8/1/14/47/2_829.jpg?x-oss-process=style/preview_120'></image>
-          <!-- 操作选项 -->
           <view class='handle_list' animation="{{animationData}}" wx:if="{{showHandleListState['showHandleListState_'+mendianProductItem.id]}}">
             <view class='handle_item_bg'>
               <view class='handle_item' wx:if="{{mendianProductItem.mendianStorages&&mendianProductItem.mendianStorages.length!=0}}" data-info="{{mendianProductItem}}" catchtap='soldOutFun'>
@@ -58,7 +63,7 @@
             </view>
             <view class='triangle-right'></view>
           </view>
-        </view>
+        </view> -->
       </view>
       <!-- 操作显示多规格产品 -->
       <view class='more_measure_btn' data-id="{{mendianProductItem.id}}" wx:if="{{mendianProductItem.measureItem==1&&currentIndex!=0}}" catchtap='showMeasureListFun'>
@@ -70,11 +75,14 @@
       <!-- 多规格产品 -->
       <!-- animation="{{animationData}}" -->
       <view class='measure_list' wx:if="{{showMeasureListState['showMeasureListState_'+mendianProductItem.id]}}" >
+        <view class='measure_item'>
+          <view class='measure_item_name'>产品名</view>
+          <view class='measure_item_price' style=''>商家供货价</view>
+          <view style='padding:6rpx 16rpx;'>操作</view>
+        </view>
         <view class='measure_item' wx:for="{{mendianProductItem.cartesians}}" wx:for-item="measureItem">
           <view class='measure_item_name'>{{measureItem.measuresShow}}</view>
           <view class='measure_item_price'>￥{{measureItem.storage.supplyPrice}}</view>
-          <!-- <view class='measure_item_stock'>{{measureItem.storage.stock}}件</view> -->
-          <!-- <view class='measure_item_edit' wx:if="{{measureItem.storage}}" data-info="{{measureItem}}" data-type="down" catchtap='editProductData'>下架</view> -->
           <view class='measure_item_edit' data-info="{{measureItem}}" data-type="up" catchtap='editProductData'>编辑</view>
         </view>
       </view>
@@ -93,7 +101,8 @@
   <form bindsubmit="sureMeasuresData" report-submit class='add_measures_popup_list'>
     <view class='add_measures_popup_item'>
       <text class='add_measures_popup_item_name'>供应价格</text>
-      <input type="digit" name="supplyPrice" class='add_measures_popup_item_input' value='{{selectProductItem.storage.supplyPrice||0}}' placeholder='请输入供应价格'></input>
+      <input wx:if="{{currentIndex!=0}}" type="digit" name="supplyPrice" class='add_measures_popup_item_input' value='{{selectProductItem.storage?selectProductItem.storage.supplyPrice:selectProductItem.mendianStorages[0].supplyPrice}}' placeholder='请输入供应价格'></input>
+      <input wx:else type="digit" name="supplyPrice" class='add_measures_popup_item_input' value='{{selectProductItem.supplyPrice}}' placeholder='请输入供应价格'></input>
     </view>
     <view class='add_measures_popup_item'>
       <text class='add_measures_popup_item_name'>规格状态</text>
@@ -109,4 +118,11 @@
       <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>确定</button>
     </view>
   </form>
+</view>
+<!-- 扫一扫 -->
+<view class='scan_popup' catchtap='getVerificationCode'>
+  <view class='scan_popup_block' style='background:{{setting.platformSetting.defaultColor}}'>
+    <image class="scan_popup_icon" src='http://image1.sansancloud.com/xianhua/2019_8/27/17/10/46_737.jpg?x-oss-process=style/preview_120'></image>
+  </view>
+  <text style="margin-top:10rpx;">扫一扫</text>
 </view>

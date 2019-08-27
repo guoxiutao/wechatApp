@@ -11,7 +11,7 @@ Page({
     tabItem: [
       { text: "出售中", status: 1, params: { status: 1 } },
       { text: "已售罄", status: 2, params: { status: 2 } },
-      { text: "已下架", status: 0, params: { status: 0 } },
+      { text: "商品库", status: 0, params: { status: 0 } },
     ],
     currentIndex: 1,
     showHandleListState:{},
@@ -34,7 +34,9 @@ Page({
     let that = this
     that.params.categoryId = e.detail.id
     that.setData({productTypePopupState: false})
-    that.findMendianProductsList();
+    if (that.params.categoryId) {
+      that.findMendianProductsList();
+    }
   },
   //获取产品分类
   getProductType: function (e, typeText) {
@@ -87,10 +89,6 @@ Page({
     that.setData({ stateIndex: Number(value)})
     console.log("===stateIndex====", that.data.stateIndex)
   },
-  tolinkUrl: function (e) {
-    let linkUrl = e.currentTarget.dataset.link
-    app.linkEvent(linkUrl)
-  },
   soldOutFun:function(e){
     let that = this;
     console.log("=======soldOutFun========", e)
@@ -120,7 +118,7 @@ Page({
       content: '您确定要上架该产品嘛！',
       success: function (res) {
         if (res.confirm) {
-          that.setData({ showMask: true })
+          that.setData({ showMask: true ,stateIndex: 1 })
           // that.setMendianProductStorage(params)
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -136,22 +134,36 @@ Page({
     let productId = productInfo.itemId;
     let cartesianId = productInfo.id;
     that.setData({ selectProductItem: productInfo, })
-    if (type=='down'){
-      let params = { productId: productId, stock: -1, cartesianId: cartesianId }
-      wx.showModal({
-        title: '提示',
-        content: '您确定要下架该产品嘛！',
-        success: function (res) {
-          if (res.confirm) {
-            that.setMendianProductStorage(params)
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
-      })
-    }else{
-      that.setData({ showMask: true, stateIndex: productInfo.storage?Number(productInfo.storage.stock) : 0})
+    that.setData({ showMask: true, stateIndex: productInfo.storage ? Number(productInfo.storage.stock) : productInfo.mendianStorages[0].stock })
+    // if (type=='down'){
+    //   let params = { productId: productId, stock: -1, cartesianId: cartesianId }
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '您确定要下架该产品嘛！',
+    //     success: function (res) {
+    //       if (res.confirm) {
+    //         that.setMendianProductStorage(params)
+    //       } else if (res.cancel) {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   })
+    // }else{
+    //   that.setData({ showMask: true, stateIndex: productInfo.storage ? Number(productInfo.storage.stock) : 1})
+    // }
+  },
+  tolinkUrl: function (e) {
+    console.log(e.currentTarget.dataset.info)
+    // product_detail.html?productId= 9219;
+    let productData = e.currentTarget.dataset.info
+    let link = "";
+    if (productData.productType == 6) {
+      link = "ticket_detail.html?productId=" + productData.id;
+    } else {
+      link = "product_detail.html?productId=" + productData.id;
     }
+    // var a = "product_detail.html?productId=" + e.currentTarget.dataset.id; 
+    app.linkEvent(link);
   },
   closeZhezhao: function () {
     let that=this;
@@ -228,11 +240,22 @@ Page({
           that.setData({ mendianProductsList: mendianProductsList})
           that.closeZhezhao()
         } else {
-          wx.showToast({
-            title: res.data.errMsg+'~',
-            image: '/images/icons/tip.png',
-            duration: 1000
+          wx.showModal({
+          title: '提示',
+          content: res.data.errMsg + '~',
+          success: function (res) {
+              if (res.confirm) {
+                // that.setMendianProductStorage(params)
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
           })
+          // wx.showToast({
+          //   title: res.data.errMsg+'~',
+          //   image: '/images/icons/tip.png',
+          //   duration: 1000
+          // })
         }
       },
       complete: function (res) {
@@ -294,10 +317,30 @@ Page({
       animationData: animation.export()
     })
   },
+  //扫一扫 核销
+  getVerificationCode: function (e) {
+    let that=this;
+    console.log("getVerificationCode", e)
+    wx.scanCode({
+      onlyFromCamera: true,
+      scanType: ['barCode'],
+      success: (scanRes) => {
+        console.log("getVerificationCode", scanRes, scanRes.result)
+
+        that.params.name = scanRes.result
+        that.setData({ searchProductName: scanRes.result })
+        that.findMendianProductsList();
+        // wx.navigateTo({
+        //   url: "/" + scanRes.path
+        // })
+      }
+    })
+  },
   changeProductState: function (e) {
     let that = this;
     console.log("===changeStateProcess===", e)
     let index = e.currentTarget.dataset.index
+    that.listPage.page = 1
     that.data.currentIndex=index
     that.setData({ currentIndex: index })
     that.findMendianProductsList();

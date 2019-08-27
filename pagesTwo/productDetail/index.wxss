@@ -162,7 +162,7 @@ font-size: 0.8em;
   overflow: hidden
 }
 .price_font{
-  font-size: 48rpx;
+  font-size: 40rpx;
   line-height:40rpx;
   overflow: hidden;
   display: flex;

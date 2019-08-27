@@ -122,3 +122,9 @@
   height: 40rpx;
   margin-left: 20rpx;
 }
+.process_description_item_value{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width: 58%
+}

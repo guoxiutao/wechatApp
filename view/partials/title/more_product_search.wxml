@@ -3,7 +3,7 @@
   <block>
     <view class='search_top' style='background:{{jsonData.bgColor}}'>
       <view class='search_input'>
-        <input readonly ='readonly' class='search_input_text' data-link="more_select_page.html"  bindtap='tolinkUrl' confirm-type="search" placeholder-class="phcolor" placeholder='{{jsonData.title}}'></input>
+        <input readonly ='readonly' class='search_input_text' data-link="more_select_page.html"  bindtap='tolinkUrl' confirm-type="search" placeholder-class="phcolor" placeholder='{{jsonData.title?jsonData.title:properties.tip_product_search}}'></input>
         <image catchtap='getSearchProductName' class='search_input_icon' src='http://image1.sansancloud.com/xianhua/2019_4/2/14/30/34_688.jpg?x-oss-process=style/preview_120'></image>
       </view>
     </view>

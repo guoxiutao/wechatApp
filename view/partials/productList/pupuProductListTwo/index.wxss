@@ -12,7 +12,7 @@
   width: 50%;
   box-sizing: border-box;
   border: 1rpx solid #f5f5f5;
-  padding: 30rpx 18rpx;
+  padding: 30rpx 10rpx;
   position: relative;
 }
 .pupu_product_list_two_item_img{
@@ -57,8 +57,8 @@
   font-size: 24rpx;
 }
 .pupu_product_list_two_item_true_price{
-  font-size: 40rpx;
-  line-height:40rpx;
+  font-size: 36rpx;
+  line-height:36rpx;
 }
 .font_color{
   color: #a3a3a3;
@@ -84,10 +84,10 @@
 .pupu_product_list_two_item_cart_icon{
   width: 30rpx;
   height: 30rpx;
-  margin-right:10rpx;
+  margin-right:6rpx;
 }
 .pupu_product_list_two_item_cart_text{
-  letter-spacing: 12rpx;
+  letter-spacing: 8rpx;
   font-size:22rpx;
 }
 .pupu_product_list_two_item_tag {

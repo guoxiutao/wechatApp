@@ -19,13 +19,14 @@ var timeTimeout
       animationData:{},
       timer:null,
       numberTime: 0,
+      properties:{},
     },
     lifetimes: {
       attached: function () {
         console.log("========attached=============")
         let that = this;
         console.log("==========title=============", that.data.data)
-        that.setData({ setting: app.setting })
+        that.setData({ setting: app.setting, properties: app.properties })
         console.log("==========setting=============", that.data.setting.platformSetting.defaultColor)
         if (that.data.data.androidTemplate == "popup_page") {
           that.findNotifyTipsFun();

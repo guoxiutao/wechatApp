@@ -99,6 +99,22 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+.handle_item{
+  background:#eee;
+  border-radius:30rpx;
+  font-size: 20rpx;
+  padding:5rpx 20rpx;
+  margin-left:10rpx;
+}
+/* .handle_btn{
+  position: absolute;
+  bottom: 0rpx;
+  right: 10rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   background:#eee;
   border-radius:30rpx;
   padding:0 16rpx;
@@ -159,7 +175,7 @@
   width: 30rpx;
   height: 30rpx;
   margin-bottom: 4rpx;
-}
+} */
 .more_measure_btn{
   display: flex;
   width: 100rpx;
@@ -207,7 +223,7 @@
   white-space:nowrap;
 }
 .measure_item_price{
-  width: 15%;
+  width: 20%;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -221,7 +237,6 @@
   justify-content: center;
 }
 .measure_item_edit{
-  width: 10%;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -229,7 +244,8 @@
   border:1rpx solid #999;
   border-radius:10rpx;
   font-size:22rpx;
-  padding:6rpx;
+  padding:6rpx 16rpx;
+
 }
 /* 设置价格库存 */
 .add_measures_popup{
@@ -296,7 +312,7 @@
   color: #999;
   width: 100%;
   padding: 30rpx;
-  margin-top:80rpx;
+  margin-top:160rpx;
   box-sizing:border-box;
 }
 .picker{
@@ -399,4 +415,26 @@
 }
 .search_product_type_text{
   font-size: 0;
+}
+.scan_popup{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  right: 10rpx;
+  bottom: 20%;
+  font-size: 22rpx;
+  color: #999;
+}
+.scan_popup_block{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 70rpx;
+  width: 70rpx;
+  height: 70rpx;
+}
+.scan_popup_icon{
+  width: 40rpx;
+  height: 40rpx;
 }

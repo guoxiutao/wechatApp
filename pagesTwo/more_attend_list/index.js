@@ -245,7 +245,13 @@ Page({
   onPullDownRefresh: function () {
     let that = this;
     that.pageData.curPage = 1;
-    that.getAttendListData(that.params);
+    if (that.params.type == "my") {
+      that.getMyAttendListData(that.params);
+    } else if (that.params.type == "more") {
+      that.getAttendListData(that.params);
+    } else {
+      that.getAttendListData(that.params);
+    }
     that.setData({
       setting: app.setting,
       loginUser: app.loginUser
@@ -266,7 +272,13 @@ Page({
     let that=this;
     if (that.pageData.totalSize > that.pageData.curPage * that.pageData.pageSize){
       that.pageData.curPage += 1;
-      that.getAttendListData(that.params);
+      if (that.params.type == "my") {
+        that.getMyAttendListData(that.params);
+      } else if (that.params.type == "more") {
+        that.getAttendListData(that.params);
+      } else {
+        that.getAttendListData(that.params);
+      }
     }else{
       wx.showToast({
         title: "到底了~",

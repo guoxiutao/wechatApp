@@ -562,7 +562,12 @@ Page({
           }
         }
         try {
-          app.carChangeNotify(res.data);
+          if (data.count == 0) {
+            //此时购物车数量不会发生变化
+          }else{
+            app.carChangeNotify(res.data);
+          }
+         
         } catch (e) { }
 
       },
@@ -609,7 +614,7 @@ Page({
       }
     })
   },
-  getData:function(options){
+  getData: function (options, type){
     let param = {}
     let that = this
     if (!options){
@@ -692,7 +697,12 @@ Page({
       },
       fail: function (res) {
         console.log("====fail=====")
-        app.loadFail()
+        // app.loadFail()
+        if (!type) {
+          console.log("======加载失败一次======")
+          that.optionsData.someOneParam = 1
+          that.getData(that.optionsData, 'lastOne')
+        }
       },
       complete:function(res){
         wx.hideLoading()
@@ -715,6 +725,7 @@ Page({
       this.setData({ showInfo: false, bottomState: false })
     }
   },
+  optionsData: null,
   onLoad: function (options) {
     console.log('--------product----------', options)
     let that = this;
@@ -733,8 +744,9 @@ Page({
     console.log("商品id和店铺id",options)
     that.dataFOr_getData.id = options.id || options.productId,
     that.dataFOr_getData.addShopId = options.addShopId
-    that.setData({ dataFOr_getData:that.dataFOr_getData})
-    that.getData(options)
+    that.setData({ dataFOr_getData: that.dataFOr_getData })
+    that.optionsData = options
+    that.getData(that.optionsData)
   },
 
 

@@ -140,10 +140,14 @@
   <view wx:if='{{showGuigeType}}' class='measureItemsContainer' >
     <view class='measureItemsCard'>
       <view class='cardHead'>
-        <view class='cardHeadTip'><view></view><view></view><view></view></view>
+        <view class='cardHeadTip'>
+          <view style='background:{{setting.platformSetting.defaultColor}}'></view>
+          <view style='background:{{setting.platformSetting.defaultColor}}'></view>
+          <view style='background:{{setting.platformSetting.defaultColor}}'></view>
+        </view>
         <view class='cardHeadName'>{{MeasureItem.name}}</view>
         <view class='closeCard' bindtap='closeGuigeZhezhao'>
-         <icon type='clear' color='red' size='23'></icon>
+         <icon type='clear' color='{{setting.platformSetting.defaultColor}}' size='23'></icon>
         </view>
       </view>
       <view class='cardMid'  wx:for='{{MeasureItem.measureTypes}}' wx:for-item='types' wx:key='{{index}}'>
@@ -151,13 +155,13 @@
         <radio-group class='cardMidGuigeContainer' name='{{types.name}}' bindchange='chooseMeasure'>
           <label wx:for='{{types.productAssignMeasure}}' wx:for-item='Measure' wx:for-index="i" wx:key='{{i}}'
           data-index='{{index}}-{{i}}' bindtap='radioChange'>
-            <view class='{{types.checkedMeasureItem == i? "active":""}}'>{{Measure.measureName}}</view>
+            <view class='{{types.checkedMeasureItem == i? "active":""}}' style='background:{{types.checkedMeasureItem == i? setting.platformSetting.defaultColor:""}};border: 1px solid {{types.checkedMeasureItem == i? setting.platformSetting.defaultColor:""}}'>{{Measure.measureName}}</view>
             <radio checked='{{types.checkedMeasureItem == i}}' value='{{Measure.measureTypeName}}-{{Measure.id}}' hidden='true'></radio>
           </label>
         </radio-group>
       </view>
      
-      <view class='submitMeasure'>
+      <view class='submitMeasure' style='background:{{setting.platformSetting.defaultColor}}'>
         <view class='submitMeasure_price'>￥ <text class='PRICE'>{{measurementJson.price}}</text></view>
         <view class='submitMeasure_addto' bindtap='submitMeasure'>加入购物车</view>
       </view>

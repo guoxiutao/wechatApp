@@ -1,7 +1,7 @@
 <view class="container">
   <view class='search_top' style='background:{{setting.platformSetting.topBgColor}}'>
     <view class='search_input'>
-      <input class='search_input_text' value="{{searchValue}}" confirm-type="search" bindinput="saveSearchValue" bindconfirm='getSearchProductName' placeholder-class="phcolor" placeholder='保障源于专业，30分钟送达'></input>
+      <input class='search_input_text' value="{{searchValue}}" confirm-type="search" bindinput="saveSearchValue" bindconfirm='getSearchProductName' placeholder-class="phcolor" placeholder='{{properties.tip_product_search?properties.tip_product_search:"保障源于专业，30分钟送达"}}'></input>
       <image catchtap='getSearchProductName' class='search_input_icon' src='http://image1.sansancloud.com/xianhua/2019_4/2/14/30/34_688.jpg?x-oss-process=style/preview_120'></image>
     </view>
   </view>

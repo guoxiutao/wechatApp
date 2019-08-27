@@ -51,7 +51,7 @@
             <text class='pintuan' wx:if="{{promotionState}}">
               ￥{{productData.productInfo.promotionPrice}}
             </text>
-            <text wx:else style='font-size:48rpx;'>￥{{productData.productInfo.price}}</text>
+            <text wx:else style='font-size:40rpx;'>￥{{productData.productInfo.price}}</text>
             <text wx:if="{{productData.productInfo.maxPrice>productData.productInfo.price}}">-{{productData.productInfo.maxPrice}}</text>
             <text wx:if='{{productData.productInfo.unitShow}}' style='color:#bbb;font-size:24rpx;margin-left:4rpx;letter-spacing:4rpx;line-height:30rpx;'>
               /{{productData.productInfo.unitShow}}

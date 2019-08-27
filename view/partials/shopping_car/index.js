@@ -75,7 +75,7 @@ Component({
               that.setData({
                 cartData: that.data.cartData
               })
-              app.echoErr(res.data.result.errMsg)
+             // app.echoErr(res.data.result.errMsg)
             } else {
               console.log("======success====")
               that.data.cartData = res.data.result;

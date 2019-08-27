@@ -41,6 +41,7 @@ Component({
     buyCount: 0,
     totalPrice: 0,
     nextStepState:false,
+    processLineData:{},
   },
   // 返回
   ready: function () {
@@ -57,6 +58,45 @@ Component({
     that.getDetail(that.data.formCommitId)
   },
   methods: {
+    sureDeleteFormItemFun:function(){
+      let that=this;
+      console.log("====sureDeleteFormItemFun====",)
+      wx.showModal({
+        title: '提示',
+        content: '您确定要删除该表单嘛！',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            that.deleteFormItemFun()
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+            
+          }
+        }
+      })
+    },
+    deleteFormItemFun:function(){
+      let that = this;
+      let params = { formCommitId: that.data.formCommitId }
+      let customIndex = app.AddClientUrl("/wx_delete_custom_form_commit.html", params)
+      wx.request({
+        url: customIndex.url,
+        data: customIndex.params,
+        header: app.header,
+        success: function (res) {
+          console.log('====sssssss===', res)
+          wx.showToast({
+            title: '删除成功!',
+            icon: 'success',    //如果要纯文本，不要icon，将值设为'none'
+            duration: 1000
+          })
+          setTimeout(function () { wx.navigateBack() }, 1000);
+        },
+        fail: function (res) {//获取数据失败就会进入这个方法
+          wx.hideLoading()
+        }
+      })
+    },
     nextStepFun: function () {
       console.log("========nextStepFun=====")
       let that = this;
@@ -743,7 +783,15 @@ Component({
                   // if (customForm.items[i].splitStyle){
                   //   customForm.items[i].splitStyle = JSON.parse(customForm.items[i].splitStyle);
                   // }
-                } else {
+                } else if (customForm.items[i].type == 15 && commitJson[name]) {
+                  if (commitJson[name].value) {
+                    console.log("进程有值")
+                    commitJson[name].value = JSON.parse(commitJson[name].value)
+                    customForm.items[i].defaultValue = JSON.parse(customForm.items[i].defaultValue)
+                  } else {
+                    console.log("进程没值")
+                  }
+                }else {
                   if (typeof (commitJson[name]) == "object") {
                     customForm.items[i].defaultValue = commitJson[name].value
                   } else {

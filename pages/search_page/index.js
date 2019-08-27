@@ -144,9 +144,9 @@ Page({
     
   },
   initSetting(){
-    console.log("===setting===",app.setting)
+    console.log("===setting===", app.setting, app.properties)
     let hotSearchList = app.setting.platformSetting.tagsMap["产品热搜"]||[]
-    this.setData({ setting: app.setting, hotSearchList: hotSearchList})
+    this.setData({ setting: app.setting, hotSearchList: hotSearchList, properties: app.properties})
     wx.setNavigationBarColor({
       frontColor: app.setting.platformSetting.topColor.toLowerCase(),
       backgroundColor: app.setting.platformSetting.topBgColor,

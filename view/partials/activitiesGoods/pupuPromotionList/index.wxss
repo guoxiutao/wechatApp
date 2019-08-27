@@ -78,7 +78,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 30rpx 20rpx;
+  padding: 30rpx 10rpx;
   width:50%;
   border: 1rpx solid #f6f6f6;
   box-sizing:border-box;
@@ -87,20 +87,20 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 160rpx;
-  height: 160rpx;
-  margin-right: 16rpx;
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 10rpx;
 }
 .pupu_promotion_item_url{
-  width: 160rpx;
-  height: 160rpx;
+  width: 150rpx;
+  height: 150rpx;
 }
 .pupu_promotion_item_info{
    display: flex;
    flex-direction: column;
    justify-content: space-between;
    height: 160rpx;
-   width: 50%;
+   width: 58%;
 }
 .pupu_promotion_item_name{
   font-size: 26rpx;
@@ -115,12 +115,12 @@
   flex-direction: row;
   align-items: flex-end;
   color: #ff826e;
-  font-size: 24rpx;
+  font-size: 20rpx;
   margin-bottom:10rpx;
 }
 .pupu_promotion_item_true_price{
-  font-size: 30rpx;
-  line-height:30rpx;
+  font-size: 28rpx;
+  line-height:28rpx;
 }
 .font_color{
   color: #a3a3a3;

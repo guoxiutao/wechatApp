@@ -498,8 +498,9 @@
   border: 1px solid #ddd;
   margin-bottom: 10px;
 }
-.active{
-   border: 1px solid red !important;
+.cardMidGuigeContainer .active{
+   
+   color: #fff
 }
 .submitMeasure{
   width: 100%;

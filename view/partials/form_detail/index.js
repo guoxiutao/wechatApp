@@ -1,4 +1,5 @@
 const app = getApp();
+import { dateTimePicker, getMonthDay } from "../../../public/requestUrl.js";
 Component({
   properties: {
 
@@ -30,6 +31,7 @@ Component({
     selectPicker:{},
     upLoadImageList:{},
     dataAndTime:{},
+    commonData:{},
     showformSubmitBtn:false,
     showSubmitPopup:false,
     processType: false,
@@ -65,6 +67,11 @@ Component({
     limitStockData:['不限制','限制'],
     selectLimitStockIndex:0,
     controlFieldShow:{},//控制字段的显示隐藏
+    dateTimeObj: {},
+    dateTimeIndexObj: {},
+    processLineData: {},//进程
+    showMaskTwo:false,
+    currentProcessLineData:{},
   },
   ready: function () {
     let that = this;
@@ -122,6 +129,62 @@ Component({
     })
   },
   methods: {
+    addProcessLineItemFun:function(e){
+      console.log("====addProcessLineItemFun====",e)
+      let that=this;
+      let itemData = e.currentTarget.dataset.item;
+      that.setData({ currentProcessLineData: itemData, showMaskTwo:true})
+    },
+    sureProcessData: function (e) {
+      console.log("======sureProcessData=======", e)
+      let that = this;
+      let processLineData = that.data.processLineData;
+      let currentProcessLineData = that.data.currentProcessLineData;
+      console.log("currentProcessLineData", currentProcessLineData)
+      let resultData = e.detail.value;
+      if (!resultData.title) {
+        let content = currentProcessLineData.remark && currentProcessLineData.remark.title ? currentProcessLineData.remark.title : "标题"
+        wx.showModal({
+          title: '提示',
+          content: '主人~您的' + content +'还没填写哦!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return;
+      } else if(!resultData.content) {
+        let content = currentProcessLineData.remark && currentProcessLineData.remark.content ? currentProcessLineData.remark.content : "内容"
+        wx.showModal({
+          title: '提示',
+          content: '主人~您的' + content+'还没填写哦!',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return;
+      }  else {
+        processLineData[currentProcessLineData.name].splice(processLineData[currentProcessLineData.name].length, 0, resultData)
+        that.setData({ processLineData: processLineData })
+        that.closeZhezhao()
+      }
+    },
+    deleteProcessItem:function(e){
+      console.log("======deleteProcessItem=======", e)
+      let that = this;
+      let index = e.currentTarget.dataset.index;
+      let name = e.currentTarget.dataset.name;
+      let processLineData = that.data.processLineData
+      processLineData[name].splice(index, 1)
+      that.setData({ processLineData: processLineData })
+    },
     limitStockStateFun:function(e){
       console.log("======limitStockStateFun=======", e)
       let selectLimitStockIndex=e.detail.value;
@@ -132,7 +195,7 @@ Component({
       let that=this;
       let index = e.currentTarget.dataset.index;
       let measurePriceList = that.data.measurePriceList
-      measurePriceList.splice(1, 1)
+      measurePriceList.splice(index, 1)
       that.setData({ measurePriceList: measurePriceList })
     },
     sureMeasuresData:function(e){
@@ -204,7 +267,7 @@ Component({
       })
     },
     closeZhezhao: function () {
-      this.setData({ showMask: false })
+      this.setData({ showMask: false,showMaskTwo: false })
       let animation = wx.createAnimation({
         duration: 400,
         timingFunction: 'ease',
@@ -374,39 +437,88 @@ Component({
               that.setData({ showCheckBoxState: showCheckBoxState})
             }
             console.log("=======selectPicker======", selectPicker)
-          } else if (formData.items[i].listValues && formData.items[i].type == 13) {
+          } else if (formData.items[i].listValues && formData.items[i].type == 13) {//多级联的初始化
             let one=0;
             let two=0;
-            let three=0;
-            let index=0
-            formData.items[i].listValues = JSON.parse(formData.items[i].listValues)
+            let three = 0;
+            let four = 0;
+            let five = 0;
+            let index = 0
+            try {
+              formData.items[i].listValues = JSON.parse(formData.items[i].listValues)
+            } catch (e) {
+              console.log(e);
+              wx.showModal({
+                title: '提示',
+                content: formData.items[i].title + "(" + formData.items[i].name+")" + "字段的JSON数据格式不对",
+                success: function (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                    wx.navigateBack()
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+                    wx.navigateBack()
+                  }
+                }
+              })
+              return
+            }
             let listValues = formData.items[i].listValues
-            that.setData({ currentMultiData: formData.items })
+            // that.setData({ currentMultiData: formData.items })
+            console.log("=======listValues2======", i,listValues)
+            // that.setMultiPicker(formData.items[i], 0, 0, 0, 0, 0);
             if (formData.items[i].defaultValue){
               let defaultValue = JSON.parse(formData.items[i].defaultValue);
-              console.log("=====defaultValue----13====", defaultValue, listValues)
+              console.log("=====defaultValue----13====", defaultValue)
               for (let k = 0; k < listValues.length; k++) {
                 if (listValues[k].name == defaultValue[index]) {
+                  // 一级
                   one = k;
                   index++ 
                   let childrenTwo = listValues[k].children
                   for (let l = 0; l < childrenTwo.length; l++) {
                     if (childrenTwo[l].name == defaultValue[index]) {
+                      // 二级
                       two = l;
                       index++
                       let childrenThree = childrenTwo[l].children
                       for (let n = 0; n < childrenThree.length; n++) {
                         if (childrenThree[n].name == defaultValue[index]) {
+                          // 三级
                           three = n;
+                          index++
+                          let childrenFour = childrenThree[n].children
+                          if (childrenFour&&childrenFour.length!=0){
+                            for (let m = 0; m < childrenFour.length; m++) {
+                              if (defaultValue && defaultValue.length>=4&&childrenFour[m].name == defaultValue[index]) {
+                                // 四级
+                                four = m;
+                                index++
+                                let childrenfive = childrenFour[m].children
+                                if (childrenfive&&childrenfive.length!=0){
+                                  for (let o = 0; o < childrenfive.length; o++) {
+                                    if (defaultValue &&defaultValue.length>=5&&childrenfive[o].name == defaultValue[index]) {
+                                      // 五级
+                                      five = o;
+                                    }
+                                  }
+                                }else{
+                                  five=0
+                                }
+                              }else{
+                                four=0
+                              }
+                            }
+                          }
                         }
                       }
                     }
                   }
                 }
               }
-              that.setMultiPicker(formData.items[i],one, two, three);
+              that.setMultiPicker(formData.items[i], one, two, three, four,five);
             }else{
-              that.setMultiPicker(formData.items[i], 0, 0, 0);
+              that.setMultiPicker(formData.items[i], 0, 0, 0, 0, 0);
             }
           } else if (formData.items[i].type == 9999) {
             formData.items[i].splitStyle = JSON.parse(formData.items[i].splitStyle);
@@ -469,7 +581,59 @@ Component({
             that.setData({
               dataAndTime: dataAndTime
             })
-          } else {
+          } else if (formData.items[i].type == 8) {
+            let name = formData.items[i].name
+            let dateTimeObj = that.data.dateTimeObj
+            let dateTimeIndexObj = that.data.dateTimeIndexObj
+            let dataAndTime = that.data.dataAndTime
+            let obj = dateTimePicker(2019, 2050);
+            if (formData.items[i].defaultValue) {
+              console.log("日期时间有值", formData.items[i].defaultValue)
+              let defaultValue = formData.items[i].defaultValue 
+              let oldData = [...defaultValue.split(' ')[0].split('-'), ...defaultValue.split(' ')[1].split(':')]
+              let year = oldData[0] + '年';
+              let month = oldData[1] + '月';
+              let date = oldData[2] + '日';
+              let hours = oldData[3] + '时';
+              let minutes = oldData[4] + '分';
+              console.log("defaultValue", defaultValue)
+              let value = [year, month, date].join('-') + " " + [hours, minutes].join(':')
+              console.log("==value====", value)
+              obj = dateTimePicker(2019, 2050, value)
+            } else {
+              console.log("日期时间没值")
+            }
+            let lastArray = obj.dateTimeArray.pop();
+            let lastTime = obj.dateTime.pop();
+            dateTimeObj[name] = obj.dateTimeArray
+            dateTimeIndexObj[name] = obj.dateTime
+            dataAndTime[name] = dateTimeObj[name][0][dateTimeIndexObj[name][0]].slice(0, -1) + "-" + dateTimeObj[name][1][dateTimeIndexObj[name][1]].slice(0, -1) + "-" + dateTimeObj[name][2][dateTimeIndexObj[name][2]].slice(0, -1) + " " + dateTimeObj[name][3][dateTimeIndexObj[name][3]].slice(0, -1) + ":" + dateTimeObj[name][4][dateTimeIndexObj[name][4]].slice(0, -1);
+            that.setData({
+              dataAndTime: dataAndTime,
+              dateTimeObj: dateTimeObj,
+              dateTimeIndexObj: dateTimeIndexObj,
+            })
+            console.log("=============obj=============", obj)
+          } else if (formData.items[i].type == 15) {
+            let processLineData = that.data.processLineData;
+            let commonData = that.data.commonData;
+            if (formData.items[i].remark){
+              formData.items[i].remark = JSON.parse(formData.items[i].remark)
+            }
+            if (formData.items[i].defaultValue) {
+              console.log("进程有值")
+              commonData[formData.items[i].name] = formData.items[i].defaultValue
+              processLineData[formData.items[i].name] = JSON.parse(formData.items[i].defaultValue)
+            } else {
+              console.log("进程没值")
+              commonData[formData.items[i].name] = ""
+              processLineData[formData.items[i].name] = []
+            }
+            that.setData({
+              commonData: commonData,
+              processLineData: processLineData
+            })
+          }else {
             if (jsonData && jsonData[formData.items[i].name]){
               formData.items[i].defaultValue = jsonData[formData.items[i].name].value
             }
@@ -489,15 +653,99 @@ Component({
       that.setData({ inputValue: inputValue })
       console.log("====inputValue======", that.data.inputValue)
     },
-    setMultiPicker: function (itemData, indexOne, indexTwo, indexThree){
+    // 时间日期
+    changeDateTimeColumn1(e) {
+      console.log("===changeDateTimeColumn1===", e)
+      let that = this;
+      let itemData = e.currentTarget.dataset.itemdata
+      let dateTimeObj = that.data.dateTimeObj
+      let dateTimeIndexObj = that.data.dateTimeIndexObj
+      let dataAndTime = that.data.dataAndTime
+      console.log("===dateTimeIndexObj===", dateTimeIndexObj, dateTimeObj)
+      dateTimeIndexObj[itemData.name][e.detail.column] = e.detail.value;
+      let year = dateTimeObj[itemData.name][0][dateTimeIndexObj[itemData.name][0]].slice(0, -1);
+      let month = dateTimeObj[itemData.name][1][dateTimeIndexObj[itemData.name][1]].slice(0, -1)
+      dateTimeObj[itemData.name][2] = getMonthDay(year, month);
+      if (dateTimeIndexObj[itemData.name][2] >= dateTimeObj[itemData.name][2].length){
+        dateTimeIndexObj[itemData.name][2] = dateTimeObj[itemData.name][2].length - 1
+      }
+      dataAndTime[itemData.name] = dateTimeObj[itemData.name][0][dateTimeIndexObj[itemData.name][0]].slice(0, -1) + "-" + dateTimeObj[itemData.name][1][dateTimeIndexObj[itemData.name][1]].slice(0, -1) + "-" + dateTimeObj[itemData.name][2][dateTimeIndexObj[itemData.name][2]].slice(0, -1) + " " + dateTimeObj[itemData.name][3][dateTimeIndexObj[itemData.name][3]].slice(0, -1) + ":" + dateTimeObj[itemData.name][4][dateTimeIndexObj[itemData.name][4]].slice(0, -1)
+      this.setData({
+        dateTimeObj: dateTimeObj,
+        dateTimeIndexObj: dateTimeIndexObj,
+        dataAndTime: dataAndTime
+      });
+    },
+    changeDateTime1(e) {
+      console.log("====changeDateTime1====", e)
+      let that = this;
+      let itemData = e.currentTarget.dataset.itemdata
+      let dateTimeIndexObj = that.data.dateTimeIndexObj
+      dateTimeIndexObj[itemData.name] = e.detail.value
+      this.setData({ dateTimeIndexObj: dateTimeIndexObj });
+    },
+    // 多级联
+    getCurrentData: function (e) {
+      console.log("getCurrentData", e);
+      let that = this;
+      let itemData = e.currentTarget.dataset.itemdata
+      that.setData({ currentMultiData: itemData })
+    },
+    bindMultiPickerChange: function (e) {
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      // let that = this;
+      // let currentMultiData = that.data.currentMultiData//当前多级联项数据
+      // let dataA = that.data.multistageData;
+      // let multiIndex = that.data.multiIndex;
+      // let objName = currentMultiData.name
+      // let currentData = currentMultiData.listValues
+      // multiIndex[currentMultiData.name] = e.detail.value
+      // console.log('====currentMultiData=====', currentMultiData);
+      // let multiIndex = this.data.multiIndex
+      // multiIndex[currentMultiData.name] = e.detail.value
+      // this.setData({
+      //   confirmMultiIndex: multiIndex
+      // })
+    },
+    bindMultiPickerColumnChange: function (e) {
+      let that = this;
+      console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
+      let currentMultiData = that.data.currentMultiData
+      console.log('====currentMultiData=====', currentMultiData);
+      let multiIndex = that.data.multiIndex
+      switch (e.detail.column) {
+        // 一级联
+        case 0:
+          that.setMultiPicker(currentMultiData, e.detail.value, 0, 0, 0, 0);
+          break;
+        // 二级联
+        case 1:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], e.detail.value, 0,0,0);
+          break;
+        //三级联
+        case 2:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1], e.detail.value,0,0);
+          break;
+        //四级联
+        case 3:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1], multiIndex[currentMultiData.name][2],e.detail.value,0);
+          break;
+        //五级联
+        case 4:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1],multiIndex[currentMultiData.name][2],multiIndex[currentMultiData.name][3], e.detail.value);
+          break;
+      }
+    },
+    setMultiPicker: function (itemData, indexOne, indexTwo, indexThree, indexFour, indexFive){
       let that=this;
       let dataA = that.data.multistageData;
       let multiIndex = that.data.multiIndex;
       let objName = itemData.name
       let currentData = itemData.listValues
+      console.log("====currentData====", currentData)
       dataA[objName] = [];
       dataA[objName][0] = [];
-      multiIndex[objName] = [indexOne, indexTwo, indexThree];
+      multiIndex[objName] = [indexOne, indexTwo, indexThree, indexFour, indexFive];//当前多级联的选择数据
       // 一级
       for (let j = 0; j < currentData.length; j++) {
         dataA[objName][0].push(currentData[j].name)
@@ -514,6 +762,20 @@ Component({
         dataA[objName][2] = [];
         for (let l = 0; l < currentData[indexOne].children[indexTwo].children.length; l++) {
           dataA[objName][2].push(currentData[indexOne].children[indexTwo].children[l].name)
+        }
+      }
+      //四级
+      if (currentData[indexOne].children[indexTwo].children&&currentData[indexOne].children[indexTwo].children.length!=0&&currentData[indexOne].children[indexTwo].children[indexThree].children && currentData[indexOne].children[indexTwo].children[indexThree].children.length != 0) {
+        dataA[objName][3] = [];
+        for (let m = 0; m < currentData[indexOne].children[indexTwo].children[indexThree].children.length; m++) {
+          dataA[objName][3].push(currentData[indexOne].children[indexTwo].children[indexThree].children[m].name)
+        }
+      }
+      //五级
+      if (currentData[indexOne].children[indexTwo].children&&currentData[indexOne].children[indexTwo].children.length != 0 && currentData[indexOne].children[indexTwo].children[indexThree].children && currentData[indexOne].children[indexTwo].children[indexThree].children.length!=0&&currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children && currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children.length != 0) {
+        dataA[objName][4] = [];
+        for (let n = 0; n < currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children.length; n++) {
+          dataA[objName][4].push(currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children[n].name)
         }
       }
       console.log("===dataA====", dataA)
@@ -608,43 +870,6 @@ Component({
       region: region
     })
   },
-    getCurrentData:function(e){
-      console.log("getCurrentData",e);
-      let that=this;
-      let itemData = e.currentTarget.dataset.itemdata
-      that.setData({ currentMultiData: itemData})
-    },
-  // 多级联
-    bindMultiPickerChange: function (e) {
-      console.log('picker发送选择改变，携带值为', e.detail.value)
-      let that=this;
-      let currentMultiData = that.data.currentMultiData
-      let multiIndex = this.data.multiIndex
-      multiIndex[currentMultiData.name] = e.detail.value
-      this.setData({
-        confirmMultiIndex: multiIndex
-      })
-    },
-    bindMultiPickerColumnChange: function (e) {
-      let that=this;
-      console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
-      let currentMultiData = that.data.currentMultiData
-      let multiIndex = that.data.multiIndex
-      switch (e.detail.column) {
-          // 一级联
-        case 0:
-          that.setMultiPicker(currentMultiData, e.detail.value,0,0,0);
-          break;
-          // 二级联
-        case 1:
-          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], e.detail.value,0);
-          break;
-          //三级联
-        case 2:
-          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1], e.detail.value);
-          break;
-      }
-    },
 
 
   tolinkUrl: function (e) {
@@ -762,13 +987,16 @@ Component({
     let checkboxList = {}
     let radioList = {}
     let multistageData = {}
+    let processLineData = {}
     for (let i = 0; i<that.data.formData.items.length;i++){
       if (that.data.formData.items[i].type == 7||that.data.formData.items[i].type ==11){
         imgObj[that.data.formData.items[i].name] = that.data.upLoadImageList['img_' + i]||""
       }else if (that.data.formData.items[i].type == 10) {
         region[that.data.formData.items[i].name] = that.data.region['address_' + i] !='请选择您的地址'?that.data.region['address_' + i] : ""
-      } else if (that.data.formData.items[i].type == 5||that.data.formData.items[i].type == 6) {
+      } else if (that.data.formData.items[i].type == 5 || that.data.formData.items[i].type == 6 ) {
         dataAndTime[that.data.formData.items[i].name] = that.data.dataAndTime[that.data.formData.items[i].name] || ""
+      } else if ( that.data.formData.items[i].type == 8) {
+        dataAndTime[that.data.formData.items[i].name] = that.data.dataAndTime[that.data.formData.items[i].name]+":00" || ""
       } else if (that.data.formData.items[i].type == 2) {
         selectPicker[that.data.formData.items[i].name] = that.data.selectPicker['picker_' + i] || ""
       } else if (that.data.formData.items[i].type == 3) {
@@ -777,6 +1005,8 @@ Component({
         checkboxList[that.data.formData.items[i].name] = that.data.selectPicker['checkbox_' + i] || ""
       }else if (that.data.formData.items[i].type == 12) {
         positionObj[that.data.formData.items[i].name] = that.data.locationList['position_' + i] || ""
+      } else if (that.data.formData.items[i].type == 15) {
+        processLineData[that.data.formData.items[i].name] = JSON.stringify(that.data.processLineData[that.data.formData.items[i].name]) || ""
       } else if (that.data.formData.items[i].type == 13) {
         console.log("that.data.formData.items[i].name", that.data.formData.items[i].name)
         let multistageDataObj = that.data.multistageData[that.data.formData.items[i].name];
@@ -795,7 +1025,7 @@ Component({
 
       }
     }
-    value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker, multistageData, checkboxList, radioList)
+      value = Object.assign({}, value, imgObj, positionObj, region, dataAndTime, selectPicker, multistageData, checkboxList, radioList, processLineData)
     console.log('===value2=====', value, that.data.formData)
     let itemData = that.data.formData.items
     // return
@@ -843,6 +1073,7 @@ Component({
   },
   sureSubimtFun: function (params){
     let that=this;
+    app.showToastLoading("请稍等~",true)
     var formData = app.AddClientUrl("/wx_commit_custom_form.html", params, 'post')
     wx.request({
       url: formData.url,
@@ -850,7 +1081,7 @@ Component({
       header: app.headerPost,
       success: function (res) {
         console.log(res.data)
-
+        wx.hideLoading()
         if (res.data.errcode == '0') {
           wx.showToast({
             title: '提交成功',

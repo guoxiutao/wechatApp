@@ -559,6 +559,8 @@ Page({
     let focusProduct = this.data.MeasureItem
     let measurementJson = this.data.measurementJson
     let data = {}
+    console.log(focusProduct)
+    ++focusProduct.inCarCount;
     data.cartesianId = measurementJson.id
     data.productId = focusProduct.id
     data.shopId = focusProduct.belongShopId
@@ -574,7 +576,14 @@ Page({
       success: function (res) {
         console.log('--------add----------')
         console.log(res.data)
-        that.setData({ showGuigeType: false })
+        that.setData({
+          countGood: res.data.totalCarItemCount,
+          countPrice: res.data.totalCarItemPrice,
+          productData: that.data.productData,
+          showGuigeType: false,
+        })
+        that.showZheshao()
+        that.getCart()
         wx.hideLoading()
       },
       fail: function (res) {

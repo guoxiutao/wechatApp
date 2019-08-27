@@ -154,7 +154,7 @@
   text-align: center;
   padding:10rpx;
   margin:10rpx;
-  width: 18%;
+  /* width: 18%; */
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;

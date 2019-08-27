@@ -48,6 +48,9 @@ Component({
     showMoreSelectState:false,
     twoMultistageData: {},//级联二级筛选的所有存放对象（根据字段名）
     threeMultistageData: {},//级联三级筛选的所有存放对象（根据字段名）
+    currentMultiData: {},
+    multistageData: {},//级联数据
+    multiIndex: {},//选择级联位置
   },
   ready: function () {
     let that = this;
@@ -83,7 +86,7 @@ Component({
       that.getFormType(groupName, that.getData);
       that.data.params = options;
     }
-    console.log('===options===', that.data.componentState, that.data.publishState)
+    console.log('===options===', that.data.componentState, that.data.publishState, that.data.params)
   },
   methods: {
     showMore:function(e){
@@ -265,7 +268,7 @@ Component({
       let params = JSON.parse(JSON.stringify(selectData))
       console.log("that.data.listPage", that.data.listPage)
       let getParams = {};
-      getParams = that.data.listPage
+      getParams = Object.assign({}, getParams, that.data.listPage, that.data.params) 
       if (JSON.stringify(params)!='{}') {
         for (let i in params){
           console.log("typeof (params[i]", typeof (params[i]))
@@ -360,7 +363,9 @@ Component({
     getFormDetail:function(){
       let that=this;
       let formListStyle;
-      let formDetailData = app.AddClientUrl("/wx_get_custom_form.html", { customFormId: that.data.listPage.customFormId || "" }, 'get')
+      let params = { customFormId: that.data.listPage.customFormId || "" }
+      params = Object.assign({}, params,that.data.params)
+      let formDetailData = app.AddClientUrl("/wx_get_custom_form.html", params , 'get')
       console.log('==formDetailData===', formDetailData)
       wx.request({
         url: formDetailData.url,
@@ -393,9 +398,11 @@ Component({
               that.setData({ publishState: false })
             }
             console.log("=====publishState========", that.data.publishState)
+            // 筛选类别
             if (data.items.length != 0) {
               let selectTab = [];
               let selectResultsObj = {};
+              // 活动表单的额外选项
               if (res.data.relateObj.formType ==3){
                 let item={}
                 selectResultsObj['recordStatus'] = ""//选择值的初始化
@@ -441,21 +448,21 @@ Component({
                   if (data.items[i].listValues) {//选择Tab的值
                     listValues = JSON.parse(data.items[i].listValues)
                     console.log("======listValues========", listValues)
-                    for (let j = 0; j < listValues.length; j++) {
-                      listValues[j].state = false;
-                      if (listValues[j].children.length!=0){
-                        let listValuesTwo = listValues[j].children
-                        for (let k = 0; k < listValuesTwo.length; k++) {
-                          listValuesTwo[k].state = false;
-                          if (listValuesTwo[k].children.length != 0) {
-                            let listValuesThree = listValuesTwo[k].children
-                            for (let g = 0; g < listValuesThree.length; g++) {
-                              listValuesThree[g].state = false;
-                            }
-                          }
-                        }
-                      }
-                    }
+                    // for (let j = 0; j < listValues.length; j++) {
+                    //   listValues[j].state = false;
+                    //   if (listValues[j].children.length!=0){
+                    //     let listValuesTwo = listValues[j].children
+                    //     for (let k = 0; k < listValuesTwo.length; k++) {
+                    //       listValuesTwo[k].state = false;
+                    //       if (listValuesTwo[k].children.length != 0) {
+                    //         let listValuesThree = listValuesTwo[k].children
+                    //         for (let g = 0; g < listValuesThree.length; g++) {
+                    //           listValuesThree[g].state = false;
+                    //         }
+                    //       }
+                    //     }
+                    //   }
+                    // }
                     selectTabItem.listValues = listValues;
                   }
                   console.log("===selectTabItem===", selectTabItem)
@@ -464,6 +471,7 @@ Component({
                   }else{
                     selectTab.push(selectTabItem)
                   }
+                  that.setMultiPicker(selectTabItem, 0, 0, 0, 0, 0);
                 }
               }
               console.log("==selectTab===", selectTab)
@@ -479,20 +487,126 @@ Component({
     selectTab:function(e){
       console.log("====selectTab====",e)
       let that=this;
-      that.closeZhezhao()
       let selectTab = that.data.selectTab
-      let index = e.currentTarget.dataset.index;
+      let index = e.currentTarget.dataset.index == -1 ? e.currentTarget.dataset.father : e.currentTarget.dataset.index;
       if (that.data.selectTabIndex!=index){
-        that.setData({ showCount: true, showMoreSelectState: false })
         that.setData({ selectTabIndex: index })
         for (let i = 0; i < selectTab.length;i++){
           selectTab[i].state=false;
         }
         that.data.selectTab[index].state=true
+        if (selectTab[index].type =="multistage-style"){
+          console.log("multistage-style", selectTab[index])
+          that.setData({ currentMultiData: selectTab[index], })
+        } else {
+          console.log("other", selectTab[index])
+          that.closeZhezhao()
+          that.setData({ showCount: true, showMoreSelectState: false })
+        }
         that.setData({ selectTab: selectTab  })
       } else {
-        that.closeZhezhao()
+        // that.closeZhezhao()
       }
+    },
+    // 多级联
+    bindMultiPickerChange:function(data){
+      console.log("=====bindMultiPickerChange=====", data)
+      let that = this;
+      let selectResultsObj = that.data.selectResultsObj//搜索数据
+      let name = data.currentTarget.dataset.name
+      let multistageDataObj = that.data.multistageData[name];
+      let multiIndexObj = that.data.multiIndex[name]
+      console.log("===multiIndexObj====", multistageDataObj, multiIndexObj)
+      selectResultsObj[name] = []
+      if (multistageDataObj.length != 0) {
+        for (let j = 0; j < multistageDataObj.length; j++) {
+          console.log(multistageDataObj[j][multiIndexObj[j]])
+          selectResultsObj[name].push(multistageDataObj[j][multiIndexObj[j]])
+        }
+      }
+      that.setData({ selectResultsObj: selectResultsObj })
+      that.getData(selectResultsObj);
+      that.closeZhezhao()
+      console.log("===selectResultsObj====", selectResultsObj)
+    },
+    bindMultiPickerColumnChange: function (e) {
+      let that = this;
+      console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
+      let currentMultiData = that.data.currentMultiData
+      console.log('====currentMultiData=====', currentMultiData);
+      let multiIndex = that.data.multiIndex
+      switch (e.detail.column) {
+        // 一级联
+        case 0:
+          that.setMultiPicker(currentMultiData, e.detail.value, 0, 0, 0, 0);
+          break;
+        // 二级联
+        case 1:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], e.detail.value, 0, 0, 0);
+          break;
+        //三级联
+        case 2:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1], e.detail.value, 0, 0);
+          break;
+        //四级联
+        case 3:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1], multiIndex[currentMultiData.name][2], e.detail.value, 0);
+          break;
+        //五级联
+        case 4:
+          that.setMultiPicker(currentMultiData, multiIndex[currentMultiData.name][0], multiIndex[currentMultiData.name][1], multiIndex[currentMultiData.name][2], multiIndex[currentMultiData.name][3], e.detail.value);
+          break;
+      }
+    },
+    setMultiPicker: function (itemData, indexOne, indexTwo, indexThree, indexFour, indexFive) {
+      let that = this;
+      console.log("===itemData=====", itemData)
+      let dataA = that.data.multistageData;
+      let multiIndex = that.data.multiIndex;
+      let objName = itemData.name
+      let currentData = itemData.listValues
+      console.log("====currentData====", currentData)
+      dataA[objName] = [];
+      dataA[objName][0] = [];
+      multiIndex[objName] = [indexOne, indexTwo, indexThree, indexFour, indexFive];//当前多级联的选择数据
+      // 一级
+      for (let j = 0; j < currentData.length; j++) {
+        dataA[objName][0].push(currentData[j].name)
+      }
+      //二级
+      if (currentData[indexOne].children && currentData[indexOne].children.length != 0) {
+        dataA[objName][1] = [];
+        for (let k = 0; k < currentData[indexOne].children.length; k++) {
+          dataA[objName][1].push(currentData[indexOne].children[k].name)
+        }
+      }
+      //三级
+      if (currentData[indexOne].children && currentData[indexOne].children.length!=0&&currentData[indexOne].children[indexTwo].children && currentData[indexOne].children[indexTwo].children.length != 0) {
+        dataA[objName][2] = [];
+        for (let l = 0; l < currentData[indexOne].children[indexTwo].children.length; l++) {
+          dataA[objName][2].push(currentData[indexOne].children[indexTwo].children[l].name)
+        }
+      }
+      //四级
+      if (currentData[indexOne].children[indexTwo].children && currentData[indexOne].children[indexTwo].children.length != 0 && currentData[indexOne].children[indexTwo].children[indexThree].children && currentData[indexOne].children[indexTwo].children[indexThree].children.length != 0) {
+        dataA[objName][3] = [];
+        for (let m = 0; m < currentData[indexOne].children[indexTwo].children[indexThree].children.length; m++) {
+          dataA[objName][3].push(currentData[indexOne].children[indexTwo].children[indexThree].children[m].name)
+        }
+      }
+      //五级
+      if (currentData[indexOne].children[indexTwo].children && currentData[indexOne].children[indexTwo].children.length != 0 && currentData[indexOne].children[indexTwo].children[indexThree].children && currentData[indexOne].children[indexTwo].children[indexThree].children.length != 0 && currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children && currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children.length != 0) {
+        dataA[objName][4] = [];
+        for (let n = 0; n < currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children.length; n++) {
+          dataA[objName][4].push(currentData[indexOne].children[indexTwo].children[indexThree].children[indexFour].children[n].name)
+        }
+      }
+      console.log("===dataA====", dataA)
+      console.log("===multiIndex====", multiIndex)
+      that.setData({
+        multistageData: dataA,
+        multiIndex: multiIndex
+      })
     },
     selectResult:function(e){
       let that=this;
@@ -554,92 +668,90 @@ Component({
           selectResultsObj[selectTab[selectTabIndex].name] = resultData;
           selectTab[selectTabIndex].listValues[index].state = selectTab[selectTabIndex].listValues[index].state ? false : true;
         }
-      } else if (selectTab[selectTabIndex].type == 'multistage-style'){//级联
-        let level = e.currentTarget.dataset.level;//选项的级别;
-        let itemData = e.currentTarget.dataset.item;//选项的数据;
-        let allTwoMultistageData = that.data.twoMultistageData
-        let allThreeMultistageData = that.data.threeMultistageData
-        // let twoMultistageData
-        // let threeMultistageData
-        let resultData = selectResultsObj[selectTab[selectTabIndex].name]
-        if (index == -1) {
-          console.log("======multistage-style选择了全部=====")
-          if (level == "two") {
-            console.log("====two-1====")
-            allTwoMultistageData[selectTab[selectTabIndex].name] = null;
-            allThreeMultistageData[selectTab[selectTabIndex].name] = null;
-            resultData = ""
-            for (let i = 0; i < selectTab[selectTabIndex].listValues.length; i++) {
-              selectTab[selectTabIndex].listValues[i].state = false;
-            }
-          } else if (level == "three") {
-            console.log("====three-1====")
-            allThreeMultistageData[selectTab[selectTabIndex].name] = null;
-            console.log("====resultData===", resultData)
-            if (resultData.length==3){
-              resultData.splice(2, 1)
-            }
-            if (resultData.length == 2) {
-              resultData.splice(1, 1)
-            }
-            if (allTwoMultistageData[selectTab[selectTabIndex].name] && allTwoMultistageData[selectTab[selectTabIndex].name].length!=0){
-              for (let i = 0; i < allTwoMultistageData[selectTab[selectTabIndex].name].length; i++) {
-                allTwoMultistageData[selectTab[selectTabIndex].name][i].state = false;
-              }
-            }
-            // threeMultistageData = null
-          }else{
-            console.log("====three-2====")
-            if (resultData.length == 3) {
-              resultData.splice(2, 1)
-            }
-            if (allThreeMultistageData[selectTab[selectTabIndex].name] && allThreeMultistageData[selectTab[selectTabIndex].name].length!=0){
-              for (let i = 0; i < allThreeMultistageData[selectTab[selectTabIndex].name].length; i++) {
-                allThreeMultistageData[selectTab[selectTabIndex].name][i].state = false;
-              }
-            }
-          }
-        } else {
-          console.log("======multi-select选择了其他选项=====")
-          if(level=="two"){
-            console.log("====显示two，点击one====")
-            // twoMultistageData = itemData.children
-            allTwoMultistageData[selectTab[selectTabIndex].name] = itemData.children
-            for (let i = 0; i < selectTab[selectTabIndex].listValues.length; i++) {
-              selectTab[selectTabIndex].listValues[i].state = false;
-            }
-            selectTab[selectTabIndex].listValues[index].state = true
-            if (!resultData){
-              resultData=[];
-            }
-            resultData.splice(0, 1, itemData.name)
-            // threeMultistageData = null
-            allThreeMultistageData[selectTab[selectTabIndex].name] = null;
-            resultData.splice(2, 1)
-            resultData.splice(1, 1)
-          } else if (level == "three") {
-            console.log("====显示three，点击two====")
-            // threeMultistageData = itemData.children
-            allThreeMultistageData[selectTab[selectTabIndex].name] = itemData.children
-            for (let i = 0; i < allTwoMultistageData[selectTab[selectTabIndex].name].length; i++) {
-              allTwoMultistageData[selectTab[selectTabIndex].name][i].state = false;
-            }
-            allTwoMultistageData[selectTab[selectTabIndex].name][index].state=true
-            resultData.splice(1, 1, itemData.name)
-            resultData.splice(2, 1)
-          }else{
-            console.log("====点击three====")
-            for (let i = 0; i < allThreeMultistageData[selectTab[selectTabIndex].name].length; i++) {
-              allThreeMultistageData[selectTab[selectTabIndex].name][i].state = false;
-            }
-            allThreeMultistageData[selectTab[selectTabIndex].name][index].state = true
-            resultData.splice(2, 1, itemData.name)
-          }
-        }
-        selectResultsObj[selectTab[selectTabIndex].name] = resultData
-        console.log("==threeMultistageData===",allThreeMultistageData, allTwoMultistageData)
-        that.setData({ threeMultistageData: allThreeMultistageData, twoMultistageData: allTwoMultistageData, selectResultsObj: selectResultsObj})
-      }
+      } 
+      // else if (selectTab[selectTabIndex].type == 'multistage-style'){//级联
+      //   let level = e.currentTarget.dataset.level;//选项的级别;
+      //   let itemData = e.currentTarget.dataset.item;//选项的数据;
+      //   let allTwoMultistageData = that.data.twoMultistageData
+      //   let allThreeMultistageData = that.data.threeMultistageData
+      //   let resultData = selectResultsObj[selectTab[selectTabIndex].name]
+      //   if (index == -1) {
+      //     console.log("======multistage-style选择了全部=====")
+      //     if (level == "two") {
+      //       console.log("====two-1====")
+      //       allTwoMultistageData[selectTab[selectTabIndex].name] = null;
+      //       allThreeMultistageData[selectTab[selectTabIndex].name] = null;
+      //       resultData = ""
+      //       for (let i = 0; i < selectTab[selectTabIndex].listValues.length; i++) {
+      //         selectTab[selectTabIndex].listValues[i].state = false;
+      //       }
+      //     } else if (level == "three") {
+      //       console.log("====three-1====")
+      //       allThreeMultistageData[selectTab[selectTabIndex].name] = null;
+      //       console.log("====resultData===", resultData)
+      //       if (resultData.length==3){
+      //         resultData.splice(2, 1)
+      //       }
+      //       if (resultData.length == 2) {
+      //         resultData.splice(1, 1)
+      //       }
+      //       if (allTwoMultistageData[selectTab[selectTabIndex].name] && allTwoMultistageData[selectTab[selectTabIndex].name].length!=0){
+      //         for (let i = 0; i < allTwoMultistageData[selectTab[selectTabIndex].name].length; i++) {
+      //           allTwoMultistageData[selectTab[selectTabIndex].name][i].state = false;
+      //         }
+      //       }
+      //     }else{
+      //       console.log("====three-2====")
+      //       if (resultData.length == 3) {
+      //         resultData.splice(2, 1)
+      //       }
+      //       if (allThreeMultistageData[selectTab[selectTabIndex].name] && allThreeMultistageData[selectTab[selectTabIndex].name].length!=0){
+      //         for (let i = 0; i < allThreeMultistageData[selectTab[selectTabIndex].name].length; i++) {
+      //           allThreeMultistageData[selectTab[selectTabIndex].name][i].state = false;
+      //         }
+      //       }
+      //     }
+      //   } else {
+      //     console.log("======multi-select选择了其他选项=====")
+      //     if(level=="two"){
+      //       console.log("====显示two，点击one====")
+      //       // twoMultistageData = itemData.children
+      //       allTwoMultistageData[selectTab[selectTabIndex].name] = itemData.children
+      //       for (let i = 0; i < selectTab[selectTabIndex].listValues.length; i++) {
+      //         selectTab[selectTabIndex].listValues[i].state = false;
+      //       }
+      //       selectTab[selectTabIndex].listValues[index].state = true
+      //       if (!resultData){
+      //         resultData=[];
+      //       }
+      //       resultData.splice(0, 1, itemData.name)
+      //       // threeMultistageData = null
+      //       allThreeMultistageData[selectTab[selectTabIndex].name] = null;
+      //       resultData.splice(2, 1)
+      //       resultData.splice(1, 1)
+      //     } else if (level == "three") {
+      //       console.log("====显示three，点击two====")
+      //       // threeMultistageData = itemData.children
+      //       allThreeMultistageData[selectTab[selectTabIndex].name] = itemData.children
+      //       for (let i = 0; i < allTwoMultistageData[selectTab[selectTabIndex].name].length; i++) {
+      //         allTwoMultistageData[selectTab[selectTabIndex].name][i].state = false;
+      //       }
+      //       allTwoMultistageData[selectTab[selectTabIndex].name][index].state=true
+      //       resultData.splice(1, 1, itemData.name)
+      //       resultData.splice(2, 1)
+      //     }else{
+      //       console.log("====点击three====")
+      //       for (let i = 0; i < allThreeMultistageData[selectTab[selectTabIndex].name].length; i++) {
+      //         allThreeMultistageData[selectTab[selectTabIndex].name][i].state = false;
+      //       }
+      //       allThreeMultistageData[selectTab[selectTabIndex].name][index].state = true
+      //       resultData.splice(2, 1, itemData.name)
+      //     }
+      //   }
+      //   selectResultsObj[selectTab[selectTabIndex].name] = resultData
+      //   console.log("==threeMultistageData===",allThreeMultistageData, allTwoMultistageData)
+      //   that.setData({ threeMultistageData: allThreeMultistageData, twoMultistageData: allTwoMultistageData, selectResultsObj: selectResultsObj})
+      // }
       console.log("==selectResultsObj===", selectResultsObj)
       that.setData({ selectResultsObj: selectResultsObj, specialSelectResultsObj:specialSelectResultsObj,selectTab: selectTab})
     },

@@ -1,3 +1,4 @@
+
 const app = getApp();
 Component({
   properties: {
@@ -134,47 +135,72 @@ Component({
       let that=this;
       console.log("====data===", data)
       let formId = data.currentTarget.dataset.id ? data.currentTarget.dataset.id : 0;
+      let processInstanceId = data.currentTarget.dataset.processinstanceid ? data.currentTarget.dataset.processinstanceid : 0;
       let orderNo = data.currentTarget.dataset.orderno ? data.currentTarget.dataset.orderno : 0;
       let processSource = that.data.data.processSource
-      let text = processSource == 1 ?'查看订单详情':'查看用户提交的表单'
+      let processLinkUrlList = data.currentTarget.dataset.processlinklist ? data.currentTarget.dataset.processlinklist : '';
+      let itemList = []
+      let text = processSource == 1 ? '查看订单详情' : '查看用户提交的表单'
+      itemList.push(text)
+      if (processLinkUrlList){
+        processLinkUrlList = JSON.parse(processLinkUrlList)
+        console.log("===processLinkUrlList===", processLinkUrlList)
+        for (let i = 0; i < processLinkUrlList.length;i++){
+          itemList.push(processLinkUrlList[i].title)
+        }
+      }
       wx.showActionSheet({
-        itemList: [text],
+        itemList: itemList,
         success: function (res) {
           console.log(res.tapIndex)
-          if (processSource==0){
-            if (!formId) {
-              wx.showModal({
-                title: '提示',
-                content: '主人~该流程没有内容哦!',
-                success: function (res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定')
-                  } else if (res.cancel) {
-                    console.log('用户点击取消')
+          let curIndex = res.tapIndex
+          if (curIndex==0) {
+            if (processSource == 0) {
+              if (!formId) {
+                wx.showModal({
+                  title: '提示',
+                  content: '主人~该流程没有内容哦!',
+                  success: function (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
                   }
-                }
-              })
+                })
+              } else {
+                let url = "check_form_detail.html?custom_form_commit_id=" + formId
+                that.tolinkUrl(url)
+              }
             } else {
-              let url = "check_form_detail.html?custom_form_commit_id=" + formId
-              that.tolinkUrl(url)
+              if (!orderNo) {
+                wx.showModal({
+                  title: '提示',
+                  content: '主人~该流程没有生成订单哦!',
+                  success: function (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              } else {
+                let url = "order_detail.html?orderNo=" + orderNo
+                that.tolinkUrl(url)
+              }
             }
           }else{
-            if (!orderNo) {
-              wx.showModal({
-                title: '提示',
-                content: '主人~该流程没有生成订单哦!',
-                success: function (res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定')
-                  } else if (res.cancel) {
-                    console.log('用户点击取消')
-                  }
-                }
-              })
+            let processLinkUrl = processLinkUrlList[curIndex-1].linkUrl;
+            if (processLinkUrl.indexOf("?")!=-1){
+              console.log("====有问号====",)
+              processLinkUrl += "&processInstanceId=" + processInstanceId
             } else {
-              let url = "order_detail.html?orderNo=" + orderNo
-              that.tolinkUrl(url)
+              console.log("====没问号====")
+              processLinkUrl += "?processInstanceId=" + processInstanceId
             }
+            console.log("processLinkUrl", processLinkUrl)
+            that.tolinkUrl(processLinkUrl)
           }
         },
         fail: function (res) {
