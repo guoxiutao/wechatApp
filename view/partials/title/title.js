@@ -1,3 +1,5 @@
+
+import { socketFun } from "../../../public/json2Form.js";
 const app = getApp();
 var timeTimeout
   Component({
@@ -24,6 +26,10 @@ var timeTimeout
     lifetimes: {
       attached: function () {
         console.log("========attached=============")
+        socketFun.addListener( "defaultUserChat",  function(msg){
+            console.log("hello!!!",msg);
+            return true;
+        });
         let that = this;
         console.log("==========title=============", that.data.data)
         that.setData({ setting: app.setting, properties: app.properties })

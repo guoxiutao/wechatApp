@@ -621,9 +621,14 @@ Component({
               formData.items[i].remark = JSON.parse(formData.items[i].remark)
             }
             if (formData.items[i].defaultValue) {
-              console.log("进程有值")
+              console.log("进程有值", formData.items[i].defaultValue)
               commonData[formData.items[i].name] = formData.items[i].defaultValue
-              processLineData[formData.items[i].name] = JSON.parse(formData.items[i].defaultValue)
+              try {
+                processLineData[formData.items[i].name] = JSON.parse(formData.items[i].defaultValue)
+              } catch (e) {
+                processLineData[formData.items[i].name] = formData.items[i].defaultValue
+                console.log(e);
+              }
             } else {
               console.log("进程没值")
               commonData[formData.items[i].name] = ""
@@ -1051,7 +1056,7 @@ Component({
     }
     console.log("==newObj====", newObj)
     params.formJson = JSON.stringify(newObj);
-    if (that.data.userAddressCustomFormCommitId){
+    if (that.data.userAddressCustomFormCommitId){//编辑表单的提交ID
       params.customFromCommitId = that.data.userAddressCustomFormCommitId
     }
     if (that.data.showSubmitPopup&&that.data.showSubmitPopup == 'false') {

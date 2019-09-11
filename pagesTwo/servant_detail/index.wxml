@@ -23,7 +23,7 @@
   <view class='servant_info_block'>
     <view class='servant_info_block_title'>
       <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_7/9/17/36/51_263.jpg?x-oss-process=style/preview_120' class='servant_info_block_title_icon'></image>
-      <text class='servant_info_block_title_text'>个人介绍</text>
+      <text class='servant_info_block_title_text'>{{properties.alias_yewuyuan||"服务员"}}介绍</text>
     </view>
     <import src="../../wxParse/wxParse.wxml"/><!-- 富文本 -->
     <view class='servant_rich' wx:if="{{servantDetail.richText}}"><template is="1" data="{{wxParseData:article.nodes}}"></template></view>

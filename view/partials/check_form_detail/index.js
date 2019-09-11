@@ -1,3 +1,5 @@
+
+var WxParse = require('../../../wxParse/wxParse.js');
 const app = getApp();
 Component({
   properties: {
@@ -30,6 +32,7 @@ Component({
       pageSize: 1,
       curPage: 1,
     },
+    richTextList:{},
     animationData: {}, //抽屉
     showType: false,
     showTypeTwo: false,
@@ -708,15 +711,13 @@ Component({
             let customForm = that.data.allFormData.customForm;
             that.getCommentData(that.data.allFormData.id, 1)
             let commitJson = JSON.parse(that.data.allFormData.commitJson);
+            console.log("====commitJson=====", commitJson)
             customForm.commitArr = [];
             let banner = {};
             if (res.data.relateObj.customForm && res.data.relateObj.customForm.decorateDetailStyle){
               let formDetailStyle = JSON.parse(res.data.relateObj.customForm.decorateDetailStyle);
               console.log("formDetailStyle", formDetailStyle)
               let resultPointerData = formDetailStyle.resultPointerData
-              for (let i = 0; i < resultPointerData;i++){
-                
-              }
               if (formDetailStyle.length!=0){
                 let formDetailStyleArray=formDetailStyle
                 for (let i = 0; i < formDetailStyleArray.length;i++){
@@ -739,13 +740,16 @@ Component({
             }
             console.log("===formDetailStyle====", that.data.formDetailStyle, banner)
             for (let key in commitJson) {
+              commitJson[key].name = key
               if (commitJson[key].type == 14) {
                 customForm.telno = commitJson[key].value
               } 
+              console.log("====1commitJson======", commitJson)
               customForm.commitArr.push(commitJson[key])
             }
             console.log("===commitJson==", commitJson)
             that.setData({ commitJson: commitJson })
+            let richTextList = that.data.richTextList
             if (customForm.items.length > 0) {
               let upLoadImageList = {};
               for (let i = 0; i < customForm.items.length; i++) {
@@ -771,9 +775,15 @@ Component({
                   console.log("===upLoadImageList====", upLoadImageList)
                 } else if (customForm.items[i].type == 9) {
                   if (typeof (commitJson[name]) == "object") {
+                    WxParse.wxParse(name, 'html', commitJson[name].value, that, 10);
+                    richTextList[name]=that.data[name]
+                    console.log("=====9======", richTextList)
                     customForm.items[i].defaultValue = commitJson[name].value
                   } else {
                     customForm.items[i].defaultValue = commitJson[name]
+                    WxParse.wxParse(name, 'html', commitJson[name].value, that, 10);
+                    richTextList[name] = that.data[name]
+                    console.log("=====9======", richTextList)
                   }
                 } else if (customForm.items[i].type == 12) {
                   if (typeof (commitJson[name]) == "object") {
@@ -784,10 +794,16 @@ Component({
                   //   customForm.items[i].splitStyle = JSON.parse(customForm.items[i].splitStyle);
                   // }
                 } else if (customForm.items[i].type == 15 && commitJson[name]) {
-                  if (commitJson[name].value) {
-                    console.log("进程有值")
-                    commitJson[name].value = JSON.parse(commitJson[name].value)
-                    customForm.items[i].defaultValue = JSON.parse(customForm.items[i].defaultValue)
+                  if (commitJson[name].value && JSON.stringify(commitJson[name].value)!="[]") {
+                    console.log("进程有值", commitJson[name].value, customForm.items[i].defaultValue)
+                    try {
+                      commitJson[name].value = JSON.parse(commitJson[name].value)
+                      customForm.items[i].defaultValue = JSON.parse(customForm.items[i].defaultValue)
+                    } catch (e) {
+                      commitJson[name].value = commitJson[name].value
+                      customForm.items[i].defaultValue = customForm.items[i].defaultValue
+                      console.log(e);
+                    }
                   } else {
                     console.log("进程没值")
                   }
@@ -799,8 +815,7 @@ Component({
                   }
                 }
               }
-              that.setData({ upLoadImageList: upLoadImageList })
-              that.setData({ customForm: customForm })
+              that.setData({ upLoadImageList: upLoadImageList, customForm: customForm, richTextList: richTextList })
               console.log("===customForm====", that.data.customForm)
               console.log("===upLoadImageList====", that.data.upLoadImageList)
             }

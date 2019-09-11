@@ -570,13 +570,19 @@ Page({
     that.mapCtx = wx.createMapContext('map')
   },
   initSetting(){
-    this.setData({ setting: app.setting })
-    for (let i = 0; i < this.data.setting.platformSetting.categories.length; i++) {
-      this.data.setting.platformSetting.categories[i].colorAtive = '#888';
+    let that=this;
+    that.setData({ setting: app.setting })
+    for (let i = 0; i < that.data.setting.platformSetting.categories.length; i++) {
+      that.data.setting.platformSetting.categories[i].colorAtive = '#888';
     }
-    this.data.setting.platformSetting.categories[0].colorAtive = this.data.setting.platformSetting.defaultColor;
-    this.setData({
-      setting: this.data.setting,
+    that.data.setting.platformSetting.categories[0].colorAtive = that.data.setting.platformSetting.defaultColor;
+    that.setData({
+      setting: that.data.setting,
+      properties: app.properties
+    })
+    console.log("properties", that.data.properties)
+    wx.setNavigationBarTitle({
+      title: (that.data.properties.alias_yewuyuan || "服务员")+"列表",
     })
 },
   /**

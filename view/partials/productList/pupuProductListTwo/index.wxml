@@ -15,6 +15,11 @@
               <text wx:if="{{result.itemSpecialSaleType==1}}">满减</text>
               <text wx:if="{{result.itemSpecialSaleType==2}}">买赠</text>
               <text wx:if="{{result.itemSpecialSaleType==3}}">限购</text>
+              <text wx:if="{{result.itemSpecialSaleType==4}}">日限购</text>
+              <text wx:if="{{result.itemSpecialSaleType==5}}">周限购</text>
+              <text wx:if="{{result.itemSpecialSaleType==6}}">月限购</text>
+              <text wx:if="{{result.itemSpecialSaleType==7}}">活动限购</text>
+              <text wx:if="{{result.itemSpecialSaleType==8}}">会员特卖</text>
             </view>
             <view class='sale_item3_value' wx:if="{{result.itemSpecialSaleType==1}}">
               满<text>{{result.itemSpecialSaleValue1}}元</text>减<text>{{result.itemSpecialSaleValue2}}元</text>

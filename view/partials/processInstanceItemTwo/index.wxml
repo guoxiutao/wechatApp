@@ -115,15 +115,18 @@
       <picker bindchange="bindPickerChange" value="{{index}}" range="{{tagsArr}}" class='check_record' wx:if="{{processItem.currentStageSequence==0&&processItem.belongServantId==0}}" style='border:2rpx solid {{setting.platformSetting.defaultColor}};'>
         <text style='color:{{setting.platformSetting.defaultColor}}'>取消订单</text>
       </picker>
+      <view class='check_record' bindtap="deleteProcessOrder" data-actionid ="-2"  wx:if="{{processItem.currentStageSequence>=9999&&loginUser.platformUser.id==processItem.belongPlatformUserId&&processItem.belongPlatformUserId!=0}}" style='border:2rpx solid {{setting.platformSetting.defaultColor}};'>
+        <text style='color:{{setting.platformSetting.defaultColor}}'>删除流程</text>
+      </view>
       <view class='check_record' style='border:2rpx solid {{setting.platformSetting.defaultColor}};' wx:for="{{processItem.platformUserActions}}" wx:for-item="action" wx:key='{{index}}' wx:if="{{processItem.platformUserActions}}" bindtap='doProcessAction' data-formId="{{action.customFormId}}" data-actionId="{{action.id}}" data-processInstanceId="{{processItem.id}}">
         <text style='color:{{setting.platformSetting.defaultColor}}'>{{action.name}}</text>
       </view>
       <view class='check_record' bindtap="createPaymentCode" data-id="{{processItem.id}}" wx:if="{{(processItem.payStatus==0||processItem.payStatus==3)&&loginUser.platformUser.managerServantId==processItem.belongServantId&&processItem.belongServantId!=0&&processItem.currentStageSequence>=9999}}" style='border:2rpx solid {{setting.platformSetting.defaultColor}};'>
-        <text style='color:{{setting.platformSetting.defaultColor}}'>生成支付码</text>
+        <text style='color:{{setting.platformSetting.defaultColor}}'>去付款</text>
       </view>
-      <view class='check_record' wx:if="{{processItem.currentStageSequence>=9999}}" style='border:none'>
+      <view class='check_record' wx:if="{{processItem.currentStageSequence>=9999&&processItem.payStatus!=0}}" style='border:none'>
         <text style='color:{{setting.platformSetting.defaultColor}}' wx:if="{{processItem.payStatus==1}}">已付款</text>
-        <text style='color:{{setting.platformSetting.defaultColor}}' wx:if="{{processItem.payStatus==0}}">未付款</text>
+        <!-- <text style='color:{{setting.platformSetting.defaultColor}}' wx:if="{{processItem.payStatus==0}}">未付款</text> -->
         <text style='color:{{setting.platformSetting.defaultColor}}' wx:if="{{processItem.payStatus==3}}">部分付款</text>
       </view>
       <view class='check_record' bindtap="commentProcessOrder" data-info="{{processItem}}" wx:if="{{processItem.currentStageSequence==9999&&loginUser.platformUser.id==processItem.belongPlatformUserId&&!processItem.commentedId}}" style='border:2rpx solid {{setting.platformSetting.defaultColor}};'>

@@ -1,10 +1,11 @@
 <wxs src="../../../public/publicFun.wxs" module="publicFun"></wxs>
+<import src="../../../wxParse/wxParse.wxml"/><!-- 富文本 -->
 <view class='zhezhao' wx:if="{{showType||showTypeTwo}}" bindtap='closeZhezhao'></view>
 <block wx:if="{{!loading}}">
 <view class='content' wx:if="{{allFormData.belongFormType==0}}">
   <view class='formContent'>
   <!-- 0字符串   1数字 2下拉框  3单选框  4复选框  5日期  6时间  7 图片  8 间隔 -->
-    <view wx:for='{{customForm.items}}' wx:for-item='item'>
+    <view wx:for='{{customForm.items}}' wx:for-item='item' wx:if="{{item.formHide==0}}">
       
         <!-- 字符串 -->
         <view class='inputString common' wx:if='{{item.type!=11&&item.type!=7&&item.type!=9&&item.type!=9999}}'>
@@ -40,7 +41,8 @@
             <text wx:if="{{item.mustInput==1}}" style='color:red;margin-right:4rpx;width:18rpx'>*</text>
             <text>{{item.title}}</text>
           </view>
-          <textarea auto-height="" disabled='disabled' placeholder="{{item.defaultValue?item.defaultValue:'空空如也'}}" name="{{item.name}}"/>
+          <!-- <textarea auto-height="" disabled='disabled' placeholder="{{item.defaultValue?item.defaultValue:'空空如也'}}" name="{{item.name}}"/> -->
+          <view class='wxParseHtmlContainer'> <template is="1" data="{{wxParseData:richTextList[item.name].nodes}}"></template> </view>
           <cover-view class='copyText' data-value="{{item.defaultValue}}" bindtap='copyText'>复制</cover-view>
         </view>
         <!-- 进程轴栏目 -->
@@ -106,8 +108,11 @@
     <view class='form_detail_center_item' wx:for="{{customForm.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type!=7&&itemData.type!=11&&itemData.type!=15}}">
       <text class='center_part_item_title' wx:if="{{itemData.type!=9}}">{{itemData.title}}</text>
       <text class='interval' wx:if="{{itemData.type!=9}}">:</text>
-      <text class='center_part_item_value' wx:if="{{itemData.type!=12}}">{{itemData.value}}</text>
-      <text class='center_part_item_value' wx:if="{{itemData.type==12}}">{{itemData.value.value}}</text>
+      <text class='center_part_item_value' wx:if="{{itemData.type!=12&&itemData.type!=9}}">{{itemData.value}}</text>
+      <text class='center_part_item_value' wx:if="{{itemData.type==12&&itemData.type!=9}}">{{itemData.value.value}}</text>
+      <view class='wxParseHtmlContainer' wx:if="{{itemData.type==9}}">
+        <template is="1" data="{{wxParseData:richTextList[itemData.name].nodes}}"></template>
+      </view>
       <view class='to_navigation' style='background:{{color}}' wx:if="{{itemData.type==12}}" catchtap='clickCatch' data-item="{{itemData.value}}">
         <text>去导航</text>
       </view>
@@ -226,12 +231,16 @@
           <view style="display:flex;margin:0;background:{{itemData.data.backgroudColor}};flex-direction:{{itemData.data.placeType==1?'column':'column-reverse'}};align-items:{{itemData.data.align}};justify-content:center;border-top-width:0rpx;border-bottom-width:0rpx;border-left-width:{{itemData.data.borderLeft}}rpx;border-right-width:{{itemData.data.borderRight}}rpx;border-color:{{itemData.data.borderColor}};border-style:solid;padding:{{itemData.data.paddingBottomTop}}rpx {{itemData.data.paddingNum}}rpx;margin:{{itemData.data.marginBottomTop}}rpx {{itemData.data.marginNum}}rpx;border-radius: {{itemData.data.borderRadius}}rpx;font-size:{{itemData.data.fontSize}}px;color:{{itemData.data.fontColor}};font-weight:{{itemData.data.weight==1?'bold':'0'}}">
             <!-- <text>自定义模块</text> -->
             <view wx:if="{{!upLoadImageList['img_'+itemData.data.propertieName]}}">
-              <text wx:if="{{itemData.data.propertiesType==0}}">{{commitJson[itemData.data.propertieName].value}}</text>
+              <!-- <text wx:if="{{itemData.data.propertiesType==0}}">{{commitJson[itemData.data.propertieName].value}}</text> -->
+              <view class='wxParseHtmlContainer' wx:if="{{itemData.data.propertiesType==0}}">
+                <template is="1" data="{{wxParseData:richTextList[itemData.data.propertieName].nodes}}"></template>
+              </view> 
               <text wx:else>{{itemData.data.propertieTitle}}</text>
             </view>
             <view class='img_block' wx:else>
               <image class='img_item' src='{{item}}' mode="widthFix" wx:for="{{upLoadImageList['img_'+itemData.data.propertieName]}}" ></image>
             </view>
+            <!--  -->
           </view>
         </view>
       </view>

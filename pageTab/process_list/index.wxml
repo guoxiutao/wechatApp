@@ -13,6 +13,6 @@
     </block>
   </view>
 </view>
-<view class='grab_order_btn' catchtap='tolinkUrl' data-link="unassign_snatch_process_list.html">
+<view class='grab_order_btn' catchtap='tolinkUrl' data-link="unassign_snatch_process_list.html" wx:if="{{loginUser.platformUser.managerServantId}}">
   <image src='http://image1.sansancloud.com/xianhua/2019_8/7/16/5/37_323.jpg?x-oss-process=style/preview_120' class='grab_order_icon'></image>
 </view>

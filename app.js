@@ -1,8 +1,9 @@
 import { dellUrl } from "/public/requestUrl.js";
+import { socketFun} from "/public/json2Form.js";
 const Promise = require('/promise/promise.js');
 App({
-    // clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
-    clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
+  // clientUrl: 'http://127.0.0.1:3000/chainalliance/',  // 本地链接地址
+  clientUrl: 'https://mini.sansancloud.com/chainalliance/',//一定加https
 
   /**
    *   切换项目的开关 ↓↓↓↓↓
@@ -10,7 +11,7 @@ App({
   clientNo: 'jianzhan',   //自定义的项目的名称。
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.58',
+  version:'3.5.63',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -23,9 +24,12 @@ App({
   properties:{},
   //addr:null,
   kefuCount: 0,
+  socketTask:null,
   // notifyTipPage:false,
   // preNotifyTipPage: false,
   loginSuccessListeners: [],
+  socketConnect: socketFun.socketConnect,
+  socketLinkListener: {},
   carChangeNotifys:[],
   popupNotifysList:[],
   payItem: null, //下单的时候传过去的
@@ -34,6 +38,7 @@ App({
   richTextHtml: '',
   footerCount: 0,
   authorizationCount: 0,
+  showAuthorizationPopup: false,
   productParam: null,//传值的
   //  customPageJson:null,//page的动态组件json
   header: {
@@ -66,9 +71,30 @@ App({
     console.log('hide', this.shareSubPage)
     console.log(e)
   },
+  addSocketLinkListener: function (listener) {
+    let that=this;
+    console.log('addSocketLinkListener', listener)
+    that.socketLinkListener = Object.assign({}, that.socketLinkListener, listener);
+    console.log("socketLinkListener", that.socketLinkListener)
+  },
   addLoginListener: function (listener) {
     console.log('addLoginListener', listener)
     this.loginSuccessListeners.push(listener);
+  },
+  authorizationListenerItem: {},
+  addAuthorizationListenerItem: function (listener) {
+    let that=this;
+    console.log("====addAuthorizationListenerItem====", listener)
+    console.log('addLoginListener', listener)
+    this.authorizationListenerItem = Object.assign({}, this.authorizationListenerItem, listener)
+  },
+  authorizationListener: function (state){
+    console.log('====authorizationListener====', state)
+    try {
+      this.authorizationListenerItem.getStateData(state);
+    } catch (e) {
+      console.log(e);
+    }
   },
   addCarChangeNotify:function(listener){
     this.carChangeNotifys.push(listener);
@@ -141,6 +167,7 @@ App({
     if (more_scene) { this.more_scene = more_scene }
     console.log("clinetNo:" + this.clientNo + "  more_scene:" + more_scene)
     that.loadFirstEnter(more_scene)
+
   },
   timer: 0,
   // 确保onLaunch事件完成后再开始调用其他函数
@@ -155,6 +182,8 @@ App({
         that.promiseonLaunch(self);
       }, 500);
     }
+
+   
   },
   navigateBack: function (time) {
     setTimeout(function () { wx.navigateBack() }, time);
@@ -411,7 +440,15 @@ App({
       random = "tunzai";
     }
     var returnUrl = dellUrl(url, params, method, random, loginToken)
-    returnUrl.url = this.clientUrl + this.clientNo + returnUrl.url
+    if ((returnUrl.url).indexOf("socket")!=-1){
+      if ((this.clientUrl).indexOf("https") != -1) {
+        returnUrl.url = this.clientUrl.replace("https","wss") + this.clientNo + returnUrl.url
+      }else{
+        returnUrl.url = this.clientUrl.replace("http", "ws") + this.clientNo + returnUrl.url
+      }
+    }else{
+      returnUrl.url = this.clientUrl + this.clientNo + returnUrl.url
+    }
     console.log("returnUrl", returnUrl);
     return returnUrl;
   },
@@ -538,6 +575,7 @@ App({
                       },
                       fail: function () {
                         console.log("没有定义" + urlData.url + "页面")
+                        that.toIndex()
                       }
                     })
                   }
@@ -563,169 +601,125 @@ App({
     })
   },
   linkEvent: function (linkUrl) {
+    let that=this;
     console.log('====linkUrl======', linkUrl)
     if (!linkUrl) {
       return
     }
-    this.footerCount=0;
-    let urlData = this.getUrlParams(linkUrl)
+    that.footerCount=0;
+    let urlData = that.getUrlParams(linkUrl)
     let If_Order_url = urlData.url.substr(0, 10)
     console.log('-----toGridLinkUrl---------')
     console.log('==urlData===', urlData)
     console.log('==jpg===', linkUrl.substr(-3, 3))
-    console.log(If_Order_url)
-    if (linkUrl.substr(0, 3) == 'tel') {
-      wx.makePhoneCall({
-        phoneNumber: linkUrl.substr(4) //仅为示例，并非真实的电话号码
-      })
-    } else if (linkUrl.substr(0, 4) == 'http' && (linkUrl.substr(-3, 3).toLowerCase() == 'jpg' || linkUrl.substr(-3, 3).toLowerCase() == 'png')) {
-      this.lookBigImage(linkUrl)
-    } else if (linkUrl.substr(0, 12) == 'custom_page_') {
-      var resultUrl = linkUrl.substring(12, linkUrl.length - 5)
-      if (urlData.param == '') {
-        urlData.param = '?'
-      }
-      wx.navigateTo({
-        url: '/pages/custom_page/index' + urlData.param + '&Cpage=' + resultUrl,
-      })
-    }
-    else if (If_Order_url == 'order_list') {
+    console.log(If_Order_url, that.showAuthorizationPopup)
+    wx.getSetting({//检查用户是否授权了
+      success(res) {
+        console.warn("======检查用户是否授权了========", res)
+        if (!res.authSetting['scope.userInfo']) {
+          console.log('=====没授权====')
+          that.showAuthorizationPopup = true
+          that.authorizationListener(that.showAuthorizationPopup)
+        } else {
+          console.log('=====已授权====')
+          if (linkUrl.substr(0, 3) == 'tel') {
+            wx.makePhoneCall({
+              phoneNumber: linkUrl.substr(4) //仅为示例，并非真实的电话号码
+            })
+          } else if (linkUrl.substr(0, 4) == 'http' && (linkUrl.substr(-3, 3).toLowerCase() == 'jpg' || linkUrl.substr(-3, 3).toLowerCase() == 'png')) {
+            that.lookBigImage(linkUrl)
+          } else if (linkUrl.substr(0, 12) == 'custom_page_') {
+            var resultUrl = linkUrl.substring(12, linkUrl.length - 5)
+            if (urlData.param == '') {
+              urlData.param = '?'
+            }
+            wx.navigateTo({
+              url: '/pages/custom_page/index' + urlData.param + '&Cpage=' + resultUrl,
+            })
+          }
+          else if (If_Order_url == 'order_list') {
 
-      wx.navigateTo({
-        url: '/pages/' + 'order_list_tab' + '/index' + urlData.param,
-      })
-    }
-    else if (linkUrl.substr(0, 14) == 'search_product') {
-      console.log("this.clientNo", this.clientNo)
-      this.goto((this.properties.style_product_list || "milk_product_list") + ".html"+ urlData.param);
-      return;/*
-      wx.navigateTo({
-        // 'milk_product_list'
-        url: '/pages/' + (this.properties.style_product_list || "milk_product_list") + '/index' + urlData.param,
-      })*/
-    }
-    else if (linkUrl.substr(0, 18) == 'promotion_products') {
-      wx.navigateTo({
-        url: '/pageTab/tunzai/teMai/index' + urlData.param,
-      })
-    }
-    else if (linkUrl.substr(0, 23) == 'milk_shopping_car_pages') {
-      wx.navigateTo({
-        url: '/pagesTwo/milk_shopping_car_list/index' + urlData.param,
-      })
-    }
-    else if (linkUrl.substr(0, 9) == 'goto_mini') {
-      let appId = linkUrl.substr(21)
-      console.log("========appId======", appId)
-      wx.navigateToMiniProgram({
-        appId: appId,
-        path: '',
-        extraData: {
-        },
-        envVersion: 'release',
-        success(res) {
-          console.log("小程序跳转成功", res)
+            wx.navigateTo({
+              url: '/pages/' + 'order_list_tab' + '/index' + urlData.param,
+            })
+          }
+          else if (linkUrl.substr(0, 14) == 'search_product') {
+            console.log("that.clientNo", that.clientNo)
+            that.goto((that.properties.style_product_list || "milk_product_list") + ".html" + urlData.param);
+            return;
+          }
+          else if (linkUrl.substr(0, 18) == 'promotion_products') {
+            wx.navigateTo({
+              url: '/pageTab/tunzai/teMai/index' + urlData.param,
+            })
+          }
+          else if (linkUrl.substr(0, 23) == 'milk_shopping_car_pages') {
+            wx.navigateTo({
+              url: '/pagesTwo/milk_shopping_car_list/index' + urlData.param,
+            })
+          }
+          else if (linkUrl.substr(0, 9) == 'goto_mini') {
+            let appId = linkUrl.substr(21)
+            console.log("========appId======", appId)
+            wx.navigateToMiniProgram({
+              appId: appId,
+              path: '',
+              extraData: {
+              },
+              envVersion: 'release',
+              success(res) {
+                console.log("小程序跳转成功", res)
+              }
+            })
+          }
+          else if (linkUrl.substr(0, 13) == 'order_pintuan') {
+
+            wx.navigateTo({
+              url: '/pages/' + 'order_pintuan_list' + '/index' + urlData.param,
+            })
+          }
+          else if (linkUrl.substr(0, 5) == 'https') {
+            let url = encodeURIComponent(linkUrl);
+            console.log("==url+web_view===", url)
+            wx.navigateTo({
+              url: '/pages/' + 'web_view' + '/index?url=' + url,
+            })
+          }
+          else if (linkUrl.indexOf('_sysScanQrcode') != -1) {
+            that.getVerificationCode()
+          }
+          else if (linkUrl.substr(0, 14) == 'product_detail') {
+            let productId = linkUrl.replace(/[^0-9]/ig, "");
+            console.log(linkUrl.substr(15, 6))
+            // that.properties.style_product_detail
+            that.goto(('user_product_detail' || "productDetail") + ".html" + urlData.param + "&addShopId=0");
+            return;
+          }
+          else if (urlData.url == 'shop_map') {
+            that.openLocation()
+          } else if (urlData.url == 'location') {
+            console.log(urlData.param + urlData.url)
+            var params = urlData.param.slice(1);
+            let paramArr = params.split('&')
+            var paramObj = {}
+            for (let i = 0; i < paramArr.length; i++) {
+              var a = paramArr[i].split('=')
+              paramObj[a[0]] = a[1]
+            }
+            var a = Number(paramObj['latitude']); var b = Number(paramObj['longitude']);
+            wx.openLocation({
+              latitude: a,
+              longitude: b,
+              scale: 12,
+              name: paramObj.title,
+              address: paramObj.description
+            })
+          } else {
+            that.goto(linkUrl)
+          }
         }
-      })
-    }
-    else if (linkUrl.substr(0, 13) == 'order_pintuan') {
-
-      wx.navigateTo({
-        url: '/pages/' + 'order_pintuan_list' + '/index' + urlData.param,
-      })
-    }
-    else if (linkUrl.substr(0, 5) == 'https') {
-      let url = encodeURIComponent(linkUrl);
-      console.log("==url+web_view===", url)
-      wx.navigateTo({
-        url: '/pages/' + 'web_view' + '/index?url=' + url,
-      })
-    }
-    else if (linkUrl.indexOf('_sysScanQrcode')!=-1) {
-      this.getVerificationCode()
-    }
-    else if (linkUrl.substr(0, 14) == 'product_detail') {
-      let productId = linkUrl.replace(/[^0-9]/ig, "");
-      console.log(linkUrl.substr(15, 6))
-      // wx.navigateTo({
-      //   url: '/pageTab/productDetail/index?id=' + productId + "&addShopId=236",
-      // })
-      this.goto((this.properties.style_product_detail || "productDetail") + ".html" + urlData.param + "&addShopId=0");
-      return;/*
-      if (this.clientNo == 'naifen') {
-        wx.navigateTo({
-          url: '/pagesTwo/product_detail_milk/index?id=' + productId + "&addShopId=236",
-        })
-      } else {
-        wx.navigateTo({
-          url: '/pagesTwo/productDetail/index' + urlData.param + "&addShopId=236",
-        })
-      }*/
-      // if (linkUrl.substr(15, 6) == 'tunzai'){
-      //   wx.navigateTo({
-      //     url: '/pages/productDetail_tunzai/index?id=' + productId + "&addShopId=236",
-      //   })
-      // } else {
-      //   wx.navigateTo({
-      //     url: '/pages/productDetail/index?id=' + productId + "&addShopId=236",
-      //   })
-      // }
-    }
-    else if (urlData.url == 'shop_map') {
-      this.openLocation()
-    } else if (urlData.url == 'location') {
-      console.log(urlData.param + urlData.url)
-      var params = urlData.param.slice(1);
-      let paramArr = params.split('&')
-      var paramObj = {}
-      for (let i = 0; i < paramArr.length; i++) {
-        var a = paramArr[i].split('=')
-        paramObj[a[0]] = a[1]
       }
-      var a = Number(paramObj['latitude']); var b = Number(paramObj['longitude']);
-      wx.openLocation({
-        latitude: a,
-        longitude: b,
-        scale: 12,
-        name: paramObj.title,
-        address: paramObj.description
-      })
-    } else {
-      this.goto(linkUrl)
-      // promotion_products.html   form_detail.html?customFormId=12
-      // console.log("9999999999999999" + linkUrl.substr(0, 14))
-      // wx.navigateTo({
-      //   url: "/pageTab/" + urlData.url + "/index" + urlData.param,
-      //   fail: function () {
-      //     //pages里不存在该页面
-      //     console.log("pageTab里不存在该页面,跳转pages目录下的页面")
-      //     wx.navigateTo({
-      //       url: "/pages/" + urlData.url + "/index" + urlData.param,
-      //       fail: function () {
-      //         console.log("pages里不存在该页面,跳转pagesTwo目录下的页面")
-      //         wx.navigateTo({
-      //           url: "/pagesTwo/" + urlData.url + "/index" + urlData.param,
-      //           fail: function () {
-      //             console.log("跳转tab页")
-      //             wx.switchTab({
-      //               url: "/pageTab/" + urlData.url + "/index" + urlData.param,
-      //               fail: function () {
-      //                 console.log("跳转tunzai定制页")
-      //                 wx.navigateTo({
-      //                   url: "/pageTab/tunzai/" + urlData.url + "/index" + urlData.param,
-      //                   fail: function () {
-      //                     console.log("没有定义" + urlData.url + "页面")
-      //                   }
-      //                 })
-      //               }
-      //             })
-      //           }
-      //         })
-      //       }
-      //     })
-      //   }
-      // })
-    }
+    });
   },
   checkLogin: function () {
     //let that = this
@@ -1071,7 +1065,8 @@ App({
                     }
                   })
                   //that.get_session_userinfo()
-
+                  console.warn('========socketConnect========')
+                  socketFun.socketConnect()
                   if (!loginJson.platformUser.nickname) {
                     // console.error('没有昵称调用上传接口')
                     //that.sentWxUserInfo(loginJson)

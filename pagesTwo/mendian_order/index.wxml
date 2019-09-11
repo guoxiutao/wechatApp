@@ -23,13 +23,11 @@
                         <view class='storageName' wx:if='{{list.storageName}}'><text>{{list.storageName}}</text></view>
                         <!-- <text class='font1'>客户名：{{list.buyerName}}</text> -->
                         <view style='display:flex; align-items:center;'> 
-                           <image wx:if="{{list.buyerHeadimg}}" src='{{list.buyerHeadimg}}' mode='aspectFill'
+                          <text>订单号:{{list.orderNo}}</text>
+                           <!-- <image wx:if="{{list.buyerHeadimg}}" src='{{list.buyerHeadimg}}' mode='aspectFill'
                           style='width:2em; height:2em; border:1px solid #ccc;border-radius:50%;'>
                           </image>
-                          <!-- <image wx:else src='http://image1.sansancloud.com/jianzhan/2017_09/24/16/08/58_464.jpg' mode='aspectFit'
-                          style='width:2em; height:2em; border:1px solid #ccc;border-radius:50%;'>
-                          </image>  -->
-                          <text class='font1' style='margin-left:10rpx; max-width:5em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{{list.buyerNickName}}</text>
+                          <text class='font1' style='margin-left:10rpx; max-width:5em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{{list.buyerNickName}}</text> -->
                           <!-- <text class="marginleft vity_tag" wx:if='{{list.promotionName}}'>{{list.promotionName}}</text> -->
                         </view>
                         <block wx:if='{{list.easyStatusStr == "作废"}}'> 
@@ -61,7 +59,7 @@
                           </view>
                           <view class='item_infomation_money'>
                             <view >单价:￥<text class='fontPrice'>{{orderItem.itemPrice}}</text></view>
-                            <text>订单号:{{list.orderNo}}</text>
+                            <!-- <text>订单号:{{list.orderNo}}</text> -->
                           </view>
                         </view>
                       </view>

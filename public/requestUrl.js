@@ -12,6 +12,7 @@ function jsonToStr (json) {
 }
 
 function dellUrl(url, params, method, random, loginToken){
+  console.log("url", url)
   var post = {
     url: "",
     method: "", 

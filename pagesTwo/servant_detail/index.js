@@ -301,20 +301,27 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that=this;
     console.log("======servantDetail=====",options);
     if (app.setting.platformSetting.id) {
-      this.setData({ platformSetting: app.setting.platformSetting })
-      console.log("======platformSetting=====", this.data.platformSetting);
+      that.setData({
+        platformSetting: app.setting.platformSetting,
+        properties: app.properties
+      })
+      wx.setNavigationBarTitle({
+        title: (that.data.properties.alias_yewuyuan || "服务员") + "详情",
+      })
+      console.log("======platformSetting=====", that.data.platformSetting);
     }
-    let servantTypeState = this.data.servantTypeState;
+    let servantTypeState = that.data.servantTypeState;
     if (options.servantTypeId){
       servantTypeState = false
     } else {
       servantTypeState = true
     }
-    this.setData({ servantTypeState: servantTypeState, servantTypeId: options.servantTypeId})
-    this.params = options
-    this.getServantDetail(this.params);
+    that.setData({ servantTypeState: servantTypeState, servantTypeId: options.servantTypeId})
+    that.params = options
+    that.getServantDetail(that.params);
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

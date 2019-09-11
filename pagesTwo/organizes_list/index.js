@@ -47,6 +47,7 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
+    options.type="typeTwo"
     that.setData({ options: options })
   },
 

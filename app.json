@@ -90,7 +90,12 @@
         "ceshi_page/index",
         "product_detail_milk/index",
         "mendian_management_product/index",
-        "unassign_snatch_process_list/index"
+        "unassign_snatch_process_list/index",
+        "resource_info/index",
+        "sign_in_page/index",
+        "chat_room/index",
+        "my_product_list/index",
+        "user_product_detail/index"
       ]
     },
     {

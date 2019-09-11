@@ -163,7 +163,7 @@ Page({
         that.setData({
           localPoint: localPoint
         })
-        that.getUnassignProcessList()
+        // that.getUnassignProcessList()
       }
     })
     // that.getProcessList();
@@ -174,6 +174,7 @@ Page({
   onReady: function () {
     let that=this;
     that.setData({setting: app.setting, loginUser: app.loginUser })
+    console.log("app.loginUser", app.loginUser)
   },
   /**
    * 生命周期函数--监听页面显示

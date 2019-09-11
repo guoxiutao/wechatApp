@@ -13,7 +13,7 @@ Page({
     PaiXuPartials:[], 
     partialsName:'',
     loginUser:null,
-
+    showAuthorizationPopup:false,
   },
 
   setNavBar: function (){
@@ -33,11 +33,22 @@ Page({
       backgroundColor: app.setting.platformSetting.topBgColor,
     })
   },
+  getStateData: function (state) {
+    let that = this;
+    console.log("===getStateData===", state, that.data.showAuthorizationPopup)
+    let partialsName = JSON.parse(that.data.partialsName)
+    partialsName.state = state
+    that.setData({ partialsName: null })
+    setTimeout(function(){
+      that.setData({ partialsName: JSON.stringify(partialsName)})
+    },300)
+  },
   /*onload*/
   onLoad: function (options) {
     // wx.hideTabBar({})
     console.warn("======onLoad:options======", options, app.setting)
     console.log('--------------- custom_index --------------')
+    app.addAuthorizationListenerItem(this)
     if(!app.setting){
       app.promiseonLaunch(this)
     }else{
@@ -45,7 +56,7 @@ Page({
           sysWidth: app.globalData.sysWidth,
           setting: app.setting
         });
-      let partialsName = JSON.stringify({ url: "index" })
+      let partialsName = JSON.stringify({ url: "index", state: this.data.showAuthorizationPopup })
       this.setData({ partialsName: partialsName })
         if (!!app.setting) {
           this.setNavBar()
@@ -132,7 +143,7 @@ Page({
     let url = urlStr||"";
     let partialsName=""
     if(url){
-      partialsName = JSON.stringify({ url: url })
+      partialsName = JSON.stringify({ url: url, state: this.data.showAuthorizationPopup})
     }
     this.setData({ partialsName: partialsName })
     console.log("partialsName", this.data.partialsName)

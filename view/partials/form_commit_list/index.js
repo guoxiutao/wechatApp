@@ -67,6 +67,7 @@ Component({
     }
     that.initSetting();
     console.log('===options===', options)
+    that.data.params = options;
     if (options.customFormId) {
       console.log("提交按钮后返回的页面")
       that.setData({ showTop: false })
@@ -84,7 +85,6 @@ Component({
       // options.groupName ? options.groupName : "";
       let groupName = options.groupName || (options.jsonData && options.jsonData.groupName ? options.jsonData.groupName:"")||''
       that.getFormType(groupName, that.getData);
-      that.data.params = options;
     }
     console.log('===options===', that.data.componentState, that.data.publishState, that.data.params)
   },
@@ -374,8 +374,9 @@ Component({
         method: 'get',
         success: function (res) {
           console.log(res)
-          if(res.data.errcode==0){
+          if (res.data.errcode == 0) {
             let data = res.data.relateObj;
+            that.triggerEvent('returnFormNameFun', data) //myevent自定义名称事件，父组件中使用
             that.setData({ customFormData: data })
             if (data && data.decorateListStyle) {
               formListStyle = JSON.parse(data.decorateListStyle);

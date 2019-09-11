@@ -17,25 +17,27 @@ Component({
   ready:function(){
     console.log("popimage数据", this.data.data)
     let that=this;
-    try {
-      var imageUrl = wx.getStorageSync('popimage')
-      // 当缓存的图片地址存在以及他的图片不变的时候不需要弹窗
-      if (imageUrl && imageUrl == that.data.data.jsonData.imageUrl) {
-        console.log("imageUrl", imageUrl)
-        that.setData({
-          display: "none"
-        })
-      }
-      // 其余的时候显示弹窗
-      else{
-        setTimeout(function () {
-        that.setData({
-          display: "block"
-        })
-        }, 1000)
-      }
-    } catch (e) {
-     
+    if (this.data.data.androidTemplate == "popimage"){
+      try {
+        var imageUrl = wx.getStorageSync('popimage_' + this.data.data.id)
+        // 当缓存的图片地址存在以及他的图片不变的时候不需要弹窗
+        console.log("imageUrl", imageUrl, that.data.data.jsonData.imageUrl, imageUrl == that.data.data.jsonData.imageUrl)
+        if (imageUrl && imageUrl == that.data.data.jsonData.imageUrl) {
+          console.log("存在imageUrl", imageUrl)
+          that.setData({
+            display: "none"
+          })
+        }
+        // 其余的时候显示弹窗
+        else {
+          console.log("不存在imageUrl", imageUrl)
+          setTimeout(function () {
+            that.setData({
+              display: "block"
+            })
+          }, 1000)
+        }
+      } catch (e) { }
     }
   },
   methods: {
@@ -60,13 +62,15 @@ Component({
       console.log(event.currentTarget.dataset.link)
       console.log("===========e==========", event.currentTarget.dataset.url)
       // 缓存
-      try {
-        wx.setStorageSync('popimage', event.currentTarget.dataset.url)
-      } catch (e) {
-      }
-      this.setData({
-        display: 'none'
-      })
+      console.log("popimage", this.data.data.androidTemplate)
+      if (this.data.data.androidTemplate =="popimage"){
+       try {
+         wx.setStorageSync('popimage_' + this.data.data.id, event.currentTarget.dataset.url)
+        } catch (e) {}
+        this.setData({
+          display: 'none'
+        })
+     }
       app.linkEvent(event.currentTarget.dataset.link);
 
     },
@@ -74,7 +78,7 @@ Component({
       console.log("===========e==========", e.currentTarget.dataset.url)
       // 缓存
       try {
-        wx.setStorageSync('popimage',e.currentTarget.dataset.url)
+        wx.setStorageSync('popimage_' + this.data.data.id,e.currentTarget.dataset.url)
       } catch (e) {
       }
       this.setData({

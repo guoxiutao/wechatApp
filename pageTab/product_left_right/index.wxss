@@ -546,7 +546,7 @@
 }
 .promotion_icon{
   position: absolute;
-  left:-19rpx;
+  left:-6rpx;
   top: -19rpx;
   width: 56rpx;
   height: 56rpx;

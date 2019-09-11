@@ -29,64 +29,6 @@ Page({
     showKefu: false,
     id: ""//传进来的promotionId，用来辨别这是哪个活动
   },
-  drowCanvas: function (e) {
-    let that = this
-    let index = e.currentTarget.dataset.index;
-    let productData = this.data.productData
-    let focusData = productData[index]
-
-
-
-    let menDianIcon = app.loginUser.platformUser.mendian.logo
-    let menDianName = app.loginUser.platformUser.mendian.name
-    let productImage = focusData.imagePath
-    let productname = focusData.name
-    let brandName = focusData.brandName
-
-    const ctx = wx.createCanvasContext('firstCanvas')
-    ctx.setFillStyle('#f9f9f9')
-    ctx.fillRect(0, 0, 300, 500)
-    ctx.draw()
-    ctx.drawImage(menDianIcon, 10, 10, 20, 20)
-    ctx.setFontSize(14)
-    ctx.fillText(menDianName, 32, 12)
-    ctx.setFontSize(18)
-    ctx.fillText(brandName, 10, 40)
-    ctx.setFontSize(16)
-    ctx.fillText(productname, 10, 60)
-    ctx.drawImage(productImage, 0, 80, 300, 300)
-
-
-    ctx.draw({
-      reserve: false,
-      callback: function () {
-
-      }
-    })
-
-    setTimeout(function () {
-      wx.canvasToTempFilePath({
-        width: 300,
-        height: 500,
-        destWidth: 300,
-        destHeight: 500,
-        canvasId: 'firstCanvas',
-        success: function (res) {
-          console.log(res.tempFilePath)
-          return
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success(res) {
-              console.log('success')
-            }
-          })
-        }
-      })
-
-    }, 1000)
-
-
-  },
   imageList: [],
   toCart: function () {
     wx.navigateTo({

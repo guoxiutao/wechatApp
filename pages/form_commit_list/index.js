@@ -21,6 +21,14 @@ Page({
     showTop:false,
     sendOptionData:null,
   },
+  getDataFun: function (e) {
+    let that = this;
+    console.log("===getDataFun===", e)
+    let data=e.detail
+    wx.setNavigationBarTitle({
+      title: data.formName,
+    })
+  },
   showMore:function(e){
     console.log("==showMore===",e)
     let that=this;

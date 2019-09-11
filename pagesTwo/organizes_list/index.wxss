@@ -15,7 +15,7 @@ page{
   position:fixed;
   z-index:111;
   width: 100%;
-  height: 90rpx;
+  height: 80rpx;
   border-bottom:1rpx solid #eee;
 }
 .search_input_bg{

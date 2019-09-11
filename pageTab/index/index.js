@@ -102,7 +102,17 @@ Page({
         }
       }
     })
-
+    if (options.RESOURCE_TYPE){
+      console.log("==========领取资源入口=========")
+      let resourceType = options.RESOURCE_TYPE;//RESOURCE_TYPE
+      let resourceId = options.RESOURCE_ID;//RESOURCE_ID
+      let params = { resourceId: resourceId, resourceType: resourceType}
+      params = app.jsonToStr2(params)
+      let result = "resource_info.html?" + params
+      setTimeout(function () {
+        app.goto(result);
+      }, 200);
+    };
     // 预览页面 实际上就2点更改clientNo，重新获取setting（自己想多了）
     if (options.REDIRECT && options.REDIRECT != "") {
       app.linkEvent(options.REDIRECT);

@@ -6,7 +6,7 @@
       <view class='search_input'>
         <view class='search_input_left'>
           <image class='input_img' src='http://image1.sansancloud.com/xianhua/2018_9/14/16/25/0_222.jpg?x-oss-process=style/preview_120'></image>
-          <input class='input' bindconfirm='getSearchOrganizeName'  placeholder='搜索组织名'></input>
+          <input class='input' bindconfirm='getSearchOrganizeName' value="{{searchOrganizesName}}" placeholder='搜索组织名'></input>
         </view>
         <view class='empty_button' bindtap='getSearchOrganizeName'><text>x</text></view>
       </view>

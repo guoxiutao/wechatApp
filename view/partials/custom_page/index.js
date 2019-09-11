@@ -7,7 +7,11 @@ Component({
     data: {
       type: String,
       value: 'default value',
-    }
+    },
+    // authorizationState: {
+    //   type: Boolean,
+    //   value: 'default value',
+    // }
   },
   data: {
     // 这里是一些组件内部数据
@@ -27,13 +31,20 @@ Component({
   },
 
   ready: function () {
-    let that=this;
+    let that = this;
     app.footerCount++;
     app.authorizationCount++
-    this.setData({ authorizationCount: app.authorizationCount, footerCount: app.footerCount})
-    console.log('zujian',this.data.data)
-    if (this.data.data){}
-    this.setData({
+    console.log("===that.data.data====", that.data.data)
+    let jsonData='';
+    try {
+      jsonData = JSON.parse(that.data.data);
+    } catch (e) {
+      jsonData = that.data.data
+    }
+    that.setData({ authorizationCount: app.authorizationCount, footerCount: app.footerCount, showPopup: jsonData.state})
+    console.log('zujian', that.data.data, that.data.showPopup, that.data.authorizationCount)
+    if (that.data.data){}
+    that.setData({
       loginUser: app.loginUser,
       setting: app.setting,
       userInfo:{
@@ -44,8 +55,8 @@ Component({
         sex: app.loginUser.sex,
       }
     })
-    console.log('setting', this.data.setting)
-    console.log('app.loginUser', this.data.loginUser)
+    console.log('setting', that.data.setting)
+    console.log('app.loginUser', that.data.loginUser)
 // 获取用户信息
     if (that.data.canIUse) {
       console.log('==that.data.canIUse===', that.data.canIUse);
@@ -56,18 +67,18 @@ Component({
         })
       }
     }
-    this.getParac();
-    wx.getSetting({//检查用户是否授权了
-      success(res) {
-        console.warn("======检查用户是否授权了========", res)
-        if (!res.authSetting['scope.userInfo']) {
-          console.log('=====1userInfo====')
-          that.setData({ showPopup: true })
-        } else {
-          console.log('=====2userInfo====')
-          that.setData({ showPopup: false })
-        }
-      }});
+    that.getParac();
+    // wx.getSetting({//检查用户是否授权了
+    //   success(res) {
+    //     console.warn("======检查用户是否授权了========", res)
+    //     if (!res.authSetting['scope.userInfo']) {
+    //       console.warn('=====没授权====')
+    //       that.setData({ showPopup: true })
+    //     } else {
+    //       console.warn('=====已授权====')
+    //       that.setData({ showPopup: false })
+    //     }
+    //   }});
     if (app.setting.platformSetting.userNeedShenhe > 0 && !(app.loginUser && app.loginUser.platformUser.userInfoFormCommitId)) {
       that.setData({ showUserForm: true })
       if (app.setting.platformSetting.userInfoCustomFormId) {
@@ -233,6 +244,7 @@ Component({
       if (jsonData.params){
         params = Object.assign({}, params, jsonData.params)
       }
+      console.log("jsonData", jsonData)
       // 经纬度
       let locationAddressData = wx.getStorageSync('selectAddressData') || ''
       if (locationAddressData) {

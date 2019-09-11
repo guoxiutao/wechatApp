@@ -8,9 +8,9 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.8.0",
+	"libVersion": "2.8.2",
 	"appid": "wx37b3f495891dd60c",
-	"projectname": "nongpin",
+	"projectname": "cangku",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 10,
 			"list": [
 				{
 					"id": 0,
@@ -105,16 +105,17 @@
 					"scene": "1011"
 				},
 				{
-					"id": 7,
-					"name": "tuizai",
-					"pathName": "pageTab/index/index",
-					"query": "APPLY_SERVER_CHANNEL_CODE=LIN456"
+					"id": 10,
+					"name": "聊天室",
+					"pathName": "pagesTwo/chat_room/index",
+					"query": "puid=121527&puname=赵同学",
+					"scene": "1011"
 				},
 				{
-					"id": 8,
-					"name": "qq1",
-					"pathName": "pageTab/lanHu/preApplyMendian/index",
-					"query": "code=222",
+					"id": 11,
+					"name": "领取资源",
+					"pathName": "pagesTwo/resource_info/index",
+					"query": "resourceType=2&resourceId=235",
 					"scene": "1011"
 				},
 				{

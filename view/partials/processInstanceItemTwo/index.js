@@ -125,6 +125,28 @@ Component({
         }
       })
     },
+    deleteProcessOrder: function (e) {
+      console.log("====deleteProcessOrder=====", e)
+      let that = this;
+      let processStageActionId = e.currentTarget.dataset.actionid;
+      wx.showModal({
+        title: '提示',
+        content: '主人~您确定要删除该订单嘛?',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            let params = {};
+            params.processStageActionId = processStageActionId
+            params.cancelRemark = '';
+            params.processInstanceId = that.data.processItem.id;
+
+            that.doAction(params)
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
     /* 组件事件集合 */
     tolinkUrl: function (data) {
       let linkUrl = data.currentTarget ? data.currentTarget.dataset.link : data;
