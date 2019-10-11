@@ -20,7 +20,9 @@
     <view class='addrItems_left'>
       <image class='addr_icon' mode='aspectFit'  src='/images/icons/addr.png' ></image>
       <view class='addrItems_info'>
-        <text style='font-size:28rpx;font-weight: 500'>{{addr.province}} {{addr.city}} {{addr.area}} {{addr.address}}</text>
+        <text style='font-size:30rpx;font-weight: bold' wx:if="{{addr.community}}">{{addr.community}}</text>
+        <text style='font-size:30rpx;font-weight: bold' wx:else>{{addr.province}} {{addr.city}} {{addr.area}} {{addr.address}}</text>
+        <text class='font2' wx:if="{{addr.community}}">{{addr.address}}</text>
         <text class='font2'>{{addr.contactName}} {{addr.telNo}}</text>
       </view>
     </view>

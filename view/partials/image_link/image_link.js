@@ -63,15 +63,18 @@ Component({
       console.log("===========e==========", event.currentTarget.dataset.url)
       // 缓存
       console.log("popimage", this.data.data.androidTemplate)
-      if (this.data.data.androidTemplate =="popimage"){
-       try {
-         wx.setStorageSync('popimage_' + this.data.data.id, event.currentTarget.dataset.url)
-        } catch (e) {}
-        this.setData({
-          display: 'none'
-        })
-     }
-      app.linkEvent(event.currentTarget.dataset.link);
+      let state=app.linkEvent(event.currentTarget.dataset.link);
+      console.log("============state===============", state)
+      if (state !='authorization'){
+        if (this.data.data.androidTemplate == "popimage") {
+          try {
+            wx.setStorageSync('popimage_' + this.data.data.id, event.currentTarget.dataset.url)
+          } catch (e) { }
+          this.setData({
+            display: 'none'
+          })
+        }
+      }
 
     },
     closeFun:function(e){

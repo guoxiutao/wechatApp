@@ -250,7 +250,7 @@ Component({
     getNearMenDian: function (callback) {
       var that = this;
       wx.getLocation({
-        type: 'wgs84',
+        type: 'gcj02',
         success: function (res) {
           console.log("===getNearMenDian==",res)
           var latitude = res.latitude

@@ -570,3 +570,28 @@
 .nonePro image{
   width: 30%
 }
+.two_pro_type{
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+  font-size:24rpx;
+  white-space:nowrap;
+  border-bottom: 1rpx solid #eee;
+  padding:0 0 10rpx 20rpx;
+  margin-bottom: 10rpx
+}
+.two_pro_type_item{
+  padding: 4rpx 20rpx;
+  margin: 10rpx 20rpx 10rpx 0;
+  background: #f4f4f4;
+  font-size: 22rpx;
+  border-radius: 4rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40rpx;
+  color: #777;
+}
+.two_pro_type_item:last-child{
+  margin-right: 0rpx;
+}

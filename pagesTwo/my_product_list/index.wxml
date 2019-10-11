@@ -1,19 +1,8 @@
  <!-- 外卖模式的点单 --> 
 
 <view class='waimaiContainer'>
-  <!-- 左边的导航 -->  
-  <!-- <view class='shop_top'>
-    <view class='shop_top_left'><image class='shop_top_img' src='../../../images/icons/logo.jpg'></image></view>
-    <view class='shop_top_right'>
-      <view class='shop_top_name'><text>野鲜超市-泰禾店</text></view>
-      <view class='shop_top_decribe'>
-        <text class='decribe_dada'>达达专送-46分钟</text>
-        <text class='decribe_base'>| 基础运费4元</text>
-      </view>
-    </view>
-  </view>  -->
   <scroll-view scroll-y class='leftScrollType'>
-     <view wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-type="{{type}}" bindtap='bindTypeItem' class='{{type.active?"activeTypeItem":"TypeItem"}}' style='border-bottom:{{type.active?"2rpx solid "+setting.platformSetting.defaultColor:""}};color:{{type.active?setting.platformSetting.defaultColor:""}}'>
+     <view wx:for="{{productType}}" wx:for-item="type" wx:key="{{index}}" data-type="{{type}}" data-level="one" bindtap='bindTypeItem' class='{{type.active?"activeTypeItem":"TypeItem"}}' style='border-bottom:{{type.active?"2rpx solid "+setting.platformSetting.defaultColor:""}};color:{{type.active?setting.platformSetting.defaultColor:""}}'>
         <block wx:if='{{!!type.iconImage}}'>
           <image class='TypeItem_iamge' mode='aspectFit' src='{{type.iconImage}}'></image>
         </block>
@@ -41,12 +30,15 @@
 
   <!-- 右边的商品列表 -->
   <scroll-view scroll-y bindscrolltolower='onReachBottom2' class='RightProductContainer' >
+    <scroll-view scroll-x class='two_pro_type' wx:if="{{productTypeTwo&&productTypeTwo.length>1}}">
+      <text class='two_pro_type_item' wx:for="{{productTypeTwo}}" wx:key='{{index}}' wx:for-item="result" style='background:{{result.active?setting.platformSetting.secondColor:""}};color:{{result.active?setting.platformSetting.defaultColor:""}}' catchtap='bindTypeItem' data-type="{{result}}" data-level="two">{{result.name}}</text>
+    </scroll-view>
     <image mode='widthFix' src='{{currentItem.adverImg}}' style='width:100%;'  wx:if="{{currentItem.adverImg&&currentItem.adverImg!=', '}}"></image>
     <view wx:if='{{!productData}}' class='nonePro'>
       <image mode="widthFix" src='/images/icons/no-product.png'></image>
       <text>没有相关商品</text>
     </view>
-    <view class='productItem' wx:for="{{productData}}" wx:key='{{index}}' wx:for-item="result" data-info='{{result}}' data-link="product_detail.html?id={{result.id}}"  bindtap='linkUrl'>
+    <view class='productItem' wx:for="{{productData}}" wx:key='{{index}}' wx:for-item="result" data-info='{{result}}' data-link="user_product_detail.html?id={{result.id}}"  bindtap='linkUrl'>
         <view class='productItemImage'>
           <image mode='aspectFill' class='productImg' src='{{result.imagePath}}?x-oss-process=style/preview'></image>
           <image class='promotion_icon' wx:if="{{result.promotion>0}}" src='http://image1.sansancloud.com/jianzhan/2019_1/12/18/6/10_230.jpg'></image>

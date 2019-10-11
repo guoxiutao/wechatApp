@@ -199,3 +199,33 @@
   border-bottom-left-radius: 10rpx;
   margin-left:-1rpx;
 }
+/* 表单搜索 */
+.picker{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.pickerValue{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /* float: left; */
+  color: #999;
+  width: 600rpx;
+  font-size: 26rpx;
+  text-align: center;
+}
+.pickerRight{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6rpx 0;
+}
+.pickerImg{
+  width: 30rpx;
+  height: 30rpx;
+}

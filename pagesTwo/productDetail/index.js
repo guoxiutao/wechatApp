@@ -414,6 +414,7 @@ Page({
     //   title: 'loading',
     //   mask: true
     // })
+    console.log("=======", that.byNowParams, that.pintuanParams)
     app.showToastLoading('loading', true)
     app.createOrder(that.byNowParams, that.pintuanParams)
   },

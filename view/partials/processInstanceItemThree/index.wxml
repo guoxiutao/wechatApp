@@ -11,7 +11,7 @@
   </view>
   <view class='process_description' catchtap='check_form_detail' data-id="{{processItem.customFormCommitId}}" data-orderNo="{{processItem.belongOrderNo}}">
     <view class='process_description_item'>
-      <text class='process_description_item_name'>服务客户：</text>
+      <text class='process_description_item_name'>客户姓名：</text>
       <text class='process_description_item_value'>{{processItem.belongPlatformUserName}}</text>
     </view>
     <view class='process_description_item' data-phonenumber="{{processItem.belongPlatformUserTelno}}" catchtap='calling'>
@@ -25,6 +25,14 @@
     <view class='process_description_item'>
       <text class='process_description_item_name'>服务佣金：</text>
       <text class='process_description_item_value'>￥{{processItem.serviceServantProfit}}</text>
+    </view>
+    <view class='process_description_item'>
+      <text class='process_description_item_name'>门店名称：</text>
+      <text class='process_description_item_value'>{{processItem.belongMendianName}}</text>
+    </view>
+    <view class='process_description_item'>
+      <text class='process_description_item_name'>店铺名称：</text>
+      <text class='process_description_item_value'>{{processItem.belongShopName}}</text>
     </view>
   </view>
   <view class='process_bottom'>

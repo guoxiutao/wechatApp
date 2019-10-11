@@ -166,7 +166,7 @@ Page({
         // that.getUnassignProcessList()
       }
     })
-    // that.getProcessList();
+    that.getProcessList();
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -181,8 +181,8 @@ Page({
    */
   onShow: function () {
     let that=this;
-    that.getProcessList();
     if (that.data.grabOrderState) {
+      that.getProcessList();
       that.changeStateProcess(1)
       that.setData({ grabOrderState: false })
     }

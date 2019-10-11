@@ -32,8 +32,9 @@
       </view>
 
       <view  class='butn_container'>
-          <text>订单金额￥{{list.payAmount }}</text>
-          <text style='color:{{setting.platformSetting.defaultColor}}'>（预估收入￥{{list.distributeProfitResult}}）</text>
+          <!-- <text>订单金额￥{{list.supplyPrice }}</text> -->
+          <text wx:if="{{list.getMendianSelfStorage==1}}" style='color:{{setting.platformSetting.defaultColor}}'>（预估收入￥{{list.supplyPrice}}）</text>
+          <text wx:else style='color:{{setting.platformSetting.defaultColor}}'>（预估收入￥{{list.distributeProfitResult}}）</text>
       </view>
       <!-- 订单类型不同，按钮不一样 -->
       <view wx:if='{{list.easyStatus == 2}}' class='butn_container2'>

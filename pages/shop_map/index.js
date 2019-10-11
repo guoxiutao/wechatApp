@@ -16,7 +16,7 @@ Page({
   setLocation:function(){
     let that = this
     wx.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: function (res) {
         console.log(res)
         let userLocation = res

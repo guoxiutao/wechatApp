@@ -811,23 +811,26 @@ Component({
       let index = e.target.dataset.index;
       let itemValue = e.target.dataset.value;
       let value = e.detail.value
+      let name = e.currentTarget.dataset.name
       let controlFieldShow = that.data.controlFieldShow;
-      for (let i in controlFieldShow){
-        controlFieldShow[i]=true;
-      }
-      for (let i = 0; i < itemValue.length;i++){
-        if (value != itemValue[i].value && itemValue[i].children){
-          let childrenData=itemValue[i].children.split(",")
-          for (let j = 0; j < childrenData.length;j++){
-            controlFieldShow[childrenData[j]]=false
+      if (name !='_selfMulBuyObject'){
+        for (let i in controlFieldShow) {
+          controlFieldShow[i] = true;
+        }
+        for (let i = 0; i < itemValue.length; i++) {
+          if (value != itemValue[i].value && itemValue[i].children) {
+            let childrenData = itemValue[i].children.split(",")
+            for (let j = 0; j < childrenData.length; j++) {
+              controlFieldShow[childrenData[j]] = false
+            }
           }
         }
+        that.setData({ controlFieldShow: controlFieldShow})
       }
       let selectPicker = that.data.selectPicker;
       selectPicker['radio_' + index] = value
       this.setData({
         selectPicker: selectPicker,
-        controlFieldShow: controlFieldShow
       })
       console.log("=====selectPicker=====", selectPicker)
     },

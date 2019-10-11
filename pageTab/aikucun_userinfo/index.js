@@ -11,7 +11,9 @@ Page({
 
     loginUser: null,
     componentState:true, //组件的data
-
+    curPersonnelType:-1,
+    havaMoreSelectType:[],
+    havaMoreSelectTypeArr:[],
     // headData:null,
     blankData: null,
     orderData: null,
@@ -266,6 +268,38 @@ Page({
     text: "我是服务人员",
     color: "#777777"
   },
+  moreSelectType:[
+    {
+      iconPath: "http://image1.sansancloud.com/jianzhan/2018_9/5/19/17/45_862.jpg?x-oss-process=style/preview_120",
+      linkUrl: "mendian_center.html",
+      text: "我是服务商",
+      typeText: 'mendian',
+      color: "#777777",
+      ownState: false,
+    },{
+      iconPath: "http://image1.sansancloud.com/jianzhan/2018_9/5/19/17/45_862.jpg?x-oss-process=style/preview_120",
+      linkUrl: "new_servant_center.html",
+      text: "我是服务人员",
+      typeText:'servant',
+      color: "#777777",
+      ownState: false,
+    }, {
+      iconPath: "http://image1.sansancloud.com/jianzhan/2018_9/5/19/17/45_862.jpg?x-oss-process=style/preview_120",
+      linkUrl: "servant_target_center.html",
+      text: "我是服务对象",
+      typeText: 'servantTarget',
+      color: "#777777",
+      ownState: false,
+    }
+  ],
+  bindPickerChange:function(e){
+    let that=this;
+    console.log("====bindPickerChange====",e)
+    let index = e.detail.value;
+    that.setData({
+      curPersonnelType: index,
+    })
+  },
   dellSData:function(){
     this.setData({
       // headData: this.headData,
@@ -285,18 +319,58 @@ Page({
       header: app.headerPost,
       success: function (res) {
         console.log(res.data)
-
         if (res.data.errcode == '0') {
           let UserInfo = res.data.relateObj.platformUser
           let orderData = that.orderData
           orderData.cells[0].showCountNum = UserInfo.unpayedCount
           orderData.cells[1].showCountNum = UserInfo.unsendedCount
           orderData.cells[2].showCountNum = UserInfo.unreceivedCount
-
+          // 11111
+          let loginUser = res.data.relateObj
+          let curPersonnelType = that.data.curPersonnelType;
+          let moreSelectType = that.moreSelectType
+          let havaMoreSelectType = []
+          let havaMoreSelectTypeArr = []
+          console.log("===moreSelectType===", moreSelectType)
+          for (let i = 0; i < moreSelectType.length; i++) {
+            if (loginUser.platformUser.managerMendianId && moreSelectType[i].typeText == 'mendian') {
+              havaMoreSelectType.push(moreSelectType[i])
+            }
+            if (loginUser.platformUser.managerServantId && moreSelectType[i].typeText == 'servant') {
+              havaMoreSelectType.push(moreSelectType[i])
+            }
+            if (loginUser.platformUser.managerServantTargetId && moreSelectType[i].typeText == 'servantTarget') {
+              havaMoreSelectType.push(moreSelectType[i])
+            }
+          }
+          console.log("moreSelectType", moreSelectType, havaMoreSelectType)
+          if (havaMoreSelectType.length!=0){
+            for (let i = 0; i < havaMoreSelectType.length;i++){
+              havaMoreSelectTypeArr.push(havaMoreSelectType[i].text)
+              // 判断优先度
+              if (loginUser.platformUser.managerMendianId && loginUser.platformUser.managerMendianId != 0 && havaMoreSelectType[i].typeText=='mendian') {
+                console.log("服务商")
+                curPersonnelType = i
+              } else if (!loginUser.platformUser.managerMendianId && (loginUser.platformUser.managerServantId && loginUser.platformUser.managerServantId != 0) && havaMoreSelectType[i].typeText == 'servant') {
+                console.log("服务人员")
+                curPersonnelType = i
+              } else if (!loginUser.platformUser.managerMendianId && !loginUser.platformUser.managerServantId && (loginUser.platformUser.managerServantTargetId && loginUser.platformUser.managerServantTargetId != 0) && havaMoreSelectType[i].typeText=='servantTarget') {
+                console.log("服务对象")
+                curPersonnelType = i
+              }
+            }
+          }
+          console.log("curPersonnelType", curPersonnelType, havaMoreSelectTypeArr)
           that.setData({
+            curPersonnelType: curPersonnelType,
+            loginUser: loginUser,
+            userInfo: app.globalData.userInfo,
+            setting: app.setting,
             orderData: orderData,
-            loginUser: res.data.relateObj
+            havaMoreSelectTypeArr: havaMoreSelectTypeArr,
+            havaMoreSelectType: havaMoreSelectType
           })
+          // 11111
           app.loginUser = res.data.relateObj
         } else {
           wx.showToast({
@@ -318,14 +392,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.dellSData()
-    this.getSessionUserInfo();
-    this.getParac()
-    this.setData({
-      loginUser: app.loginUser,
-      userInfo: app.globalData.userInfo,
-      setting: app.setting
-    })
+    let that=this
+    that.dellSData()
+    that.getSessionUserInfo();
+    that.getParac()
+    
   },
 
   /**
@@ -345,7 +416,6 @@ Page({
       this.getSessionUserInfo();
     }
     this.openShow = true
-    
   },
 
   /**

@@ -15,8 +15,39 @@ Page({
     app.toIndex()
   },
   clickcontrol(e) {//回到定位的
+    let that=this;
+    console.log("====clickcontrol====",e)
+    let localPoint = that.data.localPoint
     let mpCtx = wx.createMapContext("map");
-    mpCtx.moveToLocation();
+    mpCtx.moveToLocation({
+      success: function (e) {
+        console.log("===success===",e)
+        wx.getLocation({
+          type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+          success: function (res) {
+            console.log(res)
+            localPoint.latitude = res.latitude
+            localPoint.longitude = res.longitude
+            that.params.latitude = res.latitude;
+            that.params.longitude = res.longitude;
+            that.getLoctionAddr(res.longitude, res.latitude)
+            that.setData({
+              localPoint: localPoint
+            })
+          }
+        })
+        // mpCtx.getCenterLocation({
+        //   success: function (res) {
+        //     console.log('res', res)
+        //     localPoint.latitude = res.latitude
+        //     localPoint.longitude = res.longitude
+        //     that.params.latitude = res.latitude;
+        //     that.params.longitude = res.longitude;
+        //     that.getLoctionAddr(res.longitude, res.latitude)
+        //   }
+        // })
+      },
+    });
     
   },
   getSearchProductName:function(e){
@@ -27,16 +58,19 @@ Page({
     let param={
       name: name,
     }
-    param  = Object.assign({}, param, that.data.localPoint)
+    param = Object.assign({}, param, that.data.localPoint)
+    // that.data.localPoint
     that.getSearchLoctionAddr(param)
   },
   getSearchLoctionAddr: function (param) {
     let that = this
+    let params = param;
+    params['type']=1
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
     })
-    let customIndex = app.AddClientUrl("/search_location_by_name.html", param, 'get')
+    let customIndex = app.AddClientUrl("/search_location_by_name.html", params, 'get')
     wx.request({
       url: customIndex.url,
       header: app.header,
@@ -44,26 +78,34 @@ Page({
         console.log("==getLoctionAddr==", res.data)
         if (res.data.status == 0) {
           wx.hideLoading()
-          let result = res.data.results;
-          let arr=[]
-          for (let i = 0; i < result.length;i++){
-            let address={}
-            address = {
-              simpleAddress: result[i].name,
-              detailedAddress: result[i].address,
-              longitude: result[i].location.lng,
-              latitude: result[i].location.lat,
-              province: result[i].province,
-              city: result[i].city,
-              street: result[i].address,
-            };
-            arr.splice(arr.length, 1, address)
+          let result = res.data;
+          let addressList = result.data;
+          for (let i = 0; i < addressList.length; i++) {
+            let item = addressList[i]
+            let address = {
+              longitude: item.location.lng,
+              latitude: item.location.lat,
+              province: item.ad_info ? item.ad_info.province : '',
+              city: item.ad_info ? item.ad_info.city : '',
+              street: item.ad_info ? item.ad_info.district : '',
+              detailedAddress: item.title || '',
+              simpleAddress: item.address || '',
+              iconPath: "",
+              id: i,
+              title: item.title,
+            }
+            addressList[i] = address
           }
-          that.setData({ addressList: arr })
+          let localPoint = that.data.localPoint;
+          console.log("addressList[0]", addressList[0])
+          let index = Math.floor(addressList.length/2)-1
+          localPoint.latitude = addressList[index].latitude
+          localPoint.longitude = addressList[index].longitude
+          that.setData({ addressList: addressList, markers: addressList, localPoint: localPoint})
           console.log("==addressList==", that.data.addressList)
         } else {
           wx.showToast({
-            title: '加载失败...',
+            title: res.data.message,
             icon: 'none',
           })
         }
@@ -121,7 +163,7 @@ Page({
   regionchange(e) {
     console.log('===regionchange===',e)
     if (e.type == 'end') {
-      if (e.causedBy =='scale'){
+      if (e.causedBy == 'scale' || e.causedBy =="update"){
         console.log('====scale====')
       } else if(e.causedBy == 'drag') {
         console.log('====drag====');
@@ -142,18 +184,13 @@ Page({
   hiddenProInfo(e){
     console.log(e)
     this.setData({productDetail:null})
-  },
-  /* 全部参数 */
-  params: {
-    latitude:'0',
-    longitude:'0',
-
   }, 
   getLoctionAddr: function (longitude, latitude) {
     var that = this
     var param = {}
     param.longitude = longitude
     param.latitude = latitude
+    param['type'] = 1
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
@@ -167,19 +204,37 @@ Page({
         if (res.data.status == 0) {
           wx.hideLoading()
           let result = res.data.result
-          let address = { 
-            simpleAddress: result.sematic_description, 
-            detailedAddress: result.formatted_address,
-            longitude: result.location.lng,
+          let addressItem = {
+            longitude: result.location.lat,
             latitude: result.location.lat,
-            province: result.addressComponent.province,
-            city: result.addressComponent.city,
-            street: result.addressComponent.street,
-            };
-          let addressList=[];
-          addressList.splice(0, 1, address)
+            province: result.addressComponent ? result.addressComponent.province : result.address_component.province,
+            city: result.addressComponent ? result.addressComponent.city : result.address_component.city,
+            street: result.addressComponent ? result.addressComponent.street : result.address_component.street,
+            detailedAddress: result.address || '',
+            simpleAddress: result.title || '',
+          }
+          let addressList = result.pois;
+          for (let i = 0; i < addressList.length;i++){
+            let item = addressList[i]
+            let address = {
+              longitude: item.location.lng,
+              latitude: item.location.lat,
+              province: item.ad_info ? item.ad_info.province : '',
+              city: item.ad_info ? item.ad_info.city : '',
+              street: item.ad_info ? item.ad_info.district:'',
+              detailedAddress: item.title || '',
+              simpleAddress: item.address || '' ,
+              // width: 20,
+              // height: 50,
+              iconPath: "",
+              id:i,
+              title: item.title,
+            }
+            addressList[i] = address
+          }
+          // addressList.splice(0, 1, address)
           console.log("====addressList====", addressList)
-          that.setData({ address: address, addressList: addressList})
+          that.setData({ address: addressItem, addressList: addressList, markers: addressList})
         }else{
           wx.showToast({
             title: '加载失败...',
@@ -197,18 +252,25 @@ Page({
       }
     })
   },
+  /* 全部参数 */
+  params: {
+    latitude: '0',
+    longitude: '0',
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     let that = this;
     that.initSetting();
+    let localPoint = that.data.localPoint
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
         console.log(res)
-        that.data.localPoint.latitude = res.latitude
-        that.data.localPoint.longitude = res.longitude
+        localPoint.latitude = res.latitude
+        localPoint.longitude = res.longitude
         that.getLoctionAddr(res.longitude, res.latitude)
         console.log("options", options)
         for (let i in options) {
@@ -216,9 +278,10 @@ Page({
             if (i.toLowerCase() == j.toLowerCase()) { that.params[j] = options[i] }
           }
         }
+        that.params.latitude = that.params.latitude == 0 ? res.latitude : that.params.latitude
+        that.params.longitude = that.params.longitude == 0 ? res.longitude : that.params.longitude
         that.setData({
-          params: that.params,
-          localPoint: that.data.localPoint
+          localPoint: localPoint
         })
         console.log(that.params)
       }

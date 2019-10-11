@@ -30,8 +30,8 @@ Page({
       success: function (res) {
         if (res.confirm) {
           let param_post = {}
-          param_post.orderNo = orderNo
-          var customIndex = app.AddClientUrl("/wx_confirm_mendian_order.html", param_post, 'post')
+          param_post.orderItemId = orderNo
+          var customIndex = app.AddClientUrl("/confirm_mendian_order_item.html", param_post, 'post')
           wx.request({
             url: customIndex.url,
             data: customIndex.params,
@@ -84,8 +84,8 @@ Page({
       success: function (res) {
         if (res.confirm) {
           let param_post = {}
-          param_post.orderNo = orderNo
-          var customIndex = app.AddClientUrl("/wx_reject_mendian_order.html", param_post, 'post')
+          param_post.orderItemId = orderNo
+          var customIndex = app.AddClientUrl("/reject_mendian_order_item.html", param_post, 'post')
 
           wx.request({
             url: customIndex.url,
@@ -161,11 +161,11 @@ Page({
   distributeProfit:function(result){
     for (let i = 0; i < result.length; i++){
       result[i].distributeProfitResult = 0
-      for (let j = 0; j < result[i].orderItems.length; j++ ){
-        let getMoneyItem = result[i].orderItems[j].distributeProfit * result[i].orderItems[j].itemCount
-        result[i].distributeProfitResult += getMoneyItem
-      }
-      result[i].distributeProfitResult = (result[i].distributeProfitResult * (app.setting.platformSetting.mendianDistributeProfit)/100).toFixed(2)
+      // for (let j = 0; j < result[i].orderItems.length; j++ ){
+      //   let getMoneyItem = result[i].orderItems[j].distributeProfit * result[i].orderItems[j].itemCount
+      //   result[i].distributeProfitResult += getMoneyItem
+      // }
+      // result[i].distributeProfitResult = (result[i].distributeProfitResult * (app.setting.platformSetting.mendianDistributeProfit)/100).toFixed(2)
     }
     return result
   },
@@ -173,7 +173,7 @@ Page({
   getOrderList: function (focusTab, index, fresh) {
     let params = focusTab.params
     let tab = this.data.tab
-    var customIndex = app.AddClientUrl("/get_mendian_orders_admin_mendian_json.html", params,'post')
+    var customIndex = app.AddClientUrl("/get_mendian_order_items_admin_mendian_json.html", params,'post')
     var that = this
     // wx.showLoading({
     //   title: 'loading'

@@ -32,8 +32,8 @@
   border-bottom: 1px dashed rgb(240,240,240);
 }
 .addrItems_info > image{
-  width: 1.4em;
-  height: 1.4em;
+  width: 46rpx;
+  height: 46rpx;
 }
 .addrItems_info view{
   margin-left: 1em;
@@ -43,7 +43,7 @@
 .font2{
   margin-top: 0.4em;
   font-size: 24rpx;
-  
+  color: #ccc;
 }
 
 .addrItems_deel{
@@ -75,8 +75,8 @@
 .addrItems_deel_botton view{
   border: 1rpx solid #aaa;
   padding: 4rpx 15rpx;
-  margin-left: 0.4em;
-  border-radius: 0.4em;
+  margin-left: 12rpx;
+  border-radius: 8rpx;
 }
 
 

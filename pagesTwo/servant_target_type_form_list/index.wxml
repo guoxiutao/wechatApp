@@ -1,0 +1,17 @@
+ 
+<view class='container'>
+  <view class='servant_target_type_list' wx:if="{{servantTargetTypeFormData.length!=0}}">
+    <view class='servant_target_type_item' wx:for="{{servantTargetTypeFormData}}" data-link="form_commit_list.html?customFormId={{item.customFormId}}&self=1" catchtap='checkFormCommitList'>
+      <view class='servant_target_type_left'>
+        <image mode='aspectFit' src='{{item.customForm.banner}}' class='servant_target_type_icon'></image>
+      </view>
+      <view class='servant_target_type_right'>
+        <text class='servant_target_type_name' style='margin-bottom:{{item.customForm.description?"16rpx":"0"}}'>{{item.customFormName}}</text>
+        <text class='servant_target_type_description'>{{item.customForm.description}}</text>
+      </view>
+    </view>
+  </view>
+  <view class='nothing_servant_target_type_list' wx:else>
+    <text>暂无相关表单~</text>
+  </view>
+</view>

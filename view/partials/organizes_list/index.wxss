@@ -1,11 +1,8 @@
 
-@import 'typeOne/index.wxss';/* 引入可以滑动的样式 */
-@import 'typeTwo/index.wxss';/* 引入可以滑动的样式 */
-::-webkit-scrollbar{
-width: 0;
-height: 0;
-color: transparent;
-}
+@import 'type_one/index.wxss';
+@import 'type_two/index.wxss';
+
+
  /* typesearch */
 .typeSearchContainer{
   position:fixed;

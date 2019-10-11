@@ -8,10 +8,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'jianzhan',   //自定义的项目的名称。
+  clientNo: 'chunzhixiang',   //自定义的项目的名称。,
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.63',
+  version:'3.5.76',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -620,6 +620,7 @@ App({
           console.log('=====没授权====')
           that.showAuthorizationPopup = true
           that.authorizationListener(that.showAuthorizationPopup)
+          return 'authorization'
         } else {
           console.log('=====已授权====')
           if (linkUrl.substr(0, 3) == 'tel') {
@@ -691,8 +692,8 @@ App({
           else if (linkUrl.substr(0, 14) == 'product_detail') {
             let productId = linkUrl.replace(/[^0-9]/ig, "");
             console.log(linkUrl.substr(15, 6))
-            // that.properties.style_product_detail
-            that.goto(('user_product_detail' || "productDetail") + ".html" + urlData.param + "&addShopId=0");
+            // 
+            that.goto((that.properties.style_product_detail|| "productDetail") + ".html" + urlData.param + "&addShopId=0");
             return;
           }
           else if (urlData.url == 'shop_map') {
@@ -1222,7 +1223,7 @@ App({
     let name = markers.shopName
     let address = ''
     wx.getLocation({
-      type: 'wgs84', //返回可以用于wx.openLocation的经纬度
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
         console.log('11111')
         wx.openLocation({
@@ -1413,7 +1414,6 @@ App({
     } else {
       pageCode.SHARE_COMMON_PAGE = pageCode[aliasName]
       pageCode.linkUrl = pageName
-      // pageCode.SHARE_PRODUCT_DETAIL_PAGE = pageName
     }
     if (pageCode.belongShop && pageCode.belongShop != "") {
       pageCode.ENTER_SHOP = pageCode.belongShop

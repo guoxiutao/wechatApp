@@ -13,7 +13,7 @@
     </view>
     <view class='resource_validation'>
       <input class='resource_validation_input' bindinput="saveSearchValue" ></input>
-      <text class='resource_validation_tip'>{{resourceGainInfo.resourceVisibleTip}}</text>
+      <text class='resource_validation_tip' wx:if="{{resourceGainInfo.resourceVisibleTip}}">{{resourceGainInfo.resourceVisibleTip}}</text>
     </view>
     <view class='resource_entry_tip'>
       <!-- <image src=''></image> -->

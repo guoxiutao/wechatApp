@@ -60,13 +60,18 @@
                           <view class='item_infomation_nums'> 
                             <text class='flexCenter'>x {{orderItem.itemCount}}</text>
                           </view>
-                          <view class='item_infomation_money'>
+                          <view class='item_infomation_money' >
                             <view >单价:￥<text class='fontPrice'>{{orderItem.itemPrice}}</text></view>
                             <view class='orderNoStyle'>
-                            <view class='zitiOrder' wx:if="{{list.mendianZiti==1}}">
+                              <view class='zitiOrder' wx:if="{{list.mendianZiti==1}}">
                                 <image class='orderTypeIcon' src='http://image1.sansancloud.com/xianhua/2019_1/7/15/54/51_620.jpg?x-oss-process=style/preview_120'></image>
                               </view>
                               <text>订单号:{{list.orderNo}}</text>
+                            </view>
+                            <view  style='display:flex;flex-direction:row'>归属门店:
+                              <view style='display:flex'>
+                                【{{orderItem.sendStorageName}}】-【<text wx:if="{{orderItem.mendianConfirm==0}}">未确认</text><text wx:else>已确认</text>】
+                              </view>
                             </view>
                           </view>
                         </view>

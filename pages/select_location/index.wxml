@@ -16,7 +16,7 @@
 
 
   <view class='product_page_container2'>
-    <map class='mapItem' id="map" longitude="{{localPoint.longitude}}" latitude="{{localPoint.latitude}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange" show-location='true' style="width: 100%; height: 768rpx;">
+    <map class='mapItem' markers='{{markers}}' id="map" longitude="{{localPoint.longitude}}" latitude="{{localPoint.latitude}}" scale="16" bindcontroltap="controltap" bindregionchange="regionchange" show-location='true' style="width: 100%; height: 768rpx;">
       <cover-view class="play" >
           <cover-image class="img" src="../../images/icon/center.png" style='width:80rpx;height:80rpx;' />
       </cover-view>
@@ -43,7 +43,7 @@
       </cover-view>
     </cover-view> -->
     <view class='product_data1'>
-      <scroll-view scroll-y style="height: 200px;width：100%" bindscrolltoupper="upper" bindscrolltolower="lower" >
+      <scroll-view scroll-y style="height: 320rpx;width：100%" bindscrolltoupper="upper" bindscrolltolower="lower" >
         <view class='product_info_center' wx:for="{{addressList}}" catchtap='selectAddressFun' data-item="{{item}}">
           <view class='product_info_service_addr'>
             <image class='product_info_service_addr_img' src='http://image1.sansancloud.com/xianhua/2018_9/13/17/57/21_219.jpg'></image>

@@ -30,11 +30,17 @@
     <input class='InputContent' bindinput='getCardNo'  value='{{needParam.idCardNo}}' placeholder='请输入身份证号'></input>
   </label>
   <label class='inputContainer' style='justify-content: space-between'>
-    <view class='inputContainerLeft'>
+    <view class='inputContainerLeft' catchtap="tolinkUrl" data-link="select_location.html">
       <text class='InputName'>详细地址</text>
-      <input class='InputContent'  maxlength='50' value='{{needParam.detail}}' bindblur='getAddr' placeholder='请输入详细地址'></input>
+      <input style='width:70%' disabled='false' maxlength='50' value='{{needParam.community}}' placeholder='请选择小区/写字楼等'></input>
     </view>
     <image catchtap="tolinkUrl" data-link="select_location.html" class='inputRightIcon' src='http://image1.sansancloud.com/xianhua/2019_4/3/18/3/24_160.jpg?x-oss-process=style/preview_120'></image>
+  </label>
+  <label class='inputContainer' style='justify-content: space-between'>
+    <view class='inputContainerLeft'>
+      <text class='InputName'></text>
+      <input style='width:78%'  maxlength='50' value='{{needParam.detail}}' bindblur='getAddr' placeholder='请输入楼号/单元/门牌号'></input>
+    </view>
   </label>
 
   <checkbox-group bindchange="defaultAddressChange">
@@ -48,12 +54,10 @@
     <text>点击自动获取地址信息</text>
   </view> -->
   <block wx:if='{{!ifEid}}'>
-    <button class='signIn' bindtap='subMitArrFrom'
-    style='background:{{setting.platformSetting.defaultColor}}'>新增地址</button>
+    <button class='signIn' bindtap='subMitArrFrom' style='background:{{setting.platformSetting.defaultColor}}'>新增地址</button>
   </block>
   <block wx:else>
-  <button class='signIn' bindtap='subMitArrFrom'
-    style='background:{{setting.platformSetting.defaultColor}}'>确认修改</button>
+  <button class='signIn' bindtap='subMitArrFrom' style='background:{{setting.platformSetting.defaultColor}}'>确认修改</button>
   </block>
  
 </form>

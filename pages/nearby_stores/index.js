@@ -60,7 +60,7 @@ Page({
   getMendianData: function (){
     var that = this
     wx.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: function (res) {
         var latitude1 = res.latitude
         var longitude1 = res.longitude;

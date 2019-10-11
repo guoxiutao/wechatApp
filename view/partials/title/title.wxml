@@ -4,6 +4,7 @@
 <import src="pupu_product_search.wxml"/>  <!-- pupu搜索框 -->
 <import src="more_product_search.wxml"/>  <!-- pupu搜索框 -->
 <import src="popup_page.wxml"/>  <!-- pupu搜索框 -->
+<import src="form_search.wxml"/>  <!-- pupu搜索框 -->
 
 
     <!-- 当 androidTemplate为空的时候去引入普通标题框  -->  
@@ -23,6 +24,13 @@
   <block wx:if='{{data.androidTemplate == "pupu_product_search"}}'>
       <template is="pupu_product_search" 
        data="{{...data,setting,properties}}"></template> 
+       <!-- template里面包含template的时候外部传的参数需要去掉最外面的文件夹 -->
+   
+  </block>
+  <!--当 androidTemplate不为空的时候去引入search框 -->
+  <block wx:if='{{data.androidTemplate == "form_search"}}'>
+      <template is="form_search" 
+       data="{{...data,setting,properties,formType}}"></template> 
        <!-- template里面包含template的时候外部传的参数需要去掉最外面的文件夹 -->
    
   </block>

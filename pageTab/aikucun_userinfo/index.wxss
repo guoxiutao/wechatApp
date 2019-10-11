@@ -34,3 +34,6 @@
  line-height: 50rpx;
  color: #999;
 }
+.more_select{
+  padding: 20rpx;
+}

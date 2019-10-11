@@ -246,14 +246,16 @@ Page({
     mapCtx.getCenterLocation({
       success: function (res) {
         console.log('res', res)
+        let params={}
        // that.getLoctionAddr(res.longitude, res.latitude)
-        that.params.latitude = res.latitude;
-        that.params.longitude = res.longitude;
+        params.latitude = res.latitude;
+        params.longitude = res.longitude;
+        console.log("params", params)
         that.setData({
-          params: that.params,
+          params: params,
         })
         if (callback) {
-          callback(that.params, 2)
+          callback(params, 2)
         }
       }
     }) //获取当前地图的中心经纬度
@@ -289,10 +291,12 @@ Page({
     })
   },
   //物流单号 一键复制的事件
-  copyTBL:function(){
-    var that=this;
+  copyTBL:function(e){
+    var that = this;
+    console.log("====copyTBL====", e)
+    let value = e.currentTarget.dataset.value
     wx.setClipboardData({
-      data: that.data.orderDetailData.invoiceNo,
+      data: value,
       success: function (res) {
         wx.getClipboardData({
           success: function (res) {            

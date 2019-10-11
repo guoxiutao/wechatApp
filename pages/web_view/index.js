@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url:"https://www.baidu.com/",
+    url:"",
   },
   /**
    * 生命周期函数--监听页面加载
@@ -17,7 +17,7 @@ Page({
     let that=this;
     console.log("===options==", options)
     let url = decodeURIComponent(options.url)
-    that.setData({ url: url || "https://www.baidu.com/" })
+    that.setData({ url: url || "" })
     console.log("===url==", that.data.url)
   },
 

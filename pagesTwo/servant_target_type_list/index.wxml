@@ -1,0 +1,14 @@
+ 
+<view class='container'>
+  <view class='servant_target_type_list'>
+    <view class='servant_target_type_item' wx:for="{{servantTargetTypes}}">
+      <view class='servant_target_type_left'>
+        <image src='{{item.targetTypeIcon}}' class='servant_target_type_icon'></image>
+        <text class='servant_target_type_name'>{{item.name}}</text>
+      </view>
+      <view class='servant_target_type_right'>
+        <switch checked="{{item.subscribe}}" bindchange="switchChange" data-id="{{item.id}}"/>
+      </view>
+    </view>
+  </view>
+</view>

@@ -4,7 +4,7 @@
     font-size: 0.8em;
     position:absolute;
     width:100%;
-    padding-top:20rpx;
+    /* padding-top:20rpx; */
 
 }
 .distribution_mode{
@@ -574,4 +574,57 @@
   width: 30rpx;
   height: 30rpx;
   background: #fff;
+}
+/* 提交时，存在优惠券，但未使用时提示弹窗 */
+.add_measures_popup{
+  position: fixed;
+  top: 50%;
+  margin-top: -260rpx;
+  left: 50%;
+  margin-left: -300rpx;
+  width: 600rpx;
+  height: 280rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  z-index: 11;
+  box-sizing:border-box;
+  padding:20rpx;
+  font-size: 30rpx;
+}
+.add_measures_popup_title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1rpx solid #f1f1f1;
+  padding: 10rpx 0;
+  font-weight:bold;
+  margin-bottom:30rpx;
+}
+.add_measures_popup_list{
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
+}
+.popup_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26rpx;
+  padding: 0 16rpx;
+}
+.saveData{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between
+}
+.saveBtn{
+  margin: 0 16rpx;
+  width: 50%;
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
 }

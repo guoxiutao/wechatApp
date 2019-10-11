@@ -9,6 +9,8 @@ Page({
     orderData:null,
     selectStore:null,
     reqStore: false,
+    showSelectCoupon:false,
+    sureUseCouponState:false,
     reqAddress: false,
     showTopSelect:false,
     showAddressForm:false,
@@ -256,7 +258,7 @@ Page({
     })
   },
   closeShowArr: function () {
-    this.setData({ showArr: false })
+    this.setData({ showArr: false, showSelectCoupon:false})
   },
   /* 支付方式 */
   payWayChange: function(e) {
@@ -295,10 +297,19 @@ Page({
     var arr2 = ['请选择优惠券']
     var data=this.data;
     if (data&&data.getEditOrderDetailData.availableCoupons){
-    for (let i = 0; i < this.data.getEditOrderDetailData.availableCoupons.length;i++){
-      arr.push(this.data.getEditOrderDetailData.availableCoupons[i])
-      arr2.push(this.data.getEditOrderDetailData.availableCoupons[i].couponName)
-    }}
+      let couponList = this.data.getEditOrderDetailData.availableCoupons;
+      for (let i = 0; i < couponList.length;i++){
+        arr.push(couponList[i])
+        let couponName =''
+        if (couponList[i].coupon.orderAmount!=0){
+          couponName = "满" + couponList[i].coupon.orderAmount + "元减" + couponList[i].couponYouhuiAmount
+          arr2.push(couponName)
+        }else{
+          couponName = couponList[i].couponYouhuiAmount+'元优惠券'
+          arr2.push(couponName)
+        }
+      }
+    }
     this.setData({ coupon: arr, coupon2: arr2})
     console.log('----------1----------')
     console.log(arr)
@@ -323,27 +334,31 @@ Page({
       header: app.header,
       success: function (res) {
         console.log("=====orde detail=======",res)
-        if (res.data.userAddressCustomFormId && that.data.setting.platformSetting.addressType == 2){
-          that.setData({ showAddressForm: true,sendOptionData: { customFormId: res.data.userAddressCustomFormId || 0 } })
+        let data = res.data
+        if (data.userAddressCustomFormId && data.userAddressCustomFormId>0 ){
+          that.setData({ showAddressForm: true, sendOptionData: { customFormId: data.userAddressCustomFormId || 0 } })
         }else{
           that.setData({  sendOptionData: null })
         }
-        if (res.data.userAddressCustomFormCommitId){
-          that.setData({ userAddressCustomFormCommitId: res.data.userAddressCustomFormCommitId})
+        if (data.userAddressCustomFormCommitId){
+          that.setData({ userAddressCustomFormCommitId: data.userAddressCustomFormCommitId})
         }
-        that.setData({ getEditOrderDetailData: res.data, orderData: res.data})
-        if (res.data.belongMendian){
-          that.setData({ belongMendian: res.data.belongMendian })
-          that.orderMessage.changeOrderMendianId = res.data.belongMendian.id
+        if (data.formCommit && data.formCommit.attendMeasureList){
+          data.formCommit.attendMeasureListObj = JSON.parse(data.formCommit.attendMeasureList)
+        }
+        that.setData({ getEditOrderDetailData: data, orderData: data})
+        if (data.belongMendian){
+          that.setData({ belongMendian: data.belongMendian })
+          that.orderMessage.changeOrderMendianId = data.belongMendian.id
         }
 
   // 获取门店自提
-        let allowMendianZiti = res.data.allowMendianZiti
+        let allowMendianZiti = data.allowMendianZiti
         let showTopSelect=false;
         console.log(allowMendianZiti)
         that.setData({
           allowMendianZiti: allowMendianZiti,
-          mendianZiti: res.data.mendianZiti
+          mendianZiti: data.mendianZiti
         })
         if (allowMendianZiti!=0){
           showTopSelect=true
@@ -367,7 +382,8 @@ Page({
     console.log('====formId====',e)
     var that = this
     that.setData({ reqAddress: false })
-    let miniNotifyFormId = e.detail.formId||'';
+    let miniNotifyFormId = that.orderMessage.miniNotifyFormId ? that.orderMessage.miniNotifyFormId : (e.detail.formId || '');
+    that.orderMessage.miniNotifyFormId = miniNotifyFormId
     let addressType= that.data.setting.platformSetting.addressType
     console.log("=====addressType=====", addressType)
     console.log(that.orderMessage)
@@ -419,7 +435,6 @@ Page({
         // 判断是否自提
         console.log("======mendianZiti=========", that.data.mendianZiti)
         that.orderMessage.mendianZiti = that.data.mendianZiti
-        that.orderMessage.miniNotifyFormId = miniNotifyFormId
         if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno) && that.data.setting.platformSetting.addressType != 2 && that.data.orderData.orderType != 17){
           wx.showModal({
             title: '提示',
@@ -454,6 +469,10 @@ Page({
         if (that.data.setting.platformSetting.addressType == 2 || that.data.orderData.orderType==17) {
           that.orderMessage.addressId = 0
         }
+        if (that.data.coupon2.length != 0 && !that.orderMessage.gotCouponListId && !that.data.sureUseCouponState) {
+          that.setData({ showSelectCoupon: true })
+          return
+        }
         console.log("=========参数orderMessage===========", that.orderMessage, that.data.sendOptionData)
         if (!that.data.sendOptionData){
           console.log("=====没有表单=====")
@@ -471,6 +490,16 @@ Page({
     console.log("===getDataFun===", e)
     that.orderMessage.userAddressCustomFormCommitId = e.detail.formId
     that.toSubmitOrder(that.orderMessage)
+  },
+  continueSubmitOrder:function(e){
+    let that=this;
+    console.log("===continueSubmitOrder===",e)
+    let state=e.currentTarget.dataset.state
+    if (state=='no'){
+      that.orderMessage.gotCouponListId = 0
+    }
+    that.setData({ sureUseCouponState:true })
+    that.submitOrder()
   },
   toSubmitOrder:function(data){
     var customIndex = app.AddClientUrl("/submit_order.html", data, 'post')
@@ -684,7 +713,7 @@ Page({
   gainUserLocation:function(){
     let that=this;
     wx.getLocation({
-      type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
+      type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
       success: function (res) {
         // success  
         console.log("===wx.getLocation===", res)

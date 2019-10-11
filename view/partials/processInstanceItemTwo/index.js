@@ -8,6 +8,10 @@ Component({
     data: {
       type: JSON,
       value: 'default value',
+    },
+    showDetailBtn: {
+      type: JSON,
+      value: 'default value',
     }
   },
   data: {
@@ -26,7 +30,7 @@ Component({
 
   ready: function () {
     let that = this;
-    console.log("====processInstanceItem====", that.data.data)
+    console.log("====processInstanceItem====", that.data.data, that.data.showDetailBtn)
     if (that.data.data.productCustomFormCommit&&that.data.data.productCustomFormCommit.commitJson){
       let formCommitData = JSON.parse(that.data.data.productCustomFormCommit.commitJson);
       console.log("====formCommitData====", formCommitData)

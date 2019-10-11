@@ -22,13 +22,14 @@ Component({
     formCommitItem:{},
     width:0,
     height:0,
-    replyText:""
+    replyText:"",
+    bannerList:{},
   },
   ready: function () {
     let that = this;
     console.log("====form-item-formCommitItem======", that.data.data);
-    // console.log("====form-item-formListStyle=====", that.data.formListStyle);
-    // console.log("====form-item-controlLimitState=====", that.data.controlLimitState);
+    console.log("====form-item-formListStyle=====", that.data.formListStyle);
+    console.log("====form-item-controlLimitState=====", that.data.controlLimitState);
     that.initData('init')
     this.setData({
       setting: app.setting,
@@ -46,7 +47,34 @@ Component({
       }
       reqData.showFunState = false;
       reqData.showFunBan = false;
-      that.setData({ formCommitItem: reqData })
+      let commitJson = reqData.commitJson
+      let bannerList = that.data.bannerList
+      let formListStyle = that.data.formListStyle
+      for (let i in commitJson){
+        if (commitJson[i].type == 11){
+          bannerList[i]={
+            jsonData:{ images: commitJson[i].value}
+          }
+        }
+      }
+      console.log("=====bannerList======", bannerList)
+      if (formListStyle&&formListStyle.length!=0){
+        for (let i = 0; i < formListStyle.length; i++) {
+          if (formListStyle[i].data.detailViewMagic && formListStyle[i].data.detailViewMagic.length != 0) {
+            let detailViewMagic = formListStyle[i].data.detailViewMagic
+            for (let j = 0; j < detailViewMagic.length; j++) {
+              for (let key in bannerList) {
+                if (detailViewMagic[j].propertieName == key) {
+                  bannerList[key].jsonData.height = Math.abs(detailViewMagic[j].startPointY - detailViewMagic[j].endPointY) / Math.abs(detailViewMagic[j].startPointX - detailViewMagic[j].endPointX)
+                }
+              }
+            }
+          }
+        }
+      }
+      that.setData({ bannerList: bannerList , formCommitItem: reqData, })
+      console.log("=====databannerList======", that.data.bannerList)
+
       if (that.data.formListStyle) {
         that.setData({ width: Number(that.data.formListStyle.width) || 0 })
         that.setData({ height: Number(that.data.formListStyle.height) || 0 })

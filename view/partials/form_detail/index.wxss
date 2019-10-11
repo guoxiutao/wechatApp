@@ -203,7 +203,7 @@
   font-size:30rpx;
 }
 .picker{
-  width: 480rpx;
+  width: 460rpx;
   height: 80rpx;
   line-height:76rpx;
   text-align:right;

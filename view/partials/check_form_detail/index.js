@@ -173,22 +173,27 @@ Component({
       that.setData({ buyCount: buyCount, totalPrice: totalPrice, measurePriceList: measurePriceList })
     },
     selectMeasureItem:function(e){
+      console.log("==selectMeasureItem==",e)
       let that=this;
+      let totalPrice;
       let index = e.currentTarget.dataset.index;
       let measurePriceList = that.data.measurePriceList;
-      let selectMeasureData = measurePriceList[index];
+      if (that.data.allFormData.mulBuyObject==0){
+        for (let i = 0; i < measurePriceList.length;i++){
+          if (i == index){
+            measurePriceList[i].buyCount=1
+          }else{
+            measurePriceList[i].buyCount = 0
+          }
+        }
+      }
       let buyCount = measurePriceList[index].buyCount
-      // if ((buyCount > selectMeasureData.attendStock) && selectMeasureData.attendStock){
-      //   wx.showToast({
-      //     title: '已选择最大库存~',
-      //     image: '/images/icons/tip.png',  //image的优先级会高于icon
-      //     duration: 2000
-      //   })
-      //   buyCount = selectMeasureData.attendStock;
-      //   that.setData({ buyCount: buyCount})
-      // }
-      // let totalPrice = (buyCount * selectMeasureData.attendPrice)
-      that.setData({ selectMeasureData: selectMeasureData, selectMeasureIndex: index,  buyCount: buyCount})
+      let selectMeasureData = measurePriceList[index];
+      if (that.data.allFormData.mulBuyObject == 0){
+        let totalPrice = (buyCount * selectMeasureData.attendPrice);
+        that.setData({totalPrice: totalPrice})
+      }
+      that.setData({ selectMeasureData: selectMeasureData, selectMeasureIndex: index, buyCount: buyCount})
     },
     
     popupFormPage: function () {
@@ -321,7 +326,9 @@ Component({
       let that = this;
       console.log("===getDataFun===", e, e.detail.formId)
       if (e.detail.result) {
-        that.toPayApplyCost(e.detail.result)
+        // that.toPayApplyCost(e.detail.result)
+        let link = 'edit_order.html?orderNo='+ e.detail.result.orderNo
+        that.toOrderDetail(link)
       }else{
         wx.showToast({
           title: '报名成功',
@@ -411,9 +418,9 @@ Component({
         }
       })
     },
-    tolinkUrl: function (event) {
-      console.log(event.currentTarget.dataset.link)
-      let linkUrl = event.currentTarget.dataset.link
+    toOrderDetail: function (event) {
+      console.log(event)
+      let linkUrl = event.currentTarget ? event.currentTarget.dataset.link : event
       if (!linkUrl){
         return
       }
@@ -468,7 +475,7 @@ Component({
     tolinkUrl: function (e) {
       let that=this;
       that.data.recommentReturn=true;
-      let linkUrl = e.currentTarget.dataset.link
+      let linkUrl = e.currentTarget ? e.currentTarget.dataset.link : e
       app.linkEvent(linkUrl)
     },
     saveData:function(data){
@@ -691,31 +698,36 @@ Component({
         method: 'get',
         success: function (res) {
           console.log("====success====",res)
-          if (res.data.errcode==0){
+          if (res.data.errcode == 0) {
+            let data = res.data.relateObj
             wx.hideLoading()
             let measurePriceList='';
-            if (res.data.relateObj.measurePriceList && res.data.relateObj.measurePriceList!='[]'){
-              measurePriceList = JSON.parse(res.data.relateObj.measurePriceList)
+            if (data.measurePriceList && data.measurePriceList!='[]'){
+              measurePriceList = JSON.parse(data.measurePriceList)
               for (let i = 0; i < measurePriceList.length;i++){
                 measurePriceList[i].buyCount=0
               }
               let buyCount = that.data.buyCount;
-              let selectMeasureData = measurePriceList[0]
+              let selectMeasureData = measurePriceList[that.data.selectMeasureIndex]
+              if (data.mulBuyObject == 0) {
+                selectMeasureData.buyCount = 1
+                buyCount=1
+              }
               let totalPrice = (buyCount * selectMeasureData.attendPrice);
               that.setData({ selectMeasureData: selectMeasureData, totalPrice: totalPrice})
             }else{
               that.setData({ nextStepState:true})
             }
             console.log("=====measurePriceList====", measurePriceList)
-            that.setData({ allFormData: res.data.relateObj, loading: false, measurePriceList: measurePriceList})
+            that.setData({ allFormData: data, loading: false, measurePriceList: measurePriceList})
             let customForm = that.data.allFormData.customForm;
             that.getCommentData(that.data.allFormData.id, 1)
             let commitJson = JSON.parse(that.data.allFormData.commitJson);
             console.log("====commitJson=====", commitJson)
             customForm.commitArr = [];
             let banner = {};
-            if (res.data.relateObj.customForm && res.data.relateObj.customForm.decorateDetailStyle){
-              let formDetailStyle = JSON.parse(res.data.relateObj.customForm.decorateDetailStyle);
+            if (data.customForm && data.customForm.decorateDetailStyle){
+              let formDetailStyle = JSON.parse(data.customForm.decorateDetailStyle);
               console.log("formDetailStyle", formDetailStyle)
               let resultPointerData = formDetailStyle.resultPointerData
               if (formDetailStyle.length!=0){

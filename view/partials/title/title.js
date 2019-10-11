@@ -36,6 +36,9 @@ var timeTimeout
         console.log("==========setting=============", that.data.setting.platformSetting.defaultColor)
         if (that.data.data.androidTemplate == "popup_page") {
           that.findNotifyTipsFun();
+        } 
+        if (that.data.data.androidTemplate == "form_search"){
+          that.getFormType();
         }
       },
       detached: function () {
@@ -77,7 +80,36 @@ var timeTimeout
         }
       },
     },
-    methods: {
+    methods: {//获取表单分类
+      bindPickerChange:function(){
+        
+      },
+      getFormType: function (groupName, callback) {
+        let customIndex = app.AddClientUrl("/wx_find_custom_forms.html")
+        // wx.showLoading({
+        //   title: 'loading'
+        // })
+        app.showToastLoading('loading', true)
+        let that = this
+        wx.request({
+          url: customIndex.url,
+          header: app.header,
+          success: function (res) {
+            wx.hideLoading()
+            console.log("getFormType", res.data)
+            if (res.data.errcode == 0) {
+              let formType= res.data.relateObj.result
+              that.setData({ formType: formType})
+            }
+            wx.hideLoading()
+          },
+          fail: function (res) {
+            console.log("fail")
+            wx.hideLoading()
+            app.loadFail()
+          }
+        })
+      },
       // 这里是一个自定义方法
       findNotifyTipsFun: function () {
         // if (app.notifyTipPage){

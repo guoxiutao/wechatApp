@@ -12,7 +12,11 @@
        data="{{...data,sysWidth,...setting,imgs}}"></template> 
 
   </block> 
+  <block wx:if='{{!data.androidTemplate&&data.androidTemplate != ""}}'>
+  <template is="firstBanner" 
+       data="{{...data,sysWidth,...setting,imgs}}"></template> 
 
+  </block>
 <slot></slot>
 
 

@@ -229,12 +229,13 @@ Page({
       title: name,
     })
   },
-  getChatMsgList: function (paramData) {
+  getChatMsgList: function (paramData,typeState) {
     let that = this
     let params = { 
       toPlatformUserId: paramData.puid,
       page: paramData.page,
     }
+    that.setData({ curPage: paramData.page, toView:''})
     let customIndex = app.AddClientUrl("/wx_find_chat_msg.html", params, 'post')
     wx.request({
       url: customIndex.url, //仅为示例，并非真实的接口地址
@@ -258,15 +259,32 @@ Page({
             // dataList = dataList.concat(resultData)
           }
           console.log("===toView===", that.data.toView)
-          that.setData({ chatMsgList: dataList})
-          setTimeout(function () {
-            if(that.params.page==1){
-              console.log("初始化数据位置")
-              that.setData({ toView: 'msg_' + (dataList.length - 1) })
-            } else {
-              that.setData({ toView: 'msg_' + (resultData.length - 1) })
-            }
-          }, 1000)
+          that.setData({ chatMsgList: dataList }, function () {
+            console.log("更新数据成功",)
+            let toView = ''
+            setTimeout(function () {
+              if (that.params.page == 1) {
+                console.log("初始化数据位置")
+                toView = 'msg_' + (dataList.length - 1)
+              } else {
+                toView = 'msg_' + (resultData.length - 1)
+              }
+              console.log("===toView===", toView)
+              that.setData({ toView: toView })
+            },500)
+          })
+          console.log("===chatMsgList===", that.data.chatMsgList)
+          // setTimeout(function () {
+          //   let toView=''
+          //   if(that.params.page==1){
+          //     console.log("初始化数据位置")
+          //     toView = 'msg_' + that.data.chatMsgList[(dataList.length - 1)].id
+          //   } else {
+          //     toView = 'msg_' + that.data.chatMsgList[(resultData.length - 1)].id
+          //   }
+          //   console.log("===toView===", toView)
+          //   that.setData({ toView: toView })
+          // }, 2000)
         } else {
           console.log("接口错误")
         }
@@ -453,13 +471,15 @@ Page({
     if (that.listPage.totalSize > that.params.page * that.listPage.pageSize) {
       that.params.page++
       app.showToastLoading('加载中~', true)
-      that.getChatMsgList(that.params);
+      that.getChatMsgList(that.params,'addType');
     }else{
-      wx.showToast({
-        title: '到头啦~',
-        image: '/images/icons/tip.png',
-        duration: 2000
-      })
+      if (that.params.page>1){
+       wx.showToast({
+         title: '到头啦~',
+         image: '/images/icons/tip.png',
+         duration: 2000
+       })
+     }
     }
   },
 

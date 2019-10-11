@@ -66,7 +66,7 @@ Page({
       return
     }
     let that = this;
-    let linkUrl = e.currentTarget.dataset.link
+    let linkUrl = e.currentTarget?e.currentTarget.dataset.link:e
     if (linkUrl.indexOf("select_location.html") != -1) {
       console.log("选择位置")
       that.setData({ reqLocation: true })
@@ -89,9 +89,11 @@ Page({
       } if (e.detail == '') {
       pass = '详细地址为空'
     } if (e.province == '') {
-      pass = '请选择地区'
+      pass = '请选择省份'
     } if (e.district == '') {
       pass = '请选择地区'
+    } if (e.community == '') {
+      pass = '请选择小区'
     }
     /* if (e.longitude == '') {
       pass = '正在定位请稍等提交'
@@ -121,11 +123,6 @@ Page({
         customIndex = app.AddClientUrl("/edit_address.html", that.needParam, 'post')
       }
       app.showToastLoading('loading', true)
-      // wx.showLoading({
-      //   title: 'loading',
-      //   mask: true
-      // })
-
       wx.request({
         url: customIndex.url,
         data: customIndex.params,
@@ -190,27 +187,103 @@ Page({
     var param = {}
     param.longitude = longitude
     param.latitude = latitude
+    param['type'] = 1
     var customIndex = app.AddClientUrl("/get_location_detail.html", param, 'get')
     wx.request({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
         console.log(res.data)
-        let addressComponent = res.data.result.addressComponent
+        let result = res.data.result
+        let addressComponent = res.data.result.addressComponent || res.data.result.address_component
         that.needParam.province = addressComponent.province
         that.needParam.city = addressComponent.city
         that.needParam.district = addressComponent.district
-        that.needParam.detail = addressComponent.street
+        that.needParam.community = result.pois ? result.pois[0].title:result.formatted_addresses.rough
+        // that.needParam.detail = result.formatted_addresses.rough
         that.data.region[0] = addressComponent.province
         that.data.region[1] = addressComponent.city
         that.data.region[2] = addressComponent.district
-        that.data.needParam.detail = addressComponent.street
+        that.data.needParam.community = result.pois ? result.pois[0].title : result.formatted_addresses.rough
+        // that.data.needParam.detail = result.formatted_addresses.rough
         that.setData({ region: that.data.region, needParam:that.data.needParam})
         wx.hideLoading()
       },
       fail: function (res) {
         wx.hideLoading()
         app.loadFail()
+      }
+    })
+  },
+  getLocationFun:function(){
+    let that=this;
+    wx.getLocation({
+      type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
+      success: function (res) {
+        // success  
+        console.log("===getLocation===success", res)
+        var longitude = res.longitude
+        var latitude = res.latitude;
+        that.getLoctionAddr(longitude, latitude)
+        that.needParam.longitude = longitude
+        that.needParam.latitude = latitude
+        that.setData({ needParam: that.needParam })
+      },
+      fail: function (res) {
+        console.log("===getLocation===fail", res)
+        wx.getSetting({
+          success: (res) => {
+            if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+              //未授权
+              wx.showModal({
+                title: '请求授权当前位置',
+                content: '需要获取您的地理位置，请确认授权',
+                success: function (res) {
+                  if (res.cancel) {
+                    //取消授权
+                    wx.showToast({
+                      title: '拒绝授权',
+                      icon: 'none',
+                      duration: 1000
+                    })
+                    wx.navigateBack(
+                      { delta: 1, }
+                    )
+                  } else if (res.confirm) {
+                    //确定授权，通过wx.openSetting发起授权请求
+                    wx.openSetting({
+                      success: function (res) {
+                        if (res.authSetting["scope.userLocation"] == true) {
+                          wx.showToast({
+                            title: '授权成功',
+                            icon: 'success',
+                            duration: 1000
+                          })
+                          //再次授权，调用wx.getLocation的API
+                          that.getLocationFun()
+                          that.tolinkUrl('select_location.html')
+                        } else {
+                          wx.showToast({
+                            title: '授权失败',
+                            icon: 'none',
+                            duration: 1000
+                          })
+                          wx.navigateBack(
+                            { delta: 1, }
+                          )
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+        // fail  
+      },
+      complete: function () {
+        // complete  
       }
     })
   },
@@ -224,24 +297,7 @@ Page({
     }
     if (!options.addrId){
       this.setData({ ifEid:false })
-      wx.getLocation({
-        type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
-        success: function (res) {
-          // success  
-          var longitude = res.longitude
-          var latitude = res.latitude;
-          that.getLoctionAddr(longitude,latitude)
-          that.needParam.longitude = longitude
-          that.needParam.latitude = latitude
-          that.setData({ needParam: that.needParam })
-        },
-        fail: function () {
-          // fail  
-        },
-        complete: function () {
-          // complete  
-        }
-      })
+      that.getLocationFun()
     }else{
       wx.setNavigationBarTitle({
         title: '修改地址'
@@ -249,24 +305,25 @@ Page({
       var editaddr = app.EditAddr
       this.setData({ ifEid: true })
 
-      this.needParam.province = editaddr.province
-      this.needParam.city = editaddr.city
-      this.needParam.district = editaddr.area
-      this.needParam.latitude = editaddr.latitude
-      this.needParam.longitude = editaddr.longitude
-      this.needParam.detail = editaddr.address
+      this.needParam.province = editaddr.province;
+      this.needParam.city = editaddr.city;
+      this.needParam.district = editaddr.area;
+      this.needParam.community = editaddr.community||'';
+      this.needParam.latitude = editaddr.latitude;
+      this.needParam.longitude = editaddr.longitude;
+      this.needParam.detail = editaddr.address;
 
-      this.needParam.contactName = editaddr.contactName
-      this.needParam.telno = editaddr.telNo
-      this.needParam.idCardNo = editaddr.idCardNo||""
-      this.needParam.defaultAddress = editaddr.defaultAddress
-      this.needParam.userId = editaddr.belongUserId
-      this.needParam.addressId = editaddr.id
+      this.needParam.contactName = editaddr.contactName;
+      this.needParam.telno = editaddr.telNo;
+      this.needParam.idCardNo = editaddr.idCardNo||"";
+      this.needParam.defaultAddress = editaddr.defaultAddress;
+      this.needParam.userId = editaddr.belongUserId;
+      this.needParam.addressId = editaddr.id;
 
-      this.data.region[0] = this.needParam.province
-      this.data.region[1] = this.needParam.city
-      this.data.region[2] = this.needParam.district
-      this.setData({ region: this.data.region })
+      this.data.region[0] = this.needParam.province;
+      this.data.region[1] = this.needParam.city;
+      this.data.region[2] = this.needParam.district;
+      this.setData({ region: this.data.region });
     }
     this.setData({ needParam: this.needParam })
     
@@ -341,51 +398,3 @@ Page({
   },
 
 })
-
-/* 
-  //自动加载地区   但是有问题
-  getLocates: function () {
-    var that = this
-    wx.getLocation({
-      type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
-      success: function (res) {
-        // success  
-        var longitude = res.longitude
-        var latitude = res.latitude
-        that.setData({ longitude: longitude, latitude: latitude})
-        that.loadCity(longitude, latitude)
-      },
-      fail: function () {
-        // fail  
-      },
-      complete: function () {
-        // complete  
-      }
-    })
-
-  },
-  // 加载地址 
-  loadCity: function (longitude, latitude) {
-    var that = this
-    wx.request({
-      url: 'https://api.map.baidu.com/api?v=2.0&ak=iCbvxqCiDKD4dryP2qSRNyh7&location='+latitude+','+longitude+'&output=json',
-      data: {},
-      header: {
-        'Content-Type': 'application/json'
-      },
-      success: function (res) {
-        // success  
-        console.log(res);
-        var city = res.data.result.addressComponent.city;
-        that.setData({ city: city });
-      },
-      fail: function () {
-        // fail  
-      },
-      complete: function () {
-        // complete  
-      }
-    })
-  },
-
- */

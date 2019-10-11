@@ -1,5 +1,5 @@
 <view class='container'>
-  <scroll-view class='chat_content' style='height:{{scrollViewHeight}}px' scroll-y scroll-with-animation="true" scroll-into-view='{{toView}}' bindscrolltoupper="upper" bindscrolltolower="lower" catchtap='hiddenMethodsListFun'>
+  <scroll-view class='chat_content' style='height:{{scrollViewHeight}}px' scroll-y scroll-with-animation="true" scroll-into-view='{{toView}}' bindscrolltoupper="upper" bindscrolltolower="lower" catchtap='hiddenMethodsListFun' bindscroll="scroll">
   <!-- bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" -->
     <block  wx:for="{{chatMsgList}}" wx:for-item="chatMsgItem" wx:key="{{index}}" wx:for-index="index">
       <chat-item id="msg_{{index}}" data="{{chatMsgItem}}" data-index="{{index}}" bind:resEvent="lookBigImage"></chat-item>

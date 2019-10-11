@@ -9,9 +9,11 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.8.2",
-	"appid": "wx37b3f495891dd60c",
-	"projectname": "cangku",
+	"appid": "wxa8759255f64e59af",
+	"projectname": "nongpin",
 	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -30,13 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 10,
+			"current": 26,
 			"list": [
 				{
 					"id": 0,
-					"name": "我的优惠券",
-					"pathName": "pages/coupon_detail/index",
-					"query": "couponId=81",
+					"name": "旧服务人员中心页",
+					"pathName": "pages/servant_center/index",
+					"query": "",
 					"scene": "1011"
 				},
 				{
@@ -56,9 +58,9 @@
 				},
 				{
 					"id": 3,
-					"name": "预览页面",
-					"pathName": "pages/form_detail/index",
-					"query": "customFormId=90",
+					"name": "服务人员中心",
+					"pathName": "pagesTwo/servant_center/index",
+					"query": "",
 					"scene": "1001"
 				},
 				{
@@ -120,9 +122,9 @@
 				},
 				{
 					"id": 12,
-					"name": "转发特卖进入",
-					"pathName": "pageTab/index/index",
-					"query": "promotionId=690&SHARE_PROMOTION_PRODUCTS_PAGE=690&scene=MINI_PLATFORM_USER_ID_91902",
+					"name": "服务对象中心",
+					"pathName": "pagesTwo/servant_target_center/index",
+					"query": "",
 					"scene": "1011"
 				},
 				{
@@ -140,10 +142,10 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
-					"name": "转发产品进入",
-					"pathName": "pages/edit_order/index",
-					"query": "orderNo=11111",
+					"id": 15,
+					"name": "档案相关表单列表",
+					"pathName": "pagesTwo/servant_target_type_form_list/index",
+					"query": "typeId=22&servantTargetTypeName=口腔档案",
 					"scene": "1011"
 				},
 				{
@@ -155,16 +157,17 @@
 				},
 				{
 					"id": 17,
-					"name": "拼团转发",
-					"pathName": "pages/pintuan_invitation/index",
-					"query": "pintuanRecordId=226",
+					"name": "我的志愿者列表",
+					"pathName": "pagesTwo/my_volunteers_list/index",
+					"query": "",
 					"scene": "1001"
 				},
 				{
 					"id": 18,
 					"name": "地图",
-					"pathName": "pages/location_products/index",
-					"query": ""
+					"pathName": "pages/select_location/index",
+					"query": "",
+					"scene": "1001"
 				},
 				{
 					"id": 19,
@@ -175,10 +178,10 @@
 				},
 				{
 					"id": 20,
-					"name": "进入特卖页",
-					"pathName": "pages/promotion_products/index",
-					"query": "promotionId=411",
-					"scene": "1011"
+					"name": "进入门店中心",
+					"pathName": "pagesTwo/mendian_center/index",
+					"query": "",
+					"scene": 1011
 				},
 				{
 					"id": 21,
@@ -193,6 +196,33 @@
 					"pathName": "pages/tunzhu_tixian/index",
 					"query": "promotionId=411",
 					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "领取优惠券",
+					"pathName": "pages/available_coupons/index",
+					"query": "",
+					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "我的优惠券",
+					"pathName": "pages/my_coupons/index",
+					"query": "",
+					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "服务人员列表",
+					"pathName": "pagesTwo/location_servant_map/index",
+					"query": ""
+				},
+				{
+					"id": 26,
+					"name": "仓库产品页",
+					"pathName": "pagesTwo/my_product_list/index",
+					"query": "",
+					"scene": "1001"
 				}
 			]
 		}

@@ -20,6 +20,36 @@ Page({
     animationDataTwo: null,
     shareTypeData: [{ name: '发送给朋友', type: 'botton' }],
   },
+  focusServant: function () {
+    var that = this;
+    let params = { type: 2, toTargetId: that.data.servantDetail.id}
+    var customIndex = app.AddClientUrl("/wx_set_servant_target_relate.html", params, 'post')
+    app.showToastLoading('loading', true)
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        wx.hideLoading()
+        console.log("==getServantDetail===", res.data)
+        if (res.data.errcode == '0') {
+          let servantDetail = res.data.relateObj;
+          wx.showModal({
+            title: '关注服务人员',
+            content: '你已关注成功~',
+          })
+
+        } else {
+          wx.showModal({
+            title: '失败了',
+            content: '请求失败了，请下拉刷新！',
+          })
+
+        }
+      }
+    })
+  },
   showShareClose: function () {
     this.setData({ showTypeTwo: false })
     let animation = wx.createAnimation({
@@ -141,8 +171,10 @@ Page({
       }
     })
   },
-  submitData:function(){
-    let that=this;
+  submitData:function(e){
+    let that = this;
+    console.log("===submitData===", e)
+    let linkUrl=e.currentTarget.dataset.link||'';
     let curSelectData = that.data.curSelectData
     if (!curSelectData){
       wx.showModal({
@@ -174,6 +206,37 @@ Page({
       this.setData({
         animationData: animation.export()
       })
+    } else if (curSelectData && curSelectData.servantTypeBean.servantServiceType == 4) {
+      let byNowParams = {
+        productId: curSelectData.servantTypeBean.servantProductId,
+        itemCount: 1,
+        shopId: 0,
+        cartesianId: '0',
+        fromSource: 'mini',
+        orderType: 0,
+        servantId: curSelectData.servantId,
+      };
+      let pintuanParams = {
+        pintuanCreateType: 0,
+        pintuanRecordId: 0
+      }
+      if (!curSelectData.servantTypeBean.servantProductId){
+        wx.showModal({
+          title: '提示',
+          content: '该产品还未上架~',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      } else {
+        app.createOrder(byNowParams, pintuanParams)
+      }
+    } else if (curSelectData && curSelectData.servantTypeBean.servantServiceType == 5) {
+      app.linkEvent(linkUrl)
     } else if (curSelectData &&curSelectData.servantTypeBean.servantServiceType == 0) {
 
     }else{

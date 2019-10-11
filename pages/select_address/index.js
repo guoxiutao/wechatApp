@@ -12,7 +12,7 @@ Page({
   getLocationAddress: function () {//获取当前地址
     let that = this;
     wx.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: function (res) {
         console.log("=====getLocationAddress====", res)
         let latitude = res.latitude
@@ -33,6 +33,7 @@ Page({
     var param = {}
     param.longitude = pageParam.longitude
     param.latitude = pageParam.latitude
+    param['type'] = 1
     var customIndex = app.AddClientUrl("/get_location_detail.html", param, 'get')
     wx.request({
       url: customIndex.url,
@@ -43,10 +44,11 @@ Page({
         let params = {
           longitude: pageParam.longitude,
           latitude: pageParam.latitude,
-          province: data.addressComponent.province,
-          city: data.addressComponent.city,
-          street: data.addressComponent.street,
-          value: data.formatted_address,
+          province: data.addressComponent ? data.addressComponent.province : data.address_component.province,
+          city: data.addressComponent ? data.addressComponent.city : data.address_component.city,
+          street: data.addressComponent ? data.addressComponent.street : data.address_component.street,
+          value: data.pois ? data.pois[0].title : data.formatted_addresses.recommend,
+          // value: data.formatted_address || data.formatted_addresses.recommend,
         }
         console.log("====params=====", params)
         that.setLoctionAddr(params);
@@ -69,6 +71,17 @@ Page({
     }else{
       addressInfo = e
     }
+    let address = {
+      longitude: addressInfo.longitude,
+      latitude: addressInfo.latitude,
+      province: addressInfo.province || '',
+      city: addressInfo.city || '',
+      street: addressInfo.area|| '',
+      detailedAddress: addressInfo.address||'',
+      community: addressInfo.community,
+      value: addressInfo.community || addressInfo.address,
+    }
+    addressInfo = address
     that.setData({ selectAddressData: addressInfo})
     that.getNearMenDian(addressInfo)
     let params = {
@@ -171,20 +184,8 @@ Page({
           let pages = getCurrentPages();//当前页面
           let prevPage = pages[pages.length - 2];//上一页面
           console.log("====prevPage===", prevPage)
-          // prevPage.setData({//直接给上移页面赋值
-          //   selectAddress: that.data.selectAddressData,
-          // });
-          // let locateAddress = prevPage.selectComponent("#container").selectAllComponents("#locateAddress"); 
-          // console.log("===locateAddress=====", locateAddress)
           if (prevPage) {
             prevPage.onPullDownRefresh()
-            // for (let i = 0; i < locateAddress.length; i++) {
-            //   try { 
-            //     locateAddress[i].changeSelectAddress(that.data.selectAddressData, prevPage); 
-            //   } catch (e) {
-            //     console.log(e)
-            //    }
-            // }
           }
           wx.navigateBack(
             { delta: 1, }

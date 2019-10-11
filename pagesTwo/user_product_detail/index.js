@@ -552,7 +552,6 @@ Page({
     console.log('==param===', param)
     // let postParam = {}
     param.productId = param.id || param.productId
-    param.addShopId = param.addShopId
     let customIndex = app.AddClientUrl("/product_detail.html", param)
     wx.request({
       url: customIndex.url,
@@ -642,7 +641,7 @@ Page({
   },
   dataFOr_getData:{
     id:'',
-    addShopId:''
+    addShopId:0
   }, 
   onError:function(options){
     console.log("on error!!!");
@@ -654,7 +653,7 @@ Page({
     that.setData({
       sysWidth: app.globalData.sysWidth,
       proId: options.id || options.productId,
-      shopId: options.addShopId,
+      shopId: 0,
       clientNo: app.clientNo,
       color: app.setting.platformSetting.defaultColor,
       secondColor: app.setting.platformSetting.secondColor
@@ -665,7 +664,7 @@ Page({
     that.setData({ sendProductData: sendProductData })
     console.log("商品id和店铺id",options)
     that.dataFOr_getData.id = options.id || options.productId
-    that.dataFOr_getData.addShopId = options.addShopId
+    that.dataFOr_getData.addShopId = 0
     that.setData({ dataFOr_getData:that.dataFOr_getData})
     that.optionsData = options
     that.getData(that.optionsData)

@@ -13,7 +13,7 @@
     <view class='order_menu'>
       <text class='order_menu_item' wx:for="{{orderData.cells}}" wx:for-item="cells" wx:key="{{index}}" data-link='{{cells.linkUrl}}' bindtap='tolinkUrl'>{{cells.text}}</text>
     </view>
-    <view class='userShareEwm' bindtap='showPoster' style='box-shadow:6rpx 6rpx 8rpx {{setting.platformSetting.defaultColor}}'>
+    <view class='userShareEwm' bindtap='showPoster' style='box-shadow:6rpx 6rpx 8rpx #55555533'>
       <image class='userEwmCode' src='https://image1.sansancloud.com/xianhua/2019_8/20/9/42/26_903.jpg?x-oss-process=style/preview_120'></image>
     </view>
   </view>

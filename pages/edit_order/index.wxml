@@ -1,6 +1,6 @@
   <view class='container'>
   <form bindsubmit="submitOrder" report-submit>
-    <view wx:if="{{setting.platformSetting.addressType!=2&&orderData.orderType!=17}}">
+    <view wx:if="{{setting.platformSetting.addressType!=2&&orderData.orderType!=17}}" style='padding-top:20rpx'>
       <view class='distribution_mode' wx:if="{{showTopSelect}}">
         <view class='delivery_door' bindtap='selectType' data-type="0" style='color:{{mendianZiti==0?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==0?"":"#eee"}}'>
           <image class='delivery_door_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/49/33_894.jpg'></image>
@@ -55,7 +55,8 @@
     </view>
 <!-- 以下是订单部分 -->
     <view class='server_container'>
-      <view wx:if="{{orderData.orderType!=17}}">{{orderData.storageName}}</view>
+      <view wx:if="{{orderData.orderType!=17&&orderData.orderType!=18}}">{{orderData.storageName}}</view>
+      <view wx:elif="{{orderData.orderType==18}}">表单活动</view>
       <view wx:else>{{orderData.belongShopName}}</view>
     </view>
  
@@ -66,7 +67,7 @@
           <text wx:else>{{orderData.venuesCells[0].venues.name}}（{{orderData.venuesDate}}）</text>
           <view class='marginleft' wx:if='{{orderData.promotionName}}'>{{orderData.promotionName}}</view> 
         </view>
-        <text class='color'  style='color:{{setting.platformSetting.defaultColor}}'>合计:￥ {{orderData.goodsAmount  - couponMoney}}</text>
+        <text class='color'  style='color:{{setting.platformSetting.defaultColor}}'>合计:￥ {{orderData.goodsAmount  - orderData.youhuiAmount-orderData.orderJifen.tuijianDikouAmount}}</text>
       </view>
       <!-- 产品 -->
       <view class='cartItems' wx:if="{{orderData.orderType!=17}}" wx:for='{{orderData.orderItems||orderData.venuesCells}}' 
@@ -100,6 +101,23 @@
            <text class='circular'></text>
         </view>
       </view>
+      <!-- 表单活动 -->
+      <view class='cartItems' wx:for='{{orderData.formCommit.attendMeasureListObj}}'  wx:for-item='attendMeasureItem' wx:key='{{index}}' wx:if="{{orderData.orderType==18}}">
+        <view class='itemCheckbox'>
+          <!-- <image mode='aspectFill' src='{{orderData.formCommit.commitRoleObjectIcon}}?x-oss-process=style/preview'></image> -->
+        </view>
+        <view class='item_infomation' style='height:110rpx;'>
+          <view class='item_infomation_name'>{{attendMeasureItem.attendMeasureName}}</view>
+          <!-- <view class='item_infomation_name_measure' wx:if='{{!!attendMeasureItem.measureCartesianId}}'>{{attendMeasureItem.measures}}</view> -->
+          <view class='item_infomation_nums' style='top:50rpx'> 
+            <text class='flexCenter'>x {{attendMeasureItem.buyCount}}</text>
+          </view>
+          <view class='item_infomation_money'  style='color:{{setting.platformSetting.defaultColor}}'>
+            单价:￥<text >{{attendMeasureItem.attendPrice}}</text>
+            <!-- <text class='tagPrice' wx:if='{{orderItem.itemTagPrice>orderItem.itemPrice}}'>/￥{{orderItem.itemTagPrice}}</text> -->
+          </view>
+        </view>
+      </view>
       <view class='butn_container'>
           <text>运费（{{orderData.yunfeiAmountTip}}）</text>
           <text>￥{{orderData.yunfeiAmount}}</text>
@@ -122,7 +140,7 @@
             </picker>
             
           </view>
-          <text>-￥{{couponMoney}}</text>
+          <text>-￥{{orderData.youhuiAmount}}</text>
       </view>
 
     <!-- 积分抵扣 -->
@@ -189,4 +207,29 @@
         <image mode='aspectFit' src='http://image1.sansancloud.com/aikucun/2018_03/21/16/00/16_502.jpg'></image>
     </view>
   </view>
+</view>
+<!-- 提交时，存在优惠券，但未使用时提示弹窗 -->
+
+<view class='zhezhao' wx:if="{{showSelectCoupon}}" bindtap='closeShowArr'></view>
+<view class='add_measures_popup' wx:if="{{showSelectCoupon}}" >
+  <view class='add_measures_popup_title'>
+    <text>选择优惠券</text>
+  </view>
+  <form bindsubmit="continueSubmitOrder" report-submit class='add_measures_popup_list'>
+    <view class='youhuiquan popup_item'>
+      <text class='add_measures_popup_item_name'>优惠券：</text>
+      <picker bindchange="bindPickerChange" mode='selector' value="{{index}}" range="{{coupon2}}">
+        <block wx:if='{{coupon2.length == 1}}'>
+          <view>没有优惠券</view>
+        </block> 
+        <block wx:else>
+          <view>{{coupon2[index]}}</view>
+        </block> 
+      </picker>
+    </view>
+    <view class='saveData'>
+      <button class='saveBtn' data-state="no" catchtap='continueSubmitOrder' style='background:#f1f1f1;color:#ccc'>不使用</button>
+      <button class='saveBtn' data-state="yes" catchtap='continueSubmitOrder' style='background:{{setting.platformSetting.defaultColor}};color:#fff'>继续</button>
+    </view>
+  </form>
 </view>

@@ -29,7 +29,7 @@ Page({
     console.log("app.setting.platformSetting", app.setting);
     let shopName = app.setting.platformSetting.defaultShopBean.account.shopName
     wx.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: function (res) {
         let latitude = res.latitude
         let longitude = res.longitude

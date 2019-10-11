@@ -254,7 +254,7 @@ Component({
         })
       } else {
         wx.getLocation({
-          type: 'wgs84',
+          type: 'gcj02',
           success: function (res) {
             console.log("=====getLocationAddress====", res)
             params.latitude = res.latitude

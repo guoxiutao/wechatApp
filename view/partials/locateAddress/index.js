@@ -58,17 +58,6 @@ Component({
       if (indexPage && indexPage.onPullDownRefresh){
         indexPage.onPullDownRefresh();
       }
-      // this.$parent.onPullDownRefresh()
-      // let pages = getCurrentPages(); //获取页面栈
-      // let currpage = pages[pages.length - 1]; //当前页面对象
-      // console.log("===currpage===22222", currpage)
-      // if (currpage) {
-      //   try{
-      //     console.log("==currpage====3333", currpage.onPullDownRefresh)
-      //     currpage.onPullDownRefresh();
-      //   } catch (e) {
-      //   }
-      // }
     },
     setLoctionAddr: function (pageParam) {
       let that = this
@@ -94,8 +83,7 @@ Component({
       let longitude = addressInfo.longitude
       let menDian = {
         longitude: longitude,
-        latitude: latitude
-
+        latitude: latitude,
       }
       // longitude 经度        
       // 获取门店的样式
@@ -137,7 +125,6 @@ Component({
       let menDianParameter = {
         mendianId: id
       }
-
       let menDianYangShi = app.AddClientUrl("/location_mendian.html", menDianParameter, 'get')
       wx.request({
         url: menDianYangShi.url,
@@ -171,12 +158,14 @@ Component({
       let locationAddressData = wx.getStorageSync('selectAddressData')||''
       if (locationAddressData){
         let locationAddress=""
-        if (locationAddressData.value) {
-          locationAddress = locationAddressData.value
-        } else {
-          locationAddress = locationAddressData.province + locationAddressData.city + locationAddressData.area + locationAddressData.address
+        if (locationAddressData.community){
+          if (locationAddressData.value && locationAddressData.community) {
+            locationAddress = locationAddressData.value
+          } else  {
+            locationAddress = locationAddressData.province + locationAddressData.city + locationAddressData.area + locationAddressData.address
+          }
+          that.setData({ locationAddress: locationAddress })
         }
-        that.setData({ locationAddress: locationAddress })
         console.log("===locationAddressData====", locationAddressData);
         let pageParam = {
           "longitude": locationAddressData.longitude,
@@ -185,7 +174,7 @@ Component({
         that.getLoctionAddr(pageParam)
       }else{
         wx.getLocation({
-          type: 'wgs84',
+          type: 'gcj02',
           success: function (res) {
             console.log("=====getLocationAddress====", res)
             let latitude = res.latitude
@@ -208,6 +197,7 @@ Component({
     getLoctionAddr: function (pageParam) {
       var that = this
       var param = {}
+      param['type'] = 1
       param.longitude = pageParam.longitude
       param.latitude = pageParam.latitude
       var customIndex = app.AddClientUrl("/get_location_detail.html", param, 'get')
@@ -220,14 +210,14 @@ Component({
           let params={
             longitude: pageParam.longitude,
             latitude: pageParam.latitude,
-            province: data.addressComponent.province,
-            city: data.addressComponent.city,
-            street: data.addressComponent.street,
+            province: data.addressComponent?data.addressComponent.province : data.address_component.province,
+            city: data.addressComponent ?data.addressComponent.city : data.address_component.city,
+            street: data.addressComponent ?data.addressComponent.street : data.address_component.street,
           }
           that.setLoctionAddr(params);
           let locationAddress;
-          if (res.data.result.formatted_address){
-            locationAddress = res.data.result.formatted_address
+          if (data.formatted_address || data.formatted_addresses){
+            locationAddress = data.pois[0].title
           }else{
             locationAddress = "加载当前地址失败..."
           }

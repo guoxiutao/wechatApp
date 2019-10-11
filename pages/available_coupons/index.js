@@ -27,15 +27,15 @@ Page({
       data: customIndex.params,
       method:'POST',
       success: function (res) {
-        console.log('---------s---------')
-        console.log(res.data)
+        console.log('---------s---------', res.data)
+        let gainData = res.data
         if (!res.data.errcode){
           wx.showToast({
             title: '领取成功',
             icon: 'success',
             duration: 1000
           })
-          that.freshData(data.couponId)
+          that.freshData(gainData)
         }else{
           wx.showToast({
             title: res.data.errMsg,
@@ -50,15 +50,14 @@ Page({
       }
     })
   },
-  freshData:function(id){
+  freshData: function (gainData){
     console.log("1111111111")
-    var showCoupon = this.data.showCoupon
+    let showCoupon = this.data.showCoupon
     for (let i = 0; i < showCoupon.length; i++) {
-      if (showCoupon[i].id == id) {
-        showCoupon[i].userGotCoupon.push('1')
+      if (showCoupon[i].id == gainData.id ) {
+        showCoupon.splice(i, 1, gainData.coupon)
       }
     }
-
     this.setData({ showCoupon: showCoupon })
 
   },

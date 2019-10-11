@@ -365,10 +365,13 @@
       </view>
       <view class='measure_price_item' wx:for="{{measurePriceList}}" wx:for-item="measurePriceItem" style='border:1rpx solid {{selectMeasureIndex==index?setting.platformSetting.defaultColor:"#eee"}}' catchtap='selectMeasureItem' data-index="{{index}}">
         <text class='attend_measure_name'>{{measurePriceItem.attendMeasureName}}</text>
-        <view class='attend_measure_count' style='background:{{setting.platformSetting.defaultColor}}'>
+        <view class='attend_measure_count' style='background:{{setting.platformSetting.defaultColor}}' wx:if="{{allFormData.mulBuyObject==1}}">
           <text style='margin-right:10rpx;'>x</text><text>{{measurePriceItem.buyCount}}</text>
         </view>
-        <text class='attend_price' style='color:{{setting.platformSetting.defaultColor}}'>￥{{measurePriceItem.attendPrice}}</text>
+        <view class='attend_price' style='color:{{setting.platformSetting.defaultColor}}'>
+          <text wx:if="{{allFormData.attendPrice!=0}}">￥{{measurePriceItem.attendPrice}}</text>
+          <text wx:else>免费</text>
+        </view>
         <text class='cell_tag_bg' wx:if="{{selectMeasureIndex==index}}" style='border-top: 30px solid {{setting.platformSetting.defaultColor}}'></text>
         <text class='cell_tag_text' wx:if="{{selectMeasureIndex==index}}">✓</text>
       </view>
@@ -391,7 +394,10 @@
 </view>
 <!-- 选择规格的底部按钮 -->
 <view wx:if="{{showType&&!nextStepState}}" class='nextSubmitBtn'>
-  <view class='submit_btn_left'>合计<text class='total_price' style='color:{{setting.platformSetting.defaultColor}}'>￥{{totalPrice}}</text></view>
+  <view class='submit_btn_left'>合计
+    <text class='total_price' wx:if="{{allFormData.attendPrice!=0}}" style='color:{{setting.platformSetting.defaultColor}}'>￥{{totalPrice}}</text>
+    <text class='total_price' wx:else style='color:{{setting.platformSetting.defaultColor}}'>￥0</text>
+  </view>
   <text class='submit_btn_right' catchtap='nextStepFun' style='background:{{setting.platformSetting.defaultColor}}'>下一步</text>
 </view>
 </block>

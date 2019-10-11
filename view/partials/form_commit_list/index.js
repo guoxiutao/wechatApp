@@ -360,6 +360,10 @@ Component({
         }
       })
     },
+    returnFormDetail:function(){
+      console.log("===customFormData===", this.data.customFormData)
+      return this.data.customFormData
+    },
     getFormDetail:function(){
       let that=this;
       let formListStyle;
@@ -392,7 +396,7 @@ Component({
               that.setData({ height: 0 })
             }
             console.log("===formListStyle====", that.data.formListStyle, that.data.banner, that.data.width, that.data.height)
-
+            
             if (res.data.relateObj.formType!=0){
               that.setData({ publishState:true})
             }else{
@@ -440,30 +444,16 @@ Component({
                   }
                   console.log("===selectTabItem===", selectTabItem)
                   selectTab.push(selectTabItem)
-                } else if (data.items[i].type == 13){//级联组件类型
+                } else if (data.items[i].type == 13 || data.items[i].type == 10){//级联或者地址组件类型
                   selectResultsObj[data.items[i].name] = ""//选择值的初始化
                   selectTabItem.title = data.items[i].title;//选择Tab标题
                   selectTabItem.type = 'multistage-style';//选择Tab类型(级联)
+                  selectTabItem.specialType = data.items[i].type == 10? 'region':'';//特殊选择器
                   selectTabItem.name = data.items[i].name;//选择Tab键值
                   selectTabItem.state = false;//选择Tab状态
                   if (data.items[i].listValues) {//选择Tab的值
                     listValues = JSON.parse(data.items[i].listValues)
                     console.log("======listValues========", listValues)
-                    // for (let j = 0; j < listValues.length; j++) {
-                    //   listValues[j].state = false;
-                    //   if (listValues[j].children.length!=0){
-                    //     let listValuesTwo = listValues[j].children
-                    //     for (let k = 0; k < listValuesTwo.length; k++) {
-                    //       listValuesTwo[k].state = false;
-                    //       if (listValuesTwo[k].children.length != 0) {
-                    //         let listValuesThree = listValuesTwo[k].children
-                    //         for (let g = 0; g < listValuesThree.length; g++) {
-                    //           listValuesThree[g].state = false;
-                    //         }
-                    //       }
-                    //     }
-                    //   }
-                    // }
                     selectTabItem.listValues = listValues;
                   }
                   console.log("===selectTabItem===", selectTabItem)
@@ -472,7 +462,9 @@ Component({
                   }else{
                     selectTab.push(selectTabItem)
                   }
-                  that.setMultiPicker(selectTabItem, 0, 0, 0, 0, 0);
+                  if (data.items[i].type == 13){
+                    that.setMultiPicker(selectTabItem, 0, 0, 0, 0, 0);
+                  }
                 }
               }
               console.log("==selectTab===", selectTab)
@@ -496,12 +488,13 @@ Component({
           selectTab[i].state=false;
         }
         that.data.selectTab[index].state=true
+        console.log("===that.data.selectTab[index]===", that.data.selectTab[index])
         if (selectTab[index].type =="multistage-style"){
           console.log("multistage-style", selectTab[index])
           that.setData({ currentMultiData: selectTab[index], })
         } else {
-          console.log("other", selectTab[index])
-          that.closeZhezhao()
+          console.log("other1", selectTab[index])
+          // that.closeZhezhao()
           that.setData({ showCount: true, showMoreSelectState: false })
         }
         that.setData({ selectTab: selectTab  })
@@ -514,15 +507,21 @@ Component({
       console.log("=====bindMultiPickerChange=====", data)
       let that = this;
       let selectResultsObj = that.data.selectResultsObj//搜索数据
+      let selectTab = that.data.selectTab;
+      let currentMultiData = that.data.currentMultiData
       let name = data.currentTarget.dataset.name
       let multistageDataObj = that.data.multistageData[name];
       let multiIndexObj = that.data.multiIndex[name]
-      console.log("===multiIndexObj====", multistageDataObj, multiIndexObj)
       selectResultsObj[name] = []
-      if (multistageDataObj.length != 0) {
-        for (let j = 0; j < multistageDataObj.length; j++) {
-          console.log(multistageDataObj[j][multiIndexObj[j]])
-          selectResultsObj[name].push(multistageDataObj[j][multiIndexObj[j]])
+      console.log("===multiIndexObj====", multistageDataObj, multiIndexObj, currentMultiData)
+      if (currentMultiData.specialType && currentMultiData.specialType == "region"){
+        selectResultsObj[name] = data.detail.value
+      }else{
+        if (multistageDataObj.length != 0) {
+          for (let j = 0; j < multistageDataObj.length; j++) {
+            console.log(multistageDataObj[j][multiIndexObj[j]])
+            selectResultsObj[name].push(multistageDataObj[j][multiIndexObj[j]])
+          }
         }
       }
       that.setData({ selectResultsObj: selectResultsObj })
@@ -789,6 +788,7 @@ Component({
       that.setData({ showMoreSelectState: showMoreSelectState, showCount: false, selectTab: selectTab, selectTabIndex: -1 })
     },
     closeZhezhao: function () {
+      console.log("====进入closeZhezhao====",)
       let that = this;
       let selectTab = that.data.selectTab;
       that.setData({ selectTabIndex: -1 })

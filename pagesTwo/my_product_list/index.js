@@ -8,6 +8,8 @@ Page({
     animationData:{},
     setting: null, // setting   
     productData: [], // 商品数据 
+    productType:null,
+    productTypeTwo:null,
     sysWidth: 320,//图片大小
     tab:'',
     /* 显示或影藏 */
@@ -43,32 +45,76 @@ Page({
     },  //规格价格
   },
   //获取产品分类
-  getProductType: function (categoryId) {
-    var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId || 0 })
+
+  //获取产品分类
+  getProductType: function (e, typeText) {
+    console.log("====e=====", e);
+    var that = this
+    let categoryId;
+    let type = "init";
+    let productType = that.data.productType;
+    let productTypeTwo = []
+    if (e) {
+      if (e.currentTarget) {
+        categoryId = e.currentTarget.dataset.id
+        type = e.currentTarget.dataset.type
+      } else {
+        categoryId = e
+        type = typeText;
+      }
+    } else {
+      categoryId = 0
+    }
+    console.log("===type==", type)
+    var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId })
     // wx.showLoading({
     //   title: 'loading'
     // })
     app.showToastLoading('loading', true)
-    var that = this
     wx.request({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
         wx.hideLoading()
-        console.log("getProductType", res.data)
+        console.log("==res====", res.data)
         if (res.data.errcode == 0) {
-          that.setData({ productType: res.data.relateObj })
+          if (type == "init") {
+            productType = res.data.relateObj;
+            productType.unshift({ id:  0, name: "全部" })
+            that.setData({ productType: productType, productTypeTwo:[]})
+            console.log("productType", that.data.productType)
+          } else {
+            productTypeTwo = res.data.relateObj;
+            let all = { id: categoryId, name: '全部', parentId: categoryId, colorAtive: "#888", active:true}
+            productTypeTwo.splice(0, 0, all)
+            that.setData({ productTypeTwo: productTypeTwo })
+            console.log("productTypeTwo", that.data.productTypeTwo)
+          }
         } else {
-          that.setData({ productType: that.data.productType })
         }
-        that.data.productType.unshift({ id: categoryId||0, name: "全部" })
-        for (let i = 0; i < that.data.productType.length; i++) {
-          that.data.productType[i].colorAtive = '#888';
+        console.log("==productType==", productType)
+        if (productType.length != 0) {
+          for (let i = 0; i < productType.length; i++) {
+            productType[i].colorAtive = '#888';
+            productType[i].active = false;
+          }
+          if (type == "init") {
+            productType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
+            productType[0].active = true;
+            that.setData({ currentItem: productType[0] })
+          } else {
+            for (let i = 0; i < productType.length; i++) {
+              if (categoryId == productType[i].id) {
+                that.setData({ currentItem: productType[i] })
+                productType[i].colorAtive = that.data.setting.platformSetting.defaultColor;
+                productType[i].active = true;
+              }
+            }
+          }
         }
-        that.data.productType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
-        that.data.productType[0].active = true;
-        that.setData({ productType: that.data.productType })
-        console.log("that.data.productType",that.data.productType)
+        that.setData({ productType: productType })
+        console.log("that.data.productType", that.data.productType)
+        console.log("that.data.productTypeTwo", that.data.productTypeTwo)
         wx.hideLoading()
       },
       fail: function (res) {
@@ -78,6 +124,41 @@ Page({
       }
     })
   },
+  // getProductType: function (categoryId,type) {
+  //   var customIndex = app.AddClientUrl("/wx_get_categories_only_by_parent.html", { categoryId: categoryId || 0 })
+  //   // wx.showLoading({
+  //   //   title: 'loading'
+  //   // })
+  //   app.showToastLoading('loading', true)
+  //   var that = this
+  //   wx.request({
+  //     url: customIndex.url,
+  //     header: app.header,
+  //     success: function (res) {
+  //       wx.hideLoading()
+  //       console.log("getProductType", res.data)
+  //       if (res.data.errcode == 0) {
+  //         that.setData({ productType: res.data.relateObj })
+  //       } else {
+  //         that.setData({ productType: that.data.productType })
+  //       }
+  //       that.data.productType.unshift({ id: categoryId||0, name: "全部" })
+  //       for (let i = 0; i < that.data.productType.length; i++) {
+  //         that.data.productType[i].colorAtive = '#888';
+  //       }
+  //       that.data.productType[0].colorAtive = that.data.setting.platformSetting.defaultColor;
+  //       that.data.productType[0].active = true;
+  //       that.setData({ productType: that.data.productType })
+  //       console.log("that.data.productType",that.data.productType)
+  //       wx.hideLoading()
+  //     },
+  //     fail: function (res) {
+  //       console.log("fail")
+  //       wx.hideLoading()
+  //       app.loadFail()
+  //     }
+  //   })
+  // },
   //跳转到订单页面
   linkUrl:function(e){
     console.log("===e====",e)
@@ -119,20 +200,37 @@ Page({
   /* 点击分类大项 */
   bindTypeItem: function (event) {
     console.log(event.currentTarget.dataset.type)
+    let id = event.currentTarget.dataset.type.id
+    let level = event.currentTarget.dataset.level
     let that=this;
-    for (let i = 0; i < that.data.productType.length; i++) {
-      if (that.data.productType[i].id == event.currentTarget.dataset.type.id) {
-        that.data.productType[i].active = true
-        that.setData({ currentItem: that.data.productType[i] })
+    if (level=='one'){
+      for (let i = 0; i < that.data.productType.length; i++) {
+        if (that.data.productType[i].id == id) {
+          that.data.productType[i].active = true
+          that.setData({ currentItem: that.data.productType[i] })
+        }
+        else {
+          that.data.productType[i].active = false
+        }
       }
-      else {
-        that.data.productType[i].active = false
+      that.getProductType(id, 'first')
+      that.setData({
+        productType: that.data.productType,
+      })
+    }else{
+      for (let i = 0; i < that.data.productTypeTwo.length; i++) {
+        if (that.data.productTypeTwo[i].id == id) {
+          that.data.productTypeTwo[i].active = true
+          that.setData({ currentItem: that.data.productType[i] })
+        }
+        else {
+          that.data.productTypeTwo[i].active = false
+        }
       }
+      that.setData({
+        productTypeTwo: that.data.productTypeTwo,
+      })
     }
-
-    that.setData({
-      productType: that.data.productType,
-    })
 
     that.listPage.page = 1
     that.params.page = 1
@@ -315,6 +413,7 @@ Page({
   /* 获取数据 */
   getData: function (param, ifAdd) {
     //根据把param变成&a=1&b=2的模式
+    console.log("getData", param)
     if (!ifAdd) {
       ifAdd = 1
     }
@@ -359,25 +458,6 @@ Page({
       },
     })
   },
-  /* 全部参数 */
-  params: {
-    categoryId: "",
-    platformNo: "",
-    belongShop: "",
-    typeBelongShop: "",
-    page: 1,
-    showType: "",
-    showColumn: "",
-    productName: "",
-    startPrice: "",
-    endPrice: "",
-    orderType: "",
-    saleTypeId: "",
-    promotionId: "",
-    shopProductType: "",
-    needCarCount: 1
-  },
- 
 
   more_product_list_URL: function (params) {
     let resule = app.AddClientUrl("/more_product_list.html", params)
@@ -680,29 +760,73 @@ Page({
     totalSize: 0,
     curpage: 1
   },
+  loginSuccess: function (user) {
+    console.log("pre apply mendian login success call back!", user);
+    this.checkState();
+  },
+  loginFailed: function (err) {
+    console.log("login failed!!");
+
+  },
+  checkState: function () {
+    let that=this;
+    console.log('======checkState.loginUser======', app.loginUser)
+    that.setData({
+      setting: app.setting,
+      loginUser: app.loginUser
+    })
+    that.getProductType(that.params.categoryId)
+    that.getData(that.params, 2);
+  },
+  conut: 1,
+  /* 全部参数 */
+  params: {
+    categoryId: 0,
+    page: 1,
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log("===options=====", options)
-    this.setData({ setting: app.setting })
-    var that = this;
-    if (options.parentCategoryId) {
-      that.setData({ positionTab: options.parentCategoryId })
-      options.categoryId = options.parentCategoryId
-      that.getProductType(options.categoryId, that.bindTypeItem)
-    } else {
-      that.getProductType(options.categoryId)
-    }
-    for (let i in options) {
-      for (let j in this.params) {
-        if (i.toLowerCase() == j.toLowerCase()) { this.params[j] = options[i] }
+    let that = this;
+    if (app.loginUser) {
+      for (let i in options) {
+        for (let j in that.params) {
+          if (i.toLowerCase() == j.toLowerCase()) { that.params[j] = options[i] }
+        }
       }
-    }
-    console.log(this.params)
-    this.getData(this.params, 2);
-  },
 
+      console.log(that.params)
+      that.checkState()
+    } else {
+      app.addLoginListener(this);
+      app.showToastLoading('loading', true)
+      console.log("====setTimeout1=====")
+      that.setTimeoutLogin(that.conut)
+    }
+    
+  },
+  setTimeoutLogin: function (conuData) {
+    let that = this;
+    console.log("====setTimeout-init=====", conuData)
+    that.conut = conuData;
+    that.conut += 2;
+    if (that.conut <= 5) {
+      setTimeout(function () {
+        if (app.loginUser) {
+          wx.hideLoading()
+        } else {
+          that.setTimeoutLogin(that.conut)
+        }
+      }, that.conut * 1000)
+    } else {
+      wx.showModal({
+        title: '失败了',
+        content: '请求失败了，请下拉刷新！',
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "产品详细",
-  "navigationStyle":"dark",
+  "navigationStyle":"default",
   "enablePullDownRefresh":true,
   "onReachBottomDistance":1,
   "usingComponents": {
