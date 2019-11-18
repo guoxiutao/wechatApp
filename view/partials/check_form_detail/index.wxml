@@ -102,7 +102,7 @@
   <view class='form_detail_center' wx:if="{{!formDetailStyle||formDetailStyle.length==0}}">
   <!--  wx:if="{{!formDetailStyle||formDetailStyle.detailViewMagic.length==0}}" -->
     <view class='read_number'>
-      <text>1314</text>
+      <text>{{allFormData.viewCount}}</text>
       <text>阅读</text>
     </view>
     <view class='form_detail_center_item' wx:for="{{customForm.commitArr}}" wx:key="*this" wx:for-item="itemData" wx:if="{{itemData.type!=7&&itemData.type!=11&&itemData.type!=15}}">
@@ -142,11 +142,11 @@
       <view class='form_detail_bottom_top'>
         <view class='bottom_top_item'>
           <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
-          <text class='bottom_top_item_text'>1314</text>
+          <text class='bottom_top_item_text'>{{allFormData.viewCount}}</text>
         </view>
         <view class='bottom_top_item'>
           <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120'></image>
-          <text class='bottom_top_item_text'>1314</text>
+          <text class='bottom_top_item_text'>{{allFormData.viewCount}}</text>
         </view>
       </view>
       <view class='comments_list'>
@@ -233,7 +233,8 @@
             <view wx:if="{{!upLoadImageList['img_'+itemData.data.propertieName]}}">
               <!-- <text wx:if="{{itemData.data.propertiesType==0}}">{{commitJson[itemData.data.propertieName].value}}</text> -->
               <view class='wxParseHtmlContainer' wx:if="{{itemData.data.propertiesType==0}}">
-                <template is="1" data="{{wxParseData:richTextList[itemData.data.propertieName].nodes}}"></template>
+                <!-- <template is="1" data="{{wxParseData:richTextList[itemData.data.propertieName].nodes}}"></template> -->
+                <text>{{commitJson[itemData.data.propertieName].value}}</text>
               </view> 
               <text wx:else>{{itemData.data.propertieTitle}}</text>
             </view>
@@ -245,16 +246,18 @@
         </view>
       </view>
     </view>
+    <!-- 首页组件-详情装饰-->
+    <component-customPage data="{{sendFormData}}" showFooter="no" wx:if="{{sendFormData}}"></component-customPage> 
     <!-- 评论区 -->
     <view class='form_detail_bottom' wx:if="{{allFormData.commentAble==1}}">
       <view class='form_detail_bottom_top'>
         <view class='bottom_top_item'>
           <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
-          <text class='bottom_top_item_text'>1314</text>
+          <text class='bottom_top_item_text'>{{allFormData.viewCount}}</text>
         </view>
         <view class='bottom_top_item'>
           <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120'></image>
-          <text class='bottom_top_item_text'>1314</text>
+          <text class='bottom_top_item_text'>{{allFormData.viewCount}}</text>
         </view>
       </view>
       <view class='comments_list'>
@@ -284,8 +287,8 @@
       </view>
     </view>
   </view>
-  <!-- 已付费人员 -->
-  <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0&&allFormData.attendCountPerUser!=1}}">
+  <!-- 已付费人员 &&allFormData.attendCountPerUser!=1-->
+  <view class='havePayUserBlock' wx:if="{{allFormData.attendList&&allFormData.attendList.result.length!=0}}">
     <view class='havePayUserTitle'>
       <text>已报名({{allFormData.attendList.totalSize}})</text>
       <view class='havePayUserTitleRight' data-link="more_attend_list.html?formCommitId={{allFormData.id}}&type=more" catchtap='tolinkUrl'>
@@ -308,6 +311,8 @@
       </scroll-view>
     </view>
   </view>
+  <!-- 首页组件-详情装饰-->
+  <component-customPage data="{{sendFormData}}" showFooter="no" wx:if="{{sendFormData&&allFormData.belongFormType==3}}"></component-customPage> 
 </view>
 <view class='comments_part' wx:if="{{allFormData.belongFormType==2&&allFormData.commentAble==1&&showBtn=='true'}}">
   <input class='comments_input b' bindconfirm='sendComments'  bindinput="saveData" value='{{commentValue}}' cursor-spacing="130" placeholder='发表评论...' maxlength="76" ></input>

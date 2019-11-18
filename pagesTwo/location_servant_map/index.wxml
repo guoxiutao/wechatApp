@@ -1,7 +1,7 @@
 
 <view class="container" style='height:{{servantshowWay==1? "100%":""}}'> 
 <!-- 头部 -->
- <view class="typeSearchContainer" > 
+ <view class="typeSearchContainer" wx:if="{{reqType!='order'}}"> 
     <view class='search_input_bg'>
       <view class='search_input'>
         <view class='search_input_left'>
@@ -119,9 +119,9 @@
     </view> -->
   </view>
     <block wx:if='{{servantshowWay == 2}}' >
-     <view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
+     <view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}};margin-top:{{reqType=="order"?"0":"165rpx"}}'>
         <block wx:if = "{{!! servantData}}">
-          <view class='servant_items2' bindtap='tolinkUrl' data-link='servant_detail.html?servantId={{result.id}}' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
+          <view class='servant_items2' data-info="{{result}}" catchtap='{{reqType=="order"?"selectItem":"tolinkUrl"}}' data-link='servant_detail.html?servantId={{result.id}}' wx:for="{{markers}}" wx:for-item="result" wx:key="{{result.id}}">
             <view class='servant_items2_top'>
               <view class="servant_head">
                 <image class='servant_head_img' mode="aspectFill" src='{{result.icon}}?x-oss-process=style/preview'></image>
@@ -176,7 +176,7 @@
     </block>
 
 
-    <block wx:if='{{servantshowWay == 1}}'>
+    <!-- <block wx:if='{{servantshowWay == 1}}'>
      <scroll-view class='servant_page_container2' style='height:{{servantshowWay==1? "100%":""}}'>
           <map class='mapItem' id="map" longitude="{{localPoint.longitude}}" latitude="{{localPoint.latitude}}" scale="14" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap"  bindregionchange="regionchange" show-location='true' style="width: 100%; height: 100%;" bindtap='hiddenProInfo'>
             <cover-view class="play" >
@@ -217,7 +217,7 @@
             </cover-view>
           </cover-view>
       </scroll-view>
-    </block>
+    </block> -->
   
 
 </view>

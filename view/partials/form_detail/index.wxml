@@ -246,10 +246,15 @@
         </view>
         <!--  多规格栏目end-->
         <!-- 保存 -->
-        <view class='saveData' wx:if="{{showformSubmitBtn}}">
+        <view class='saveData' wx:if="{{showformSubmitBtn&&formType=='form'}}">
           <button class='saveBtn' formType="submit" style='background:{{setting.platformSetting.defaultColor}};color:#fff'>{{formData.commitName}}</button>
           <button class='checkFormList' bindtap='toFormCommitList' style='background:{{setting.platformSetting.secondColor}};color:#fff'>我的记录</button>
-    </view>
+        </view>
+        <view class='saveData' wx:if="{{showformSubmitBtn&&formType=='formChain'}}">
+          <button class='saveBtn' bindtap='perStepFun' wx:if="{{formChainData.curIndex>0}}" style='width:50%;background:{{setting.platformSetting.secondColor}};color:#fff'>上一步</button>
+          <button class='saveBtn' formType="submit" wx:if="{{formChainData.curIndex<formChainData.totalLength-1}}" style='width:{{formChainData.curIndex==0?"100%":"50%"}};background:{{setting.platformSetting.defaultColor}};color:#fff'>下一步</button>
+          <button class='saveBtn' formType="submit" wx:if="{{formChainData.curIndex==formChainData.totalLength-1}}" style='width:{{formChainData.curIndex==0?"100%":"50%"}};background:{{setting.platformSetting.defaultColor}};color:#fff'>完成</button>
+        </view>
   </view>
   <view class='formHead' wx:if="{{formData.description}}">
     <!-- <view class='formName'>

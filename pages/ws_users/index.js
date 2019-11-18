@@ -15,6 +15,8 @@ Page({
       url ="/wx_get_fx_group_leader_children.html"
     } else if ((options && options.wsType == 2)){
       url = "/wx_get_fx_group_children.html"
+    }else{
+      url = "/wx_get_fx_group_children.html"
     }
     console.log('-------分销人--------')
     let getParam = {}

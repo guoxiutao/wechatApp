@@ -12,8 +12,124 @@ Page({
       servantTargetInfo:{},
       servantTargetTypes:{},
       servantTargetTasks:{},
-      servantTargetTypeFormData:{},
-    },
+      servantTargetTypeFormData: {},
+      showCommentState: false,
+      conmmentList: [],
+      recommentReturn: false,
+      commentValue: '',
+  },
+  showCommentFun: function () {
+    console.log("===showCommentFun===", )
+    let that = this;
+    if (that.data.servantDetail.commentAble == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '主人~该' + (that.data.properties.alias_yewuyuan || "服务员") + "不允许留言！",
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
+    that.setData({ showCommentState: true })
+  },
+  tolinkReplyUrl: function (e) {
+    let that = this;
+    that.data.recommentReturn = true;
+    let linkUrl = e.currentTarget ? e.currentTarget.dataset.link : e
+    app.linkEvent(linkUrl)
+  },
+  saveData: function (data) {
+    let that = this
+    console.log("===saveData==", data)
+    that.data.commentValue = data.detail.value;
+  },
+  sendComments: function (e) {
+    console.log("===sendComments==", e)
+    var that = this
+    let value = e.detail && e.detail.value ? e.detail.value : that.data.commentValue
+    if (!value) {
+      wx.showModal({
+        title: '提示',
+        content: '发布消息不能为空',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    that.commentInput(value)
+    that.setData({ commentValue: '' })
+    that.setData({ showCommentState: false })
+  },
+  //添加评论
+  commentInput: function (commentValue) {
+    console.log("===sendComments==", commentValue)
+    var that = this
+    let data = {
+      servantTargetId: that.data.servantTargetInfo.id,
+      comment: commentValue || that.data.commentValue,
+    }
+    console.log('文本输入框: input_value :', data);
+    let customIndex = app.AddClientUrl("/add_bbs_comments.html", data, 'post')
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.headerPost,
+      method: 'POST',
+      success: function (res) {
+        console.log('==res===', res)
+        if (res.data.errcode == 0) {
+          that.getCommentData(that.data.servantDetail.id, 1)
+          wx.showToast({
+            title: "评论成功",
+            icon: 'success',
+            duration: 2000
+          })
+        } else {
+          wx.showToast({
+            title: "评论失败",
+            icon: "none",
+            duration: 2000
+          })
+        }
+      },
+
+    })
+  },
+  //获取评论数据
+  getCommentData: function (servantTargetId, page) {
+    let that = this;
+    let data = {
+      servantTargetId: servantTargetId,
+      page: page
+    }
+    let customIndex = app.AddClientUrl("/get_news_bbs_comments.html", data)
+    wx.request({
+      url: customIndex.url,
+      data: customIndex.params,
+      header: app.header,
+      success: function (res) {
+        console.log('====sssssss===', res)
+        if (page == 1) {
+          that.setData({ conmmentList: res.data.relateObj.result })
+        } else {
+          console.log("====more page====");
+          that.setData({ conmmentList: that.data.conmmentList.concat(res.data.relateObj.result) })
+        }
+      },
+      fail: function (res) {//获取数据失败就会进入这个方法
+        wx.hideLoading()
+      }
+    })
+  },
     /* 组件事件集合 */
     tolinkUrl: function (e) {
       let linkUrl = e.currentTarget? e.currentTarget.dataset.link:e
@@ -51,6 +167,7 @@ Page({
                 console.log(res.data)
                 if (res.data.errcode == '0') {
                   let servantTargetInfo = res.data.relateObj
+                  that.getCommentData(servantTargetInfo.id,1)
                   that.setData({
                     servantTargetInfo: servantTargetInfo
                   })
@@ -268,7 +385,10 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-      let that=this;
+      let that = this;
+      if (that.data.recommentReturn) {
+        that.getCommentData(that.data.allFormData.id, 1)
+      }
       if (app.loginUser) {
         this.checkState();
       } else {
@@ -302,7 +422,7 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function () {
-        this.onLoad()
+        this.onShow()
         setTimeout(function () {
             wx.stopPullDownRefresh()
         }, 2000)

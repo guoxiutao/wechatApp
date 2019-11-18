@@ -116,7 +116,7 @@
     </scroll-view>
   </view>
   <!-- 留言板块 -->
-  <view class='leave_message_block block_item'>
+  <view class='leave_message_block block_item' style='margin-bottom:{{servantTargetInfo.commentAble==1?"100rpx":""}}'>
     <view class='block_title' style='border-bottom:1rpx dashed {{setting.platformSetting.secondColor}}'>
       <view class='block_title_center'>
         <image src='http://image1.sansancloud.com/xianhua/2019_9/18/18/22/24_121.jpg?x-oss-process=style/preview_120' class='title_icon'></image>
@@ -126,12 +126,40 @@
         <text class='more_text' style='color:{{setting.platformSetting.defaultColor}}'>>></text>
       </view>
     </view>
-    <scroll-view class='leave_message_list' scroll-y style="height: 100px">
-      <view class='leave_message_item' wx:for="{{4}}">
+    <scroll-view class='leave_message_list' scroll-y style="height: 300px">
+      <!-- <view class='leave_message_item' wx:for="{{4}}">
         <image src='http://image1.sansancloud.com/xianhua/2019_9/18/16/24/36_150.jpg?x-oss-process=style/preview_120' class='leave_message_icon'></image>
         <text class='leave_message_name'>平常多注意 多吃水果</text>
         <text class='leave_message_time'>2019.9.14 17:00</text>
+      </view> -->
+      <view class='comments_item' wx:for="{{conmmentList}}" wx:key="*this" wx:for-item="conmmentItem" wx:if="{{conmmentList.length!=0}}">
+        <image class='user_img' src='{{conmmentItem.commentUserIcon}}'></image>
+        <view class='comments_item_right'>
+          <text class='user_name'>{{conmmentItem.commentUserName}}</text>
+          <text class='user_need'>{{conmmentItem.comment}}</text>
+          <view class='other_reply_item' wx:for="{{conmmentItem.recomments}}" wx:key="*this" wx:for-item="reconmmentItem" wx:if="{{conmmentItem.length!=0}}">
+            <text class="other_reply_name" >{{reconmmentItem.commentUserName}}</text>
+            <text class='interval'>:</text>
+            <text class='other_reply_text'>{{reconmmentItem.comment}}</text>
+          </view>
+          <view class='more_reply' data-link="form_reply.html?id={{conmmentItem.id}}" bindtap='tolinkReplyUrl' wx:if="{{conmmentItem.recommentCount>3}}">
+            <text>查看更多回复...</text>
+          </view>
+          <view class='comments_item_bottom'>
+            <text class='user_time'>{{conmmentItem.commentTime}}</text>
+            <image class='comments_icon' data-link="form_reply.html?id={{conmmentItem.id}}" bindtap='tolinkUrl' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/6/38_907.jpg?x-oss-process=style/preview_120'></image>
+          </view>
+        </view>
+      </view>
+      <view class='no_item_reply' wx:if="{{conmmentList.length==0}}">
+        <text>主人~暂时还没有人回复哦！</text>
+        <!-- <text wx:else>主人~改帖子设置了不能回复哦！</text> -->
       </view>
     </scroll-view>
   </view>
+</view>
+<!-- 发布留言 -->
+<view class='comments_part' wx:if="{{servantTargetInfo.commentAble==1}}">
+  <input class='comments_input b' focus bindconfirm='sendComments'  bindinput="saveData" value='{{commentValue}}' cursor-spacing="130" placeholder='发布留言...' maxlength="76" ></input>
+  <image class='comments_img_icon' bindtap='sendComments' src='http://image1.sansancloud.com/jianzhan/2019_3/13/18/4/57_119.jpg?x-oss-process=style/preview_120' mode="aspectFitf"></image>
 </view>

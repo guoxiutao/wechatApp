@@ -1,11 +1,11 @@
 .container{
   display: flex;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   flex-direction: column;
   align-items: center;
   background: #eee;
-  height: 100%
+  margin-bottom:130rpx;
 }
 .my_cardVoucher_info{
   background: #fff;
@@ -15,41 +15,123 @@
   width:100%;
   box-sizing:border-box;
   font-size: 34rpx;
-  border-bottom: 4rpx dashed #888
+  border-bottom: 2rpx dashed #888
 }
 .my_cardVoucher_item{
   margin-bottom: 20rpx;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  font-size:28rpx;
 }
 .text{
   color: #777;
   width: 75%
 }
+.verification_btn_block{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 20rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee
+}
 .verification_btn{
-  width: 80%;
+  width: 48%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 90rpx;
   padding: 20rpx;
-  height: 60rpx;
-  border-radius: 20rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
   color: #fff;
-  font-size: 32rpx;
+  font-size: 28rpx;
+  box-sizing: border-box
 }
 .verification_btn1{
-  width: 80%;
+  width: 48%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 20rpx;
   padding: 20rpx;
-  height: 60rpx;
-  border-radius: 20rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
   color: #fff;
-  font-size: 32rpx;
+  font-size: 28rpx;
+  box-sizing: border-box
+}
+/* 核销记录 */
+.verification_block_title{
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+  padding: 16rpx 0;
+  box-sizing: border-box
+}
+.verification_block_title_text{
+  font-size: 28rpx;
+  margin-left: 16rpx;
+  color: #666;
+}
+.verification_block{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  background:#fff;
+}
+.verification_title{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  background: #FCFCFC;
+  padding:20rpx 0;
+}
+.verification_title_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #888;
+  width: 33%;
+  border-right: 1rpx solid #eee;
+}
+.verification_title_item:last-child{
+  border-right: none
+}
+.verification_list{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.verification_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding:20rpx 0;
+  border-bottom:1rpx solid #f8f8f8;
+}
+.verification_item_data{
+  width: 33%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  color: #666;
+  padding: 0 6rpx;
+  box-sizing: border-box
 }

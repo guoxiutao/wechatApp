@@ -40,6 +40,7 @@ Page({
     selectTabIndex: -1,
     selectResultsValue: {},
     selectResultsObj: {},
+    reqType:"",
   },
   getServantTypeRelateData:function(){
 
@@ -405,16 +406,10 @@ Page({
   hiddenProInfo(e){
     console.log(e)
     this.setData({servantDetail:null})
-  },/* 获取数据 */
-  getServantData: function (param, ifAdd) {
-    //根据把param变成&a=1&b=2的模式
-    if (!ifAdd) {
-      ifAdd = 1
-    }
+  },
+  /* 获取数据 */
+  getServantData: function (param) {
     var customIndex = app.AddClientUrl("/wx_find_servants.html", param)
-    // wx.showLoading({
-    //   title: 'loading'
-    // })
     app.showToastLoading('loading', true)
     var that = this
     wx.request({
@@ -428,7 +423,7 @@ Page({
         that.listPage.totalSize = res.data.relateObj.totalSize
         let dataArr = that.data.servantData
         let tagArray = [];
-        if (ifAdd == 2) {
+        if (that.params.page == 1) {
           dataArr = []
         }
         if (!res.data.relateObj.result || res.data.relateObj.result.length == 0) {
@@ -446,33 +441,33 @@ Page({
         }
         console.log("that.data.servantData", that.data.servantData)
         that.setData({ markers: that.data.servantData })
-        let conut = 0;
-        if (that.data.markers) {
-          for (let i = 0; i < that.data.markers.length; i++) {
-            if (that.data.markers[i].icon) {
-              that.downProIcon(that.data.markers[i].icon, function (url) {
-                conut++;
-                that.data.markers[i].iconPath = url;
-                that.data.markers[i].width = 32;
-                that.data.markers[i].height = 32;
-                if (conut == that.data.markers.length) {
-                  that.setData({ markers: that.data.markers })
-                  console.log('==that.data.markersHave===', that.data.markers);
-                }
-              })
-            } else {
-              conut++;
-              that.data.markers[i].iconPath = '../../images/icon/mapItem.png';
-              that.data.markers[i].width = 32;
-              that.data.markers[i].height = 32;
-              if (conut == that.data.markers.length) {
-                that.setData({ markers: that.data.markers })
-                console.log('==that.data.markers===', that.data.markers);
-              }
-            }
+        // let conut = 0;
+        // if (that.data.markers) {
+        //   for (let i = 0; i < that.data.markers.length; i++) {
+        //     if (that.data.markers[i].icon) {
+        //       that.downProIcon(that.data.markers[i].icon, function (url) {
+        //         conut++;
+        //         that.data.markers[i].iconPath = url;
+        //         that.data.markers[i].width = 32;
+        //         that.data.markers[i].height = 32;
+        //         if (conut == that.data.markers.length) {
+        //           that.setData({ markers: that.data.markers })
+        //           console.log('==that.data.markersHave===', that.data.markers);
+        //         }
+        //       })
+        //     } else {
+        //       conut++;
+        //       that.data.markers[i].iconPath = '../../images/icon/mapItem.png';
+        //       that.data.markers[i].width = 32;
+        //       that.data.markers[i].height = 32;
+        //       if (conut == that.data.markers.length) {
+        //         that.setData({ markers: that.data.markers })
+        //         console.log('==that.data.markers===', that.data.markers);
+        //       }
+        //     }
 
-          }
-        }
+        //   }
+        // }
         wx.hideLoading()
       },
       fail: function (res) {
@@ -506,6 +501,8 @@ Page({
     latitude:'0',
     longitude:'0',
     servantName:"",
+    servantTypeId:0,
+    mendianId:0,
   },
   /* 商品显示方法 */
 
@@ -523,6 +520,17 @@ Page({
     pageSize: 0,
     totalSize: 0,
   },
+  selectItem:function(e){
+    console.log("订单选择服务人员")
+    let pages = getCurrentPages();//当前页面
+    let prevPage = pages[pages.length - 2];//上一页面
+    prevPage.setData({//直接给上移页面赋值
+      selectServant: e.currentTarget.dataset.info,
+    });
+    wx.navigateBack({
+      delta: 1,
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -530,14 +538,18 @@ Page({
     let that = this;
     console.log("options", options)
     that.setData({ options: options })
-    that.initSetting();
-    if (options.parentServantTypeId) {
-      that.setData({ positionTab: options.parentServantTypeId })
-      options.servantTypeId = options.parentServantTypeId
-      that.getServantType(options.servantTypeId, that.bindTypeItem)
-    } else {
-      that.getServantType(options.servantTypeId)
+    if (options.reqType){
+      that.setData({ reqType: options.reqType})
     }
+    that.initSetting();
+    // if (options.parentServantTypeId) {
+    //   that.setData({ positionTab: options.parentServantTypeId })
+    //   options.servantTypeId = options.parentServantTypeId
+    //   that.getServantType(options.servantTypeId, that.bindTypeItem)
+    // } else {
+    //   that.getServantType(options.servantTypeId)
+    // }
+    that.getServantType(options.servantTypeId)
     for (let i in options) {
       for (let j in that.params) {
         if (i.toLowerCase() == j.toLowerCase()) { that.params[j] = options[i] }
@@ -610,7 +622,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    let that=this;
+    let that = this;
+    console.log("刷新")
     that.params.page = 1
     that.getServantData(that.params, 2)
     wx.stopPullDownRefresh() //停止下拉刷新
@@ -621,8 +634,9 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    var that = this
-    if (that.listPage.totalSize > that.listPage.curPage * that.params.page) {
+    let that = this
+    console.log("触底")
+    if (that.listPage.totalSize > that.listPage.pageSize * that.params.page) {
       that.params.page++
       this.getServantData(that.params, 2);
     }

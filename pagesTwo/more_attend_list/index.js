@@ -141,11 +141,8 @@ Page({
   },
   getSessionUserInfo: function () {
     var that = this;
-    // wx.showLoading({
-    //   title: 'loading'
-    // })
     app.showToastLoading('loading', true)
-    var postParamUserBank = app.AddClientUrl("/get_session_userinfo.html")
+    var postParamUserBank = app.AddClientUrl("/get_session_userinfo.html",{}, 'post')
     wx.request({
       url: postParamUserBank.url,
       data: postParamUserBank.params,

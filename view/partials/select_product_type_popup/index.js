@@ -19,13 +19,14 @@ Component({
     let that=this;
     console.log('=====ready====', that.data.productType)
     if (that.data.productType.length != 0) {
+      that.data.productType.unshift({ id:  0, name: "全部" })
       that.setData({ curProTypeDate: that.data.productType[0] })
       for (let i = 0; i < that.data.productType.length; i++) {
         that.data.productType[i].active = false;
       }
       that.data.productType[0].active = true;
       that.setData({ productType: that.data.productType })
-      that.getProductType(that.data.productType[0].id,'two')
+      // that.getProductType(that.data.productType[0].id,'two')
     }else{
       that.setData({ curProTypeDate:null })
     }
@@ -61,7 +62,9 @@ Component({
           }
         }
         that.setData({ productType: productType })
-        that.getProductType(itemData.id, 'two')
+        if (itemData.id!=0){
+          that.getProductType(itemData.id, 'two')
+        }
       } else if (itemType == 'three'){
         let productTypeTwo = that.data.productTypeTwo
         for (let i = 0; i < productTypeTwo.length; i++) {

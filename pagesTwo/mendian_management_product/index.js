@@ -32,9 +32,11 @@ Page({
   getChilrenPopupType(e) {
     console.log("======getChilrenPopupType=========", e)
     let that = this
-    that.params.categoryId = e.detail.id
+    if (e.detail.id || e.detail.id==0){
+      that.params.categoryId = e.detail.id
+    }
     that.setData({productTypePopupState: false})
-    if (that.params.categoryId) {
+    if (that.params.categoryId || that.params.categoryId==0) {
       that.findMendianProductsList();
     }
   },

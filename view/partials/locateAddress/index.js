@@ -157,6 +157,7 @@ Component({
       console.log("==========getLocationAddress=========")
       let locationAddressData = wx.getStorageSync('selectAddressData')||''
       if (locationAddressData){
+        console.log("拥有地址", locationAddressData)
         let locationAddress=""
         if (locationAddressData.community){
           if (locationAddressData.value && locationAddressData.community) {
@@ -172,7 +173,8 @@ Component({
           "latitude": locationAddressData.latitude,
         }
         that.getLoctionAddr(pageParam)
-      }else{
+      } else {
+        console.log("未拥有地址", locationAddressData)
         wx.getLocation({
           type: 'gcj02',
           success: function (res) {
@@ -188,6 +190,9 @@ Component({
             console.log(pageParam)
             that.getLoctionAddr(pageParam)
             that.getNearMenDian(pageParam);
+          },
+          fail: function (res) {
+            console.log("===res-fail===", res)
           }
         })
       }

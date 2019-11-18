@@ -10,7 +10,7 @@ Page({
     Data: [],
     moneyAmount: 0
   },
-  
+  params:{},
   /* 获取数据 */
   getData: function () {
     if (!app.checkIfLogin()) {
@@ -18,7 +18,10 @@ Page({
     }
 
     var getParams = {}
-    getParams.page = this.listPage.page
+    var getParams = {}
+    getParams = Object.assign({}, getParams, that.params,{
+      page: this.listPage.page
+    }) 
     var customIndex = app.AddClientUrl("/get_fx_yongjin_list.html", getParams)
     var that = this
 
@@ -49,6 +52,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that=this;
+    console.log("==options===", options);
+    that.params = options
     this.getData();
   },
 

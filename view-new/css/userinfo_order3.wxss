@@ -71,8 +71,8 @@
   right:0em;
   top: 0;
   font-size:0.8em;
-  width:1.4em;
-  height:1.4em;
+  min-width:1.4em;
+  /* height:1.4em; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,4 +81,5 @@
   color: #fff;
   background: #e24148;
   overflow: hidden;
+  padding: 4rpx;
 }

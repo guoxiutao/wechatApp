@@ -39,7 +39,7 @@ Page({
       return;
     }
     wx.navigateTo({
-      url: '/pageTab/yunjishi/applyServant/index?reqType=2',
+      url: '/pagesTwo/yunjishi/applyServant/index?reqType=2',
     })
   },
   getSearchservantName: function (data) {

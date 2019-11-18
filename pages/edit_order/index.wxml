@@ -8,7 +8,7 @@
         </view>
         <view class='ziti_type' bindtap='selectType' data-type="1" style='color:{{mendianZiti==1?setting.platformSetting.defaultColor:""}};background:{{mendianZiti==1?"":"#eee"}}'>
           <image class='ziti_type_icon' src='http://image1.sansancloud.com/xianhua/2019_1/14/15/51/38_685.jpg'></image>
-          <text class='ziti_type_text'>到店自提</text>
+          <text class='ziti_type_text'>到店服务</text>
         </view>
       </view>
       <view class='addrItems' bindtap='showOtherArr' wx:if="{{mendianZiti!=1}}"> 
@@ -47,13 +47,29 @@
           <image class='selectStoreIcon' mode='aspectFill' src='/images/icons/right.png'></image>
         </view>
       </view>
-      <view class='buyInfo' wx:if="{{mendianZiti==1&&!sendOptionData&&!showAddressForm}}">
+      <!-- <view class='buyInfo' wx:if="{{mendianZiti==1&&!sendOptionData&&!showAddressForm}}">
         <text class='name'>提货人信息</text>
         <input class='input_name' name="contactName" bindinput="contactNameInput" value='{{orderData.contactName||""}}' placeholder='请输入提货人'></input>
         <input class='input_telno' name="contactTelno" bindinput="contactTelnoInput" value='{{orderData.contactTelno||""}}' placeholder='请输入提货人手机号'></input>
-      </view>
+      </view> -->
     </view>
-<!-- 以下是订单部分 -->
+    <!-- 选择服务人员 -->
+    <view class='addrItems' style='margin-top:20rpx;border-radius:6rpx;' wx:if='{{setting.platformSetting.selectServantTypeId!=0}}' catchtap='tolinkUrl' data-link="location_servant_map.html?reqType=order&mendianId={{belongMendian.id||0}}&servantTypeId={{orderData.selectServantTypeId}}"> 
+      <view class='addrItems_info'>
+        <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_10/11/14/43/9_878.jpg?x-oss-process=style/preview_120'></image>
+        <view wx:if="{{belongServant}}" catchtap='clickCatch' data-info="{{belongServant}}"> 
+          <text class='addrName'>{{properties.alias_yewuyuan||"服务员"}}：{{belongServant.name}}  </text>
+          <!-- <text class='font2' style='margin-top:10rpx' wx:if="{{belongServant.address}}">服务类型：{{belongServant.address}}</text> -->
+        </view>
+        <view wx:else> 
+          <text class='addrName'>请选择{{properties.alias_yewuyuan||"服务员"}}</text>
+        </view>
+      </view> 
+      <view class='selectStore'>
+        <image class='selectStoreIcon' mode='aspectFill' src='/images/icons/right.png'></image>
+      </view>   
+    </view>
+    <!-- 以下是订单部分 -->
     <view class='server_container'>
       <view wx:if="{{orderData.orderType!=17&&orderData.orderType!=18}}">{{orderData.storageName}}</view>
       <view wx:elif="{{orderData.orderType==18}}">表单活动</view>
@@ -130,7 +146,7 @@
       <view class='butn_container' wx:if='{{coupon2.length != 1}}'>
           <view class='youhuiquan'>
             <text>优惠券:</text>
-            <picker bindchange="bindPickerChange" mode='selector' value="{{index}}" range="{{coupon2}}">
+            <picker bindchange="bindPickerChange" id="test111" mode='selector' value="{{index}}" range="{{coupon2}}">
               <block wx:if='{{coupon2.length == 1}}'>
                 <view>没有优惠券</view>
               </block> 
@@ -179,7 +195,17 @@
       </label>
     </radio-group>
 
-    <button class='fottButn'  formType="submit" style='background:{{setting.platformSetting.defaultColor}}'>提交订单</button>
+    <block wx:if="{{coupon2.length <= 1&&!gotCouponListId}}">
+      <button class='fottButn'  formType="submit" style='background:{{setting.platformSetting.defaultColor}}'>提交订单</button>
+    </block>
+    <block wx:elif="{{gotCouponListId||sureUseCouponState}}">
+      <button class='fottButn'  formType="submit" style='background:{{setting.platformSetting.defaultColor}}'>提交订单</button>
+    </block>
+    <block wx:else>
+      <picker class='fottButn' id="test112" data-type="submit"  style='background:{{setting.platformSetting.defaultColor}}' bindchange="bindPickerChange" mode='selector' value="{{index}}" range="{{coupon2}}" bindcancel="bindPickercancel">
+        <view>提交订单</view>
+      </picker>
+    </block>
     <view class='agreement' wx:if="{{isAgreement}}" >
       <icon wx:if="{{!agreementState}}" bindtap="changeAgreement" data-type="1" type="circle" size="34rpx"></icon> 
       <icon wx:else bindtap="changeAgreement" data-type="0" type="success" size="34rpx"></icon>
@@ -210,7 +236,7 @@
 </view>
 <!-- 提交时，存在优惠券，但未使用时提示弹窗 -->
 
-<view class='zhezhao' wx:if="{{showSelectCoupon}}" bindtap='closeShowArr'></view>
+<!-- <view class='zhezhao' wx:if="{{showSelectCoupon}}" bindtap='closeShowArr'></view>
 <view class='add_measures_popup' wx:if="{{showSelectCoupon}}" >
   <view class='add_measures_popup_title'>
     <text>选择优惠券</text>
@@ -232,4 +258,4 @@
       <button class='saveBtn' data-state="yes" catchtap='continueSubmitOrder' style='background:{{setting.platformSetting.defaultColor}};color:#fff'>继续</button>
     </view>
   </form>
-</view>
+</view> -->

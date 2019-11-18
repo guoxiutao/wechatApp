@@ -26,5 +26,20 @@
    <component-footer wx:if="{{setting.platformSetting.jishuzhichi}}"></component-footer> <!-- 组件-->
    <posters-user-info ewmImgUrl='{{ewmImgUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters-user-info>
 </view>
-
+<!-- 授权窗口 -->
+  <view wx:if="{{showPopup}}">
+  <!-- authorizationCount==1&& -->
+    <view class='authorizationBg'></view>
+    <view class='authorization'>
+      <view class='authorizationPopup'>
+        <view class='tipContent'>
+          <text style='font-size:38rpx;'>前往微信授权</text>
+        </view>
+        <view class='buttonArray'>
+          <button class='button cancel' bindtap='cancel'>取消</button>
+          <button class='button confirm' open-type="getUserInfo" style='color:{{setting.platformSetting.defaultColor}}'  bindgetuserinfo="bindGetUserInfo">确定</button>
+        </view>
+      </view>
+    </view>
+  </view>
 

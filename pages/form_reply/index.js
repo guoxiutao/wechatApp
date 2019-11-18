@@ -79,7 +79,7 @@ Page({
     let data = {
       commentId: that.commentId,
       page: page,
-      comment: that.recommentList,
+      // comment: that.recommentList,
     }
     let customIndex = app.AddClientUrl("/get_news_bbs_recomments.html", data)
       wx.request({

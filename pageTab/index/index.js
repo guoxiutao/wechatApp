@@ -187,9 +187,9 @@ Page({
       if(app.clientNo=="tunzai"){
         url ="/pageTab/tunzai/preApplyMendian/index"
       } else if (app.clientNo == "yunjishi"){
-        url = "/pageTab/yunjishi/applyMendian/index?code=" + options.APPLY_SERVER_CHANNEL_CODE;
+        url = "/pagesTwo/yunjishi/applyMendian/index?code=" + options.APPLY_SERVER_CHANNEL_CODE;
       }else{
-        url = "/pageTab/yunjishi/applyMendian/index?code=" + options.APPLY_SERVER_CHANNEL_CODE;
+        url = "/pagesTwo/yunjishi/applyMendian/index?code=" + options.APPLY_SERVER_CHANNEL_CODE;
       }
       //       applyMendian
       setTimeout(function () {
@@ -209,7 +209,7 @@ Page({
       //       applyMendian
       setTimeout(function () {
         wx.navigateTo({
-          url: '/pageTab/yunjishi/applyServant/index?reqType=2&code=' + options.APPLY_SERVANT_CODE,
+          url: '/pagesTwo/yunjishi/applyServant/index?reqType=2&code=' + options.APPLY_SERVANT_CODE,
           success: function () {
             app.shareSubPage = true;
           }

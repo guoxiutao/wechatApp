@@ -38,7 +38,7 @@
         <text wx:else style='padding:0 0.4em;border-radius:0.4em;color:#e24148; border:2rpx solid #e24148; margin-left:0.6em;'></text>
       </view>
   </view>
-  <view wx:if="{{orderDetailData.mendianZiti==0&&!formCommitId}}">
+  <view wx:if="{{orderDetailData.mendianZiti==0&&setting.platformSetting.addressType!=2}}">
     <view bindtap='showOtherArr' class='editAddr' wx:if='{{orderDetailData.orderStatus < 3}}'><!--  -->
       <view class='editAddr_text'>修改收货地址</view>
       <image src='/images/icons/right.png'></image>
@@ -89,12 +89,21 @@
         </view> -->
     </view>
   </view>
-  <view class='server_container' catchtap='clickCatch' data-info="{{orderDetailData.belongMendian}}">
+  <view class='mendian_container' catchtap='clickCatch' data-info="{{orderDetailData.belongMendian}}">
      <view class='server_container_left'>
        <image class='storageIcon' src='http://image1.sansancloud.com/xianhua/2019_5/15/13/43/23_814.jpg?x-oss-process=style/preview'></image>
        <text>{{orderDetailData.storageName}}</text>
        </view>
      <view class='navigation' wx:if="{{orderDetailData.belongMendian.latitude!=0&&orderDetailData.belongMendian.longitude!=0}}" style='border:1rpx solid {{setting.platformSetting.defaultColor}};color:{{setting.platformSetting.defaultColor}}'><text>去导航</text></view>
+  </view>
+  <!-- 服务人员 -->
+  <view class='server_container' catchtap='clickCatch' data-info="{{orderDetailData.assignServant}}">
+     <view class='server_container_left'>
+       <image class='storageIcon' src='http://image1.sansancloud.com/xianhua/2019_10/11/14/43/9_878.jpg?x-oss-process=style/preview_120'></image>
+       <text style='margin-left:10rpx'>业务员：</text>
+       <text>{{orderDetailData.assignServant.name}}</text>
+     </view>
+     <view></view>
   </view>
   <view class='cartContainer'>                        
     <view class='cartShopName'>
@@ -102,7 +111,7 @@
       <text wx:if='{{orderDetailData.promotionName}}' class='marginleft vity_tag'>{{orderDetailData.promotionName}}</text>
       <text class='color' style='color:{{setting.platformSetting.defaultColor}}'>合计:￥ {{orderDetailData.goodsAmount}}</text>
     </view>
-    <view class='cartItems' wx:for='{{orderDetailData.orderItems}}' wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' catchtap='tolinkUrl' data-info='{{orderItem}}'>
+    <view class='cartItems' wx:for='{{orderDetailData.orderItems}}' wx:for-item='orderItem' wx:key='{{orderItem.itemId}}' catchtap='tolinkUrl' data-info='{{orderItem}}' wx:if="{{!orderItem.scanExhauseList||orderItem.scanExhauseList=='{}'}}">
       <view class='itemCheckbox'>
         <image mode='aspectFill' src='{{orderItem.itemIcon}}?x-oss-process=style/preview'></image>
       </view>
@@ -113,6 +122,27 @@
           <text class='flexCenter'>x {{orderItem.itemCount}}</text>
         </view>
         <view class='item_infomation_money' style='color:{{setting.platformSetting.defaultColor}}'>单价:￥ {{orderItem.itemPrice}}</view>
+      </view>
+    </view>
+    <!-- 核销列表 -->
+    <view class='verification_block' wx:if="{{allScanExhauseList.length!=0}}">
+      <view class='verification_title'>
+        <view class='verification_title_item' style='width:30%'>
+          <text>套餐名称</text>
+        </view>
+        <view class='verification_title_item' style='width:50%'>
+          <text>套餐内容</text>
+        </view>
+        <view class='verification_title_item' style='width:20%'>
+          <text>套餐次数</text>
+        </view>
+      </view>
+      <view class='verification_list'>
+        <view class='verification_item' wx:for="{{allScanExhauseList}}" wx:for-item='item' wx:key='{{index}}'>
+          <text class='verification_item_data' style='width:30%'>{{item.name}}</text>
+          <text class='verification_item_data' style='width:50%'>{{item.remark}}</text>
+          <text class='verification_item_data' style='width:20%'>{{item.count}}次</text>
+        </view>
       </view>
     </view>
     <!-- <view class='butn_container2'>

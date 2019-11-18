@@ -42,7 +42,8 @@ Page({
     clientNo:'',
     minCount:'1',
     sendIndexData:{},
-    buyType: 'normal'
+    buyType: 'normal',
+    scanExhauseList:[],
   },
   /*轮播图下标*/
   swiperChange: function (e) {
@@ -570,6 +571,11 @@ Page({
         }
         that.setData({ pintuanState: false })
         console.log('--------------getData-------------')
+        let scanExhauseList=''
+        if (res.data.productInfo.scanExhauseList){
+          scanExhauseList = JSON.parse(res.data.productInfo.scanExhauseList);
+          that.setData({ scanExhauseList: scanExhauseList.items})
+        }
         res.data.productInfo.promotion = Number(res.data.productInfo.promotion)
         if (res.data.productInfo && res.data.productInfo.promotionBean) {
           that.setData({ promotionState: true })

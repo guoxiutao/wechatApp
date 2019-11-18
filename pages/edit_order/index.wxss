@@ -366,6 +366,7 @@
   bottom: 0;
   height: 3em;
   display: flex;
+  font-size:30rpx;
   flex-direction: row;
   justify-content: center; 
   align-items: center;

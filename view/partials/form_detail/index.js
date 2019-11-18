@@ -27,6 +27,8 @@ Component({
   },
   data: {
     formData:null,
+    formType:"form",
+    formChainData:null,
     sexArray:['男','女'],
     selectPicker:{},
     upLoadImageList:{},
@@ -104,6 +106,10 @@ Component({
       }
     } else {
       that.data.refProductFormType = false;
+    }
+    if (options.formChainData){
+      that.setData({ formType: 'formChain', formChainData: options.formChainData})
+      console.log("====表单集合链功能===", options.formChainData)
     }
     let formDetailData = app.AddClientUrl("/wx_get_custom_form.html", { customFormId: options.customFormId }, 'get')
     console.log('==formDetailData===', formDetailData)
@@ -301,10 +307,12 @@ Component({
     },
     getDetail: function (formCommitId, data) {
       let that = this;
-      wx.showToast({
-        title: '加载中...',
-        icon: 'loading',
-      })
+      if (that.data.formType != 'formChain') {
+        wx.showToast({
+          title: '加载中...',
+          icon: 'loading',
+        })
+      }
       let formDetailData = app.AddClientUrl("/wx_get_custom_form_commit.html", { formCommitId: formCommitId }, 'get')
       wx.request({
         url: formDetailData.url,
@@ -571,12 +579,16 @@ Component({
               region: region
             })
           } else if (formData.items[i].type == 5 || formData.items[i].type == 6) {
-            if (formData.items[i].defaultValue) {
-              console.log("日期时间有值")
-              dataAndTime[formData.items[i].name] = formData.items[i].defaultValue
-            } else {
-              console.log("日期时间没值")
-              dataAndTime[formData.items[i].name] = ""
+            if (jsonData && jsonData[formData.items[i].name]) {
+              dataAndTime[formData.items[i].name] = jsonData[formData.items[i].name].value
+            }else{
+              if (formData.items[i].defaultValue) {
+                console.log("日期时间有值")
+                dataAndTime[formData.items[i].name] = formData.items[i].defaultValue
+              } else {
+                console.log("日期时间没值")
+                dataAndTime[formData.items[i].name] = ""
+              }
             }
             that.setData({
               dataAndTime: dataAndTime
@@ -1079,10 +1091,30 @@ Component({
       })
     }
   },
+  perStepFun:function(){
+    console.log("====perStepFun====");
+    let that=this;
+    if (that.data.formType == 'formChain') {
+      console.log("===formChainData===", that.data.formChainData)
+      let perStepIndex = that.data.formChainData.curIndex - 1
+      that.triggerEvent('perStep', { perStepIndex: perStepIndex }) //myevent自定义名称事件，父组件中使用
+    }
+  },
   sureSubimtFun: function (params){
     let that=this;
+    let sendParams = params;
+    if (that.data.formType == 'formChain') {
+      console.log("===formChainData===", that.data.formChainData)
+      sendParams = Object.assign({}, sendParams,{
+        customFormChainInstanceId: that.data.formChainData.chainInstanceId
+      })
+      // let nextStepIndex = that.data.formChainData.curIndex + 1
+      // that.triggerEvent('nextStep', { nextStepIndex: nextStepIndex }) //myevent自定义名称事件，父组件中使用
+    }
+    // return
+    console.log("sendParams", sendParams)
     app.showToastLoading("请稍等~",true)
-    var formData = app.AddClientUrl("/wx_commit_custom_form.html", params, 'post')
+    var formData = app.AddClientUrl("/wx_commit_custom_form.html", sendParams, 'post')
     wx.request({
       url: formData.url,
       data: formData.params,
@@ -1091,11 +1123,21 @@ Component({
         console.log(res.data)
         wx.hideLoading()
         if (res.data.errcode == '0') {
-          wx.showToast({
-            title: '提交成功',
-            icon: 'success',
-            duration: 1000
-          })
+          if (that.data.formType == 'formChain' && that.data.formChainData.curIndex < that.data.formChainData.totalLength-1){
+            
+          } else if (that.data.formType == 'formChain' && that.data.formChainData.curIndex >= that.data.formChainData.totalLength - 1) {
+            wx.showToast({
+              title: '全部提交成功！',
+              icon: 'success',
+              duration: 1000
+            })
+          }  else {
+            wx.showToast({
+              title: '提交成功',
+              icon: 'success',
+              duration: 1000
+            })
+          }
           if (!that.data.showformSubmitBtn) {
             let param = {};
             console.log("======1===========")
@@ -1106,48 +1148,54 @@ Component({
             }
             that.triggerEvent('sendDataFun', param) //myevent自定义名称事件，父组件中使用
           }
-          if (that.data.processType) {
-            console.log("======2===========")
-            setTimeout(function () {
-              that.toProcessList(res.data.relateObj.id)
-            }, 1000)
-          } else if (that.data.refProductFormType) {
-            console.log("======3===========")
-            let baseProData = {
-              productId: that.data.skuData.productId,
-              itemCount: that.data.skuData.itemCount,
-              shopId: that.data.skuData.shopId,
-              cartesianId: that.data.skuData.cartesianId,
-              fromSource: 'mini',
-              orderType: that.data.skuData.orderType,
-            };
-            let pintuanData = {
-              pintuanCreateType: that.data.skuData.pintuanCreateType,
-              pintuanRecordId: that.data.skuData.pintuanRecordId,
-            };
-            app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
-          } else if (that.data.formData.refProductId && that.data.formData.refProductId != 0) {
-            console.log("======4===========")
-            let baseProData = {
-              productId: that.data.formData.refProductId,
-              itemCount: 1,
-              shopId: 0,
-              cartesianId: 0,
-              fromSource: 'mini',
-              orderType: 0,
-            };
-            let pintuanData = {
-              pintuanCreateType: 0,
-              pintuanRecordId: 0
-            };
-            app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
-          } else if (!that.data.showformSubmitBtn) {
-            console.log("======5===========")
-          } else {
-            console.log("======6===========")
-            setTimeout(function () {
-              that.toFormCommitList()
-            }, 1000)
+          if (that.data.formType =='formChain'){
+            console.log("===formChainData===", that.data.formChainData)
+            let nextStepIndex = that.data.formChainData.curIndex + 1
+            that.triggerEvent('nextStep', { nextStepIndex: nextStepIndex }) //myevent自定义名称事件，父组件中使用
+          }else{
+            if (that.data.processType) {
+              console.log("======2===========")
+              setTimeout(function () {
+                that.toProcessList(res.data.relateObj.id)
+              }, 1000)
+            } else if (that.data.refProductFormType) {
+              console.log("======3===========")
+              let baseProData = {
+                productId: that.data.skuData.productId,
+                itemCount: that.data.skuData.itemCount,
+                shopId: that.data.skuData.shopId,
+                cartesianId: that.data.skuData.cartesianId,
+                fromSource: 'mini',
+                orderType: that.data.skuData.orderType,
+              };
+              let pintuanData = {
+                pintuanCreateType: that.data.skuData.pintuanCreateType,
+                pintuanRecordId: that.data.skuData.pintuanRecordId,
+              };
+              app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
+            } else if (that.data.formData.refProductId && that.data.formData.refProductId != 0) {
+              console.log("======4===========")
+              let baseProData = {
+                productId: that.data.formData.refProductId,
+                itemCount: 1,
+                shopId: 0,
+                cartesianId: 0,
+                fromSource: 'mini',
+                orderType: 0,
+              };
+              let pintuanData = {
+                pintuanCreateType: 0,
+                pintuanRecordId: 0
+              };
+              app.createOrder(baseProData, pintuanData, res.data.relateObj.id)
+            } else if (!that.data.showformSubmitBtn) {
+              console.log("======5===========")
+            } else {
+              console.log("======6===========")
+              setTimeout(function () {
+                that.toFormCommitList()
+              }, 1000)
+            }
           }
         } else {
           wx.showToast({

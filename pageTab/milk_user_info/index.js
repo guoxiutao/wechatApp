@@ -14,6 +14,69 @@ Page({
     componentState:true, //组件的data
     orderData: null,
     ListData: null,
+    showPopup: false,
+  },
+  clickWxGz: function () {
+    let that = this;
+    console.log('===bindWxGz====', that.data.loginUser)
+    let loginUser = that.data.loginUser;
+    let title = "你确定要绑定公众号推送嘛~"
+    if (loginUser.platformUser.openid) {
+      title = "你确定要解绑公众号推送嘛~"
+    }
+    wx.showModal({
+      title: '提示',
+      content: title,
+      success: function (res) {
+        if (res.confirm) {
+          if (!loginUser.platformUser.openid) {
+            that.bindWxGz()
+          } else {
+            that.unBindWxGz()
+          }
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
+  bindWxGz: function () {
+    let that = this;
+    let paramsUrl = "https://mini.sansancloud.com/chainalliance/" + app.clientNo + "/bindWxGz.html?platformUserId=" + that.data.loginUser.platformUser.id;
+    that.tolinkUrl(paramsUrl)
+    that.getSessionUserInfo();
+  },
+  unBindWxGz: function () {
+    let that = this
+    let customIndex = app.AddClientUrl("/wx_unbind_wx_gz_openid.html")
+    //拿custom_page
+    wx.request({
+      url: customIndex.url,
+      header: app.header,
+      success: function (res) {
+        console.log("====== res.data=========", res.data)
+        wx.hideLoading()
+        if (!res.data.errcode || res.data.errcode == '0') {
+          wx.showToast({
+            title: '解绑成功~',
+            icon: 'success',
+            duration: 1000
+          })
+          that.getSessionUserInfo();
+        } else {
+          console.log('加载失败')
+          wx.showToast({
+            title: res.data.errMsg + '~',
+            image: '/images/icons/tip.png',
+            duration: 1000
+          })
+        }
+      },
+      fail: function (res) {
+        console.log(res)
+        wx.hideLoading()
+      }
+    })
   },
   // 关闭海报
   getChilrenPoster(e) {
@@ -217,14 +280,47 @@ Page({
       }
     })
   },
+  bindGetUserInfo: function (e) {
+    let that = this;
+    that.setData({ showPopup: false })
+    console.log(that.data.showPopup)
+    console.log(e.detail.userInfo)
+    if (e.detail.userInfo) {
+      //用户按了允许授权按钮
+      console.log('用户按了允许授权按钮')
+      that.dellSData()
+      that.getSessionUserInfo();
+      that.getParac()
+      if (app.loginUser && app.loginUser.platformUser && !app.loginUser.platformUser.nickname) {
+        app.sentWxUserInfo(app.loginUser)
+      }
+    } else {
+      console.log('用户按了拒绝按钮')
+      //用户按了拒绝按钮
+    }
+  },
+  cancel: function () {
+    this.setData({ showPopup: false })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.dellSData()
-    this.getSessionUserInfo();
-    this.getParac()
-    this.setData({
+    let that=this;
+    wx.getSetting({//检查用户是否授权了
+      success(res) {
+        console.warn("======检查用户是否授权了========", res)
+        if (!res.authSetting['scope.userInfo']) {
+          console.log('=====没授权====')
+          that.setData({ showPopup: true })
+        } else {
+          that.dellSData()
+          that.getSessionUserInfo();
+          that.getParac()
+        }
+      }
+    });
+    that.setData({
       loginUser: app.loginUser,
       userInfo: app.globalData.userInfo,
       setting: app.setting
@@ -250,7 +346,20 @@ Page({
    */
   openShow:false,
   onShow: function () {
-    if (this.openShow){
+    let that=this;
+    if (this.openShow) {
+      wx.getSetting({//检查用户是否授权了
+        success(res) {
+          console.warn("======检查用户是否授权了========", res)
+          if (!res.authSetting['scope.userInfo']) {
+            console.log('=====没授权====')
+            // that.showPopup = true
+            that.setData({ showPopup: true })
+          } else {
+            console.log('=====已授权====')
+          }
+        }
+      });
       this.setData({ loginUser: app.loginUser })
       this.getSessionUserInfo();
     }
@@ -300,7 +409,7 @@ Page({
   /* 组件事件集合 */
 
   tolinkUrl: function (e) {
-    let linkUrl = e.currentTarget.dataset.link
+    let linkUrl = e.currentTarget ? e.currentTarget.dataset.link : e
     app.linkEvent(linkUrl)
   }
 })

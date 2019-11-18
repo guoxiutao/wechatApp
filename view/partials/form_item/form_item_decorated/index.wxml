@@ -4,7 +4,7 @@
 <block >
 <view class='form_commit_item' data-belongformtype='{{formCommitItem.belongFormType}}' catchtap='checkFormDetail' data-id="{{formCommitItem.id}}">
   <view class='mofang_templete' style='position:relative;width:100%;' >
-     <view  wx:for='{{formListStyle}}' wx:key='{{index}}' wx:for-item="itemData" style='height:{{itemData.type==2?"":750/12*itemData.height}}rpx;position:relative'>
+     <view  wx:for='{{formListStyle}}' wx:key='{{index}}' wx:for-item="itemData" style='height:{{itemData.type==2?"":750/12*itemData.height*(publicFun.toNum(itemData.aspectRatio||1))}}rpx;position:relative'>
       <view class='mofang_item'  wx:if="{{itemData.type==1}}" wx:key="{{index}}" wx:for='{{itemData.data.detailViewMagic}}' style='position:absolute;overflow:hidden;left:{{item.startPointX*710/12}}rpx;top:{{publicFun.toNum(item.startPointY*710/12)*(publicFun.toNum(itemData.aspectRatio))}}rpx;width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*710/12)}}rpx;height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/12)*publicFun.toNum(itemData.aspectRatio)}}rpx;'>
       <!-- background:{{item.backgroundImage?"":item.backgroudColor}}; -->
         <view class='lunbotu' wx:if="{{formCommitItem.commitJson[item.propertieName].type==11}}">
@@ -22,7 +22,7 @@
           </view>
           <!-- height:{{publicFun.toAbs((item.endPointY-item.startPointY+1)*710/12)}}rpx -->
           <!-- width:{{publicFun.toAbs((item.endPointX-item.startPointX+1)*710/12)}}rpx -->
-          <view class='center_part_item_title' style="height:100%;width:100%;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:center;justify-content:{{item.align}}" wx:if="{{item.propertiesType==2}}">
+          <view class='center_part_item_title' style="display:flex;align-items:center;height:100%;width:100%;display:flex;margin:0;background:{{item.backgroudColor}};flex-direction:{{item.placeType==0?'row':'row-reverse'}};align-items:center;justify-content:{{item.align}}" wx:if="{{item.propertiesType==2}}">
             <image wx:if="{{item.backgroundImage}}" mode='aspectFit' style='height:100%;width:100%' src='{{item.backgroundImage}}'></image>
           </view>
           <!-- type==4为复选框 -->

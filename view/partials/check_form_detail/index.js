@@ -699,6 +699,8 @@ Component({
         success: function (res) {
           console.log("====success====",res)
           if (res.data.errcode == 0) {
+            let sendFormData = JSON.stringify({ title: 'noTitle', url: "form_" + res.data.relateObj.belongFormId })
+            that.setData({ sendFormData: sendFormData })
             let data = res.data.relateObj
             wx.hideLoading()
             let measurePriceList='';

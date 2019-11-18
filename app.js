@@ -8,10 +8,10 @@ App({
   /**
    *   切换项目的开关 ↓↓↓↓↓
    */
-  clientNo: 'chunzhixiang',   //自定义的项目的名称。,
+  clientNo: 'jianzhan',   //自定义的项目的名称。,
   preCallbackObj: { key: { callback: '' } },
   clientName: '',
-  version:'3.5.76',
+  version:'3.5.88',
   more_scene: '', //扫码进入场景   用来分销
   shareParam: null,//分享页面参数onload
   miniIndexPage: '',
@@ -613,16 +613,16 @@ App({
     console.log('==urlData===', urlData)
     console.log('==jpg===', linkUrl.substr(-3, 3))
     console.log(If_Order_url, that.showAuthorizationPopup)
-    wx.getSetting({//检查用户是否授权了
-      success(res) {
-        console.warn("======检查用户是否授权了========", res)
-        if (!res.authSetting['scope.userInfo']) {
-          console.log('=====没授权====')
-          that.showAuthorizationPopup = true
-          that.authorizationListener(that.showAuthorizationPopup)
-          return 'authorization'
-        } else {
-          console.log('=====已授权====')
+    // wx.getSetting({//检查用户是否授权了
+    //   success(res) {
+    //     console.warn("======检查用户是否授权了========", res)
+    //     if (!res.authSetting['scope.userInfo'] ) {
+    //       console.log('=====没授权====')
+    //       that.showAuthorizationPopup = true
+    //       that.authorizationListener(that.showAuthorizationPopup)
+    //       return 'authorization'
+    //     } else {
+          // console.log('=====已授权====')
           if (linkUrl.substr(0, 3) == 'tel') {
             wx.makePhoneCall({
               phoneNumber: linkUrl.substr(4) //仅为示例，并非真实的电话号码
@@ -718,9 +718,9 @@ App({
           } else {
             that.goto(linkUrl)
           }
-        }
-      }
-    });
+    //     }
+    //   }
+    // });
   },
   checkLogin: function () {
     //let that = this

@@ -15,4 +15,4 @@
 </view>
 <form-posters formCommitId="{{formCommitId}}" posterTitle="{{posterTitle}}" bannerImgUrl="{{allFormData.banner}}" ewmImgUrl='{{ewmImgUrl}}' wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></form-posters>
  <!-- 首页组件-详情装饰-->
- <component-customPage data="{{sendFormData}}" wx:if="{{sendFormData}}"></component-customPage> 
+ <!-- <component-customPage data="{{sendFormData}}" wx:if="{{sendFormData}}"></component-customPage>  -->

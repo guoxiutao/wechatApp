@@ -14,19 +14,6 @@
   background-size: cover;
   background-image: url("http://image1.sansancloud.com/xianhua/2019_3/27/15/17/51_274.jpg")
 }
-.userShareEwm{
-  position: absolute;
-  right: 20rpx;
-  top: 20rpx;
-  display:flex;
-  border-radius:60rpx;
-  padding:10rpx;
-
-}
-.userEwmCode{
-  width: 50rpx;
-  height: 50rpx;
-}
 .user_head_img{
   width:130rpx;
   height:130rpx;
@@ -130,4 +117,32 @@
 }
 .user_footer_img{
   height: 120rpx;
+}
+.userShareEwm{
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+  display:flex;
+  border-radius:60rpx;
+  padding:10rpx;
+
+}
+.userEwmCode{
+  width: 50rpx;
+  height: 50rpx;
+}
+.userBindWxGz{
+  position: absolute;
+  right: 20rpx;
+  top: 100rpx;
+  display:flex;
+  border-radius:60rpx;
+  padding:10rpx;
+  box-shadow:3px 3px 4px #55555533;
+
+}
+.userBindWxGzCode{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50rpx;
 }

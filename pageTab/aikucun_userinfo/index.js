@@ -19,7 +19,8 @@ Page({
     orderData: null,
     ListData: null,
     serverData: null,
-    servantData:null,
+    servantData: null,
+    showPopup: false,
   },
   // 关闭海报
   getChilrenPoster(e) {
@@ -388,14 +389,48 @@ Page({
       }
     })
   },
+  bindGetUserInfo: function (e) {
+    let that = this;
+    that.setData({ showPopup: false })
+    console.log(that.data.showPopup)
+    console.log(e.detail.userInfo)
+    if (e.detail.userInfo) {
+      //用户按了允许授权按钮
+      console.log('用户按了允许授权按钮')
+      that.dellSData()
+      that.getSessionUserInfo();
+      that.getParac()
+      if (app.loginUser && app.loginUser.platformUser && !app.loginUser.platformUser.nickname) {
+        app.sentWxUserInfo(app.loginUser)
+      }
+    } else {
+      console.log('用户按了拒绝按钮')
+      //用户按了拒绝按钮
+    }
+  },
+  cancel: function () {
+    this.setData({ showPopup: false })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     let that=this
-    that.dellSData()
-    that.getSessionUserInfo();
-    that.getParac()
+    wx.getSetting({//检查用户是否授权了
+      success(res) {
+        console.warn("======检查用户是否授权了========", res)
+        if (!res.authSetting['scope.userInfo'] ) {
+          console.log('=====没授权====')
+          // that.showPopup = true
+          that.setData({ showPopup:true})
+        } else {
+          console.log('=====已授权====')
+          that.dellSData()
+          that.getSessionUserInfo();
+          that.getParac()
+        }
+      }
+    });
     
   },
 
@@ -411,7 +446,20 @@ Page({
    */
   openShow:false,
   onShow: function () {
+    let that=this;
     if (this.openShow){
+      wx.getSetting({//检查用户是否授权了
+        success(res) {
+          console.warn("======检查用户是否授权了========", res)
+          if (!res.authSetting['scope.userInfo']) {
+            console.log('=====没授权====')
+            // that.showPopup = true
+            that.setData({ showPopup: true })
+          } else {
+            console.log('=====已授权====')
+          }
+        }
+      });
       this.setData({ loginUser: app.loginUser })
       this.getSessionUserInfo();
     }

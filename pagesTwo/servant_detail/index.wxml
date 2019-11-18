@@ -1,9 +1,9 @@
 <view class='container'>
   <view class='servant_top'>
     <image src='http://image1.sansancloud.com/xianhua/2019_7/9/17/4/27_602.jpg?x-oss-process=style/preview_120' catchtap='showShare' mode='aspectFit' class='share_icon'></image>
-    <image mode='aspectFit' src='{{servantDetail.backgroudImg?servantDetail.backgroudImg:"http://image1.sansancloud.com/xianhua/2019_7/9/16/15/55_241.jpg?x-oss-process=style/preview_120"}}' class='servant_top_bg'></image>
-    <view class='servant_top_info'>
-      <image src='{{servantDetail.icon}}' mode='aspectFit' class='servant_head_img'></image>
+    <image mode='aspectFill' src='{{servantDetail.backgroudImg&&servantDetail.backgroudImg!=0?servantDetail.backgroudImg:"http://image1.sansancloud.com/xianhua/2019_7/9/16/15/55_241.jpg?x-oss-process=style/preview_120"}}' class='servant_top_bg'></image>
+    <view class='servant_top_info' data-link="chat_room.html?puid={{servantDetail.managerPlatformUserId}}&puname={{servantDetail.managerPlatformUserName}}" catchtap='tolinkUrl'>
+      <image src='{{servantDetail.icon}}' mode='' class='servant_head_img'></image>
       <view class='servant_name_block'>
         <text class='servant_name'>{{servantDetail.name}}</text>
         <view class='servant_certification' style='background:{{servantDetail.renzhengStatus==1?platformSetting.defaultColor:"#ccc"}}' wx:if="{{servantDetail.renzhengStatus!=-1}}">
@@ -100,13 +100,70 @@
       </view>
     </view>
   </view>
+  <view class='line' style='border-bottom:8rpx solid {{platformSetting.defaultColor}}55' wx:if="{{servantDetail.commentAble==1}}"></view>
+  <!-- 服务留言 -->
+  <view class='servant_info_block' wx:if="{{servantDetail.commentAble==1}}">
+    <view class='servant_info_block_title'>
+      <image mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_7/9/17/37/24_725.jpg?x-oss-process=style/preview_120' class='servant_info_block_title_icon'></image>
+      <text class='servant_info_block_title_text'>服务留言</text>
+    </view>
+    <view class='servant_server_list'>
+       <view class='form_detail_bottom'>
+        <!-- <view class='form_detail_bottom_top'>
+          <view class='bottom_top_item'>
+            <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_487.jpg?x-oss-process=style/preview_120'></image>
+            <text class='bottom_top_item_text'>{{servantDetail.viewCount}}</text>
+          </view>
+          <view class='bottom_top_item'>
+            <image class='bottom_top_item_icon' src='http://image1.sansancloud.com/jianzhan/2019_3/12/14/47/49_496.jpg?x-oss-process=style/preview_120'></image>
+            <text class='bottom_top_item_text'>{{servantDetail.viewCount}}</text>
+          </view>
+        </view> -->
+        <view class='comments_list'>
+          <view class='comments_item' wx:for="{{conmmentList}}" wx:key="*this" wx:for-item="conmmentItem" wx:if="{{conmmentList.length!=0}}">
+            <image class='user_img' src='{{conmmentItem.commentUserIcon}}'></image>
+            <view class='comments_item_right'>
+              <text class='user_name'>{{conmmentItem.commentUserName}}</text>
+              <text class='user_need'>{{conmmentItem.comment}}</text>
+              <view class='other_reply_item' wx:for="{{conmmentItem.recomments}}" wx:key="*this" wx:for-item="reconmmentItem" wx:if="{{conmmentItem.length!=0}}">
+                <text class="other_reply_name" >{{reconmmentItem.commentUserName}}</text>
+                <text class='interval'>:</text>
+                <text class='other_reply_text'>{{reconmmentItem.comment}}</text>
+              </view>
+              <view class='more_reply' data-link="form_reply.html?id={{conmmentItem.id}}" bindtap='tolinkUrl' wx:if="{{conmmentItem.recommentCount>3}}">
+                <text>查看更多回复...</text>
+              </view>
+              <view class='comments_item_bottom'>
+                <text class='user_time'>{{conmmentItem.commentTime}}</text>
+                <image class='comments_icon' data-link="form_reply.html?id={{conmmentItem.id}}" bindtap='tolinkUrl' src='http://image1.sansancloud.com/jianzhan/2019_3/13/17/6/38_907.jpg?x-oss-process=style/preview_120'></image>
+              </view>
+            </view>
+          </view>
+          <view class='no_item_reply' wx:if="{{conmmentList.length==0}}">
+            <text>主人~该帖子还没有人回复哦！</text>
+            <!-- <text wx:else>主人~改帖子设置了不能回复哦！</text> -->
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 发布留言 -->
+<view class='zhezhao' wx:if="{{showCommentState&&servantDetail.commentAble==1}}" bindtap='closeZhezhao'></view>
+<view class='comments_part' wx:if="{{servantDetail.commentAble==1&&showCommentState}}">
+  <input class='comments_input b' focus bindconfirm='sendComments'  bindinput="saveData" value='{{commentValue}}' cursor-spacing="130" placeholder='发表评论...' maxlength="76" ></input>
+  <image class='comments_img_icon' bindtap='sendComments' src='http://image1.sansancloud.com/jianzhan/2019_3/13/18/4/57_119.jpg?x-oss-process=style/preview_120' mode="aspectFitf"></image>
 </view>
 <!-- 底部按钮组 -->
 <view class='bottom_btn_group' wx:if="{{!servantTypeId||(curSelectData&&curSelectData.servantTypeBean.servantServiceType!=0)}}">
   <view class='bottom_btn_group_left'>
     <view class='bottom_btn_group_left_item' catchtap='focusServant'>
-      <image class='bottom_btn_group_left_item_icon' src='http://image1.sansancloud.com/xianhua/2019_4/1/13/52/1_278.jpg?x-oss-process=style/preview_120'></image>
+      <image class='bottom_btn_group_left_item_icon' src='http://image1.sansancloud.com/xianhua/2019_11/11/15/52/2_748.jpg?x-oss-process=style/preview_120'></image>
       <text class='bottom_btn_group_left_item_text'>关注</text>
+    </view>
+    <view class='bottom_btn_group_left_item' bindtap='showCommentFun'>
+      <image class='bottom_btn_group_left_item_icon' src='http://image1.sansancloud.com/xianhua/2019_11/11/15/52/2_720.jpg?x-oss-process=style/preview_120'></image>
+      <text class='bottom_btn_group_left_item_text'>留言</text>
     </view>
   </view>
   <view class='bottom_btn_group_right' wx:if="{{servantTypeId}}" catchtap='submitData'>
@@ -130,7 +187,7 @@
 <view' wx:if="{{showType}}" class='submitBtn' catchtap='submitData' data-link="chat_room.html?puid={{servantDetail.managerPlatformUserId}}&puname={{servantDetail.managerPlatformUserName}}">
   <text style='background:{{platformSetting.defaultColor}}' wx:if="{{curSelectData.servantTypeBean.servantServiceType==1}}">拨打电话</text>
   <text style='background:{{platformSetting.defaultColor}}' wx:if="{{curSelectData.servantTypeBean.servantServiceType==2}}">预约</text>
-  <text style='background:{{platformSetting.defaultColor}}' wx:if="{{curSelectData.servantTypeBean.servantServiceType==4}}">产品预约</text>
+  <text style='background:{{platformSetting.defaultColor}}' wx:if="{{curSelectData.servantTypeBean.servantServiceType==4}}">立即购买</text>
   <text style='background:{{platformSetting.defaultColor}}' wx:if="{{curSelectData.servantTypeBean.servantServiceType==5}}">立即聊天</text>
   <text style='background:{{platformSetting.defaultColor}}' wx:if="{{curSelectData.servantTypeBean.servantServiceType==0}}">无操作</text>
   <text style='background:{{platformSetting.defaultColor}}' wx:if="{{!curSelectData.servantTypeBean.servantServiceType&&curSelectData.servantTypeBean.servantServiceType!=0}}">请选择项目</text>
@@ -149,7 +206,7 @@
     </view>
   </scroll-view>
 </view>
-<view' wx:if="{{showSubmitForm}}" class='submitBtn' style='background:{{platformSetting.defaultColor}}' catchtap='submitFormData'>
+<view' wx:if="{{showSubmitForm}}" class='formSubmitBtn' style='background:{{platformSetting.defaultColor}}' catchtap='submitFormData'>
   <text>提交资料</text>
 </view>
 <!-- 分享 -->

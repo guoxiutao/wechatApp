@@ -14,6 +14,7 @@ Page({
     wsState:false,
     posterState:false,
     ewmImgUrl:"",
+    sendFormData:null
     
   },
   /* 组件事件集合 */
@@ -189,16 +190,68 @@ Page({
       }
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    this.setData({ setting: app.setting, loginUser: app.loginUser })
+  loginSuccess: function (user) {
+    console.log("pre apply mendian login success call back!", user);
+    this.checkState();
+  },
+  loginFailed: function (err) {
+    console.log("login failed!!");
+
+  },
+  checkState: function () {
+    let that=this;
+    console.log('======checkState.loginUser======', app.loginUser)
+    this.setData({
+      setting: app.setting,
+      loginUser: app.loginUser
+    })
+    let sendFormData = JSON.stringify({ title: 'noTitle', url: "fx_center" })
+    that.setData({ sendFormData: sendFormData })
+    console.log("sendFormData", sendFormData)
     this.get_fx_center(app.setting)
     this.get_fx_detail();
     this.get_fxLevel(app.setting)
   },
+  conut: 1,
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    let that=this;
+    this.setData({ setting: app.setting, loginUser: app.loginUser })
+    if (app.loginUser) {
+      this.checkState();
+    } else {
+      app.addLoginListener(this);
+      // wx.showLoading({
+      //   title: 'loading'
+      // })
+      app.showToastLoading('loading', true)
+      console.log("====setTimeout1=====")
+      that.setTimeoutLogin(that.conut)
+    }
+  },
 
+  setTimeoutLogin: function (conuData) {
+    let that = this;
+    console.log("====setTimeout-init=====", conuData)
+    that.conut = conuData;
+    that.conut += 2;
+    if (that.conut <= 5) {
+      setTimeout(function () {
+        if (app.loginUser) {
+          wx.hideLoading()
+        } else {
+          that.setTimeoutLogin(that.conut)
+        }
+      }, that.conut * 1000)
+    } else {
+      wx.showModal({
+        title: '失败了',
+        content: '请求失败了，请下拉刷新！',
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

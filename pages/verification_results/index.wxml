@@ -8,13 +8,74 @@
       <text class='text' wx:if="{{verificationCodeData.availableCount>=0}}">{{verificationCodeData.availableCount}}次</text>
       <text class='text' wx:else>无限次</text>
     </view>
-    <view class='my_cardVoucher_item'><text class='my_cardVoucher_name'>详情描述：</text><text class='text'>{{verificationCodeData.description}}</text></view>
+    <!-- <view class='my_cardVoucher_item'><text class='my_cardVoucher_name'>详情描述：</text><text class='text'>{{verificationCodeData.description}}</text></view> -->
   </view>
-  <view class='verification_btn' style='background:{{platformSetting.defaultColor}}' bindtap='repVerificationResults'>
-    <text>确认核销</text>
+  <!-- 核销列表 -->
+  <view class='verification_block_title' style='border-left: 4rpx solid {{platformSetting.defaultColor}}' wx:if="{{verificationCodeData.unverifyRecords.length!=0}}">
+    <text class='verification_block_title_text'>选择核销类目</text>
   </view>
-
-   <view class='verification_btn1' style='background:{{platformSetting.defaultColor}}' bindtap='continueVerificationResults'>
-    <text>继续核销</text>
+  <view class='verification_block' wx:if="{{verificationCodeData.unverifyRecords.length!=0}}">
+    <view class='verification_title'>
+      <checkbox-group class='verification_title_item' style='width:10%' bindchange="allCheckboxChange">
+          <label class="checkbox">
+            <checkbox value='all' wx:if="{{allDisabledState}}"  checked="{{allSelectState}}"/>
+            <checkbox value='all' wx:else disabled checked="{{allSelectState}}"/>
+          </label>
+      </checkbox-group>
+      <view class='verification_title_item' style='width:20%'>
+        <text>套餐名称</text>
+      </view>
+      <view class='verification_title_item' style='width:30%'>
+        <text>套餐内容</text>
+      </view>
+      <view class='verification_title_item' style='width:20%'>
+        <text>总次数</text>
+      </view>
+      <view class='verification_title_item' style='width:20%'>
+        <text>已核销</text>
+      </view>
+    </view>
+    <checkbox-group bindchange="checkboxChange" class='verification_list'>
+      <label class='checkbox verification_item' wx:for="{{verificationCodeData.unverifyRecords}}" wx:for-item='item' wx:key='{{index}}'>
+        <checkbox wx:if="{{item.disabled}}" class='verification_item_data' value="{{index}}" checked="{{item.state}}" style='width:10%'/>
+        <checkbox wx:else class='verification_item_data' disabled value="{{index}}" checked="{{item.state}}" style='width:10%'/>
+        <text class='verification_item_data' style='width:20%'>{{item.name}}</text>
+        <text class='verification_item_data' style='width:30%'>{{item.remark}}</text>
+        <text class='verification_item_data' style='width:20%'>{{item.count}}次</text>
+        <text class='verification_item_data' style='width:20%'>{{item.exhauseCount}}次</text>
+      </label>
+    </checkbox-group>
+  </view>
+  <!-- 已核销列表 -->
+  <view class='verification_block_title' style='border-left: 4rpx solid {{platformSetting.defaultColor}}' wx:if="{{verificationCodeData.verifyRecords.length!=0}}">
+    <text class='verification_block_title_text'>已核销列表</text>
+  </view>
+  <view class='verification_block' wx:if="{{verificationCodeData.verifyRecords.length!=0}}">
+    <view class='verification_title'>
+      <view class='verification_title_item' style='width:20%'>
+        <text>操作人</text>
+      </view>
+      <view class='verification_title_item' style='width:40%'>
+        <text>核销内容</text>
+      </view>
+      <view class='verification_title_item' style='width:40%'>
+        <text>核销时间</text>
+      </view>
+    </view>
+    <view bindchange="checkboxChange" class='verification_list'>
+      <view class='checkbox verification_item' wx:for="{{verificationCodeData.verifyRecords}}" wx:for-item='item' wx:key='{{index}}'>
+        <text class='verification_item_data' style='width:20%'>{{item.operatorPlatformUserName}}</text>
+        <text class='verification_item_data' style='width:40%'>{{item.orderProcess}}</text>
+        <text class='verification_item_data' style='width:40%'>{{item.processTime}}</text>
+      </view>
+    </view>
+  </view>
+  <view class='verification_btn_block' v-if='{{verificationCodeData.availableCount}}'>
+    <view class='verification_btn' style='background:{{verificationCodeData.availableCount<=0?"#ccc":platformSetting.defaultColor}}' bindtap='{{verificationCodeData.availableCount<=0?"":"repVerificationResults"}}'>
+      <text>确认核销</text>
+    </view>
+    <view class='verification_btn1' style='background:{{platformSetting.defaultColor}}' bindtap='continueVerificationResults'>
+      <text>继续核销</text>
+    </view>
   </view>
 </view>

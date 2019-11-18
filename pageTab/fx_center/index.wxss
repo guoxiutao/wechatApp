@@ -1,29 +1,34 @@
 .container{
-
+background: #F7F7F7;
   margin-bottom:50rpx;
+  overflow: hidden
 }
 .fx_head{
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 260rpx;
-  padding: 30rpx;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  height: 380rpx;
+  padding: 30rpx 0;
   position: relative;
+  background:linear-gradient(186deg,rgba(101,211,235,1) 0%,rgba(58,134,194,1) 100%);
 }
 .fx_user_info{
   display: flex;
   flex-direction: row;
   align-items: center;
   height:140rpx;
+  padding: 0 30rpx;
   margin-top:10rpx;
   margin-left: 10rpx;
+  width:100%;
+  box-sizing:border-box;
 }
 .fx_head_img{
-  width: 140rpx;
-  height: 140rpx;
-  border-radius: 140rpx;
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 110rpx;
   margin-right: 30rpx;
-  border:4rpx solid #fff;
+  /* border:4rpx solid #fff; */
 }
 .fx_user_base{
   display: flex;
@@ -34,7 +39,28 @@
   justify-content: space-between
 }
 .fx_user_parentPlatformUser{
-  font-size: 26rpx;
+  border-radius: 20rpx;
+  background: #66C2E1;
+  color: #FFD854;
+  padding: 8rpx 15rpx;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  box-sizing:border-box;
+  position:absolute;
+  top:120rpx;
+}
+.fx_recommend_btn_bg{
+  position: absolute;
+  right: -10rpx;
+  background: #fff;
+  opacity: 0.2;
+  border-top-left-radius: 40rpx;
+  border-bottom-left-radius: 40rpx;
+  height:55rpx;
+  top:10%;
+  width:146rpx;
 }
 .fx_recommend_btn{
   position: absolute;
@@ -43,17 +69,18 @@
   flex-direction: row;
   align-items: center;
   padding:10rpx 20rpx;
-  color: #888;
-  background: #fff;
-  border-radius: 10rpx;
-  box-shadow:6rpx 6rpx 10rpx #555;
+  color: #fff;
+  border-top-left-radius: 40rpx;
+  border-bottom-left-radius: 40rpx;
+  /* box-shadow:6rpx 6rpx 10rpx #eee; */
   height:40rpx;
   top:10%;
+  z-index: 10;
   /* margin-top:40rpx; */
 }
 .fx_recommend_icon{
-  width: 30rpx;
-  height: 30rpx;
+  width: 28rpx;
+  height: 24rpx;
   margin-right: 10rpx;
 }
 .fx_recommend_text{
@@ -62,30 +89,43 @@
 .telno{
   margin-top:40px;
   padding:30rpx 20rpx;
+  background:none;
+}
+.fx_recommend_btn_telno_bg{
+  position: absolute;
+  right: -10rpx;
+  background: #fff;
+  opacity: 0.2;
+  margin-top:40px;
+  border-top-left-radius: 40rpx;
+  border-bottom-left-radius: 40rpx;
+  height:55rpx;
+  top:10%;
+  width:146rpx;
 }
 .fx_data_center{
-  position: absolute;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 36rpx 20rpx;
+  padding: 50rpx 20rpx 20rpx 20rpx;
   box-sizing: border-box;
   top: 240rpx;
-  background: #fff;
+  color: #fff;
+  /* background: #fff; */
   border-bottom-left-radius: 20rpx;
   border-bottom-right-radius: 20rpx;
   border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx;
-  width:88%;
-  margin:0 45rpx;
-  box-shadow: 4rpx 2rpx 20rpx #999;
+  width:100%;
+  /* box-shadow: 4rpx 2rpx 20rpx #999; */
 }
 .ws_data_center{
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: #fff;
   flex-wrap: wrap;
   padding: 58rpx 20rpx 40rpx 20rpx;
   box-sizing: border-box;
@@ -104,35 +144,182 @@
   flex-direction: column;
   align-items: center;
   font-size: 24rpx;
-  margin-bottom:20rpx;
+  color: #fff;
+  /* margin-bottom:20rpx; */
 }
 .fx_data_value{
   margin-bottom: 12rpx;
-  font-size: 32rpx;
+  font-size: 34rpx;
+  font-weight: bold
 }
 .fx_data_title{
-  color: #888;
+  color: #fff;
+  opacity:0.8;
 }
 .interval_line{
-  height: 50rpx;
+  height: 40rpx;
   width: 2rpx;
-  background: #ddd;
+  background:#fff;
+  opacity:0.4;
 }
-.fx_recommend_center{
+.user_level_card{
+  position: absolute;
+  bottom: 0;
+  height: 80rpx;
+  width: 700rpx;
+  left: 50%;
+  margin-left: -350rpx;
+  background:linear-gradient(255deg,#E3BD76 0%,#F7E1B7 100%);
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+  padding: 16rpx 40rpx 0 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #8D6F38;
+  font-size: 28rpx;
+  box-sizing: border-box
+}
+.user_level_card_right_icon{
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 22rpx
+}
+.community_data_block{
+  width: 100%;
+  /* height: 190rpx; */
+  padding: 30rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff
+}
+.community_data_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width:326rpx;
+  /* height:130rpx; */
+  background:rgba(255,255,255,1);
+  box-shadow:0px 0px 18px 0px rgba(0,0,0,0.05);
+  border-radius:8rpx;
+  padding: 20rpx;
+  box-sizing: border-box
+}
+.community_data_item_icon{
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 30rpx;
+}
+.community_data_item_info{
   display: flex;
   flex-direction: column;
-  border-radius: 20rpx;
-  width:92%;
-  margin:30rpx 30rpx 0 30rpx;
-  box-shadow: 4rpx 2rpx 30rpx #ccc;
 }
-.fx_recommend_center_extra{
+.community_data_item_title{
+  color: #BBBBBB;
+  font-size: 22rpx;
+}
+.community_data_item_value{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  font-size: 40rpx;
+  color: #666;
+}
+.community_data_item_value_unit{
+  color: #bbb;
+  font-size: 22rpx;
+}
+.total_score_block{
+  width: 100%;
+  margin-top: 20rpx;
   display: flex;
   flex-direction: column;
-  border-radius: 20rpx;
-  width:92%;
-  margin:30rpx 30rpx 30rpx 30rpx;
-  box-shadow: 4rpx 2rpx 30rpx #ccc;
+  background: #fff;
+}
+.total_score_title{
+  font-size: 32rpx;
+  color: #333;
+  font-weight: bold;
+  padding: 34rpx 34rpx 28rpx 34rpx;
+  box-sizing: border-box;
+}
+.total_score_data{
+  display: flex;
+  flex-direction: column;
+  padding: 14rpx 30rpx 0 30rpx;
+  box-sizing: border-box;
+}
+.total_score_data_one{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-between;
+  padding: 18rpx 38rpx 26rpx 38rpx;
+  box-sizing: border-box;
+}
+.total_score_data_one_item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%
+}
+.total_score_data_one_item_title{
+  color: #999;
+  font-size: 22rpx;
+  margin-bottom: 12rpx;
+}
+.total_score_data_one_item_value{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.total_score_data_one_item_data{
+  color: #333;
+  font-size: 46rpx;
+  font-weight: bold;
+  margin-right: 6rpx;
+}
+.total_score_data_one_item_icon{
+  width: 50rpx;
+  height: 50rpx;
+}
+.total_score_data_two{
+  display: flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  border-top: 1rpx solid #f1f1f1;
+  padding: 28rpx 38rpx;
+  font-size: 24rpx;
+}
+.total_score_data_two_item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:flex-start;
+  width: 40%
+}
+.total_score_data_two_item_title{
+  color: #999999;
+  margin-right: 10rpx;
+}
+.total_score_data_two_item_value{
+  font-weight: bold;
+  color: #333
+}
+
+
+
+/* .fx_recommend_center{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  background: #fff;
+  margin-top:20rpx;
 }
 .fx_recommend_title{
   display: flex;
@@ -144,6 +331,13 @@
 .fx_recommend_title_text{
   font-size: 30rpx;
   color: #999;
+}*/
+.fx_recommend_center_extra{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  background: #fff;
+  margin-top:20rpx;
 }
 .fx_recommend_item{
   display: flex;
@@ -152,9 +346,9 @@
   justify-content: space-between;
   font-size: 30rpx;
   color: #999;
-  padding: 22rpx 16rpx;
+  padding: 28rpx;
   border-top: 2rpx solid #f1f1f1
-}
+} 
 .fx_recommend_item_extra{
   display: flex;
   flex-direction: row;
@@ -163,6 +357,7 @@
   font-size: 30rpx;
   color: #999;
   padding: 22rpx 16rpx;
+  background: #fff;
   border-bottom: 2rpx solid #f1f1f1
 }
 .fx_recommend_info{
@@ -171,17 +366,18 @@
   align-items: center;
 }
 .fx_recommend_item_icon{
-  width: 40rpx;
-  height: 40rpx;
+  width: 50rpx;
+  height: 50rpx;
   margin-right: 30rpx;
 }
 .fx_recommend_item_text{
   font-size: 30rpx;
-  color: #999;
+  font-weight: bold;
+  color: #333333;
 }
 .fx_recommend_item_link{
-  width: 20rpx;
-  height: 20rpx;
+  width: 28rpx;
+  height: 28rpx;
 }
 .mt_130{
   margin-top: 130rpx;

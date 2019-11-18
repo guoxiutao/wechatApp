@@ -61,7 +61,7 @@
     </block>
   </cover-view>
   <!--24 客服-->
-  <component-footer wx:if="{{setting.platformSetting.jishuzhichi&&PaiXuPartials&&footerCount<=1}}"></component-footer>
+  <component-footer wx:if="{{setting.platformSetting.jishuzhichi&&PaiXuPartials&&footerCount<=1&&showFooterState}}"></component-footer>
   <view class='authorization' wx:if="{{showUserForm}}" catchtouchmove="true">
     <view class='authorizationBg'></view>
     <view class="popupPage">

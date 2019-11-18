@@ -8,6 +8,10 @@ Component({
       type: String,
       value: 'default value',
     },
+    showFooter: {
+      type: String,
+      value: '',
+    },
     // authorizationState: {
     //   type: Boolean,
     //   value: 'default value',
@@ -27,6 +31,7 @@ Component({
     showAddressForm: false,
     userInfoFormCommitId: '',
     showUserForm: false,
+    showFooterState:true,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
 
@@ -35,6 +40,9 @@ Component({
     app.footerCount++;
     app.authorizationCount++
     console.log("===that.data.data====", that.data.data)
+    if (that.data.showFooter){
+      that.setData({ showFooterState:false})
+    }
     let jsonData='';
     try {
       jsonData = JSON.parse(that.data.data);
@@ -228,11 +236,11 @@ Component({
     cancel: function () {
       this.setData({ showPopup: false })
     },
-    getParac: function () {
-      var that = this;
+    getParacFun: function (res) {
+      let that = this;
       let url
       let jsonData;
-      let params = { version: app.version};
+      let params = { version: app.version };
       try {
         jsonData = JSON.parse(that.data.data);
         url = jsonData.url
@@ -241,29 +249,13 @@ Component({
         console.log(e); //error in the above string(in this case,yes)!
         url = jsonData
       }
-      if (jsonData.params){
+      if (jsonData.params) {
         params = Object.assign({}, params, jsonData.params)
       }
-      console.log("jsonData", jsonData)
-      // 经纬度
-      let locationAddressData = wx.getStorageSync('selectAddressData') || ''
-      if (locationAddressData) {
-         params = Object.assign({}, params,{
-          "longitude": locationAddressData.longitude,
-          "latitude": locationAddressData.latitude,
-        })
-      } else {
-        wx.getLocation({
-          type: 'gcj02',
-          success: function (res) {
-            console.log("=====getLocationAddress====", res)
-            params.latitude = res.latitude
-            params.longitude = res.longitude
-          }
-        })
+      if (res){
+        params = Object.assign({}, params, res)
       }
-
-      console.log("====url====", url, jsonData)
+      console.log("params", params)
       var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", params, 'get', '1')
       //拿custom_page
       wx.request({
@@ -272,16 +264,16 @@ Component({
         success: function (res) {
           console.log("====== res.data=========", res.data)
           let data = res.data;
-          if (!data.errcode | data.errcode=='0'){
-            if (data.channelName !="index"){
-              if (jsonData.title && jsonData.title =="noTitle"){
+          if (!data.errcode | data.errcode == '0') {
+            if (data.channelName != "index") {
+              if (jsonData.title && jsonData.title == "noTitle") {
                 console.log("======不设置标题=======")
               } else (
                 wx.setNavigationBarTitle({
                   title: data.channelTitle,
                 })
               )
-           }
+            }
             wx.hideLoading()
             app.renderData = data
             that.setData({ renderData: data })
@@ -290,34 +282,17 @@ Component({
             } else {
               that.getPartials();
             }
-          }else{
-            // wx.showModal({
-            //   title: '提示',
-            //   content: '该页面还未装修',
-            //   success: function (res) {
-
-            //     if (res.confirm) {
-                 
-            //     } else if (res.cancel) {
-                 
-            //     }
-            //   }
-            // })
+          } else {
             console.log('加载失败')
           }
         },
         fail: function (res) {
-          console.log('------------2222222-----------')
-          console.log(res)
+          console.log('------------2222222-----------',res)
           wx.hideLoading()
-
-          //app.loadFail()
-
           wx.showModal({
             title: '提示',
             content: '加载失败，点击【确定】重新加载',
             success: function (res) {
-
               if (res.confirm) {
                 that.getParac()
               } else if (res.cancel) {
@@ -328,6 +303,134 @@ Component({
         }
       })
     },
+    getParac: function () {
+      let that = this;
+      let params={}
+      let locationAddressData = wx.getStorageSync('selectAddressData') || ''
+      if (locationAddressData) {
+        params = Object.assign({}, params, {
+          "longitude": locationAddressData.longitude,
+          "latitude": locationAddressData.latitude,
+        })
+        console.log("====params====已有经纬度", params)
+        that.getParacFun(params)
+      } else {
+        wx.getLocation({
+          type: 'gcj02',
+          success: function (res) {
+            console.log("=====getLocationAddress1111111====", res)
+            params.latitude = res.latitude
+            params.longitude = res.longitude
+            console.log("====params====获取当前地理位置", params)
+            that.getParacFun(params)
+          },
+          fail: function (res) {
+            console.log("fail")
+            app.loadFail()
+            that.getParacFun(params)
+          }
+        })
+      }
+    },
+    // getParac: function () {
+    //   var that = this;
+    //   let url
+    //   let jsonData;
+    //   let params = { version: app.version};
+    //   try {
+    //     jsonData = JSON.parse(that.data.data);
+    //     url = jsonData.url
+    //   } catch (e) {
+    //     jsonData = that.data.data
+    //     console.log(e); //error in the above string(in this case,yes)!
+    //     url = jsonData
+    //   }
+    //   if (jsonData.params){
+    //     params = Object.assign({}, params, jsonData.params)
+    //   }
+    //   console.log("jsonData", jsonData)
+    //   // 经纬度
+    //   let locationAddressData = wx.getStorageSync('selectAddressData') || ''
+    //   if (locationAddressData) {
+    //      params = Object.assign({}, params,{
+    //       "longitude": locationAddressData.longitude,
+    //       "latitude": locationAddressData.latitude,
+    //     })
+    //   } else {
+    //     wx.getLocation({
+    //       type: 'gcj02',
+    //       success: function (res) {
+    //         console.log("=====getLocationAddress1111111====", res)
+    //         params.latitude = res.latitude
+    //         params.longitude = res.longitude
+    //         console.log("====url====", url, jsonData, params)
+    //         var customIndex = app.AddClientUrl("/custom_page_" + url + ".html", params, 'get', '1')
+    //         //拿custom_page
+    //         wx.request({
+    //           url: customIndex.url,
+    //           header: app.header,
+    //           success: function (res) {
+    //             console.log("====== res.data=========", res.data)
+    //             let data = res.data;
+    //             if (!data.errcode | data.errcode == '0') {
+    //               if (data.channelName != "index") {
+    //                 if (jsonData.title && jsonData.title == "noTitle") {
+    //                   console.log("======不设置标题=======")
+    //                 } else (
+    //                   wx.setNavigationBarTitle({
+    //                     title: data.channelTitle,
+    //                   })
+    //                 )
+    //               }
+    //               wx.hideLoading()
+    //               app.renderData = data
+    //               that.setData({ renderData: data })
+    //               if (data.partials.length == 0) {
+    //                 that.setData({ PaiXuPartials: null })
+    //               } else {
+    //                 that.getPartials();
+    //               }
+    //             } else {
+    //               // wx.showModal({
+    //               //   title: '提示',
+    //               //   content: '该页面还未装修',
+    //               //   success: function (res) {
+
+    //               //     if (res.confirm) {
+
+    //               //     } else if (res.cancel) {
+
+    //               //     }
+    //               //   }
+    //               // })
+    //               console.log('加载失败')
+    //             }
+    //           },
+    //           fail: function (res) {
+    //             console.log('------------2222222-----------')
+    //             console.log(res)
+    //             wx.hideLoading()
+
+    //             //app.loadFail()
+
+    //             wx.showModal({
+    //               title: '提示',
+    //               content: '加载失败，点击【确定】重新加载',
+    //               success: function (res) {
+
+    //                 if (res.confirm) {
+    //                   that.getParac()
+    //                 } else if (res.cancel) {
+    //                   app.toIndex()
+    //                 }
+    //               }
+    //             })
+    //           }
+    //         })
+    //       }
+    //     })
+    //   }
+    // },
     getPartials: function () {
       let that=this;
       var partials = that.data.renderData.partials;

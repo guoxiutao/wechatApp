@@ -12,12 +12,9 @@
     "pageTab/fx_center/index",
     "pageTab/product_left_right/index",
     "pageTab/productType_left_right/index",
+    "pageTab/chat_user_list/index",
     "pageTab/near_shops/index",
-    "pageTab/yunjishi/applyServant/index",
-    "pageTab/yunjishi/success/index",
     "pageTab/yunjishi/myInfo/index",
-    "pageTab/yunjishi/preApplyMendian/index",
-    "pageTab/yunjishi/applyMendian/index",
     "pageTab/location_servant/index",
     "pageTab/process_list/index",
     "pageTab/my_ziti_orders/index",
@@ -93,7 +90,13 @@
         "servant_target_type_form_list/index",
         "my_volunteers_list/index",
         "servant_type_list/index",
-        "chat_user_list/index"
+        "chat_user_list/index",
+        "form_chain_detail/index",
+        "form_chain_success/index",
+        "yunjishi/applyServant/index",
+        "yunjishi/success/index",
+        "yunjishi/preApplyMendian/index",
+        "yunjishi/applyMendian/index"
       ]
     },
     {
@@ -219,13 +222,19 @@
         "text": "技师"
       },
       {
-        "pagePath": "pageTab/process_list/index",
+        "pagePath": "pageTab/fx_center/index",
         "iconPath": "images/icons/fx.png",
         "selectedIconPath": "images/icons/fx2.png",
-        "text": "工作进程"
+        "text": "分销中心"
       },
       {
-        "pagePath": "pageTab/milk_shopping_car_list/index",
+        "pagePath": "pageTab/custom_page_footer2/index",
+        "iconPath": "images/icons/msg1.png",
+        "selectedIconPath": "images/icons/msg2.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pageTab/shopping_car_list_new/index",
         "iconPath": "images/icons/good1.png",
         "selectedIconPath": "images/icons/good2.png",
         "text": "购物车"

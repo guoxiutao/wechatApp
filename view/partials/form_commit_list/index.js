@@ -397,12 +397,12 @@ Component({
             }
             console.log("===formListStyle====", that.data.formListStyle, that.data.banner, that.data.width, that.data.height)
             
-            if (res.data.relateObj.formType!=0){
-              that.setData({ publishState:true})
-            }else{
-              that.setData({ publishState: false })
-            }
-            console.log("=====publishState========", that.data.publishState)
+            // if (res.data.relateObj.formType!=0){
+            //   that.setData({ publishState:true})
+            // }else{
+            //   that.setData({ publishState: false })
+            // }
+            // console.log("=====publishState========", that.data.publishState)
             // 筛选类别
             if (data.items.length != 0) {
               let selectTab = [];

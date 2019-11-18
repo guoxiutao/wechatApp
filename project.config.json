@@ -9,7 +9,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.8.2",
-	"appid": "wxa8759255f64e59af",
+	"appid": "wx42d98cf6cb1a1316",
 	"projectname": "nongpin",
 	"isGameTourist": false,
 	"simulatorType": "wechat",
@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 26,
+			"current": 19,
 			"list": [
 				{
 					"id": 0,
@@ -59,7 +59,7 @@
 				{
 					"id": 3,
 					"name": "服务人员中心",
-					"pathName": "pagesTwo/servant_center/index",
+					"pathName": "pages/servant_center/index",
 					"query": "",
 					"scene": "1001"
 				},
@@ -173,7 +173,7 @@
 					"id": 19,
 					"name": "表单",
 					"pathName": "pages/form_detail/index",
-					"query": "customFormId=22",
+					"query": "customFormId=194",
 					"scene": "1001"
 				},
 				{
@@ -223,6 +223,28 @@
 					"pathName": "pagesTwo/my_product_list/index",
 					"query": "",
 					"scene": "1001"
+				},
+				{
+					"id": 27,
+					"name": "核销页面",
+					"pathName": "pages/verification_results/index",
+					"query": "code=20191024201325591251&verifyScanType=2",
+					"scene": "1020",
+					"referrerInfo": {}
+				},
+				{
+					"id": 28,
+					"name": "表单集合链",
+					"pathName": "pagesTwo/form_chain_detail/index",
+					"query": "chainId=9",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "分销中心",
+					"pathName": "pageTab/fx_center/index",
+					"query": "",
+					"scene": "1011"
 				}
 			]
 		}

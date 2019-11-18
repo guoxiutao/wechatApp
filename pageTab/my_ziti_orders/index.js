@@ -137,7 +137,7 @@ Page({
   /* 下拉刷新 */
   scrollTopToReflesh:function(e){
    
-    console.log('粗发下拉事件')
+    console.log('粗发下拉事件scrollTopToReflesh',e)
     this.setData({
       refreshText: '松开手指即可刷新'
     })
@@ -164,7 +164,8 @@ Page({
     }
     
   },
-  scrollEvent:function(e){
+  scrollEvent: function (e) {
+    console.log("====scrollEvent===", e)
     let index = e.currentTarget.dataset.index
     let tab = this.data.tab
     let focusTab = tab[index]
@@ -177,6 +178,7 @@ Page({
   FreshIng:false,
   /* 加载更多 */
   scrollBottomToLoadMore:function(e){
+    console.log("====scrollBottomToLoadMore===",e)
     let that = this
     console.log(this.loading)
     if (this.loading){

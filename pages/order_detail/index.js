@@ -15,6 +15,7 @@ Page({
     addrArr: null,
     hasAddnewAddr: false,
     ewmCode:"",
+    allScanExhauseList:[],
   },
   tolinkUrl: function (e) {
     console.log(e.currentTarget.dataset.info)
@@ -205,9 +206,24 @@ Page({
       url: customIndex.url,
       header: app.header,
       success: function (res) {
-        console.log('-----------orderDetail--------')
-        console.log(res.data)
-        that.setData({ orderDetailData: res.data})
+        console.log('-----------orderDetail--------', res.data)
+        let orderDetailData = res.data;
+        that.data.allScanExhauseList=[]
+        let allScanExhauseList = that.data.allScanExhauseList
+        if (orderDetailData.orderItems.length!=0){
+          for (let i = 0; i < orderDetailData.orderItems.length;i++){
+            if (orderDetailData.orderItems[i].scanExhauseList && orderDetailData.orderItems[i].scanExhauseList!='{}'){
+              let scanExhauseListData = JSON.parse(orderDetailData.orderItems[i].scanExhauseList).items;
+              console.log("====scanExhauseListData====", scanExhauseListData)
+              // allScanExhauseList.concat(scanExhauseListData);
+              allScanExhauseList.push(...scanExhauseListData);
+              console.log("====allScanExhauseList====", allScanExhauseList)
+            }
+          }
+          that.setData({ allScanExhauseList: allScanExhauseList})
+        }
+        console.log("===allScanExhauseList===", allScanExhauseList)
+        that.setData({ orderDetailData: orderDetailData})
         if (res.data.mendianZiti==1){
           that.getVerificationCode(res.data.orderNo)
         }

@@ -16,6 +16,11 @@
     <view class='userShareEwm' bindtap='showPoster' style='box-shadow:6rpx 6rpx 8rpx #55555533'>
       <image class='userEwmCode' src='https://image1.sansancloud.com/xianhua/2019_8/20/9/42/26_903.jpg?x-oss-process=style/preview_120'></image>
     </view>
+    <view class='userBindWxGz' bindtap='clickWxGz'>
+      <!-- <web-view src="https://www.baidu.com/"></web-view> -->
+      <image class='userBindWxGzCode' wx:if="{{ !loginUser.platformUser.openid}}" src='http://image1.sansancloud.com/naifen/2019_10/29/14/21/4_730.jpg?x-oss-process=style/preview_120'></image>
+      <image class='userBindWxGzCode' wx:else src='http://image1.sansancloud.com/naifen/2019_10/29/14/23/43_119.jpg?x-oss-process=style/preview_120'></image>
+    </view>
   </view>
   <!-- 海报 -->
   <posters-user-info ewmImgUrl='{{ewmImgUrl}}'  wx:if='{{posterState}}' bind:closePoaster="getChilrenPoster"></posters-user-info>
@@ -41,3 +46,19 @@
     <image class='user_footer_img' mode='aspectFit' src='http://image1.sansancloud.com/xianhua/2019_3/27/15/46/41_583.jpg'></image>
   </view>
 </view>
+<!-- 授权窗口 -->
+  <view wx:if="{{showPopup}}">
+  <!-- authorizationCount==1&& -->
+    <view class='authorizationBg'></view>
+    <view class='authorization'>
+      <view class='authorizationPopup'>
+        <view class='tipContent'>
+          <text style='font-size:38rpx;'>前往微信授权</text>
+        </view>
+        <view class='buttonArray'>
+          <button class='button cancel' bindtap='cancel'>取消</button>
+          <button class='button confirm' open-type="getUserInfo" style='color:{{setting.platformSetting.defaultColor}}'  bindgetuserinfo="bindGetUserInfo">确定</button>
+        </view>
+      </view>
+    </view>
+  </view>

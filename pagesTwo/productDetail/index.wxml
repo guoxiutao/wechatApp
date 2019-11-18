@@ -225,6 +225,27 @@
         </view>
       </view>
     </view>
+    <!-- 核销列表 -->
+    <view class='verification_block' wx:if="{{scanExhauseList.length!=0}}">
+      <view class='verification_title'>
+        <view class='verification_title_item' style='width:30%'>
+          <text>项目名称</text>
+        </view>
+        <view class='verification_title_item' style='width:50%'>
+          <text>项目内容</text>
+        </view>
+        <view class='verification_title_item' style='width:20%'>
+          <text>项目次数</text>
+        </view>
+      </view>
+      <view class='verification_list'>
+        <view class='verification_item' wx:for="{{scanExhauseList}}" wx:for-item='item' wx:key='{{index}}'>
+          <text class='verification_item_data' style='width:30%'>{{item.name}}</text>
+          <text class='verification_item_data' style='width:50%'>{{item.remark}}</text>
+          <text class='verification_item_data' style='width:20%'>{{item.count}}次</text>
+        </view>
+      </view>
+    </view>
     <!-- 首页组件-私有产品详情装饰-->
     <view style='margin-top:20rpx;'>
      <component-customPage data="{{sendProductData}}" wx:if="{{sendProductData}}"></component-customPage> 

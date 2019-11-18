@@ -9,7 +9,8 @@ Page({
     orderData:null,
     selectStore:null,
     reqStore: false,
-    showSelectCoupon:false,
+    reqServant: false,
+    // showSelectCoupon:false,
     sureUseCouponState:false,
     reqAddress: false,
     showTopSelect:false,
@@ -29,6 +30,7 @@ Page({
     couponMoney:0,
     sendOptionData:null,
     userAddressCustomFormCommitId:'',
+    belongServant:null,
     setting: null,
     loginUser: null,
     properties:{},
@@ -268,33 +270,57 @@ Page({
   getBuyerScript: function(e) {
     this.orderMessage.buyerScript = e.detail.value
   },
+  
   //优惠券
+  bindPickercancel:function(e){
+    let that=this
+    console.log("取消按钮",e)
+    that.orderMessage.gotCouponListId = 0
+    that.setData({
+      index: 0,
+      couponMoney: 0,
+      gotCouponListId: 0,
+      couponMoney: 0,
+      sureUseCouponState:true
+    })
+  },
   bindPickerChange: function(e) {
-    console.log(e.detail)
-    var index = e.detail.value
-    var coupon = this.data.coupon
-    if (index == 0){
-      this.setData({
+    console.log("bindPickerChange确定选择",e)
+    let that=this;
+    let index = e.detail.value
+    let typeState = e.currentTarget.dataset.type
+    that.setData({
+      sureUseCouponState: true
+    })
+    let coupon = that.data.coupon
+    if (index == 0) {
+      that.orderMessage.gotCouponListId = 0
+      that.setData({
         index: index,
-        couponMoney: 0
+        couponMoney: 0,
+        gotCouponListId: 0,
       })
+      that.getEditOrderDetail()
     }else{
-      var gotCouponListId = coupon[index].id
+      let gotCouponListId = coupon[index].id
       console.log(gotCouponListId)
-      this.orderMessage.gotCouponListId = gotCouponListId
-      this.setData({
+      that.orderMessage.gotCouponListId = gotCouponListId
+      that.setData({
         index: index,
         gotCouponListId: gotCouponListId,
         couponMoney: coupon[index].coupon.youhuiAmount
       })
-      this.getEditOrderDetail()
+      console.log("===gotCouponListId===", gotCouponListId)
+      that.getEditOrderDetail()
     }
-   
+    if (typeState && typeState=='submit'){
+      // that.submitOrder()
+    }
   },
   // 这里需要修改
   getavailableCouponsArr: function() { 
     var arr = ['no']
-    var arr2 = ['请选择优惠券']
+    var arr2 = ['不选择优惠券']
     var data=this.data;
     if (data&&data.getEditOrderDetailData.availableCoupons){
       let couponList = this.data.getEditOrderDetailData.availableCoupons;
@@ -346,12 +372,15 @@ Page({
         if (data.formCommit && data.formCommit.attendMeasureList){
           data.formCommit.attendMeasureListObj = JSON.parse(data.formCommit.attendMeasureList)
         }
-        that.setData({ getEditOrderDetailData: data, orderData: data})
+        that.setData({ getEditOrderDetailData: data, orderData: data,})
         if (data.belongMendian){
           that.setData({ belongMendian: data.belongMendian })
           that.orderMessage.changeOrderMendianId = data.belongMendian.id
         }
-
+        if (data.assignServant) {
+          that.setData({ belongServant: data.assignServant })
+          that.orderMessage.servantId = data.assignServant.id
+        }
   // 获取门店自提
         let allowMendianZiti = data.allowMendianZiti
         let showTopSelect=false;
@@ -435,20 +464,21 @@ Page({
         // 判断是否自提
         console.log("======mendianZiti=========", that.data.mendianZiti)
         that.orderMessage.mendianZiti = that.data.mendianZiti
-        if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno) && that.data.setting.platformSetting.addressType != 2 && that.data.orderData.orderType != 17){
-          wx.showModal({
-            title: '提示',
-            content: '请完善提货人信息！',
-            success: function (res) {
-              if (res.confirm) {
+        // that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno) && that.data.setting.platformSetting.addressType != 2 && that.data.orderData.orderType != 17
+        // if (that.data.mendianZiti == 1 && (!that.orderMessage.contactName || !that.orderMessage.contactTelno) && that.data.setting.platformSetting.addressType != 2&& !that.data.showAddressForm && that.data.orderData.orderType != 17){
+        //   wx.showModal({
+        //     title: '提示',
+        //     content: '请完善提货人信息！',
+        //     success: function (res) {
+        //       if (res.confirm) {
                
-              } else if (res.cancel) {
+        //       } else if (res.cancel) {
 
-              }
-            }
-          })
-          return;
-        }
+        //       }
+        //     }
+        //   })
+        //   return;
+        // }
         if (that.data.isAgreement){
           if (!that.data.agreementState){
             wx.showModal({
@@ -465,14 +495,34 @@ Page({
             return;
           }
         }
+        // 判断是否选择了服务员
+        if (that.data.setting.platformSetting.selectServantTypeId != 0) {
+          if (!that.orderMessage.servantId) {
+            // wx.showModal({
+            //   title: '提示',
+            //   content: '请您选择' + (that.data.properties.alias_yewuyuan || "服务员") + '！',
+            //   success: function (res) {
+            //     if (res.confirm) {
+            //       that.setData({ agreementState: true })
+            //     } else if (res.cancel) {
+
+            //     }
+            //   }
+            // })
+            let url = 'location_servant_map.html?reqType=order&mendianId=' + that.data.belongMendian.id || 0 + '&servantTypeId=' + that.data.orderData.selectServantTypeId;
+            that.tolinkUrl(url)
+            return;
+          }
+        }
         //判断地址类型
         if (that.data.setting.platformSetting.addressType == 2 || that.data.orderData.orderType==17) {
           that.orderMessage.addressId = 0
         }
-        if (that.data.coupon2.length != 0 && !that.orderMessage.gotCouponListId && !that.data.sureUseCouponState) {
-          that.setData({ showSelectCoupon: true })
-          return
-        }
+        // 判断下单时是否选择了优惠券
+        // if (that.data.coupon2.length > 1 && !that.orderMessage.gotCouponListId && !that.data.sureUseCouponState) {
+        //   that.setData({ showSelectCoupon: true })
+        //   return
+        // }
         console.log("=========参数orderMessage===========", that.orderMessage, that.data.sendOptionData)
         if (!that.data.sendOptionData){
           console.log("=====没有表单=====")
@@ -491,16 +541,16 @@ Page({
     that.orderMessage.userAddressCustomFormCommitId = e.detail.formId
     that.toSubmitOrder(that.orderMessage)
   },
-  continueSubmitOrder:function(e){
-    let that=this;
-    console.log("===continueSubmitOrder===",e)
-    let state=e.currentTarget.dataset.state
-    if (state=='no'){
-      that.orderMessage.gotCouponListId = 0
-    }
-    that.setData({ sureUseCouponState:true })
-    that.submitOrder()
-  },
+  // continueSubmitOrder:function(e){
+  //   let that=this;
+  //   console.log("===continueSubmitOrder===",e)
+  //   let state=e.currentTarget.dataset.state
+  //   if (state=='no'){
+  //     that.orderMessage.gotCouponListId = 0
+  //   }
+  //   that.setData({ sureUseCouponState:true })
+  //   that.submitOrder()
+  // },
   toSubmitOrder:function(data){
     var customIndex = app.AddClientUrl("/submit_order.html", data, 'post')
     // wx.showLoading({
@@ -813,12 +863,15 @@ Page({
       return
     }
     let that=this;
-    let linkUrl = e.currentTarget.dataset.link
+    let linkUrl = e.currentTarget? e.currentTarget.dataset.link:e
     if (linkUrl.indexOf("nearby_stores.html")!=-1) {
       console.log("选择门店")
       that.setData({ reqStore: true })
+    } else if (linkUrl.indexOf("location_servant_map.html") != -1) {
+      console.log("选择服务人员")
+      that.setData({ reqServant: true })
     } else {
-      that.setData({ reqStore: false })
+      that.setData({ reqStore: false, reqServant:false })
     }
     app.linkEvent(linkUrl)
   },
@@ -945,9 +998,23 @@ Page({
       }else{
         console.log("没选择门店")
       }
+    } 
+    if (that.data.reqServant) {
+      //选择服务员
+      console.log("从服务人员列表页面返回")
+      var pages = getCurrentPages();
+      var currPage = pages[pages.length - 1]; //当前页面
+      console.log(currPage) //就可以看到data里mydata的值了
+      if (that.data.selectServant) {
+        console.log("选择服务员了", that.data.selectServant)
+        that.setData({ belongServant: that.data.selectServant })
+        that.orderMessage.servantId = that.data.selectServant.id
+      } else {
+        console.log("没选择服务员")
+      }
     }
     if (that.data.reqAddress) {
-      //选择门店
+      //选择地址
       console.log("从添加地址页面返回")
       var pages = getCurrentPages();
       var currPage = pages[pages.length - 1]; //当前页面
