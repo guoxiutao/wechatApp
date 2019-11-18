@@ -394,7 +394,7 @@
     </view>
     </scroll-view>
 </view>
-<view' wx:if="{{showType&&nextStepState}}" class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>
+<view wx:if="{{showType&&nextStepState}}" class='submitBtn' style='background:{{setting.platformSetting.defaultColor}}' catchtap='submitData'>
   <text>提交资料</text>
 </view>
 <!-- 选择规格的底部按钮 -->
